@@ -1,0 +1,154 @@
+#pragma once
+
+#include "ToolTimeDispWnd.h"
+#include "afxwin.h"
+#include "TitleBarWnd.h"
+
+// CSetupToolDlg 대화 상자입니다.
+
+class CSetupToolDlg : public CDialogListPage
+{
+	DECLARE_DYNCREATE(CSetupToolDlg)
+
+	CTitleBarWnd*	pTitleBarWnd_;
+
+	int		nNumTools_;
+	BOOL	bDirectAccess_;					// Operation 화면에서 직접 접근 
+
+	CBrush	brhBkgnd_;						// 다이얼로그 배경 색 
+	CBrush	brhATC_;						// background of ATC
+	CBrush	brhBackButton_;
+	CBrush	brhDark_;
+
+	CFont	fntButton_;						// 버튼의 폰트 
+	CFont	fntToolError_;				// error font
+	CFont	fntMenuButton_;					// 매뉴 버튼 
+	CFont	fntSpindleRPM_;
+	CFont	fntToolNo_;
+	CFont	fntToolNoLabel_;
+	
+	CRect	CUIrectSetT; 
+
+	CToolTimeDispWnd*	pToolTimeDispWnd_[pa::MAX_TOOL_NUM+1];
+
+	CWnd* pParentWnd_;
+
+	TCHAR*				pResourcePath_;
+	hcutil::CCanvasCE*	pCanvasCE_;
+	int					nBackgroundLayerIndex_;
+	int					nStatusLayerIndex_;
+
+	int		nSpindleOverride_;
+
+	void updateButtonState();
+	void updateToolTimeWnd();
+	void updateToolRelatedData();
+	void updateToolErrMsg();
+	void doResetTool( int nToolNo );
+	void doTimeTool( int nToolNo );
+
+	void updateState_MenuButton();
+
+	void updateSpindleRPM();
+	
+	void updateToolNo();
+
+	void setSpindleRPMOverride( int new_ovr );
+
+	void writeLog( LPCTSTR log_msg );
+
+	enum EN_OPER_BUTTON
+	{
+		OPER_BTN_T1 = 0,
+		OPER_BTN_T2,
+		OPER_BTN_T3,
+		OPER_BTN_T4,
+		OPER_BTN_T5,
+		OPER_BTN_T6,
+		OPER_BTN_SPINDLE,
+		OPER_BTN_SPINDLE2,
+
+		OPER_BTN_NUM
+	};
+
+private:
+	CImgButtonEx2*			pOperButtonsEx_[OPER_BTN_NUM];
+	void initialize_OperButtons();
+	void destroy_OperButtons();
+
+public:
+	CSetupToolDlg(CWnd* pParent = NULL);   // 표준 생성자입니다.
+	virtual ~CSetupToolDlg();
+
+	virtual void StartPageWork();
+	virtual void StopPageWork();
+	virtual void UpdatePage();
+
+	void SetParentWnd( CWnd* p ) { pParentWnd_ = p; }
+
+	void SetDirectAccess( BOOL b ) { bDirectAccess_ = b; };
+
+// 대화 상자 데이터입니다.
+	enum { IDD = IDD_DIALOG_SETUP_TOOL };
+
+protected:
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 지원입니다.
+
+	DECLARE_MESSAGE_MAP()
+public:
+	virtual BOOL PreTranslateMessage(MSG* pMsg);
+	virtual BOOL OnInitDialog();
+	afx_msg LRESULT OnImgButtonExClicked(WPARAM wparam, LPARAM lparam); // WM_IMGBUTTONEX_CLICKED
+	afx_msg void OnDestroy();
+	afx_msg void OnBnClickedButtonClose();
+	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
+	afx_msg void OnTimer(UINT_PTR nIDEvent);
+	afx_msg void OnBnClickedButtonGetTool1();
+	afx_msg void OnBnClickedButtonGetTool2();
+	afx_msg void OnBnClickedButtonGetTool3();
+	afx_msg void OnBnClickedButtonGetTool4();
+	afx_msg void OnBnClickedButtonGetTool5();
+	afx_msg void OnBnClickedButtonGetTool6();
+	//afx_msg void OnBnClickedButtonGetTool7();
+	//afx_msg void OnBnClickedButtonGetTool8();
+	afx_msg void OnBnClickedButtonToolReturn();
+	afx_msg void OnBnClickedButtonTool2Return();
+	afx_msg void OnBnClickedButtonResetToolNo();
+	afx_msg void OnBnClickedButtonResetTool2No();
+	afx_msg void OnBnClickedButtonSetToolNo();
+	afx_msg void OnBnClickedButtonSetTool2No();
+//	afx_msg void OnBnClickedButtonToolClampUnclamp();
+	afx_msg void OnBnClickedButtonTimeTool1();
+	afx_msg void OnBnClickedButtonTimeTool2();
+	afx_msg void OnBnClickedButtonTimeTool3();
+	afx_msg void OnBnClickedButtonTimeTool4();
+	afx_msg void OnBnClickedButtonTimeTool5();
+	afx_msg void OnBnClickedButtonTimeTool6();
+	//afx_msg void OnBnClickedButtonResetTool7();
+	//afx_msg void OnBnClickedButtonResetTool8();
+	afx_msg void OnBnClickedButtonResetTool1();
+	afx_msg void OnBnClickedButtonResetTool2();
+	afx_msg void OnBnClickedButtonResetTool3();
+	afx_msg void OnBnClickedButtonResetTool4();
+	afx_msg void OnBnClickedButtonResetTool5();
+	afx_msg void OnBnClickedButtonResetTool6();
+	afx_msg void OnBnClickedCheckToolClampUnclamp();
+	afx_msg void OnBnClickedCheckTool2ClampUnclamp();
+//	afx_msg void OnBnClickedButtonResetToolNo2();
+//	afx_msg void OnBnClickedButtonSpindle();
+	afx_msg void OnBnClickedCheckSpindleRun();
+	afx_msg void OnBnClickedCheckSpindle2Run();
+	afx_msg void OnBnClickedSetSpindleRPM();
+	afx_msg void OnBnClickedButtonM28();
+	CButton chkBtnToolClamp_;
+	CButton chkBtnTool2Clamp_;
+	CButton chkBtnSpindleRun_;
+	CButton chkBtnSpindle2Run_;
+	CButton btnM28M29_;
+	CButton chkMaxToolUsageTime_;
+	CButton chkUsingRelatedTool_;
+	afx_msg void OnPaint();
+protected:
+	virtual void PreInitDialog();
+};
+

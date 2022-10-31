@@ -1,0 +1,349 @@
+1>------ 모두 다시 빌드 시작: 프로젝트: EPncMDll, 구성: Release Win32 ------
+1>'EPncMDll' 프로젝트, 'Release|Win32' 구성에 사용할 중간 파일 및 출력 파일을 삭제하고 있습니다...
+1>컴파일하고 있습니다...
+1>stdafx.cpp
+1>d:\vojta\dental_source_code\chairman\epncmdll\epncmdll\../Common/EPACommonHeader.h(438) : warning C4996: 'wcscat': This function or variable may be unsafe. Consider using wcscat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+1>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\string.h(245) : 'wcscat' 선언을 참조하십시오.
+1>d:\vojta\dental_source_code\chairman\epncmdll\epncmdll\../Common/EPACommonHeader.h(441) : warning C4996: 'wcscat': This function or variable may be unsafe. Consider using wcscat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+1>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\string.h(245) : 'wcscat' 선언을 참조하십시오.
+1>d:\vojta\dental_source_code\chairman\epncmdll\epncmdll\../Common/EPACommonHeader.h(453) : warning C4996: 'wcscat': This function or variable may be unsafe. Consider using wcscat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+1>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\string.h(245) : 'wcscat' 선언을 참조하십시오.
+1>d:\vojta\dental_source_code\chairman\epncmdll\epncmdll\../Common/EPACommonHeader.h(456) : warning C4996: 'wcscat': This function or variable may be unsafe. Consider using wcscat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+1>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\string.h(245) : 'wcscat' 선언을 참조하십시오.
+1>d:\vojta\dental_source_code\chairman\epncmdll\epncmdll\Comm232.h : warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+1>컴파일하고 있습니다...
+1>IpcLib.cpp
+1>hcutil.cpp
+1>EPACommonHeader.cpp
+1>..\Common\EPACommonHeader.cpp(1001) : warning C4996: '_swprintf': This function or variable may be unsafe. Consider using _swprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+1>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\wchar.h(773) : '_swprintf' 선언을 참조하십시오.
+1>..\Common\EPACommonHeader.cpp(1018) : warning C4996: '_swprintf': This function or variable may be unsafe. Consider using _swprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+1>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\wchar.h(773) : '_swprintf' 선언을 참조하십시오.
+1>CEIniFile.cpp
+1>..\Common\CEIniFile.cpp(155) : warning C4996: '_wfopen': This function or variable may be unsafe. Consider using _wfopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+1>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\wchar.h(827) : '_wfopen' 선언을 참조하십시오.
+1>..\Common\CEIniFile.cpp(160) : warning C4996: 'fwscanf': This function or variable may be unsafe. Consider using fwscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+1>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\wchar.h(803) : 'fwscanf' 선언을 참조하십시오.
+1>..\Common\CEIniFile.cpp(244) : warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+1>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\string.h(252) : 'wcscpy' 선언을 참조하십시오.
+1>..\Common\CEIniFile.cpp(262) : warning C4996: '_wfopen': This function or variable may be unsafe. Consider using _wfopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+1>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\wchar.h(827) : '_wfopen' 선언을 참조하십시오.
+1>..\Common\CEIniFile.cpp(268) : warning C4996: 'fwscanf': This function or variable may be unsafe. Consider using fwscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+1>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\wchar.h(803) : 'fwscanf' 선언을 참조하십시오.
+1>..\Common\CEIniFile.cpp(383) : warning C4996: '_wfopen': This function or variable may be unsafe. Consider using _wfopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+1>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\wchar.h(827) : '_wfopen' 선언을 참조하십시오.
+1>UserConfirmDlg.cpp
+1>Transform.cpp
+1>ThreadMgr.cpp
+1>PTool.cpp
+1>PThread.cpp
+1>.\PThread.cpp(91) : warning C4996: '_wfopen': This function or variable may be unsafe. Consider using _wfopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+1>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\wchar.h(827) : '_wfopen' 선언을 참조하십시오.
+1>.\PThread.cpp(127) : warning C4996: '_wfopen': This function or variable may be unsafe. Consider using _wfopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+1>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\wchar.h(827) : '_wfopen' 선언을 참조하십시오.
+1>.\PThread.cpp(196) : warning C4101: 'e' :참조되지 않은 지역 변수입니다.
+1>.\PThread.cpp(983) : warning C4244: '=' : 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+1>.\PThread.cpp(984) : warning C4244: '=' : 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+1>.\PThread.cpp(883) : warning C4101: 'nErrNo' :참조되지 않은 지역 변수입니다.
+1>.\PThread.cpp(1734) : warning C4996: '_wfopen': This function or variable may be unsafe. Consider using _wfopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+1>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\wchar.h(827) : '_wfopen' 선언을 참조하십시오.
+1>.\PThread.cpp(1786) : warning C4101: 'c' :참조되지 않은 지역 변수입니다.
+1>.\PThread.cpp(2297) : warning C4018: '>' : signed 또는 unsigned가 일치하지 않습니다.
+1>.\PThread.cpp(3470) : warning C4101: 'sztemp' :참조되지 않은 지역 변수입니다.
+1>.\PThread.cpp(9468) : warning C4244: '초기화 중' : 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+1>.\PThread.cpp(9558) : warning C4244: '초기화 중' : 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+1>.\PThread.cpp(9642) : warning C4244: '초기화 중' : 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+1>.\PThread.cpp(9718) : warning C4244: '초기화 중' : 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+1>.\PThread.cpp(10424) : warning C4244: '=' : 'LONGLONG'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+1>PNCFileMgr.cpp
+1>PNCFile.cpp
+1>.\PNCFile.cpp(122) : warning C4996: '_wfopen': This function or variable may be unsafe. Consider using _wfopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+1>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\wchar.h(827) : '_wfopen' 선언을 참조하십시오.
+1>PMaintenance.cpp
+1>PIpcServer.cpp
+1>PContinueRunInfo.cpp
+1>PConfig.cpp
+1>.\PConfig.cpp(51) : warning C4101: 'nTemp' :참조되지 않은 지역 변수입니다.
+1>PAutoLoader.cpp
+1>.\PAutoLoader.cpp(120) : warning C4101: 'fTemp' :참조되지 않은 지역 변수입니다.
+1>.\PAutoLoader.cpp(119) : warning C4101: 'nTemp' :참조되지 않은 지역 변수입니다.
+1>.\PAutoLoader.cpp(146) : warning C4101: 'nTemp' :참조되지 않은 지역 변수입니다.
+1>PAStatus.cpp
+1>PAMotion.cpp
+1>.\PAMotion.cpp(1494) : warning C4101: 'ftemp' :참조되지 않은 지역 변수입니다.
+1>.\PAMotion.cpp(1504) : warning C4101: 'e' :참조되지 않은 지역 변수입니다.
+1>.\PAMotion.cpp(1534) : warning C4101: 'fAPos' :참조되지 않은 지역 변수입니다.
+1>.\PAMotion.cpp(1535) : warning C4101: 'fBPos' :참조되지 않은 지역 변수입니다.
+1>PAAsyncComm.cpp
+1>.\PAAsyncComm.cpp(629) : warning C4996: 'strtok': This function or variable may be unsafe. Consider using strtok_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+1>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\string.h(166) : 'strtok' 선언을 참조하십시오.
+1>.\PAAsyncComm.cpp(635) : warning C4996: 'strtok': This function or variable may be unsafe. Consider using strtok_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+1>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\string.h(166) : 'strtok' 선언을 참조하십시오.
+1>pa.cpp
+1>.\pa.cpp(161) : warning C4101: 'sztemp' :참조되지 않은 지역 변수입니다.
+1>.\pa.cpp(419) : warning C4101: 'e' :참조되지 않은 지역 변수입니다.
+1>.\pa.cpp(428) : warning C4101: 'e' :참조되지 않은 지역 변수입니다.
+1>.\pa.cpp(505) : warning C4101: 'e' :참조되지 않은 지역 변수입니다.
+1>.\pa.cpp(630) : warning C4101: 'e' :참조되지 않은 지역 변수입니다.
+1>.\pa.cpp(646) : warning C4101: 'e' :참조되지 않은 지역 변수입니다.
+1>.\pa.cpp(894) : warning C4996: '_wfopen': This function or variable may be unsafe. Consider using _wfopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+1>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\wchar.h(827) : '_wfopen' 선언을 참조하십시오.
+1>.\pa.cpp(897) : warning C4996: '_wfopen': This function or variable may be unsafe. Consider using _wfopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+1>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\wchar.h(827) : '_wfopen' 선언을 참조하십시오.
+1>.\pa.cpp(910) : warning C4996: '_wfopen': This function or variable may be unsafe. Consider using _wfopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+1>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\wchar.h(827) : '_wfopen' 선언을 참조하십시오.
+1>.\pa.cpp(913) : warning C4996: '_wfopen': This function or variable may be unsafe. Consider using _wfopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+1>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\wchar.h(827) : '_wfopen' 선언을 참조하십시오.
+1>.\pa.cpp(926) : warning C4996: '_wfopen': This function or variable may be unsafe. Consider using _wfopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+1>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\wchar.h(827) : '_wfopen' 선언을 참조하십시오.
+1>.\pa.cpp(939) : warning C4996: '_wfopen': This function or variable may be unsafe. Consider using _wfopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+1>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\wchar.h(827) : '_wfopen' 선언을 참조하십시오.
+1>.\pa.cpp(953) : warning C4996: '_wfopen': This function or variable may be unsafe. Consider using _wfopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+1>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\wchar.h(827) : '_wfopen' 선언을 참조하십시오.
+1>.\pa.cpp(957) : warning C4996: '_wfopen': This function or variable may be unsafe. Consider using _wfopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+1>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\wchar.h(827) : '_wfopen' 선언을 참조하십시오.
+1>.\pa.cpp(979) : warning C4996: '_wfopen': This function or variable may be unsafe. Consider using _wfopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+1>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\wchar.h(827) : '_wfopen' 선언을 참조하십시오.
+1>.\pa.cpp(999) : warning C4996: '_wfopen': This function or variable may be unsafe. Consider using _wfopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+1>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\wchar.h(827) : '_wfopen' 선언을 참조하십시오.
+1>.\pa.cpp(1002) : warning C4996: '_wfopen': This function or variable may be unsafe. Consider using _wfopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+1>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\wchar.h(827) : '_wfopen' 선언을 참조하십시오.
+1>.\pa.cpp(1021) : warning C4996: '_wfopen': This function or variable may be unsafe. Consider using _wfopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+1>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\wchar.h(827) : '_wfopen' 선언을 참조하십시오.
+1>.\pa.cpp(1042) : warning C4996: '_wfopen': This function or variable may be unsafe. Consider using _wfopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+1>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\wchar.h(827) : '_wfopen' 선언을 참조하십시오.
+1>.\pa.cpp(1046) : warning C4996: '_wfopen': This function or variable may be unsafe. Consider using _wfopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+1>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\wchar.h(827) : '_wfopen' 선언을 참조하십시오.
+1>.\pa.cpp(1053) : warning C4996: 'fwscanf': This function or variable may be unsafe. Consider using fwscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+1>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\wchar.h(803) : 'fwscanf' 선언을 참조하십시오.
+1>.\pa.cpp(1068) : warning C4996: '_wfopen': This function or variable may be unsafe. Consider using _wfopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+1>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\wchar.h(827) : '_wfopen' 선언을 참조하십시오.
+1>컴파일하고 있습니다...
+1>Log.cpp
+1>.\Log.cpp(125) : warning C4996: '_wfopen': This function or variable may be unsafe. Consider using _wfopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+1>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\wchar.h(827) : '_wfopen' 선언을 참조하십시오.
+1>.\Log.cpp(160) : warning C4996: '_wfopen': This function or variable may be unsafe. Consider using _wfopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+1>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\wchar.h(827) : '_wfopen' 선언을 참조하십시오.
+1>.\Log.cpp(188) : warning C4996: '_wfopen': This function or variable may be unsafe. Consider using _wfopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+1>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\wchar.h(827) : '_wfopen' 선언을 참조하십시오.
+1>.\Log.cpp(245) : warning C4996: '_swprintf': This function or variable may be unsafe. Consider using _swprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+1>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\wchar.h(773) : '_swprintf' 선언을 참조하십시오.
+1>IGLCD.cpp
+1>HomeDlg.cpp
+1>hcsock.cpp
+1>hc3dutil.cpp
+1>GLCDCommEx.cpp
+1>.\GLCDCommEx.cpp(122) : warning C4309: '초기화 중' : 상수 값이 잘립니다.
+1>.\GLCDCommEx.cpp(122) : warning C4309: '초기화 중' : 상수 값이 잘립니다.
+1>.\GLCDCommEx.cpp(122) : warning C4309: '초기화 중' : 상수 값이 잘립니다.
+1>.\GLCDCommEx.cpp(142) : warning C4309: '초기화 중' : 상수 값이 잘립니다.
+1>.\GLCDCommEx.cpp(142) : warning C4309: '초기화 중' : 상수 값이 잘립니다.
+1>.\GLCDCommEx.cpp(142) : warning C4309: '초기화 중' : 상수 값이 잘립니다.
+1>GLCDComm.cpp
+1>.\GLCDComm.cpp(80) : warning C4309: '초기화 중' : 상수 값이 잘립니다.
+1>.\GLCDComm.cpp(80) : warning C4309: '초기화 중' : 상수 값이 잘립니다.
+1>.\GLCDComm.cpp(80) : warning C4309: '초기화 중' : 상수 값이 잘립니다.
+1>GCodeHelper.cpp
+1>.\GCodeHelper.cpp(82) : warning C4244: '=' : 'wchar_t'에서 'char'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+1>ErrorDlg.cpp
+1>EPncMDllApp.cpp
+1>EPncMDll.cpp
+1>EPncMDlg.cpp
+1>.\EPncMDlg.cpp(181) : warning C4101: 'nNumSelectLogFiles_' :참조되지 않은 지역 변수입니다.
+1>.\EPncMDlg.cpp(182) : warning C4101: 'nLenSelectLogFiles_' :참조되지 않은 지역 변수입니다.
+1>.\EPncMDlg.cpp(180) : warning C4101: 'szSelectedLogFiles_' :참조되지 않은 지역 변수입니다.
+1>.\EPncMDlg.cpp(179) : warning C4101: 'bSaveSelectedLogFiles_' :참조되지 않은 지역 변수입니다.
+1>.\EPncMDlg.cpp(485) : warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+1>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\stdio.h(237) : 'fopen' 선언을 참조하십시오.
+1>Comm232.cpp
+1>.\Comm232.cpp : warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+1>AutoCalDlg.cpp
+1>리소스를 컴파일하고 있습니다...
+1>Microsoft (R) Windows (R) Resource Compiler Version 6.1.6723.1
+1>Copyright (C) Microsoft Corporation.  All rights reserved.
+1>링크하고 있습니다...
+1>   D:\Vojta\Dental_source_code\Chairman\EPncMDLL\Release\EPncMDll.lib 라이브러리 및 D:\Vojta\Dental_source_code\Chairman\EPncMDLL\Release\EPncMDll.exp 개체를 생성하고 있습니다.
+1>코드를 생성하고 있습니다.
+1>d:\vojta\dental_source_code\chairman\epncmdll\epncmdll\pipcserver.cpp(324) : warning C4700: 초기화되지 않은 'dwtemp' 지역 변수를 사용했습니다.
+1>코드를 생성했습니다.
+1>매니페스트를 포함하고 있습니다...
+1>빌드 로그가 "file://d:\Vojta\Dental_source_code\Chairman\EPncMDLL\EPncMDll\Release\BuildLog.htm"에 저장되었습니다.
+1>EPncMDll - 오류: 0개, 경고: 82개
+2>------ 모두 다시 빌드 시작: 프로젝트: EPncUI, 구성: Release Win32 ------
+2>'EPncUI' 프로젝트, 'Release|Win32' 구성에 사용할 중간 파일 및 출력 파일을 삭제하고 있습니다...
+2>컴파일하고 있습니다...
+2>stdafx.cpp
+2>d:\vojta\dental_source_code\chairman\epncmdll\epncui\epncui\../../Common/EPACommonHeader.h(438) : warning C4996: 'wcscat': This function or variable may be unsafe. Consider using wcscat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+2>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\string.h(245) : 'wcscat' 선언을 참조하십시오.
+2>d:\vojta\dental_source_code\chairman\epncmdll\epncui\epncui\../../Common/EPACommonHeader.h(441) : warning C4996: 'wcscat': This function or variable may be unsafe. Consider using wcscat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+2>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\string.h(245) : 'wcscat' 선언을 참조하십시오.
+2>d:\vojta\dental_source_code\chairman\epncmdll\epncui\epncui\../../Common/EPACommonHeader.h(453) : warning C4996: 'wcscat': This function or variable may be unsafe. Consider using wcscat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+2>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\string.h(245) : 'wcscat' 선언을 참조하십시오.
+2>d:\vojta\dental_source_code\chairman\epncmdll\epncui\epncui\../../Common/EPACommonHeader.h(456) : warning C4996: 'wcscat': This function or variable may be unsafe. Consider using wcscat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+2>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\string.h(245) : 'wcscat' 선언을 참조하십시오.
+2>컴파일하고 있습니다...
+2>IpcLib.cpp
+2>hcutil.cpp
+2>EPACommonHeader.cpp
+2>..\..\Common\EPACommonHeader.cpp(1001) : warning C4996: '_swprintf': This function or variable may be unsafe. Consider using _swprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+2>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\wchar.h(773) : '_swprintf' 선언을 참조하십시오.
+2>..\..\Common\EPACommonHeader.cpp(1018) : warning C4996: '_swprintf': This function or variable may be unsafe. Consider using _swprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+2>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\wchar.h(773) : '_swprintf' 선언을 참조하십시오.
+2>CEIniFile.cpp
+2>..\..\Common\CEIniFile.cpp(155) : warning C4996: '_wfopen': This function or variable may be unsafe. Consider using _wfopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+2>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\wchar.h(827) : '_wfopen' 선언을 참조하십시오.
+2>..\..\Common\CEIniFile.cpp(160) : warning C4996: 'fwscanf': This function or variable may be unsafe. Consider using fwscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+2>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\wchar.h(803) : 'fwscanf' 선언을 참조하십시오.
+2>..\..\Common\CEIniFile.cpp(244) : warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+2>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\string.h(252) : 'wcscpy' 선언을 참조하십시오.
+2>..\..\Common\CEIniFile.cpp(262) : warning C4996: '_wfopen': This function or variable may be unsafe. Consider using _wfopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+2>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\wchar.h(827) : '_wfopen' 선언을 참조하십시오.
+2>..\..\Common\CEIniFile.cpp(268) : warning C4996: 'fwscanf': This function or variable may be unsafe. Consider using fwscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+2>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\wchar.h(803) : 'fwscanf' 선언을 참조하십시오.
+2>..\..\Common\CEIniFile.cpp(383) : warning C4996: '_wfopen': This function or variable may be unsafe. Consider using _wfopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+2>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\wchar.h(827) : '_wfopen' 선언을 참조하십시오.
+2>ToolTimeDispWnd.cpp
+2>TitleBarWnd.cpp
+2>StringCalculator.cpp
+2>SplashDlg.cpp
+2>SetupToolSetDlg.cpp
+2>SetupToolResetDlg.cpp
+2>.\SetupToolResetDlg.cpp(95) : warning C4800: 'BOOL' : 'true' 또는 'false'로 bool 값을 강제하고 있습니다(성능 경고).
+2>SetupToolDlg.cpp
+2>.\SetupToolDlg.cpp(757) : warning C4805: '!=' : 연산에 'int' 형식과 'bool' 형식을 함께 사용하는 것은 안전하지 않습니다.
+2>.\SetupToolDlg.cpp(763) : warning C4805: '!=' : 연산에 'int' 형식과 'bool' 형식을 함께 사용하는 것은 안전하지 않습니다.
+2>.\SetupToolDlg.cpp(769) : warning C4805: '!=' : 연산에 'int' 형식과 'bool' 형식을 함께 사용하는 것은 안전하지 않습니다.
+2>.\SetupToolDlg.cpp(1366) : warning C4390: ';' : 제어된 빈 문이 있습니다. 이 문이 필요합니까?
+2>SetupTerminalDlg.cpp
+2>SetupTeachingTeachingPointDlg.cpp
+2>SetupTeachingSAAutoCalCoordOffsetDlg.cpp
+2>SetupTeachingOffsetDlg.cpp
+2>SetupTeachingDlg.cpp
+2>SetupTeachingCoordOffsetDlg.cpp
+2>SetupTeachingAutoTeachingDlg.cpp
+2>SetupTeachingAutoCalCoordOffsetDlg.cpp
+2>SetupSystemToolInfoDlg.cpp
+2>컴파일하고 있습니다...
+2>SetupSystemSoftLimitDlg.cpp
+2>SetupSystemRunTimeInfoDlg.cpp
+2>SetupSystemMultiOriginDlg.cpp
+2>SetupSystemFilterManagementDlg.cpp
+2>SetupSystemDlg.cpp
+2>SetupSystemChangeIPDlg.cpp
+2>SetupSystemATCTestDlg.cpp
+2>SetupOptionDlg.cpp
+2>d:\vojta\dental_source_code\chairman\epncmdll\epncui\epncui\NumericInputTimeDlg.h : warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+2>SetupMultiOriginDlg.cpp
+2>SetupMultiOriginAutoTeachDlg.cpp
+2>SetupMenuDlg.cpp
+2>SetupMaintenanceDlg.cpp
+2>d:\vojta\dental_source_code\chairman\epncmdll\epncui\epncui\SetupMaintenanceDlg.h : warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+2>.\SetupMaintenanceDlg.cpp(383) : warning C4018: '>=' : signed 또는 unsigned가 일치하지 않습니다.
+2>.\SetupMaintenanceDlg.cpp(559) : warning C4101: 'bEnableMaxTime' :참조되지 않은 지역 변수입니다.
+2>SetupLogDlg.cpp
+2>SetupIODlg.cpp
+2>SetupDlg.cpp
+2>d:\vojta\dental_source_code\chairman\epncmdll\epncui\epncui\SetupMaintenanceDlg.h : warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+2>SetupAutoLoaderTeachingDlg.cpp
+2>SetupAutoLoaderManualOperDlg.cpp
+2>.\SetupAutoLoaderManualOperDlg.cpp : warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+2>.\SetupAutoLoaderManualOperDlg.cpp(538) : warning C4101: 'curr_state' :참조되지 않은 지역 변수입니다.
+2>.\SetupAutoLoaderManualOperDlg.cpp(623) : warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+2>SetupAutoLoaderDlg.cpp
+2>.\SetupAutoLoaderDlg.cpp(467) : warning C4244: '초기화 중' : 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+2>SensorStateWnd.cpp
+2>SelectJogStepDlg.cpp
+2>컴파일하고 있습니다...
+2>RunTimeListBox.cpp
+2>.\RunTimeListBox.cpp(177) : warning C4244: '-=' : 'double'에서 'ULONGLONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+2>.\RunTimeListBox.cpp(184) : warning C4996: '_wfopen': This function or variable may be unsafe. Consider using _wfopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+2>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\wchar.h(827) : '_wfopen' 선언을 참조하십시오.
+2>.\RunTimeListBox.cpp(192) : warning C4996: 'fwscanf': This function or variable may be unsafe. Consider using fwscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+2>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\wchar.h(803) : 'fwscanf' 선언을 참조하십시오.
+2>.\RunTimeListBox.cpp(296) : warning C4996: '_wfopen': This function or variable may be unsafe. Consider using _wfopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+2>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\wchar.h(827) : '_wfopen' 선언을 참조하십시오.
+2>.\RunTimeListBox.cpp(301) : warning C4996: 'fwscanf': This function or variable may be unsafe. Consider using fwscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+2>        C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\wchar.h(803) : 'fwscanf' 선언을 참조하십시오.
+2>RestartDialog.cpp
+2>ResetOriginDlg.cpp
+2>RegisterRelToolDlg.cpp
+2>PTool.cpp
+2>PSWConfig.cpp
+2>PositionWnd.cpp
+2>PositionMiniWnd.cpp
+2>PointDataListBox.cpp
+2>PncIpcClient.cpp
+2>PNCFileMgr.cpp
+2>PNCFile.cpp
+2>PMaintenance.cpp
+2>PAutoLoader.cpp
+2>.\PAutoLoader.cpp(98) : warning C4101: 'fTemp' :참조되지 않은 지역 변수입니다.
+2>.\PAutoLoader.cpp(97) : warning C4101: 'nTemp' :참조되지 않은 지역 변수입니다.
+2>PAStatus.cpp
+2>PasswordDlg.cpp
+2>OptionDataListBox.cpp
+2>NumericInputTimeDlg.cpp
+2>.\NumericInputTimeDlg.cpp : warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+2>d:\vojta\dental_source_code\chairman\epncmdll\epncui\epncui\NumericInputTimeDlg.h : warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+2>NumericInputDlg.cpp
+2>NotifyButton2.cpp
+2>컴파일하고 있습니다...
+2>NotifyButton.cpp
+2>NCStatusBarWnd.cpp
+2>NCFileMgrDlg2.cpp
+2>NCFileListBoxSimple.cpp
+2>NCFileListBoxEx.cpp
+2>MsgDlgThread.cpp
+2>MsgDlg.cpp
+2>MaxxLinkServiceDlg.cpp
+2>.\MaxxLinkServiceDlg.cpp(92) : warning C4101: 'dwTemp' :참조되지 않은 지역 변수입니다.
+2>.\MaxxLinkServiceDlg.cpp(91) : warning C4101: 'szTemp' :참조되지 않은 지역 변수입니다.
+2>.\MaxxLinkServiceDlg.cpp(179) : warning C4101: 'szTemp' :참조되지 않은 지역 변수입니다.
+2>JogButton.cpp
+2>IOListBoxEx.cpp
+2>ImgButtonEx2ToolClamp.cpp
+2>ImgButtonEx2Run.cpp
+2>.\ImgButtonEx2Run.cpp(207) : warning C4244: '=' : 'double'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+2>ImgButtonEx2BlockGrip.cpp
+2>ImgButtonEx2.cpp
+2>.\ImgButtonEx2.cpp(201) : warning C4800: 'BOOL' : 'true' 또는 'false'로 bool 값을 강제하고 있습니다(성능 경고).
+2>.\ImgButtonEx2.cpp(212) : warning C4800: 'BOOL' : 'true' 또는 'false'로 bool 값을 강제하고 있습니다(성능 경고).
+2>IconWnd.cpp
+2>FtpClient.cpp
+2>FileListBox.cpp
+2>FileCopyDlg.cpp
+2>ErrorDlg.cpp
+2>EPncUIDlg2.cpp
+2>.\EPncUIDlg2.cpp(2429) : warning C4244: '초기화 중' : '__time64_t'에서 'long'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+2>.\EPncUIDlg2.cpp(2434) : warning C4244: '=' : '__time64_t'에서 'long'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+2>.\EPncUIDlg2.cpp(2917) : warning C4101: 'bUpdateToolMsg' :참조되지 않은 지역 변수입니다.
+2>.\EPncUIDlg2.cpp(3264) : warning C4244: '초기화 중' : 'LONGLONG'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+2>.\EPncUIDlg2.cpp(3281) : warning C4244: '=' : 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+2>.\EPncUIDlg2.cpp(3304) : warning C4244: '=' : 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+2>.\EPncUIDlg2.cpp(3313) : warning C4244: '=' : 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+2>.\EPncUIDlg2.cpp(3319) : warning C4244: '=' : 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+2>.\EPncUIDlg2.cpp(3325) : warning C4244: '=' : 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+2>.\EPncUIDlg2.cpp(3354) : warning C4244: '초기화 중' : 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+2>.\EPncUIDlg2.cpp(3359) : warning C4244: '초기화 중' : 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+2>.\EPncUIDlg2.cpp(3365) : warning C4244: '=' : 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+2>.\EPncUIDlg2.cpp(3374) : warning C4244: '초기화 중' : 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+2>.\EPncUIDlg2.cpp(3378) : warning C4244: '초기화 중' : 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+2>컴파일하고 있습니다...
+2>EPncUIDlg.cpp
+2>EPncUI.cpp
+2>DlgList.cpp
+2>ConnectErrorDlg.cpp
+2>CanvasCE.cpp
+2>CalculatorDlg.cpp
+2>AutoLoaderStateWnd.cpp
+2>AutoLoaderRefillDlg.cpp
+2>리소스를 컴파일하고 있습니다...
+2>Microsoft (R) Windows (R) Resource Compiler Version 6.1.6723.1
+2>Copyright (C) Microsoft Corporation.  All rights reserved.
+2>링크하고 있습니다...
+2>코드를 생성하고 있습니다.
+2>코드를 생성했습니다.
+2>매니페스트를 포함하고 있습니다...
+2>빌드 로그가 "file://d:\Vojta\Dental_source_code\Chairman\EPncMDLL\EPncUI\EPncUI\Release\BuildLog.htm"에 저장되었습니다.
+2>EPncUI - 오류: 0개, 경고: 55개
+========== 모두 다시 빌드: 성공 2, 실패 0, 생략 0 ==========

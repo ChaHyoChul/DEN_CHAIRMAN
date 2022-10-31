@@ -1,0 +1,313 @@
+#include "StdAfx.h"
+#include "GCodeHelper.h"
+
+//////////////////////////////////////////////////////////////////////////
+
+int	 pa::CGCodeHelper::nNumReplaceCommand = 0;			// 교환 명령 개수 
+char pa::CGCodeHelper::szSourceCommand[32][32];			// 원본 명령 
+char pa::CGCodeHelper::szReplaceCommand[32][32];		// 교환 명령 
+
+int	pa::CGCodeHelper::nNumCheckCommand = 0;
+char pa::CGCodeHelper::szCheckCommands[32];				// 검사할 명령 코드 
+double pa::CGCodeHelper::fCheckCommandData[2][32];		// 검사할 명령의 데이터 상/하한 
+
+/** 
+ * Replace 명령을 파일에서 읽는다 
+ */
+BOOL pa::CGCodeHelper::LoadReplaceCommand( CString strConfigFilePath, CString& strErrMsg )
+{
+	CCEIniFile	hIniFile;
+	CString		strKeyName, strDataName, strTemp1, strTemp2;
+
+	nNumReplaceCommand = 0;
+	memset((void*)szSourceCommand, 0, sizeof(char)*32*32);
+	memset((void*)szReplaceCommand, 0, sizeof(char)*32*32);
+
+	// 파일이 없으면 리턴한다 
+	if( hcutil::IsExistFile( strConfigFilePath ) == FALSE ) {
+		return TRUE;
+	}
+
+	hIniFile.Open( (LPCTSTR)strConfigFilePath );
+
+	strKeyName.Format( _T("Common") );
+	hIniFile.GetValue( strKeyName, _T("Num"), (int*)&nNumReplaceCommand );
+
+	for( int i = 0; i<nNumReplaceCommand; i++ ) 
+	{
+		strKeyName.Format( _T("Data_%d"), i+1 );
+		hIniFile.GetValue( strKeyName, _T("Source"), &strTemp1 );
+		hIniFile.GetValue( strKeyName, _T("Replace"), &strTemp2 );
+
+		hcutil::CSTRING_TO_ASCII( strTemp1, szSourceCommand[i], 31 );
+		hcutil::CSTRING_TO_ASCII( strTemp2, szReplaceCommand[i], 31 );
+	}
+
+	hIniFile.Close();
+
+	return TRUE;
+}
+
+/** 
+ * Check Command 명령을 파일에서 읽는다 
+ */
+BOOL pa::CGCodeHelper::LoadCheckCommand( CString strConfigFilePath, CString& strErrMsg )
+{
+	CCEIniFile	hIniFile;
+	CString		strKeyName, strValueName;
+	CString		strCommand;
+
+	nNumCheckCommand = 0;
+
+	// 파일이 없으면 리턴 한다 
+	if( hcutil::IsExistFile( strConfigFilePath ) == FALSE ) {
+		return TRUE;
+	}
+
+	hIniFile.Open( (LPCTSTR)strConfigFilePath );
+
+	strKeyName.Format( _T("Common") );
+
+	hIniFile.GetValue( strKeyName, _T("Num"), (int*)&nNumCheckCommand );
+
+	for( int i = 0; i<nNumCheckCommand; i++ )
+	{
+		strKeyName.Format( _T("Command_%03d"), i );
+		
+		hIniFile.GetValue( strKeyName, _T("Command"), (CString*)&strCommand );
+		szCheckCommands[i] = strCommand.GetAt(0);
+		hIniFile.GetValue( strKeyName, _T("Min"), (double*)&(fCheckCommandData[0][i]) );
+		hIniFile.GetValue( strKeyName, _T("Max"), (double*)&(fCheckCommandData[1][i]) );
+	}
+
+	return TRUE;
+}
+
+/** 
+ * GCode 에서 주석문을 제거 한다 
+ */
+void pa::CGCodeHelper::RemoveCommentFromGCode( char* pGCode )
+{
+	char* p = NULL;
+
+	p = strstr( pGCode, "%" );
+	if( p ) { *p = NULL; }
+	p = strstr( pGCode, ";" );
+	if( p ) { *p = NULL; }
+}
+
+void pa::CGCodeHelper::RemoveCommantFromGCode2( char* pGCode, char* char_for_command[], int command_count )
+{
+	char* p = NULL;
+
+	for( int i = 0; i<command_count; i++ )
+	{
+		p = strstr( pGCode, char_for_command[i] );
+		if( p ) {
+			*p = NULL;
+		}
+	}
+}
+
+/** 
+ * GCode에 M30 명령이 있는지 확인한다 
+ */
+BOOL pa::CGCodeHelper::CheckM30_Stop( char* pGCode )
+{
+	char* p1 = strstr( pGCode, "M30" );
+	char* p2 = strstr( pGCode, "m30" );
+	return (BOOL)( p1 || p2 );
+}
+
+/** 
+ * GCode에 M47 명령이 있는지 확인한다 
+ */
+BOOL pa::CGCodeHelper::CheckM47_Repeat( char* pGCode )
+{
+	char* p1 = strstr( pGCode, "M47" );
+	char* p2 = strstr( pGCode, "m47" );
+	return (BOOL)( p1 || p2 );
+}
+
+BOOL pa::CGCodeHelper::CheckM140_M147_ToolChange( char* pNCCode, int* pErrorToolNo, int *pnToolNo )
+{
+	static char* STR_NC_COMMAND[] = {
+		"M140", "M141", "M142", "M143", "M144", "M145", "M146", "M147",
+		"m140", "m141", "m142", "m143", "m144", "m145", "m146", "m147" 
+	};
+
+	// 명령에 툴 체인지 명령이 있는지 확인 
+	BOOL	bFind = FALSE;
+	int		toolNo = 0;
+	char*	pToolChangeCmd = NULL;
+	for( toolNo = 0; toolNo<16; toolNo++ ) {
+		pToolChangeCmd = strstr( pNCCode, STR_NC_COMMAND[toolNo] );
+		if( pToolChangeCmd ) {
+			bFind = TRUE;
+			break;
+		}
+	}
+	if( bFind == FALSE ) {
+		// 없으면 리턴 
+		return TRUE;
+	}
+    
+	// Tool 번호를 다시 계산 한다
+	toolNo %= 8;
+	toolNo += 1;
+	if( pnToolNo ) {
+		*pnToolNo = toolNo;
+	}
+
+	// 툴 사용시간 기능이나 연관툴 기능을 사용하지 않으면 리턴 
+	if( !( PTool->GetEnableToolUsageTime() || PTool->GetEnableRelatedTool() ) ) {
+		return TRUE;
+	}
+
+	// 툴 에러일 경우, 연관툴 확인 
+	int		nReplaceToolNo = 0;
+	if( !(PTool->IsPickable( toolNo )) ){
+		if( PTool->GetEnableRelatedTool() == TRUE ) {
+			// 연관툴 사용. 다음 사용할 툴을 찾는다 
+			nReplaceToolNo = PTool->GetNextRelatedToolNo( toolNo );
+			if( nReplaceToolNo != 0 ) {
+				// 명령을 변경 한다 
+				memcpy( (void*)pToolChangeCmd, (const void*)STR_NC_COMMAND[nReplaceToolNo-1], strlen(STR_NC_COMMAND[nReplaceToolNo-1]) );
+			} else {
+				// 연관 툴에서도 사용할 툴이 없다 
+				*pErrorToolNo = toolNo;
+				return FALSE;
+			}
+		}
+		else {
+			// 연관툴을 사용하지 않음. 
+			*pErrorToolNo = toolNo;
+			return FALSE;
+		}
+	}
+
+	return TRUE;
+}
+
+int pa::CGCodeHelper::CheckM140_M145_Restart(int nToolNo )
+{
+	int nReplaceToolNo = nToolNo;
+	return nReplaceToolNo;
+}
+
+void pa::CGCodeHelper::CheckReplaceCommand( char* pGCode )
+{
+	char	szBuffer[256];
+	char*	pTempGCode = pGCode;
+	char*	pTempBuffer= szBuffer;
+	char*	p = NULL;
+
+	memset((void*)szBuffer, 0, sizeof(char)*256);
+
+	for( int i = 0; i<nNumReplaceCommand; i++ ) {
+		p = strstr( pGCode, szSourceCommand[i] );
+		if( p ) {
+			// pGCode에서 p까지 복사 
+			int len1 = p - pTempGCode;
+			memcpy((void*)pTempBuffer, pGCode, sizeof(char)*len1);
+			pTempGCode += len1 + strlen(szSourceCommand[i]);			// 대체하는 코드 다음 명령을 가르킨다 
+			// Replace 문자열 복사 
+			int len2 = strlen(szReplaceCommand[i]);
+			memcpy((void*)(pTempBuffer+len1), szReplaceCommand[i], sizeof(char)*len2);
+			pTempBuffer += len2 + len1;
+			// 나머지 문자열 복사 
+			memcpy((void*)(pTempBuffer), (const void*)(pTempGCode), sizeof(char)*strlen(pTempGCode));
+			//
+			memset( (void*)pGCode, 0, sizeof(char)*256 );
+			memcpy( (void*)pGCode, (const void*)szBuffer, sizeof(char)*strlen(szBuffer) );
+		}
+	}
+}
+
+/** 
+ * Nc File Check 함수
+ * 라인 단위로 입력되기 때문에 코드 단위로 파싱 해야함 
+ */
+BOOL pa::CGCodeHelper::CheckNcFile( char* pNCCode )
+{
+	char sztemp[64];
+	int tempIndex = 0;
+	int len = strlen( pNCCode );
+
+	// 검사할 명령의 개수가 0이면 리턴 한다 
+	if( nNumCheckCommand == 0 ) {
+		return TRUE;
+	}
+	
+	// check comment
+	if( pNCCode[0] == '(' )
+	{
+		return TRUE;
+	}
+	
+	if( strstr(pNCCode, "profile") || strstr(pNCCode, "PROFILE") || strstr(pNCCode, "Profile") )
+	{
+		return TRUE;
+	}
+
+	memset( (void*)sztemp, 0, sizeof(char)*64 );
+	tempIndex = 0;
+
+	for( int i = 0; i<len; i++ )
+	{
+		char c = pNCCode[i];		
+		if( c == ' ' ) continue;	// skip space 
+
+		BOOL bIsValue = ( ( c >= '0' && c <= '9' ) || ( c == '.' ) || ( c == '-') || ( c == '+' ) );
+
+		if( !bIsValue ) 
+		{
+			if( tempIndex > 0 )
+			{
+				// 데이터 확인 
+				char	cCode = sztemp[0];
+				double	fData = atof(sztemp+1);
+				BOOL	bFind = FALSE;
+				int		index_command = 0;
+
+				if( cCode != '%' )
+				{
+                    for( index_command = 0; index_command<nNumCheckCommand; index_command++ )
+                    {
+                        if( cCode == szCheckCommands[index_command] ) {
+                            bFind = TRUE;
+                            break;
+                        }
+                    }
+                    if( bFind ) {
+                        if( (fData - fCheckCommandData[0][index_command]) > -0.1 &&
+                            (fCheckCommandData[1][index_command] - fData) > -0.1 ) {
+                            // OK
+                        } 
+                        else {
+                            // ERROR. 데이터 범위 넘어섬
+                            return FALSE;
+                        }
+                    }
+                    else {
+                        // ERROR. 알수 없는 명령어 
+                        return FALSE;
+                    }
+				}
+			}
+						
+			// 초기화 
+			tempIndex = 0;
+			memset((void*)sztemp, 0, sizeof(char)*64);
+			sztemp[tempIndex++] = c;
+		}
+		else 
+		{
+			sztemp[tempIndex++] = c;
+		}
+	}
+
+	return TRUE;
+}
+
+

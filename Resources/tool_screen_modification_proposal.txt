@@ -1,0 +1,19 @@
+TOOL setup menu changes proposal:
+0. Modified layout so the button positions have LEFT/RIGHT logic
+1. Addition of control elements
+	* Set tool number
+	* Set spindle speed (only one, or two - one for each side?)
+	* Manual tool error reset button
+
+2. Removal of unused elements
+	* Related tool section + selection
+	* Spindle override
+
+3. Settings optimization
+	* Use maximum tool usage time -> OPTION menu (user does not change it often)
+
+4. Text changes
+	* Maximum tool usage time in mins and % not shown ("-" instead) when the maximum tool usage time is not used
+	* Automatic removal of tool broken messages in case the GET TOOL is pressed (the messages have no use after user action anyways)
+	* Add short description in the tool usage bar (not in the picture)
+ 

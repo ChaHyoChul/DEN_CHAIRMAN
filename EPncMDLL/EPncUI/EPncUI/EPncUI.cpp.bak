@@ -1,0 +1,749 @@
+// EPncUI.cpp : 응용 프로그램에 대한 클래스 동작을 정의합니다.
+//
+
+#include "stdafx.h"
+#include "EPncUI.h"
+#include "EPncUIDlg.h"
+#include "EPncUIDlg2.h"
+
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+
+
+// CEPncUIApp
+
+BEGIN_MESSAGE_MAP(CEPncUIApp, CWinApp)
+END_MESSAGE_MAP()
+
+
+// CEPncUIApp 생성
+CEPncUIApp::CEPncUIApp()
+	: CWinApp()
+{
+	// TODO: 여기에 생성 코드를 추가합니다.
+	// InitInstance에 모든 중요한 초기화 작업을 배치합니다.
+}
+
+// 유일한 CEPncUIApp 개체입니다.
+CEPncUIApp theApp;
+
+// CEPncUIApp 초기화
+
+BOOL CEPncUIApp::InitInstance()
+{
+//  _CrtDumpMemoryLeaks();
+// 	_CrtSetBreakAlloc(1288);
+
+	// 표준 초기화
+	// 이들 기능을 사용하지 않고 최종 실행 파일의 크기를 줄이려면
+	// 아래에서 필요 없는 특정 초기화 
+	// 루틴을 제거해야 합니다.
+	// 해당 설정이 저장된 레지스트리 키를 변경하십시오.
+	// TODO: 이 문자열을 회사 또는 조직의 이름과 같은
+	// 적절한 내용으로 수정해야 합니다.
+	SetRegistryKey(_T("로컬 응용 프로그램 마법사에서 생성된 응용 프로그램"));
+
+// 	P_VERSION = _T("DS200-20160504-1620-release");		//
+// 	P_VERSION = _T("DS200-20160505-1200-release");			// log 사용가능 
+															// 에러 메시지에 번호 추가 
+// 	P_VERSION = _T("DS200-20160506-1530-release");			// toStop 기능 수정 
+// 	P_VERSION = _T("DS200-20160506-1700-release");			// DoorOpen시 Pasue 기능 수정 
+// 	P_VERSION = _T("DS200-20160508-1800-release");			// Servo-Off 버튼 추가 
+															// Running 중 EMO 안되는 현상 (조건이 다시 변경됨)
+															// M30 뒤에 Enter 없을 경우, 가공이 안끝나는 현상 수정 
+
+// 	P_VERSION = _T("DS200-20160518-TEST");					// 잔 버그 1차 수정 
+// 	P_VERSION = _T("DS200-20160522-TEST");					// 잔 버그 1차 수정 
+// 	P_VERSION = _T("DS200-20160523-TEST");					// Auto Cal. Auto Teaching 수정 
+// 	P_VERSION = _T("DS200-20160524-0000");					// Auto Cal. 버그수정 												
+// 	P_VERSION = _T("DS200-20160524-1200");					// RND 비번 변경 100321
+															// Tool. Auto Teaching 완료 
+
+// 	P_VERSION = _T("DS200-20160525-1600-debug");			// 
+// 	P_VERSION = _T("maxx-link test");
+// 	P_VERSION = _T("DS200-20160526-0000-test");				// 
+
+// 	P_VERSION = _T("DS200-20160530-1130-release");			// 
+// 	P_VERSION = _T("DS200-20160530-1700-release");			// SoftLimit 설정 기능 수정 완료	
+// 	P_VERSION = _T("DS200-20160602-1340-release");			// 
+// 	P_VERSION = _T("DS200-20160602-2050-release");			// 
+// 	P_VERSION = _T("DS200-20160603-0230-release");			// 
+// 	P_VERSION = _T("DS200-20160603-0320-release");			// 
+// 	P_VERSION = _T("DS200-20160603-0420-release");			// 
+// 	P_VERSION = _T("DS200-20160604-1330-release");			// 
+// 	P_VERSION = _T("DS200-20160604-1950-release");			// 
+// 	P_VERSION = _T("DS200-20160604-2235-release");			// 
+//	P_VERSION = _T("DS200-20160607-1445-release");			// 
+// 	P_VERSION = _T("DS200-20160607-2010-release");			// 
+// 	P_VERSION = _T("DS200-20160608-1440-release");			// 
+// 	P_VERSION = _T("DS200-20160609-1020-release");			// Multi Origin 결과 데이터 갱신 버그 수정 
+															
+//	P_VERSION = _T("DS200-20160610-1510-release");			// - Multi Origin 측정시. Z축 측정시 측정된 환봉크기 사용
+															// - 이어서 실행시 튀는 현상 수정 => profile  위치 변경 
+	
+// 	P_VERSION = _T("DS200-20160611-1600-release");
+															// - 예상 종료 시간 10% 줄여서 표시 
+															// - ReadyPos 기능 수정 (4축. Z->X->A->Y, 5축은 그대로)
+															// - Auto Cal/Teaching 동작 진행상태 표시 및 완료 알림 메시지 표시 
+															// - Multi Origin 완료 후 저장여부 확인 
+
+// 	P_VERSION = _T("DS200-20160615-1100-release");			// - Setup -> Tool 에서 spindle 동작중 다른 버튼 disable 
+															// - Multi Origin 측정 파라메타 변경 
+															// - Auto Cal./Touch 동작중 메뉴버튼 disable 
+
+// 	P_VERSION = _T("DS200-20160621-1500-release");			// - Flow Sensor 에러 처리 기능 추가 
+															// - RND_STATE 응답에 에러가 있을 경우, 에러 메시지 표시 기능 추가 
+
+// 	P_VERSION = _T("DS200-20160622-1900-release");			// - Tool 번호 저장 기능 (저장 및 초기화시 리스토어 기능)
+
+// 	P_VERSION = _T("DS200-20160625-1020-release");			// - rnd_state, rnd_statue 명령의 응답으로 NULL이 왔을 경우, 에러 메시지에 추가 
+															// - setup->tool에서 collet이 열려 있을 경우, spindle run 버튼 disable (ok)
+															// - setup->tool에서 매뉴얼 동작 중 버튼 disable  
+															// - flow sensor 에러 처리 기능. 디버깅 완료
+
+// 	P_VERSION = _T("DS200-20160625-1730-sub-ver-for-ch");	// - RND_STATE 응답 중 Tool_Length 제거 (중국 4WA 대응)
+
+// 	P_VERSION = _T("DS200-20160708-test");					// - ZOrigin Offset 결과비교 수정 
+// 	P_VERSION = _T("DS200-20160708-1630-release");			// - ZOrigin Offset 결과비교 수정 
+// 	P_VERSION = _T("DS200-20160713-1040-release");			// - M148후 툴번호 리셋안되는 현상 수정 (M139실행)
+															// - 사용할 툴이 없을 경우(연관툴ON), run 상태 유지되는 현상 수정 
+															// - isMotorStop 에서 속도 값을 0.05에서 0.2로 수정 
+
+// 	P_VERSION = _T("DS200-20160718-1700-release");			// - Multi-Origin 측정 파라메타 변경 (Y축 측정위치를 G57/G56 따로 관리)
+
+// 	P_VERSION = _T("DS200-20160720-1640-release");			// - Setup의 각 page 매뉴버튼 수정 (Save to File, Load from File)
+
+// 	P_VERSION = _T("DS200-20160720-1640-release");			// - Setup의 각 page 매뉴버튼 수정 (Save to File, Load from File)
+															// - Setup -> Tool 화면의 버튼이 깜박이는 현상 수정 
+
+//	P_VERSION = _T("DS200-20160727-1040-release");			// - maxxlink 적용 
+															// - NC File Check 옵션에 "profile" 명령 추가 
+
+// 	P_VERSION = _T("DS200-20160728-1400-release");			// - maxxlink 적용 
+															// - NC File Check 옵션에 "profile" 명령 추가 
+															// - 4WA 모델 추가 
+															// - FileReceiver2 버전 표시 
+
+//	P_VERSION = _T("DS200-20160729-1400-release");			// - maxxlink 버그 수정 
+															// - coord-offset upload 로그 기록 추가 
+															// - teaching-point upload 로그 기록 추가 
+
+
+//	P_VERSION = _T("DS200-20160801-1630-release");			// - 
+//	P_VERSION = _T("DS200-20160810-1550-release");			// - air purge on/off 수정. stop/error 시 20초 후 off 
+															// - remain milling time 시간 늘어나는 형상 수정 
+															// - setup -> teaching 화면 전환시 coordinate offset 데이터 갱신 안되는 현상 수정 
+
+// 	P_VERSION = _T("DS200-20160816-1420-release");			// - error 상태에서 setup -> coordinate offset 데이커를 읽지 못 하는 현상 수정 
+// 	P_VERSION = _T("DS200-20160816-1640-release");			// - multi-origin. auto teaching시 tool 교체 후 coordinate offset 값을 ㅤㅇㅣㄽ어 오도록 수정 
+
+// 	P_VERSION = _T("DS200-20160819-1500-release");			// Operation 화면에서 NC-File 선택 영역 크기 조정 
+															// Operation 화면에 선택된 NC-File 개수 출력 
+// 	P_VERSION = _T("DS200-20160824-1030-release");			// SABHO (Set Home Offset A/B) 명령 추가 및 Setup->System에 버튼 추가 
+
+// 	P_VERSION = _T("DS200-20160829-1530-release");			// do_measure 함수에 로그 기록 추가 
+// 															// multi origin 측정시 x축 측정 결과가 다르면 에러. PNC_ERR_MEASURE_RETURN_SAME_DATA
+// 															// Operation 화면의 NC-File List에서 선택 방법을 Select->Checking 에서 Checking 만 하도룩 수정 (Select 간소화)
+// 	P_VERSION = _T("DS200-20160829-1530-TEST");				// do_measure 함수에 로그 기록 추가 
+//	P_VERSION = _T("DS200-20160912-1430-release");			// auto cal. 중 z-originoffset 측정 결과를 a축 결과에서 z축 결과가 0.005 이하인지 확인하도록 수정 
+															// 남은 가공시간 계산식 변경 완료 
+//	P_VERSION = _T("DS200-20160921-1010-release");			// 가공중 Door가 열려서 Pause 되었을 경우, 메시지 박스 띄우도록 수정 
+															// 4WA 장비대응. Home 동작의 Wait시간 조정 (5초 -> 180초)
+
+//	P_VERSION = _T("DS200-20161010-1320-release2");			// 가공중 Tool에러 화면이 떳을 경우에도 Pruge air off 
+// 	P_VERSION = _T("DS200-20161015-1500-release");			//	if( PPAStatus->GetPAStatus()->nRunStatus == 0 || N_BUFFERED_COUNT <= 10 ) //N_BUFFERED_COUNT <= 1) 코드 수정 
+// 	P_VERSION = _T("DS200-20161031-test");					// 1. Auto Cal./Tool Teaching/Multi Origin Teaching 중 도어 인터락 Skip 기능 완료 
+// 															// 2. 가공 남은 시간이 0으로 변하는 현상 수정. 테스트 해야 함 
+// 															// 3. Auto Cal./Tool Teaching/Multi Origin Teaching 측정 파라메타 저장 기능 테스트 완료
+
+// 	P_VERSION = _T("DS200-20161101-1400-release");			// 1. Auto Cal./Tool Teaching/Multi Origin Teaching 중 도어 인터락 Skip 기능 완료 
+//	P_VERSION = _T("DS200-20161103-2000-release");			// 1. Auto Cal./Tool Teaching/Multi Origin Teaching 중 도어 인터락 Skip 기능 완료 
+															// 2. 가공 남은 시간이 0으로 변하는 현상 수정. 테스트 해야 함 
+															// 3. Auto Cal./Tool Teaching/Multi Origin Teaching 측정 파라메타 저장 기능 테스트 완료
+															// 4. Auto Teaching Tool Pocket 측정시 각 Point의 Z축 위치 따로 저장 
+
+//	P_VERSION = _T("DS200-20161118-2130-release");			// 1. Auto Cal. 허용 스펙 5um -> 2um
+															// 2. 오토켈 작업 순서 "A->B->X->Y->Z"로 수정 
+															// 3. 오토켈 수정 위치 따로 관리 (ex> A,B축은 +/-30 A,Y축은 +/-5)
+
+//	P_VERSION = _T("DS200-20161209-1330-release");			// 1. Purge Air On/Off시 복동 솔레노이드 신호 OFF
+															// 2. 이어서 실행시 F1000으로 고정되는 현상 수정. doToRun2()에서 Z축 위치 이동할때 F1000 사용
+
+//	P_VERSION = _T("DS200-20170111-1500-release");			// 1. 이어서 실행시 F값 변경되는 현상 수정 
+															// 2. Setup -> Teaching -> Option에 Tool Pocket Put Offset 값 추가 
+
+// 	P_VERSION = _T("DS200-20170111-1501-release");			// *1. 5축 동시 가공시, 끊어지는 현상 수정 
+															//	=> 연속 버퍼링 300. 버퍼링 최대 10000
+															// *2. Tool 사용시간 표시 오류 수정 
+															// *3. door open checking 기능 수정 (무한 로그 버그 수정)
+															// *4. 한글 메시지 수정 
+
+//	P_VERSION = _T("DS200-20170111-1502-release");			// 1. purge air 항상 온 일 경우, output on/off 현상 수정 
+// 	P_VERSION = _T("DS200-20170120-1800-release");			// RB2 작업 중 
+															// *1. FileSelect -> Start 했을때, FileOpen 에러 버그 수정 및 Run/Open 소스 정리 (feat. 김권일)
+															// *2. Error 로그 따로 관리 (추가 수정 완료)
+															// *3. NC File 전체 선택/해제 기능 
+															// 4. 일일 사용율 저장 및 화면 표시 기능 (binary 파일 -> text 파일로 변경)
+															//	---- commit 
+															// *5. 업그레이드 폴더에 모델 이름 추가 "epnc_upgrade_DS200-4WAS"
+															// *6. setup->teaching->coordinate의 데이터 수정을 RND 이상 에서 Manager 이상으로 수정 LRESULT CSetupTeachingCoordOffsetDlg::OnNotifyPointDataListBox(WPARAM wparam, LPARAM lparam)
+															// *7. DS200-4WAS 모델 추가 
+															//	  *> Model Name 부분 디스플레이 추가 
+															//    *> Setup 화면 버튼 구성 변경 (모델간 변경)
+															//	    - Setup->Option 화면도 수정해야 하지 않을까 ?
+															//	  *> nModel 변수 사용하는 코드 모두 찾아서 수정 (EPncM, EPncUI)
+															// 8. Main(Operation) 화면에 "Clean" 버튼 추가 
+															//	  > pa::CPAMotion::ClearRoom() 함수 수정 
+															//	  > clean 버튼 나오도록 수정 완료 
+															//	  > dotoRun2() 함수 수정 완료 
+															// 9. Multi-Origin 측정 후 결과 자동 저장 
+															//	  > case 56950: 완료 
+															// 10. Single Abutment 장비 Auto Calibration 기능 추가 
+															// ---- commit 
+															// 11. DM/DS 장비에 "Clean" 버튼 추가
+															// 12. DS200-4WAS 지원 
+															//	   > 화면 수정 (setup -> teaching -> coordinate -> auto cal. 화면)
+															//	   > auto cal. 기능 => a축 측정 기능 추가 해야 함 
+															//	   > ncfile running 기능 수정 
+															// ---- commit 
+															// *13. NC-File ListBox 확장 기능 
+															// *14. Copy to USB 기능  
+															// *15. spindle run시 pruge air on 시키는 기능 추가 -> 테스트 중 
+															// *16. 프로그램 시작될 때, log/spindle_log/ncfiles 폴더 생성  
+															// ---- commit 
+															// RB3으로 변경 
+															// *17. 가공 남은시간 계산 알고리즘 수정 
+															//	   > 수정은 완료. 테스트 해야 함. 테스트 완료 
+															// *18. 실행시 File Unselect, 이전에 열였던 파일을 열리지 안도록 
+															// *19. Setup->System->Home Offset 버튼을 5Z, 4W 장비만 보이도록, 4WA, 4WAS는 안보이도록 
+															// *20. Auto Cal. 중 Z Origin-Offset 기능 수정. (4축 장비의 경우 3->12, 9->6으로) 
+															//	   > 수정은 완료. 테스트 해야 함.
+															// *21. 제어기 IP 주소 변경 
+
+// 	P_VERSION = _T("DS200-20170217-1700-release");			// 4WAS Model. Single Abutment 오토켈 기능 테스트/디버깅 완료 
+// 	P_VERSION = _T("DS200-20170220-1045-release");			// 4WAS Model. Single Abutment 오토켈 기능 테스트/디버깅 완료 
+
+// 	P_VERSION = _T("DS200-20170330-0000-release");			// ChangeIP Dialog 기능 추가. PortNo. PC's IP 변경 기능 추가 
+															// ATC Teaching 할 때, 툴 번호가 0이면 툴을 안 잡고 측정하도록 수정 
+
+// 	P_VERSION = _T("DS200-20170331-1500-release");			// - 외부에서 에러 리셋을 했을 경우, 화면 번호가 Error로 남아 있는 현상 수정 
+															//   단, 에러난 상태에서 연결했을 경우, 에러 메시지 부분에 쓰레기 데이터 출력됨 
+															// - IP 변경 화면에 Port 변경 기능 및 PC의 IP 주소 변경하는 기능도 추가 
+
+// 	P_VERSION = _T("DS200-20170331-1501-release");			// - "OnBnClickedButtonCopyToUsb()" 함수에서 "USB 메모리없음" 메시지 수정  
+// 	P_VERSION = _T("DS200-20170401-maxxlink-test");
+// 	P_VERSION = _T("DS200-20170414-sorz-test");				// - sorz 명령 추가 
+															// 04.14 
+															// - move readypos 할 때, ab축 이동하지 않도록 수정 
+															// - single 좌표변환시 y축 roundbar position 적용  
+// 	P_VERSION = _T("DS200-20170414-sorz-test2");			// - 계산식 수정 
+// 	P_VERSION = _T("DS200-20170418-sorz-test");				// - 계산식 수정 
+															//   MultiOrigin Offset을 사용해서 걔산하는 부분을 제거. 환봉의 위치 옵셋만 계산 
+// 	P_VERSION = _T("DS200-20170424-1440-release");			// - maxxlink test 버전 병합 
+															// - 4was 모델의 sorz 명령 추가 버전 병합 
+
+// 	P_VERSION = _T("DS200-20170502-1500");					// - coordinate offset, z-origin-offset, multi-origin-offset 
+															// - auto calibration parameter 
+															// - atc auto teaching parameter 
+															// - multi-origin auto teaching parameter 
+															// => 데이터 범위 지정 
+															// - setup->teaching->auto teaching 화면에서 "load from file" 했을 때, 화면 업데이트 안되는 현상 수정 
+															// - test complete
+// 	P_VERSION = _T("DS200-20170427-1340-release");			// - multi origin 환봉 개수에 맞게, checkbox 개수 변경
+// 	P_VERSION = _T("20170515-0000-release");				// 1. #261 수정 
+
+// 	P_VERSION = _T("DS-20170519-1800-release");				// 1. #261 수정 
+// 	P_VERSION = _T("DS-20170519-1801-release");				// 버전 테스트 용 
+// 	P_VERSION = _T("DS-20170613-autoloader-test");				// 버전 테스트 용 
+// 	P_VERSION = _T("DS-20170622-autoloader-test");			// 1. 
+// 	P_VERSION = _T("DS-20170627-autoloader-test");			// 1. 
+//	P_VERSION = _T("DS-20170628-autoloader-test");			// 1. Teaching Point에 Autoloader Unloader 위치 추가 
+															// 2. M783, 785, 786 매크로에 Load/Unload 선택 파라메타 추가 
+//	P_VERSION = _T("DS-20170701-poweron-test-test");		// 1.
+
+// 	P_VERSION = _T("DS-20170721-poweron-air-limit");		// 1. air limit 시 pause 
+															// 2. 5a 모델에서 autoloader scan 동작 수정  
+															// 3. 이어서 실행할 라인 범위 확인 
+
+// 	P_VERSION = _T("DS-20170822-1300-test");				// 1. 일정시간 가공이 멈추었을 경우, 에러 처리 (PNC_ERR_ABNORMAL_STOP)
+															// 2. 에러가 났을 경우, 제어기 상태 데이터로 로그 기록 
+
+// 	P_VERSION = _T("DS-20170831-1300-test");				// 1. ds200-5z 원점재설정 기능 추가 
+
+
+// 	P_VERSION = _T("DS-20170901-1800-release");				// 
+// 	P_VERSION = _T("DS-20170901-5m-test-release");			// 
+
+// 	P_VERSION = _T("CM-20200326-001-test");					// 
+// 	P_VERSION = _T("CM-20200326-002-test");					// 
+// 	P_VERSION = _T("CM-20200326-003-test");					// Tool 리턴중 Teaching 화면 전환시 통신 에러 현상 수정 
+															// RND 암호 변경
+															// Auto Cal. 10회 retry 에러를 예외처리로 수정 
+															//
+
+// 	P_VERSION = _T("CM-20200326-004-test");					// Tool 화면에서 동작 중일 경우, BACK 버튼 Disable 
+// 	P_VERSION = _T("CM-20200610-001-test");					// PA 제어기에서 보내는 에러 메시지 출력
+															// Streaming 중 에러 발생시, 상태 체크 후 에러 다이어로그 표시 
+
+	
+// 	P_VERSION = _T("CM-20201012-001-test");					// Main 화면에 Tool 버튼 추가 
+															// Splash 화면을 추가 해서, 제어기가 초기화 될때까지 대기 
+															// Main 화면에 Tool 상태 표시 (에러 및 사용시간 알람) 
+																
+// 	P_VERSION = _T("CM-20201012-002-test");					// 초기화 중 제어기 에러 메시지 화면이 
+															// Splash 화면 뒤로 숨는 문제 수정 
+
+//	P_VERSION = _T("CM-20201012-003-test");					// 축 문자열 수정 (X1=>XL, X2=>XR, Spindle1=>Spindle L) 
+															//  - at_coordoffset_param.ini 
+															//  - at_toolpocket_param.ini 
+															//	- input_g1600_chairman.ini 
+															//	- output_g_1600_chairman.ini 
+															//	- TPOption.ini 
+
+//	P_VERSION = _T("CM-20201012-004-test");					// LCD의 작업 진행표시 버그 수정 (가공 시작할 때, 0%로 늦게 변하는 현상)
+// 	P_VERSION = _T("CM-20201012-005-test");					// I/O Map 확장 (ouptut 추가)
+
+// 	P_VERSION = _T("CM-20201012-006-test");					// Tool auto teaching 방법 수정 
+															// - Coordinate offset 값을 기준으로, 각 툴별로 Offset 값을 적용해서 Tool pocket의 위치를 계산 
+
+// 	P_VERSION = _T("CM-20201012-007-test");					// Homming 체크 방법 수정 
+															// LCD. IP 주소를 config 파일에서 읽어 오도록 수정 
+															// PA 제어기 IP변경 기능 수정
+															// 알림 다이얼로그가 가려지지 않도록 수정 
+
+//	P_VERSION = _T("CM-20201012-008-iomap-210322-test");	// IO-Map 210322 버전 적용 
+															//	- Water Vacuum Pump On Signal 신호 변경 (Setup->Teaching->M28/M29 Display 변경) 
+
+
+//	P_VERSION = _T("CM-20201012-009-test");					// 1. LCD Alive 신호를 Thread에서 보내도록 수정 (User Input 다이어로그가 나타나면 Blocking 됨) 
+															//	  CDTEX Timeout 후 LCD 나오는지 확인해야 함 
+															// 2. Auto Cal. 화면에 축 이름 변경 (Y1 -> YL) 
+															// 3. Input 개수를 20->24 개로 확장 
+															// 4. Tool 에러 메시지 안나오는 현상 수정 
+
+//	P_VERSION = _T("CM-20201012-010-test");					// 1. Tool에러 체크 부분 수정 
+															//	- 툴에러 후 통신에러발생시, 통신에러 코드가 툴에러 코드로 입력되는 현상 확인 및 수정 
+															// 2. UserConfirm 다이얼로드에 Tool 에러 메시지 변경 
+
+//	P_VERSION = _T("CM-20201012-011-test");					// 1. Tool 에러 일 때, 해당 툴을 반납하고, 해당 툴 번호만 리셋 하도록 수정 
+
+
+//	P_VERSION = _T("CM-20201012-012-test");					// 1. Git의 branch name과 버전명 매칭 
+															// 2. 이어 가공 종료 후 작업 진행율이 0으로 안되고, 간헐적으로 이어실행한 %로 표시되는 현상 수정  
+
+//	P_VERSION = _T("CM-20210721-001-test");					// 1. Calibration with tools inserted in collets instead of taken from ATC
+															// 2. English naming improvements (dialog messages, calibration)
+															// 3. NC file name in 2 lines, monospace font
+															// 4. Automatically loading soft limits
+															// 5. Corrected file info from TODO to real info
+															
+//	P_VERSION = _T("CM-20210722-001-Ndoor");				// 1. Allowed reconnect after disconnection
+															// 2. Translated Option menu
+															// 3. Fixed IO board still connected after cable disconnection
+
+//	P_VERSION = _T("CM-20210722-001-test");					// Version for old machines - old logic of milling room door
+
+
+//	P_VERSION = _T("CM-20210726-001-Ndoor");				// Version for new machines - changed logic of milling room door
+															// 1. Fixed switched saving of the soft limits in system/soft-limit menu
+
+//	P_VERSION = _T("CM-20210811-001-Ndoor");				// Version for new machines - changed logic of milling room door
+															// 1. TCP connection without delays
+															// 2. New LCD program
+															// 		2.a Sending Alive from LCD (checking connection)
+															//		2.b Sending version from LCD
+															//		2.c Enabling/disabling collet open buttons upon completion of the last command
+															// 3. Show LCD buttons even when in SETUP mode - disabling Start buttons
+															// 4. Improved reconnecting feature
+															// 5. Improved Settings -> Option menu functionality
+															//		5.a Fixed missing Enabling/disabling buttons upon actions
+															//		5.b Added description of water flow start settings
+															//		5.c Improved readability from language point of view
+															// 6. Fixed faulty disabling of step size button in jogging mode selection
+															// 7. Improved status LED signals - stop and need homing -> Cyan, jogging in continuous mode -> Yellow
+															// 8. Soft limit screen axis name changes (before XYZAB, now X,YL,ZL,YR,ZR)
+															
+//	P_VERSION = _T("CM-20210812-001-Ndoor");				// Version for new machines - changed logic of milling room door
+															// 1. New LCD program
+															// 		1.a Added error code and brief description to error screen
+															//		1.b Added Emergency stop screen dedicated to emergency stop states
+															//		1.c [removed] Enabling/disabling collet open buttons upon completion of the last command
+															//		1.d Verifying and executing commands based on current controller state (idle, no motion)
+															//		1.e Fixed other bugs related to LCD communication
+																											
+//	P_VERSION = _T("CM-20210813-001-Ndoor");				// 1. Allowed STOP and EMO commands from LCD to go through in any case except of error state
+
+//	P_VERSION = _T("CM-20210817-001-Ndoor");				// 1. Changed logic of connecting/reconnecting sockets
+															//		Before:	separated, 2 timeouts
+															//		Now:	same loop to initialize both connections
+
+//	P_VERSION = _T("CM-20210820-001-Ndoor");				// 1. bugs with LCD - collet open without air -> fatal error, start/stop pressed multiple times -> fatal error
+
+//	P_VERSION = _T("CM-20210823-001-Ndoor");				// 1. Fixed START/STOP button click handling in chairman program - before multiple clicks caused crash and dangerous situation
+															//
+
+//	P_VERSION = _T("CM-20210823-001-Ndoor_FIX");			// 1. Fixed START/STOP button click handling in chairman program - before multiple clicks caused crash and dangerous situation
+															// 2. Changed jog color to cyan, fixed reconnecting LCD
+															//
+//	P_VERSION = _T("CM-20210827-001-Ndoor");				// 1. Fixed not reconnecting to LCD (added connection test while reocnnecting + resetting connected flag whenever a page is changed)
+															// 2. Different layout of the tool setup screen
+															//
+//	P_VERSION = _T("CM-20210908-001-Ndoor");				// 1. Major change to tool setup screen 
+															//	1.a Improved functionality (+ set spindle speed, + set tool (disabled for now - 범희락부사장님), tool time management)
+															//	1.b Improved safety (running spindle -> disable get/return tool)
+															//	1.c Improved layout left/right
+															//	1.d Improved graphics (new resource files, color buttons)
+															//	1.e Improved time management dialog
+															//	1.f Improved error handling (tool reset -> error reset -> get tool possible only after previous)
+															//	1.g Button text size 16 -> 18
+															//	1.h Added M28/M29 (water start/stop) button in the tool screen
+															// 2. Different tool maximum time management
+															//	2.a Added error code 105 - tool overtime
+															//	2.b Tool error 105 (overtime) does not display as "tool error occurred" on the main screen, only "max. time reached"
+															//	2.c Main screen shows tool running time hours x:xx:xx instead of xxx:xx
+															//	2.d The time is always incremental even though the maximum time is set
+															// 3. Added condition to start NC file sequence - all tools must be error-free (no overtime, no error)
+															// 4. Added GET functions to the CImgButtonEx2 class
+															// 5. Changed "Chairman" to "Chairman 5X" in UI (main background, loading screen)
+															// 6. Changed button names in soft limit screen to "Load" and "Save" - confused "upload" and "download" were wrong
+
+//	P_VERSION = _T("CM-20210916-001-Ndoor");				// 1. Fix to tool setup screen 
+															//	1.a fixed reseting tool time via "Set time" dialog
+															// 2. Major changes to main screen
+															//	2.a Improved tool status graphics
+															
+//	P_VERSION = _T("CM-20210917-001-Ndoor");				// 1. Fix to tool setup screen 
+															//	1.a (NOT!!!)fixed showing yellow(orange) tool when the tool maximum time is not enabled
+															
+//	P_VERSION = _T("CM-202101005-001-Ndoor");				// 1. + MAINTENANCE SCREEN
+															// 2. big main screen improvements
+															// 3. added (hardcoded) number of millings left for tool time reset screen
+
+//	P_VERSION = _T("CM-20211008-001");						// TBA
+
+//	P_VERSION = _T("CM-20211012-001");						// 1. Added log messages 
+															// 	1.a each maintenance message + for maintenance clicks
+															// 	1.b improved messages for tools and others
+															// 2. FIXED bug when coming from setup menu as manager, the TOOLS/maintennace buttons go to their screens also as manager - now resetting the authority on menu exit if not selected
+															// 3. FIXED no tool error showing in some cases when the tool time is exceeded
+															// 4. Maintenance interval change is now possible only with authority of manager and above
+													
+//	P_VERSION = _T("CM-20211013-001");						// 1. The tool overtime error is now updated in the MDLL - more stable
+															// 2. There is a message on milling when a maintenance required - OK/CANCEL
+															// 3. Disabled set error buttons, maintenance buttons
+															
+//	P_VERSION = _T("CM-20211013-002");						// 1. capping execution progress to 99% when not finished
+	
+//	P_VERSION = _T("CM-20211014-001");						// 1. fixed progress bar
+															// 2. partly fixed LCD progress bar + timer when the milling is finished
+
+//	P_VERSION = _T("CM-20211014-002");						// 1. fixed progress bar - never showing 100% when running
+
+//	P_VERSION = _T("CM-20211020-001");						// 1. Changed 1, 4 tool diameter showing from 2.0 to 1.6 mm
+															// 2. Made texts on main screen graphic due to different showing on different machines
+
+//	P_VERSION = _T("CM-20211021-001");						// 1. Changed tool diameters to Roughing (1,4), Finishing (2,5), Groove (3,6) tools
+	
+//	P_VERSION = _T("CM-20211022-001");						// 1. Changed tool diameters to Roughing (1,4), Finishing (2,5), Finishing (3), Groove (6) tools
+															// 2. Removed unused action when tool error occurs (OPTIONS)
+	
+	P_VERSION = _T("CM-20211027-001");						// 1. Added test LCD function in setup/system menu (LCD page 7)
+															// 2. Fixed bug when LCD milling time, progress bar and percentage were updated even though there is no need
+															// 3. Improved messages during auto calibration
+	
+
+	if( isRunningProgram() ) {
+		// TODO: is this fine to do?
+		HANDLE hEvent_ = OpenEvent( EVENT_ALL_ACCESS, FALSE, _T("EVT_EPNCUI") );
+		if( hEvent_ != NULL ) {
+			SetEvent( hEvent_ );
+		}
+
+		Sleep(1000);
+
+		AfxMessageBox( _T("EPncUI is already running..."), MB_OK|MB_ICONINFORMATION );
+
+		CloseHandle( hEvent_ );
+
+		return FALSE;
+	}
+
+	CSplashDlg::INITIALIZE_DLG();
+
+	bNoNeedEnterPassword_ = FALSE;
+
+// 	hJogMode_ = KB_JOG_MODE_NONE;
+	hKeyboardMgeReceiveWnd_ = NULL;
+
+	pa::MODEL_INFO.Load();
+	LoadPW();
+
+	CEPncUIDlg2 dlg;
+	m_pMainWnd = &dlg;
+	INT_PTR nResponse = dlg.DoModal();
+	if (nResponse == IDOK)
+	{
+		// TODO: 여기에 [확인]을 클릭하여 대화 상자가 없어질 때 처리할
+		//  코드를 배치합니다.
+	}
+
+	// 대화 상자가 닫혔으므로 응용 프로그램의 메시지 펌프를 시작하지 않고  응용 프로그램을 끝낼 수 있도록 FALSE를
+	// 반환합니다.
+	return FALSE;
+}
+
+BOOL CEPncUIApp::MotionDone( BOOL checkingMotorStop )
+{
+	BOOL b = (BOOL)( pa::PPAStatus->GetPAStatus()->nRunStatus == pa::PA_RUN_STATUS_IDLE );
+
+	if( checkingMotorStop )
+	{
+		b &= IsMotorStop();
+	}
+
+	return b;
+}
+
+BOOL CEPncUIApp::IsMotorStop()
+{
+// 	BOOL b = TRUE;
+// 
+// 	for( int i = 0; i<pa::PSWConfig->GetConfigData()->nNumAxis; i++ )
+// 	{
+// 		if( fabs(pa::PPAStatus->GetPAStatus()->fVelocity[i]) > 0.2 )		// > 0.05
+// 		{
+// 			b = FALSE;
+// 			break;
+// 		}
+// 	}
+// 	if( b && pa::PAutoLoader->IsUsingAutoLoader() ) {
+// 		// autolaoder 축의 모터 상태를 확인 한다 
+// 	}
+// 
+// 	return b;
+
+	BOOL bRet = (pa::PPAStatus->GetPAStatus()->nMotorMovingFlag == 0) ? TRUE : FALSE;
+
+	return bRet;
+}
+ 
+int CEPncUIApp::ExitInstance()
+{
+	return CWinApp::ExitInstance();
+}
+
+//////////////////////////////////////////////////////////////////////////
+// Keyboard를 이용한 jog 이동 기능을 이 곳에 구현한다  
+//////////////////////////////////////////////////////////////////////////
+/*
+	left	: 37	X+
+	right	: 39	X-
+	up 		: 38	Y-
+	down	: 40	Y+
+	pageup 	: 33	Z-
+	pagedown: 34	Z+
+
+	<		: 188	A+
+	>		: 190	A-
+	P		: 79	B+
+	L		: 76	B-
+
+	+ 		: 187	JOG/SPD+
+	- 		: 189	JOG/SPD-
+*/
+
+BOOL CEPncUIApp::PreTranslateMessage(MSG* pMsg)
+{
+	CString strTrace;
+	BOOL	process = FALSE;
+
+	/*
+	if( hJogMode_ != KB_JOG_MODE_NONE ) 
+	{
+		if( hJogMode_ == KB_JOG_MODE_XYS ) 
+		{
+			//////////////////////////////////////////////////////////////////////////
+			// XY-Stage의 Jog 기능. GetKeyState 함수를 사용해서 특수키 상태를 읽을 수 있다
+			UINT virtualKeyCode = pMsg->wParam;
+			BOOL pressShiftKey = (BOOL)(GetAsyncKeyState( VK_LSHIFT ) != 0);	// LSHIFT 키 상태 조회  
+			BOOL bStep = pressShiftKey;
+
+			if( pMsg->message == WM_KEYDOWN ) 
+			{
+				strTrace.Format( _T("KEY CODE: %d\n"), virtualKeyCode );
+
+				switch( virtualKeyCode )
+				{
+				case 37:	// X+
+					startJog( pmac::AXIS_X, bStep, TRUE  ); process = TRUE; break;
+				case 39:	// X-
+					startJog( pmac::AXIS_X, bStep, FALSE ); process = TRUE; break;
+				case 38:	// Y+
+					startJog( pmac::AXIS_Y, bStep, TRUE  ); process = TRUE; break;
+				case 40:	// Y-
+					startJog( pmac::AXIS_Y, bStep, FALSE ); process = TRUE; break;
+				case 33:	// Z-
+					startJog( pmac::AXIS_Z, bStep, TRUE  ); process = TRUE; break;
+				case 34:	// Z+
+					startJog( pmac::AXIS_Z, bStep, FALSE ); process = TRUE; break;
+				case 188:	// A+
+					startJog( pmac::AXIS_A, bStep, TRUE  ); process = TRUE; break;
+				case 190:	// A-
+					startJog( pmac::AXIS_A, bStep, FALSE ); process = TRUE; break;
+				case 79:	// B+
+					startJog( pmac::AXIS_B, bStep, TRUE  ); process = TRUE; break;
+				case 76:	// B-
+					startJog( pmac::AXIS_B, bStep, FALSE ); process = TRUE; break;
+
+				case 187:	// Jog Spd+
+					setMotorOverride( pmac::PState->GetPmacState()->nMotorOverride + 5 ); process = TRUE; break;
+				case 189:	// Jog Spd-
+					setMotorOverride( pmac::PState->GetPmacState()->nMotorOverride - 5 ); process = TRUE; break;
+				}
+				strTrace.Format(_T("VIRTUAL KEY : %d\n", virtualKeyCode ));
+				TRACE( strTrace );
+			}
+			else if( pMsg->message == WM_KEYUP ) 
+			{
+				switch( virtualKeyCode )
+				{
+				case 37:	// X+
+				case 39:	// X-
+					stopJog( pmac::AXIS_X ); process = TRUE; break;
+				case 38:	// Y-
+				case 40:	// Y+
+					stopJog( pmac::AXIS_Y ); process = TRUE; break;
+				case 33:	// Z-
+				case 34:	// Z+
+					stopJog( pmac::AXIS_Z ); process = TRUE; break;
+				case 188:	// A+
+				case 190:	// A-
+					stopJog( pmac::AXIS_A ); process = TRUE; break;
+				case 79:	// B+
+				case 76:	// B-
+					stopJog( pmac::AXIS_B ); process = TRUE; break;
+				}
+			}
+			//////////////////////////////////////////////////////////////////////////
+		}
+		else if( hJogMode_ == KB_JOG_MODE_AL )
+		{
+			UINT virtualKeyCode = pMsg->wParam;
+			BOOL pressShiftKey = (BOOL)(GetAsyncKeyState( VK_LSHIFT ) != 0);	// LSHIFT 키 상태 조회  
+			BOOL bStep = pressShiftKey;
+			//////////////////////////////////////////////////////////////////////////
+			// AutoLoader의 Jog 기능 
+			if( pMsg->message == WM_KEYDOWN ) 
+			{
+				switch( virtualKeyCode )
+				{
+				case 33:	// Z-
+					startJog( (pmac::EN_AXIS)5, bStep, TRUE  ); process = TRUE; break;
+				case 34:	// Z+
+					startJog( (pmac::EN_AXIS)5, bStep, FALSE ); process = TRUE; break;
+
+				case 187:	// Jog Spd+
+					setMotorOverride( pmac::PState->GetPmacState()->nMotorOverride + 5 ); process = TRUE; break;
+				case 189:	// Jog Spd-
+					setMotorOverride( pmac::PState->GetPmacState()->nMotorOverride - 5 ); process = TRUE; break;
+				}
+			}
+			else if( pMsg->message == WM_KEYUP ) 
+			{
+				switch( virtualKeyCode )
+				{
+				case 33:	// Z-
+				case 34:	// Z-
+					stopJog( (pmac::EN_AXIS)5 ); process = TRUE; break;
+				}
+			}
+			//////////////////////////////////////////////////////////////////////////
+		}
+	}
+	*/
+
+	if( hKeyboardMgeReceiveWnd_ != NULL && ( pMsg->message == WM_KEYDOWN || pMsg->message == WM_KEYUP ) )
+	{
+		LRESULT lr = ::SendMessage( hKeyboardMgeReceiveWnd_, WM_HCCHA_KEY_MSG, (WPARAM)pMsg, (LPARAM)0 );
+
+		process = (lr == 0) ? FALSE : TRUE;
+	}
+
+//	return CWinApp::PreTranslateMessage(pMsg);
+	BOOL bRet = TRUE;
+	if( !process ) {
+		bRet = CWinApp::PreTranslateMessage(pMsg);
+	}
+	return bRet;
+}
+
+void CEPncUIApp::MsgPump()
+{
+	MSG msg;
+
+	if( PeekMessage( &msg, NULL, 0, 0, PM_REMOVE ) ) 
+	{
+		if( msg.message == WM_QUIT )
+		{
+			PostQuitMessage( 0 );
+			return ;
+		}
+		TranslateMessage( &msg );
+		DispatchMessage( &msg );
+	}
+}
+
+void CEPncUIApp::LoadPW()
+{
+	CCEIniFile	hIniFile;
+	CString		strTemp;
+
+	hIniFile.Open( INI_PW_PATH );
+
+	hIniFile.GetValue( _T("PW"), _T("MGR"), &strTemp );
+	pa::STR_USER_MODE_PW[pa::USER_MODE_MGR] = strTemp;
+
+	hIniFile.Close();
+}
+
+void CEPncUIApp::SavePW( pa::EN_USER_MODE hUserMode, CString strPW )
+{
+	CCEIniFile	hIniFile;
+	CString		strTemp;
+
+	hIniFile.Open( INI_PW_PATH );
+
+	switch( hUserMode )
+	{
+	case pa::USER_MODE_USR:
+		break;
+	case pa::USER_MODE_MGR:
+		hIniFile.SetValue( _T("PW"), _T("MGR"), strPW );
+		break;
+	case pa::USER_MODE_RND:
+		break;
+	}
+
+	hIniFile.Close();
+}
+
+BOOL CEPncUIApp::isRunningProgram( void )
+{
+	BOOL	bRtValue= FALSE;
+	HANDLE	hMutex	= ::OpenMutex( MUTEX_ALL_ACCESS, FALSE, _T("Robots and Design : EPncUI") );
+
+	if( hMutex != NULL ) { bRtValue = TRUE; }
+	else 
+	{
+		int		nCount = 0;
+		while( hMutex == NULL && nCount < 5 )
+		{
+			hMutex = ::CreateMutex( NULL, FALSE, _T("Robots and Design : EPncUI") );
+			nCount++;
+		}
+		if( hMutex == NULL ) bRtValue = TRUE;
+	}
+
+	return bRtValue;
+}

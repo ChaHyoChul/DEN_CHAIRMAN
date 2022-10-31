@@ -1,0 +1,197 @@
+#pragma once
+
+class CPncIpcClient
+{
+private:
+	hcipc::CIpcQueue	*pIpcClient_;
+
+public:
+	BOOL Initialize( CString& strErrMsg );
+	void Destroy();
+
+	void Send( pa::SIpcCommCommand* pCommand );
+
+	//////////////////////////////////////////////////////////////////////////
+
+	void Emergency();
+
+	void ErrorReset();
+
+	void Home();
+
+	void Open( int nIndex );
+
+	void Close();
+
+	void Run( int dwStartLine );
+
+	void Pause();
+
+	void Stop();
+
+	//////////////////////////////////////////////////////////////////////////
+
+	void SendCommand( char* p, DWORD dwTimeout );
+
+	void SendMDACommand( char* p );
+
+	void Servo( pa::EN_AXIS axis, BOOL bOnOff );
+
+	void StartJog( pa::EN_AXIS axis, BOOL dir, BOOL cnt, double dist );
+
+	void StopJog( pa::EN_AXIS axis, BOOL dir );
+
+	void ToolClamp( BOOL bDirection, BOOL bClamp );
+
+	void BlockClamp( BOOL bClamp );
+
+//	void Melody( pa::EN_MELODY hMelody );
+
+	void ATCDoor( BOOL bOpen );
+
+	void ResetToolUsingTime( int nToolNo, BOOL resetCurrentTime, DWORD dwMaximumTime );
+
+	void ToolErrorClear( int nToolNo );
+
+	void ToolSetNumber( int nToolNo, int nTool2No );
+
+	void SetSpindleRPM( int newRPM );
+
+	void AutoLoaderReFill();
+
+	void StopAutoLoaderReFill();
+
+	void SaveConfig();
+
+	void SaveAutoLoaderConfig();
+
+	void UploadCoordinateOffset();
+	void UploadTeachingPoint();
+	void UploadOption();
+	void UploadAutoLoaderTeachingPoint();
+	void UploadFlowSensorData();
+	void UploadSoftLimit();
+
+	void DownloadCoordinateOffset();
+	void DownloadTeachingPoint();
+	void DownloadOption();
+	void DownloadAutoLoaderTeachingPoint();
+	void DownloadFlowSensorData();
+	void DownloadSoftLimit();
+
+	//////////////////////////////////////////////////////////////////////////
+	// 2017.03.24 
+	void UploadOperationM28();
+	void DownloadOperationM28();
+	//////////////////////////////////////////////////////////////////////////
+
+// 	void SaveParam();
+
+	void MoveReadyPosition();
+	void MoveReadyPosition2();
+	void MoveAutoLoaderReadyPosition();
+
+	void SetHomeOffset();
+	void SetHomeOffsetAB();
+
+	//////////////////////////////////////////////////////////////////////////
+	// Manual Operation
+	//////////////////////////////////////////////////////////////////////////
+
+	void ALR_OpenDoor();	
+	void ALR_CloseDoor();
+	void ALR_Gripper_Grip();
+	void ALR_Gripper_Ungrip();
+	void ALR_Hand_Forward();
+	void ALR_Hand_Backward();
+	void ALR_Rotate_Cassette();
+	void ALR_Rotate_XYStage();
+	void ALR_GetBlockFromCassette( int nBlockNo );
+	void ALR_PutBlockToCassette( int nBlockNo );
+	void ALR_LoadingBlockToXYStage( int nLoadUnload );
+	void ALR_ReturnArmToAcssette( int nLoadUnload );
+	void ALR_ExtendArmToStage( int nLoadUnload );
+	void ALR_UnloadingBlockToCassette( int nLoadUnload );
+
+	void ALR_BlockSensingPosition( int nBlockNo );
+	void ALR_BlockBarcodeReadPosition( int nBlockNo );
+	void ALR_ReadBarcode();
+
+	void XYS_Gripper_Grip();
+	void XYS_Geipper_Ungrip();
+	void XYS_Gripper_Up();
+	void XYS_Gripper_Donw();
+	void XYS_MoveBlockLoadPos( int nLoadUnload );
+	void XYS_MoveBlockWorkPos();
+
+	//////////////////////////////////////////////////////////////////////////
+	//
+	//////////////////////////////////////////////////////////////////////////
+	
+	void SaveLeftToolTotalTime();
+	void SaveRightToolTotalTime();
+	void SaveCleanTotalTime();
+	void SaveFilterTotalTime();
+
+	//////////////////////////////////////////////////////////////////////////
+	//
+	//////////////////////////////////////////////////////////////////////////
+
+	void Start_AutoCal_CoordinateOffset();
+	void Stop_AutoCal_CoordinateOffset();
+
+	void Start_AutoTeach_MultiOrigin();
+	void Stop_AutoTeach_MultuOrigin();
+
+	void Start_AutoTeach_ToolPocket();
+	void Stop_AutoTeach_ToolPocket();
+
+	void Start_SA_AutoCal_CoordinateOffset_A();
+	void Stop_SA_AutoCal_CoordinateOffset_A();
+
+	void Start_SA_AutoCal_CoordinateOffset_XYZ();
+	void Stop_SA_AutoCal_CoordinateOffset_XYZ();
+
+	//////////////////////////////////////////////////////////////////////////
+	//
+	//////////////////////////////////////////////////////////////////////////
+
+	void CleanRoom( BOOL bOn );
+
+	//////////////////////////////////////////////////////////////////////////
+	//
+	//////////////////////////////////////////////////////////////////////////
+
+	void ChangeIPAddress( char cBoard );		// board. 0:pa, 1:io
+
+	void UploadIPAddress();						// ip주소를 읽어서 저장한다 
+	
+	void TestLCD();
+	
+	void UpdateLCD();
+
+	//////////////////////////////////////////////////////////////////////////
+	//
+	//////////////////////////////////////////////////////////////////////////
+		
+	void Start_ATCTest();
+	void Stop_ATCTest();
+
+	//////////////////////////////////////////////////////////////////////////
+
+	void ResetOrigin( int axis_no );			// 원점 재설정 기능
+	
+	void ReturnItems();
+
+	// 2020.03.19 추가 
+	void SendSALF();
+	void SendSFSF();
+	void SendWPAR();
+
+public:
+	CPncIpcClient(void);
+	~CPncIpcClient(void);
+};
+
+extern CPncIpcClient	*PPNC_IPC_CLIENT;
+

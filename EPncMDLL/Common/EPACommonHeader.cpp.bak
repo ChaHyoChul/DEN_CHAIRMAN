@@ -1,0 +1,1124 @@
+//////////////////////////////////////////////////////////////////////////
+//
+//////////////////////////////////////////////////////////////////////////
+#include "stdafx.h"
+#include "EPACommonHeader.h"
+
+namespace pa 
+{
+//////////////////////////////////////////////////////////////////////////
+
+EN_USER_MODE	USER_MODE = USER_MODE_USR;
+CString	STR_USER_MODE[USER_MODE_NUM] =
+{
+	_T("User"),
+	_T("Manager"),
+	_T("RND")
+};
+
+CString GET_RND_PASSWORD()
+{
+	CString strRndPassword;
+
+	int month = pa::PPAStatus->GetThreadState()->nPAMonth;
+	int day = pa::PPAStatus->GetThreadState()->nPADay;
+
+	int mTenth = month / 10 + 1;
+	int mOneth = (month % 10 + 1) % 10;
+
+	int dTenth = day / 10;
+	int dOneth = day % 10;
+
+	// Password is a four digit passcode: (M+1)(M+1)DD
+	//strRndPassword.Format(_T("%d%d%d%d"), mTenth, mOneth, dTenth, dOneth);
+	strRndPassword.Format(_T("%d%d%d%d"), mTenth, mOneth, mTenth, mOneth);
+
+	return strRndPassword;
+}
+
+CString	STR_USER_MODE_PW[USER_MODE_NUM] =
+{
+	_T(""),
+	_T("1234"),
+	_T("100321")
+};
+
+void SET_CURRENT_USERMODE(EN_USER_MODE user_mode)
+{
+	pa::PPAStatus->GetThreadState()->hUserMode = user_mode;
+}
+
+EN_USER_MODE GET_CURRENT_USERMODE()
+{
+	return pa::PPAStatus->GetThreadState()->hUserMode;
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+CString STR_PA_RUN_STATUS[] = 
+{
+	_T("Idle"),
+	_T("Run"),
+	_T("Unknown"),
+	_T("Error"),
+	_T("Pause")
+};
+
+CString STR_COORDINATE[COORD_NUM] = 
+{
+	_T("G53"),
+	_T("G54"),
+};
+
+CString STR_TEACHING_POINT[TEACHING_POINT_NUM] =
+{
+	_T("Left Tool No.1"),
+	_T("Left Tool No.2"),
+	_T("Left Tool No.3"),
+	_T("Right Tool No.4"),
+	_T("Right Tool No.5"),
+	_T("Right Tool No.6"),
+	_T("Ready Position #1"),
+	_T("Ready Position #2"),
+	_T("Left Tool Sensing Up"),
+	_T("Left Tool Sensing Down"),
+	_T("Right Tool Sensing Up"),
+	_T("Right Tool Sensing Down"),
+};
+
+int N_TEACHING_POINT_NO[TEACHING_POINT_NUM] =
+{
+	1,
+	2,
+	3,
+	4,
+	5,
+	6,
+	9,
+	18,
+	19,
+	20,
+	21,
+	22
+};
+
+// CString STR_OPTION[OPTION_NUM] =
+// {
+// 	_T("Z1Axis Origin Offset"),
+// 	_T("Z2Axis Origin Offset"),
+// 	_T("Spindle Offset(XR-XL)"),
+// 	_T("Tool Sensing High Speed"),
+// 	_T("Tool Sensing Low Speed"),
+// 	_T("Tool Sensing Margin"),
+// 	// 2017.01.11
+// 	_T("Tool Pocket Put Offset")
+// };
+
+CString STR_OPTION[OPTION_NUM] =
+{
+	_T("ZLAxis Origin Offset"),
+	_T("ZRAxis Origin Offset"),
+	_T("Spindle Offset(XR-XL)"),
+	_T("Tool Sensing High Speed"),
+	_T("Tool Sensing Low Speed"),
+	_T("Tool Sensing Margin"),
+	// 2017.01.11
+	_T("Tool Pocket Put Offset")
+};
+
+CString STR_NC_FILESTATE[MAX_NCFILE_NUM] = 
+{
+	_T("Before"),
+	_T("Run"),
+	_T("Complete"),
+	_T("Stop"),
+	_T("Error")
+};
+
+COLORREF CLR_NC_FILESTATE[NCFILE_STATE_NUM] =
+{
+	RGB( 200, 120,  80 ),	// Before
+	RGB( 120, 200, 120 ),	// Run
+	RGB( 120, 120, 200 ),	// Complete
+	RGB( 200, 120, 200 ),	// Stop
+	RGB( 255, 100, 100 )	// Error
+};
+
+CString STR_RUNMODE[RUNMODE_NUM] = 
+{
+	_T("Stop"),
+	_T("ToStop"),
+	_T("ToRun"),
+	_T("Run"),
+	_T("Init."),
+	_T("Error"),
+	_T("Pause")
+};
+
+//////////////////////////////////////////////////////////////////////////
+
+CString STR_AUTOLOADER_TEACHING_POINT_NAME[AUTOLOADER_TP_NUM] =
+{
+	_T("First_Block_Position"),
+	_T("Block_Exchinging_Position"),	//_T("Rotation_Position"),
+	_T("Block_Pitch"),
+	_T("GetPut_Down_Strock"),	
+	_T("GetPut_Up_Strock"),
+	_T("GetPut_Sensing_Offset"),
+	_T("GetPut_BarcodeSensing_Offset"),
+	_T("Gripper_Put_Offset"),
+	_T("GetPut_Fast_Speed"),
+	_T("GetPut_Slow_Speed"),
+	_T("Slot_Jump_Number"),
+	_T("Slot_Jump_Dist"),
+	_T("Gripper_Get_Offset"),
+	_T("Block_Load_Unload_A_Pos"),
+	_T("Block_Load_Ubload_B_Pos"),
+	_T("Number_Of_Block")
+};
+
+CString STR_BLOCK_STATE[BLOCK_STATE_NUM] = {
+	_T("Empty"),
+	_T("Ready"),
+	_T("Running"),
+	_T("Complete"),
+	_T("Error"),
+	_T("Lost")
+};
+
+//////////////////////////////////////////////////////////////////////////
+// input bit 번호 저장 
+#ifdef _PA_G2400_
+// input bit 번호 저장 
+int SPAStatus::INPUT_BIT_NO[IN_NUM] = 
+{
+	101, 102, 103, 104, 105, 106, 107, 108, 109, 110,
+	111, 112, 113, 114, 115, 116, 117, 118, 119, 120,
+	121, 122, 123, 124, 125, 126, 127, 128, 129, 130,
+	131, 132
+};
+
+// output bit 번호 저장 
+int SPAStatus::OUTPUT_BIT_NO[OUT_NUM] = 
+{
+	101, 102, 103, 104, 105, 106, 107, 108, 109, 110,
+	111, 112, 113, 114, 115, 116, 117, 118, 119, 120,
+	121, 122, 123, 124, 125, 126, 127, 128, 129, 130,
+	131, 132
+};
+#endif 
+
+#ifdef _PA_G1600_
+// input bit 번호 저장 
+
+int SPAStatus::INPUT_BIT_NO[IN_NUM] = 
+{
+	10001, 10002, 10003, 10004, 
+	10005, 10006, 10007, 10008,
+
+	20001, 20002, 20003, 20004, 20005,
+	20006, 20007, 20008, 20009, 20010,
+	20011, 20012
+};
+
+// output bit 번호 저장 
+int SPAStatus::OUTPUT_BIT_NO[OUT_NUM] = 
+{
+	13, 14, 15, 16, 
+	17, 18, 19, 20,
+	20033, 20034, 20035, 20036, 
+	20037, 20038, 20039, 20040, 
+	20041, 20042, 20043, 20044, 
+	20045, 20046, 20047, 20048
+};
+#endif
+//////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////
+
+// TCHAR*	P_NCFILE_PATH		= _T("\\SD Card\\ncfiles");			// 프로그램에서 사용하는 NC 파일 경로 ( \\SD Card\\ncfiles )
+// 
+// TCHAR*	P_LOG_FILE_PATH		= _T("\\SD Card\\Log");				// 
+
+// TODO: figure this out
+TCHAR* P_USB_NCFILE_PATH = NCFILE_PATH;				// USB 메모리의 NC 파일 경로 ( \\하드 디스크 )
+
+void GET_NCFILE_FULL_PATH( CString& strNCFileName )
+{
+	strNCFileName = CString( NCFILE_PATH ) + CString( _T("\\") ) + strNCFileName;
+}
+
+//////////////////////////////////////////////////////////////////////////
+// FileMgr 화면 컬러 정의
+// COLORREF CLR_FILEMGR_MAIN		= RGB( 96, 96, 216 );
+// COLORREF CLR_FILEMGR_REGISTER	= RGB( 96, 96, 216 ); //RGB( 198, 255, 255 );
+// COLORREF CLR_FILEMGR_COPY		= RGB( 96, 96, 216 );
+COLORREF CLR_FILEMGR_MAIN		= RGB( 96, 96, 216 );
+COLORREF CLR_FILEMGR_REGISTER	= RGB( 198, 255, 255 ); //RGB( 198, 255, 255 );
+COLORREF CLR_FILEMGR_COPY		= RGB( 250, 224, 212 );
+
+//////////////////////////////////////////////////////////////////////////
+// Setup 화면 컬러 정의 
+COLORREF CLR_SETUP_MAIN			= RGB( 220, 220, 220 );
+COLORREF CLR_SETUP_TEACHING		= RGB( 198, 255, 255 );
+COLORREF CLR_SETUP_TOOL			= RGB( 209, 255, 202 );
+COLORREF CLR_SETUP_ATC			= RGB( 209, 209, 207 );
+COLORREF CLR_SETUP_AUTOLOADER	= RGB( 250, 224, 212 );
+COLORREF CLR_SETUP_OPTION		= RGB( 255, 198, 255 );
+COLORREF CLR_BUTTON_EMO_RESET	= RGB( 255, 64, 64 );
+COLORREF CLR_BUTTON_BACK		= RGB( 128, 128, 220 );
+COLORREF CLR_SETUP_IO			= RGB( 198, 255, 255 );
+COLORREF CLR_SETUP_LOG			= RGB( 250, 244, 192 );
+COLORREF CLR_SETUP_BKGND		= RGB( 190, 190, 190 );
+COLORREF CLR_SETUP_MAINTENANCE	= RGB( 255, 255, 255 );//RGB( 220, 220, 255 );
+
+
+
+//////////////////////////////////////////////////////////////////////////
+// Multi-Origin Data
+//////////////////////////////////////////////////////////////////////////
+
+BOOL SMultiOriginData::Load( TCHAR* pFilePath, CString& strErrMsg, BOOL bCheckError )
+{
+	CCEIniFile	hIniFile;
+	CString		strKeyName, strValueName;
+
+	//////////////////////////////////////////////////////////////////////////
+	// 파일이 없을 경우, 모두 0으로 초기화 한다 
+	CString strFilePath;
+	strFilePath.Format( _T("%s"), pFilePath );
+	if( hcutil::IsExistFile( strFilePath ) == FALSE )
+	{
+		memset((void*)this, 0, sizeof(SMultiOriginData) );
+		return TRUE;
+	}
+	//////////////////////////////////////////////////////////////////////////
+
+	strErrMsg.Format( _T("") );
+
+	hIniFile.Open( pFilePath );
+
+	strKeyName.Format( _T("multi_origin_gcode") );
+
+	hIniFile.GetValue( strKeyName, _T("num"), (int*)&nNumGCode );
+
+	// 범위를 비교하기 위해, 범위 데이터를 먼저 읽는다 
+	hIniFile.GetValue( _T("Offset"), _T("Min"), (double*)&fOffset_Min_ );
+	hIniFile.GetValue( _T("Offset"), _T("Max"), (double*)&fOffset_Max_ );
+
+	for( int i = 0; i<nNumGCode; i++ )
+	{
+		int gcode_no = 0;
+		int num_sub_coord = 0;
+
+		strValueName.Format( _T("gcode_%d"), i+1 );
+		hIniFile.GetValue( strKeyName, strValueName, (int*)&gcode_no );
+		strValueName.Format( _T("gcode_%d_num_sub_coord"), i+1 );
+		hIniFile.GetValue( strKeyName, strValueName, (int*)&num_sub_coord );
+
+		load_gcode_offset( &hIniFile, i, gcode_no, num_sub_coord );
+
+		if( bCheckError == TRUE )
+		{
+			for( int j = 0; j<hMultiOrigin[i].nNumSubCoord; j++ )
+			{
+				CString strTemp;
+
+				for( int k = 3; k<6; k++ )
+				{
+					double fVal = hMultiOrigin[i].fOffset[j][k];
+					if( fVal >= fOffset_Min_ && fVal <= fOffset_Max_ ) 
+					{
+						;
+					}
+					else
+					{
+						strTemp.Format( _T("coordinate(%d), offset_index(%d), offset_axis(%d), value(%.3f)\r\n"), i, j, k, fVal ); strErrMsg += strTemp;
+						strTemp.Format( _T("new value is out of range [%.3f ~ %.3f]\r\n"), fOffset_Min_, fOffset_Max_ ); strErrMsg += strTemp;
+
+						hIniFile.Close();
+						return FALSE;
+					}
+				}			
+			}
+		}
+	}
+
+	hIniFile.Close();
+
+	return TRUE;
+}
+
+// start_no:1, stop_no=10
+void SMultiOriginData::load_gcode_offset( CCEIniFile* pIniFile, int index, int gcode_no, int num_sub_coord )
+{
+	CString strKeyName;
+	double	fTemp;
+	int		nTemp;
+
+	hMultiOrigin[index].nGcode	= gcode_no;
+	hMultiOrigin[index].nNumSubCoord = num_sub_coord;
+
+	for( int i = 0; i<hMultiOrigin[index].nNumSubCoord; i++ )
+	{
+		strKeyName.Format( _T("G%d.%d"), gcode_no, i+1 );
+
+		pIniFile->GetValue( strKeyName, _T("x_dist"), (double*)&fTemp ); 
+		hMultiOrigin[index].fOffset[i][0] = fTemp;
+		pIniFile->GetValue( strKeyName, _T("y_dist"), (double*)&fTemp ); 
+		hMultiOrigin[index].fOffset[i][1] = fTemp;
+		pIniFile->GetValue( strKeyName, _T("z_dist"), (double*)&fTemp ); 
+		hMultiOrigin[index].fOffset[i][2] = fTemp;
+		pIniFile->GetValue( strKeyName, _T("x_offset"), (double*)&fTemp ); 
+		hMultiOrigin[index].fOffset[i][3] = fTemp;
+		pIniFile->GetValue( strKeyName, _T("y_offset"), (double*)&fTemp ); 
+		hMultiOrigin[index].fOffset[i][4] = fTemp;
+		pIniFile->GetValue( strKeyName, _T("z_offset"), (double*)&fTemp ); 
+		hMultiOrigin[index].fOffset[i][5] = fTemp;
+
+		pIniFile->GetValue( strKeyName, _T("reverse_xyoffset"), (int*)&nTemp );
+		hMultiOrigin[index].bReverseXY[i] = ( nTemp == 0 ) ? FALSE : TRUE;
+	}
+}
+
+void SMultiOriginData::Save( TCHAR* pFilePath )
+{
+	CCEIniFile	hIniFile;
+	CString		strKeyName, strValueName;
+
+	hIniFile.Open( pFilePath );
+
+	strKeyName.Format( _T("multi_origin_gcode") );
+
+	hIniFile.SetValue( strKeyName, _T("num"), nNumGCode );
+
+	for( int i = 0; i<nNumGCode; i++ )
+	{
+		int	gcode_no = hMultiOrigin[i].nGcode;
+		int num_sub_coord = hMultiOrigin[i].nNumSubCoord;
+
+		save_gcode_offset( &hIniFile, i, gcode_no, num_sub_coord );
+	}
+
+	hIniFile.Close();
+}
+
+// G57.1-G57.10까지 저장 
+void SMultiOriginData::save_gcode_offset( CCEIniFile* pIniFile, int index, int gcode_no, int num_sub_coord )
+{
+	CString strKeyName;
+
+	for( int i = 0; i<num_sub_coord; i++ )
+	{
+		strKeyName.Format( _T("G%d.%d"), gcode_no, i+1 );
+
+		pIniFile->SetValue( strKeyName, _T("x_dist"), (double)(hMultiOrigin[index].fOffset[i][0]) );
+		pIniFile->SetValue( strKeyName, _T("y_dist"), (double)(hMultiOrigin[index].fOffset[i][1]) );
+		pIniFile->SetValue( strKeyName, _T("z_dist"), (double)(hMultiOrigin[index].fOffset[i][2]) );
+		pIniFile->SetValue( strKeyName, _T("x_offset"), (double)(hMultiOrigin[index].fOffset[i][3]) );
+		pIniFile->SetValue( strKeyName, _T("y_offset"), (double)(hMultiOrigin[index].fOffset[i][4]) );
+		pIniFile->SetValue( strKeyName, _T("z_offset"), (double)(hMultiOrigin[index].fOffset[i][5]) );
+
+		pIniFile->SetValue( strKeyName, _T("reverse_xyoffset"), (int)(hMultiOrigin[index].bReverseXY[i] == FALSE ? 0 : 1) );
+	}
+}
+
+// CString SAutoCalCoordinateOffsetParam::STR_PARAM_NAME[PARAM_NUM] =
+// {
+// 	CString( _T("X1PosForXAxisMeasure") ),
+// 	CString( _T("X2PosForXAxisMeasure") ),
+// 	CString( _T("Y1PosForXAxisMeasure") ),
+// 	CString( _T("Y2PosForXAxisMeasure") ),
+// 	CString( _T("Z1PosForXAxisMeasure") ),
+// 	CString( _T("Z2PosForXAxisMeasure") ),
+// 	CString( _T("X1PosForYZAxisMeasure") ),
+// 	CString( _T("X2PosForYZAxisMeasure") ),
+// 	CString( _T("Y1PosForYAxisMeasure") ),
+// 	CString( _T("Y2PosForYAxisMeasrue") ),
+// 	CString( _T("Z1PosForYAxisMeasure") ),
+// 	CString( _T("Z2PosForYAxisMeasure") ),
+// 	CString( _T("Z1PosForZAxisMeasure") ),
+// 	CString( _T("Z2PosForZAxisMeasure") ),
+// 
+// 	CString( _T("Tool_Diameter_Left") ),
+// 	CString( _T("Tool_Diameter_Right") ),
+// 	CString( _T("Tool_Number_Left") ),
+// 	CString( _T("Tool_Number_Right") ),
+// 	CString( _T("Measure_Count") )
+// };
+CString SAutoCalCoordinateOffsetParam::STR_PARAM_NAME[PARAM_NUM] =
+{
+	CString( _T("XLPosForXAxisMeasure") ),
+	CString( _T("XRPosForXAxisMeasure") ),
+	CString( _T("YLPosForXAxisMeasure") ),
+	CString( _T("YRPosForXAxisMeasure") ),
+	CString( _T("ZLPosForXAxisMeasure") ),
+	CString( _T("ZRPosForXAxisMeasure") ),
+	CString( _T("XLPosForYZAxisMeasure") ),
+	CString( _T("XRPosForYZAxisMeasure") ),
+	CString( _T("YLPosForYAxisMeasure") ),
+	CString( _T("YRPosForYAxisMeasrue") ),
+	CString( _T("ZLPosForYAxisMeasure") ),
+	CString( _T("ZRPosForYAxisMeasure") ),
+	CString( _T("ZLPosForZAxisMeasure") ),
+	CString( _T("ZRPosForZAxisMeasure") ),
+
+	CString( _T("Tool_Diameter_Left") ),
+	CString( _T("Tool_Diameter_Right") ),
+	CString( _T("Tool_Number_Left") ),
+	CString( _T("Tool_Number_Right") ),
+	CString( _T("Measure_Count") )
+};
+
+BOOL SAutoCalCoordinateOffsetParam::Load( TCHAR* pFilePath, CString& strErrMsg )
+{
+	CCEIniFile	hIniFile;
+	CString		strKeyName;
+
+	if( !hcutil::IsExistDir( CString(pFilePath) ) ) {
+		strErrMsg.Format( _T("file not found !") );
+		return FALSE;
+	}
+
+	hIniFile.Open( pFilePath );
+
+	strKeyName.Format( _T("AutoCal") );
+
+	for( int i = 0; i<(int)PARAM_NUM; i++ ) 
+	{
+		hIniFile.GetValue( strKeyName, STR_PARAM_NAME[i], (double*)&fParam[i] );
+	}
+
+	hIniFile.Close();
+
+	return TRUE;
+}
+
+BOOL SAutoCalCoordinateOffsetParam::Save( TCHAR* pFilePath, CString& strErrMsg )
+{
+	CCEIniFile	hIniFile;
+	CString		strKeyName;
+
+	hIniFile.Open( pFilePath );
+
+	strKeyName.Format( _T("AutoCal") );
+
+	for( int i = 0; i<(int)PARAM_NUM; i++ ) 
+	{
+		hIniFile.SetValue( strKeyName, STR_PARAM_NAME[i], (double)fParam[i] );
+	}
+
+	hIniFile.Close();
+
+	return TRUE;
+}
+
+CString SAutoCalSingleAbutmentCoordinateOffsetParam::STR_PARAM_NAME[PARAM_NUM] =
+{
+	CString( _T("XPosForXAxisMeasure") ),
+	CString( _T("YPosForXAxisMeasure") ),
+	CString( _T("ZPosForXAxisMeasure") ),
+
+	CString( _T("YPosForYAxisMeasure_G53") ),
+	CString( _T("ZPosForYAxisMeasure") ),
+
+	CString( _T("YPosForZAxisMeasure") ),
+	CString( _T("ZPosForZAxisMeasure") ),
+
+	CString( _T("XPosForAAxisMeasure") ),
+	CString( _T("YPosForAAxisMeasure") ),
+	CString( _T("ZPosForAAxisMeasure") ),
+
+ 	CString( _T("Tool_No") ),
+ 	CString( _T("Tool_Diameter") ),
+ 	CString( _T("Measure_Count") ),
+ 	CString( _T("Rotation_Angle") ),
+ 	CString( _T("1st_MaxDistance") ),
+ 	CString( _T("2nd_MeasureOffset") ),
+ 	CString( _T("MoveSpeed_For_MeasurePosition") ),
+ 	CString( _T("MoveSpeed_For_MeasureForward") ),
+ 	CString( _T("MoveSpeed_For_MeasureBackward") )
+};
+
+BOOL SAutoCalSingleAbutmentCoordinateOffsetParam::Load( TCHAR* pFilePath, CString& strErrMsg )
+{
+	CCEIniFile	hIniFile;
+	CString		strKeyName;
+	CString		strFilePath;
+
+	strFilePath.Format( _T("%s"), pFilePath );
+
+	if( !hcutil::IsExistFile( strFilePath ) ) {
+		strErrMsg.Format( _T("file not found !") );
+		return FALSE;
+	}
+
+	hIniFile.Open( pFilePath );
+
+	strKeyName.Format( _T("SingleAbutment_AutoCal") );
+
+	for( int i = 0; i<(int)PARAM_NUM; i++ ) 
+	{
+		hIniFile.GetValue( strKeyName, STR_PARAM_NAME[i], (double*)&fParam[i] );
+	}
+
+	hIniFile.Close();
+
+	return TRUE;
+}
+
+BOOL SAutoCalSingleAbutmentCoordinateOffsetParam::Save( TCHAR* pFilePath, CString& strErrMsg )
+{
+	CCEIniFile	hIniFile;
+	CString		strKeyName;
+
+	hIniFile.Open( pFilePath );
+
+	strKeyName.Format( _T("SingleAbutment_AutoCal") );
+
+	for( int i = 0; i<(int)PARAM_NUM; i++ ) 
+	{
+		hIniFile.SetValue( strKeyName, STR_PARAM_NAME[i], (double)fParam[i] );
+	}
+
+	hIniFile.Close();
+
+	return TRUE;
+}
+
+CString SAutoTeachToolPocketParam::STR_PARAM_NAME[PARAM_NUM] = 
+{
+	CString(_T("Left_Tool1_X_Offset")),
+	CString(_T("Left_Tool1_Y_Offset")),
+	CString(_T("Left_Tool2_X_Offset")),
+	CString(_T("Left_Tool2_Y_Offset")),
+	CString(_T("Left_Tool3_X_Offset")),
+	CString(_T("Left_Tool3_Y_Offset")),
+
+	CString(_T("Right_Tool4_X_Offset")),
+	CString(_T("Right_Tool4_Y_Offset")),
+	CString(_T("Right_Tool5_X_Offset")),
+	CString(_T("Right_Tool5_Y_Offset")),
+	CString(_T("Right_Tool6_X_Offset")),
+	CString(_T("Right_Tool6_Y_Offset"))
+};
+
+BOOL SAutoTeachToolPocketParam::Load( TCHAR* pFilePath, CString& strErrMsg )
+{
+	CCEIniFile	hIniFile;
+	CString		strKeyName;
+	CString		strFilePath;
+
+	strFilePath.Format( _T("%s"), pFilePath );
+
+	if( !hcutil::IsExistFile( strFilePath ) ) {
+		strErrMsg.Format( _T("file not found !") );
+		return FALSE;
+	}
+
+	hIniFile.Open( pFilePath );
+
+	strKeyName.Format( _T("AT_ToolPocket") );
+
+	for( int i = 0; i<(int)PARAM_NUM; i++ ) 
+	{
+		hIniFile.GetValue( strKeyName, STR_PARAM_NAME[i], (double*)&fParam[i] );
+	}
+
+	hIniFile.Close();
+
+	return TRUE;
+}
+
+BOOL SAutoTeachToolPocketParam::Save( TCHAR* pFilePath, CString& strErrMsg )
+{
+	CCEIniFile	hIniFile;
+	CString		strKeyName;
+
+	hIniFile.Open( pFilePath );
+
+	strKeyName.Format( _T("AT_ToolPocket") );
+
+	for( int i = 0; i<(int)PARAM_NUM; i++ ) 
+	{
+		hIniFile.SetValue( strKeyName, STR_PARAM_NAME[i], (double)fParam[i] );
+	}
+
+	hIniFile.Close();
+
+	return TRUE;
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+BOOL SCoordinateOffsetDataRange::Load( TCHAR* pFilePath, CString& strErrMsg )
+{
+	TCHAR*	P_AXIS_NAME[pa::AXIS_NUM] = {_T("X_AXIS"), _T("Y_AXIS"), _T("Z_AXIS"), _T("A_AXIS"), _T("B_AXIS") };
+	CCEIniFile	hIniFile;
+	CString strKeyname;
+
+	hIniFile.Open( pFilePath );
+
+	// 각 축별로 default, min, max값을 읽어 저장한다 
+	for( int i = 0; i<pa::AXIS_NUM; i++ )
+	{
+		strKeyname.Format( _T("%s"), P_AXIS_NAME[i] );
+
+		hIniFile.GetValue( strKeyname, _T("default"), (double*)&fDefault[i] );
+		hIniFile.GetValue( strKeyname, _T("min"), (double*)&fMin[i] );
+		hIniFile.GetValue( strKeyname, _T("max"), (double*)&fMax[i] );
+	}
+
+	hIniFile.Close();
+
+	return TRUE;
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+BOOL SMeasureParamEtc::Load( TCHAR* pFilePath, CString& strErrMsg )
+{
+	CCEIniFile	hIniFile;
+	CString strKeyname, strValuename;
+
+	hIniFile.Open( pFilePath );
+
+	// [Tool]
+	strKeyname.Format( _T("Tool") );
+	for( int i = 0; i<8; i++ )
+	{
+		strValuename.Format( _T("No%d"), i );
+		hIniFile.GetValue( strKeyname, strValuename, (int*)&nUsingTool[i] );
+	}
+	hIniFile.GetValue( strKeyname, _T("DefaultDiameter"), (double*)&fDefaultToolDiameter );
+	hIniFile.GetValue( strKeyname, _T("MinDiameter"), (double*)&fMinToolDiameter );
+	hIniFile.GetValue( strKeyname, _T("MaxDiameter"), (double*)&fMaxToolDiameter );
+
+	// [Disk]
+	strKeyname.Format( _T("Disk") );
+	hIniFile.GetValue( strKeyname, _T("DefaultThickness"), (double*)&fDefaultDiskThickness );
+	hIniFile.GetValue( strKeyname, _T("MinThickness"), (double*)&fMinDiskThickness );
+	hIniFile.GetValue( strKeyname, _T("MaxThickmess"), (double*)&fMaxDiskThickness );
+
+	hIniFile.Close();
+
+	return TRUE;
+}
+
+BOOL SMeasureParamEtc::CheckToolNo( BOOL bDirection, int nToolNo, CString& strErrMsg )
+{
+	BOOL bRet = TRUE; 
+
+	if (bDirection == FALSE)	// 왼쪽이 FALSE, 오른쪽이 TRUE
+	{
+		if( nToolNo >= 1 && nToolNo <= 3 ) 
+		{
+			if( pa::PPAStatus->GetMeasureParamEtc()->nUsingTool[nToolNo-1] == 0 ) 
+			{
+				// 사용할 수 없는 툴 번호 
+				bRet = FALSE;
+				strErrMsg.Format( _T("Left tool number input error") );
+			}
+		}
+		else 
+		{
+			bRet = FALSE;
+			strErrMsg.Format( _T("Left tool number input error") );
+		}
+	}
+	
+	else
+	{
+		if( nToolNo >= 4 && nToolNo <= 5 ) 
+		{
+			if( pa::PPAStatus->GetMeasureParamEtc()->nUsingTool[nToolNo-1] == 0 ) 
+			{
+				// 사용할 수 없는 툴 번호 
+				bRet = FALSE;
+				strErrMsg.Format( _T("Right tool number input error") );
+			}
+		}
+		else 
+		{
+			bRet = FALSE;
+			strErrMsg.Format( _T("Right tool number input error") );
+		}
+	}
+
+	return bRet;
+}
+
+BOOL SMeasureParamEtc::CheckToolDiameter( BOOL bDirection, double fTD, CString& strErrMsg )
+{
+	BOOL bRet = TRUE;
+	double fMin = fMinToolDiameter;
+	double fMax = fMaxToolDiameter;
+	
+	if (bDirection == FALSE)	// 왼쪽이 FALSE, 오른쪽이 TRUE
+	{
+		if( fTD < fMin || fTD > fMax ) 
+		{
+			// 툴 두께 입력 에러 
+			bRet = FALSE;
+			strErrMsg.Format( _T("Left tool diameter input error (%.3f ~ %.3f)"), fMin, fMax );
+		}
+	}
+
+	else
+	{
+		if( fTD < fMin || fTD > fMax ) 
+		{
+			// 툴 두께 입력 에러 
+			bRet = FALSE;
+			strErrMsg.Format( _T("Right tool diameter input error (%.3f ~ %.3f)"), fMin, fMax );
+		}
+	}
+
+	return bRet;
+}
+
+//////////////////////////////////////////////////////////////////////////
+// enum EN_PARAM
+// {
+// 	PARAM_MEASURE_OFFSET_XAXIS = 0,		// P6061: X축 측정 시작 위치 옵셋 
+// 	PARAM_MEASURE_OFFSET_YAXIS,			// P6062: Y축 측정 시작 위치 옵셋 
+// 	PARAM_ZPOS_FOR_XAXIS,				// P6063: X축 측정시, Z축 위치
+// 	PARAM_ZPOS_FOR_YAXIS,				// P6064: Y축 측정시, Z축 위치
+// 	PARAM_ZPOS_FOR_ZAXIS,				// P6065: Z축 측정시, Z축 위치 
+// 	PARAM_YPOS_FOR_XZAXIS,				// P6066: XZ축 측정시, Y축 위치 
+// 	PARAM_TOOL_NO,						// P6067: 툴 번호 
+// 	PARAM_TOOL_DIAMETER,				// P6068: 툴 직경 
+// 	PARAM_ROUNDBAR_DIAMETER,			// P6069: 환봉 직경 
+// 	PARAM_MEASURE_COUNT,				// P6070: 측정 회수 
+// 	PARAM_ZAXIS_1ST_MAX_DISTANCE,		// P6071: 첫번째 측정시, 최대 측정 거리 
+// 	PARAM_ZAXIS_2ST_MEASURE_OFFSET,		// P6072: 두번째 측정시, 측정 옵셋 거리 
+// 	PARAM_MOVESPEED_FOR_MEAS_POS,		// P597
+// 	PARAM_MOVESPEED_MEAS_FORWORD,		// P602
+// 	PARAM_MOVESPEED_MEAS_BACKWORD,		// P603 
+// 	PARAM_NUM
+// }
+
+CString SAutoTeachMultiOrgParam::STR_PARAM_NAME[PARAM_NUM] = 
+{
+	CString( _T("H_MeasureOffset_X_Axis [Offset]") ),		// Offset (환봉 끝에서 떨어진 거리) 
+	CString( _T("H_MeasureBase_Y_Axis [G54]") ),			// Y축 측정 기준 위치
+	CString( _T("H_MeasureOffset_Y_Axis [Offset]") ),		// Offset (지그 부터 떨어진 거리)
+	CString( _T("H_ZPos_For_XAxis [G54]") ),				// G54
+	CString( _T("H_ZPos_For_YAxis [G54]") ),				// G54
+	CString( _T("H_ZPos_For_ZAxis [G54]") ),				// G54
+	CString( _T("H_YPos_For_XZAxis_G57 [Offset]") ),		// Y축 측정 기준위치에서 떨어진 거리 
+	CString( _T("H_YPos_For_XZAxis_G56 [Offset]") ),		// Y축 측정 기준위치에서 떨어진 거리 
+	CString( _T("H_YPos_For_XZAxis_G55 [Offset]") ),		// Y축 측정 기준위치에서 떨어진 거리. Single abutment 기능 추가 
+
+	CString( _T("V_MeasureOffset_Y_Axis [Offset]") ),		// Offset (환봉 끝에서 떨어진 거리) 
+	CString( _T("V_MeasureBase_X_Axis [G54]") ),			// X축 측정 기준 위치
+	CString( _T("V_MeasureOffset_X_Axis [Offset]") ),		// Offset (지그 부터 떨어진 거리)
+	CString( _T("V_ZPos_For_XAxis [G54]") ),				// G54
+	CString( _T("V_ZPos_For_YAxis [G54]") ),				// G54
+	CString( _T("V_ZPos_For_ZAxis [G54]") ),				// G54
+	CString( _T("V_ZPos_For_XAxis_Reserve [G54]") ),		// G54
+	CString( _T("V_ZPos_For_YAxis_Reserve [G54]") ),		// G54
+	CString( _T("V_ZPos_For_ZAxis_Reserve [G54]") ),		// G54
+	CString( _T("V_XPos_For_YZAxis_G59 [Offset]") ),		// Y축 측정 기준위치에서 떨어진 거리 
+	CString( _T("V_XPos_For_YZAxis_G58 [Offset]") ),		// Y축 측정 기준위치에서 떨어진 거리 
+
+	CString( _T("Tool_No") ),
+	CString( _T("Tool_Diameter") ),
+	CString( _T("RoundBar_Diameter") ),
+	CString( _T("Measure_Count") ),
+	CString( _T("1st_MaxDistance") ),
+	CString( _T("2nd_MeasureOffset") ),
+	CString( _T("MoveSpeed_For_MeasurePosition") ),
+	CString( _T("MoveSpeed_For_MeasureForword") ),
+	CString( _T("MoveSpeed_For_MeasureBackword") )
+};
+
+BOOL SAutoTeachMultiOrgParam::Load( TCHAR* pFilePath, CString& strErrMsg )
+{
+	CCEIniFile	hIniFile;
+	CString		strKeyName;
+	CString		strFilePath;
+
+	strFilePath.Format( _T("%s"), pFilePath );
+
+	if( !hcutil::IsExistFile( strFilePath ) ) {
+		strErrMsg.Format( _T("file not found !") );
+		return FALSE;
+	}
+
+	hIniFile.Open( pFilePath );
+
+	strKeyName.Format( _T("AT_MultiOrg") );
+
+	for( int i = 0; i<(int)PARAM_NUM; i++ ) 
+	{
+		hIniFile.GetValue( strKeyName, STR_PARAM_NAME[i], (double*)&fParam[i] );
+		double fval = fParam[i];
+		fval = fval;
+	}
+
+	hIniFile.Close();
+
+	return TRUE;
+} 
+
+BOOL SAutoTeachMultiOrgParam::Save( TCHAR* pFilePath, CString& strErrMsg )
+{
+	CCEIniFile	hIniFile;
+	CString		strKeyName;
+
+	hIniFile.Open( pFilePath );
+
+	strKeyName.Format( _T("AT_MultiOrg") );
+
+	for( int i = 0; i<(int)PARAM_NUM; i++ ) 
+	{
+		hIniFile.SetValue( strKeyName, STR_PARAM_NAME[i], (double)fParam[i] );
+	}
+
+	hIniFile.Close();
+
+	return TRUE;
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+/*
+CString SAutoTeachMultiOrgParam::STR_PARAM_H_TYPE_NAME[PARAM_H_TYPE_NUM] = 
+{
+	CString( _T("MeasureOffset_X_Axis [Offset]") ),		// Offset (환봉 끝에서 떨어진 거리) 
+	CString( _T("MeasureBase_Y_Axis [G54]") ),			// Y축 측정 기준 위치
+	CString( _T("MeasureOffset_Y_Axis [Offset]") ),		// Offset (지그 부터 떨어진 거리)
+	CString( _T("ZPos_For_XAxis [G54]") ),				// G54
+	CString( _T("ZPos_For_YAxis [G54]") ),				// G54
+	CString( _T("ZPos_For_ZAxis [G54]") ),				// G54
+	CString( _T("YPos_For_XZAxis_G57 [Offset]") ),		// Y축 측정 기준위치에서 떨어진 거리 
+	CString( _T("YPos_For_XZAxis_G56 [Offset]") ),		// Y축 측정 기준위치에서 떨어진 거리 
+	CString( _T("YPos_For_XZAxis_G55 [Offset]") ),		// Y축 측정 기준위치에서 떨어진 거리. Single abutment 기능 추가 
+
+	CString( _T("Tool_No") ),
+	CString( _T("Tool_Diameter") ),
+	CString( _T("RoundBar_Diameter") ),
+	CString( _T("Measure_Count") ),
+	CString( _T("1st_MaxDistance") ),
+	CString( _T("2nd_MeasureOffset") ),
+	CString( _T("MoveSpeed_For_MeasurePosition") ),
+	CString( _T("MoveSpeed_For_MeasureForword") ),
+	CString( _T("MoveSpeed_For_MeasureBackword") )
+};
+
+CString SAutoTeachMultiOrgParam::STR_PARAM_V_TYPE_NAME[PARAM_V_TYPE_NUM] = 
+{
+	CString( _T("MeasureOffset_Y_Axis [Offset]") ),		// Offset (환봉 끝에서 떨어진 거리) 
+	CString( _T("MeasureBase_X_Axis [G54]") ),			// X축 측정 기준 위치
+	CString( _T("MeasureOffset_X_Axis [Offset]") ),		// Offset (지그 부터 떨어진 거리)
+	CString( _T("ZPos_For_XAxis [G54]") ),				// G54
+	CString( _T("ZPos_For_YAxis [G54]") ),				// G54
+	CString( _T("ZPos_For_ZAxis [G54]") ),				// G54
+	CString( _T("XPos_For_YZAxis_G59 [Offset]") ),		// Y축 측정 기준위치에서 떨어진 거리 
+	CString( _T("XPos_For_YZAxis_G58 [Offset]") ),		// Y축 측정 기준위치에서 떨어진 거리 
+
+	CString( _T("Tool_No") ),
+	CString( _T("Tool_Diameter") ),
+	CString( _T("RoundBar_Diameter") ),
+	CString( _T("Measure_Count") ),
+	CString( _T("1st_MaxDistance") ),
+	CString( _T("2nd_MeasureOffset") ),
+	CString( _T("MoveSpeed_For_MeasurePosition") ),
+	CString( _T("MoveSpeed_For_MeasureForword") ),
+	CString( _T("MoveSpeed_For_MeasureBackword") )
+};
+
+BOOL SAutoTeachMultiOrgParam::Load( TCHAR* pFilePath, CString& strErrMsg )
+{
+	CCEIniFile	hIniFile;
+	CString		strKeyName;
+	CString		strFilePath;
+
+	strFilePath.Format( _T("%s"), pFilePath );
+
+	if( !hcutil::IsExistFile( strFilePath ) ) {
+		strErrMsg.Format( _T("file not found !") );
+		return FALSE;
+	}
+
+	hIniFile.Open( pFilePath );
+
+	strKeyName.Format( _T("MultiOrg_H_Type") );
+	for( int i = 0; i<(int)PARAM_H_TYPE_NUM; i++ )
+	{
+		hIniFile.GetValue( strKeyName, STR_PARAM_H_TYPE_NAME[i], (double*)&fParamHType[i] );
+		double fval = fParamHType[i];
+		fval = fval;
+	}
+
+	strKeyName.Format( _T("MultiOrg_V_Type") );
+	for( int i = 0; i<(int)PARAM_V_TYPE_NUM; i++ )
+	{
+		hIniFile.GetValue( strKeyName, STR_PARAM_V_TYPE_NAME[i], (double*)&fParamVType[i] );
+		double fval = fParamVType[i];
+		fval = fval;
+	}
+
+	hIniFile.Close();
+
+	return TRUE;
+}
+
+BOOL SAutoTeachMultiOrgParam::Save( TCHAR* pFilePath, CString& strErrMsg )
+{
+	CCEIniFile	hIniFile;
+	CString		strKeyName;
+
+	hIniFile.Open( pFilePath );
+
+	strKeyName.Format( _T("MultiOrg_H_Type") );
+	for( int i = 0; i<(int)PARAM_H_TYPE_NUM; i++ ) 
+	{
+		hIniFile.SetValue( strKeyName, STR_PARAM_H_TYPE_NAME[i], (double)fParamHType[i] );
+	}
+
+	strKeyName.Format( _T("MultiOrg_V_Type") );
+	for( int i = 0; i<(int)PARAM_V_TYPE_NUM; i++ ) 
+	{
+		hIniFile.SetValue( strKeyName, STR_PARAM_V_TYPE_NAME[i], (double)fParamVType[i] );
+	}
+
+	hIniFile.Close();
+
+	return TRUE;
+}
+*/
+//////////////////////////////////////////////////////////////////////////
+
+//
+void DELETE_OLD_FILE( int nKeepingDays, TCHAR* extension, TCHAR* path )
+{
+	HANDLE			hr;
+	WIN32_FIND_DATA	hWFD;
+	TCHAR			szPath[512];
+
+	memset((void*)szPath, 0, sizeof(TCHAR)*512);
+	//	_stprintf( szPath, _T("%s\\*.log"), LOG_PATH );
+	_stprintf( szPath, _T("%s\\*.%s"), path, extension );
+
+	hr = FindFirstFile( szPath, &hWFD );
+
+	while( hr != INVALID_HANDLE_VALUE ) 
+	{
+		{
+			CTime tmBase;
+			CTime tmFile;
+
+			tmBase = CTime::GetCurrentTime() - CTimeSpan( nKeepingDays, 0, 0, 0 );
+			tmFile = CTime( hWFD.ftLastWriteTime );
+
+			if( tmBase > tmFile ) 
+			{
+				TCHAR szTemp[512];
+				memset((void*)szTemp, 0, sizeof(TCHAR)*512);
+				_stprintf( szTemp, _T("%s\\%s"), LOG_PATH, hWFD.cFileName );
+
+				::DeleteFile( szTemp );
+			}
+		}
+
+		if( FindNextFile( hr, &hWFD ) == FALSE )
+		{
+			break;
+		}
+	}
+
+	FindClose( hr );
+}
+
+//////////////////////////////////////////////////////////////////////////
+//
+//////////////////////////////////////////////////////////////////////////
+
+void SPowerOnTestConfig::Load( TCHAR* pFileName )
+{
+	CCEIniFile	hIniFile;
+	CString		strKeyName;
+
+	if( pFileName != NULL && hcutil::IsExistFile( pFileName ) == TRUE ) {
+		IsLoaded = 1;
+	} else {
+		IsLoaded = 0;
+		return;
+	}
+
+	hIniFile.Open( pFileName );
+
+	strKeyName.Format( _T("Tool") );
+	
+	hIniFile.GetValue( strKeyName, _T("tp_x_min"), (double*)&toolpocket_x_min );
+	hIniFile.GetValue( strKeyName, _T("tp_x_max"), (double*)&toolpocket_x_max );
+	hIniFile.GetValue( strKeyName, _T("tp_y_min"), (double*)&toolpocket_y_min );
+	hIniFile.GetValue( strKeyName, _T("tp_y_max"), (double*)&toolpocket_y_max );
+
+	hIniFile.Close();
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+SModelInfo2 MODEL_INFO;
+
+SModelInfo2::SModelInfo2()
+{
+	memset((void*)this, 0, sizeof(SModelInfo2));
+}
+
+SModelInfo2::~SModelInfo2()
+{
+
+}
+
+// 모델정보를 파일에서 읽어 초기화 한다 
+void SModelInfo2::Load()
+{
+	CString		strFilePath(INI_MODEL_INFO_PATH);
+	CCEIniFile	hIniFile;
+	CString		strKeyName;
+	int			num = 0;
+	int			model_no = 0;
+	int			ntemp;
+
+	hIniFile.Open( strFilePath );
+
+	hIniFile.GetValue( _T("Common"), _T("Num"), (int*)&num );
+	hIniFile.GetValue( _T("Common"), _T("ModelNo"), (int*)&model_no );
+
+	//////////////////////////////////////////////////////////////////////////
+
+	strKeyName.Format( _T("Model%d"), model_no );
+
+	hModelID = (EN_MODEL)model_no;
+
+	hIniFile.GetValue( strKeyName, _T("NumAxis"), (int*)&nNumAxis );
+	hIniFile.GetValue( strKeyName, _T("MachineName"), (LPTSTR)szMachineName, 64 );
+	hIniFile.GetValue( strKeyName, _T("ModelName"), (LPTSTR)szModelName, 64 );
+	hIniFile.GetValue( strKeyName, _T("DisplayModelName"), (LPTSTR)szDisplayModelName, 64 );
+
+	hIniFile.GetValue( strKeyName, _T("bk_image_name"), (LPTSTR)szBkgndImageFileName, 64 );
+	hIniFile.GetValue( strKeyName, _T("mn_font_sx"), (int*)&nModelNameFontSX );
+	hIniFile.GetValue( strKeyName, _T("mn_font_sy"), (int*)&nModelNameFontSY );
+	hIniFile.GetValue( strKeyName, _T("mn_offset_x"), (int*)&nModelNameOffsetX );
+	hIniFile.GetValue( strKeyName, _T("mn_offset_y"), (int*)&nModelNameOffsetY );
+	hIniFile.GetValue( strKeyName, _T("using_atc_door"), (int*)&nUsingATCDoor );
+	hIniFile.GetValue( strKeyName, _T("autoloader_type"), (int*)&ntemp ); hAutoLoaderType = (EN_AL_TYPE)ntemp;
+	hIniFile.GetValue( strKeyName, _T("using_multi_origin"), (int*)&nUsingMultiOrigin );
+	hIniFile.GetValue( strKeyName, _T("input_filename"), (LPTSTR)szInputFileName, 128 );
+	hIniFile.GetValue( strKeyName, _T("output_filename"), (LPTSTR)szOutputFileName, 128 );
+	hIniFile.GetValue( strKeyName, _T("m28_type"), (int*)&ntemp ); hM28Type = (EN_M28_TYPE)ntemp;
+	hIniFile.GetValue( strKeyName, _T("pa_ctrl_type"), (int*)&ntemp ); hPaCtrlType = (EN_PA_CTRL_TYPE)ntemp;
+	hIniFile.GetValue( strKeyName, _T("air_pressure_sensor_type"), (int*)&ntemp ); hAirPressureSensorType = (EN_AIR_PRESSURE_SENEOR_TYPE)ntemp;
+	//////////////////////////////////////////////////////////////////////////
+
+	hIniFile.Close();
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+}
+

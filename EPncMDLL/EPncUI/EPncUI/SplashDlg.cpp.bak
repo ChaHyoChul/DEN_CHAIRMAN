@@ -1,0 +1,334 @@
+// SplashDlg.cpp : 구현 파일입니다.
+//
+
+#include "stdafx.h"
+#include "EPncUI.h"
+#include "SplashDlg.h"
+
+#include "EPncUIDlg2.h"
+
+//////////////////////////////////////////////////////////////////////////
+// CSplashDlg 대화 상자입니다.
+//////////////////////////////////////////////////////////////////////////
+
+CSplashDlg* CSplashDlg::P_SPLASH_DLG = NULL;
+
+void CSplashDlg::INITIALIZE_DLG()
+{
+	CSplashDlg::DELETE_DLG();
+
+	CSplashDlg::P_SPLASH_DLG = new CSplashDlg();
+	CSplashDlg::P_SPLASH_DLG->Create(IDD_DIALOG_SPLASH);
+	CSplashDlg::P_SPLASH_DLG->SetWindowPos( &wndTopMost, 0, 0, 0, 0, SWP_NOMOVE|SWP_NOSIZE);
+	CSplashDlg::P_SPLASH_DLG->ShowWindow(SW_HIDE);
+
+}
+
+void CSplashDlg::DELETE_DLG()
+{
+	if( CSplashDlg::P_SPLASH_DLG != NULL ) 
+	{
+		CSplashDlg::P_SPLASH_DLG->DestroyWindow();
+		delete CSplashDlg::P_SPLASH_DLG;
+		CSplashDlg::P_SPLASH_DLG = NULL; 
+	}
+}
+
+void CSplashDlg::SHOW_DLG()
+{
+	if( CSplashDlg::P_SPLASH_DLG != NULL ) 
+	{
+		CSplashDlg::P_SPLASH_DLG->ShowWindow(SW_SHOW);
+		CSplashDlg::P_SPLASH_DLG->SetTimer(1, 500, NULL);
+		CSplashDlg::P_SPLASH_DLG->SetTimer(2, 500, NULL);
+	}
+}
+
+void CSplashDlg::HIDE_DLG()
+{
+	if( CSplashDlg::P_SPLASH_DLG != NULL ) 
+	{
+		CSplashDlg::P_SPLASH_DLG->KillTimer(1);
+		CSplashDlg::P_SPLASH_DLG->KillTimer(2);
+		CSplashDlg::P_SPLASH_DLG->ShowWindow(SW_HIDE);
+	}
+}
+
+BOOL CSplashDlg::IS_SHOW()
+{
+	BOOL bRet = FALSE; 
+
+	if( CSplashDlg::P_SPLASH_DLG ) {
+		bRet = CSplashDlg::P_SPLASH_DLG->IsWindowVisible();
+	}
+
+	return bRet;
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+IMPLEMENT_DYNAMIC(CSplashDlg, CDialog)
+
+CSplashDlg::CSplashDlg(CWnd* pParent /*=NULL*/)
+	: CDialog(CSplashDlg::IDD, pParent)
+{
+
+}
+
+CSplashDlg::~CSplashDlg()
+{
+}
+
+void CSplashDlg::DoDataExchange(CDataExchange* pDX)
+{
+	CDialog::DoDataExchange(pDX);
+}
+
+
+BEGIN_MESSAGE_MAP(CSplashDlg, CDialog)
+	ON_WM_DESTROY()
+	ON_WM_PAINT()
+	ON_WM_TIMER()
+END_MESSAGE_MAP()
+
+//////////////////////////////////////////////////////////////////////////
+// CSplashDlg 메시지 처리기입니다.
+//////////////////////////////////////////////////////////////////////////
+
+BOOL CSplashDlg::PreTranslateMessage(MSG* pMsg)
+{
+	if(pMsg->message == WM_KEYDOWN && (pMsg->wParam == VK_RETURN || pMsg->wParam == VK_ESCAPE))
+		return TRUE;
+
+	return CDialog::PreTranslateMessage(pMsg);
+}
+
+void CSplashDlg::PreInitDialog()
+{
+	TCHAR*	pImageFilePath = _T("785_512_splash_screen.bmp");
+	CString strImageFilePath;
+	CDC*	pDC = GetDC();
+	CRect	rcWnd;
+	GetClientRect(&rcWnd);
+
+	strImageFilePath.Format(_T("%s\\786_512_splash_screen.bmp"), RESOURCE_2_PATH);
+
+	pCanvasCE_ = new hcutil::CCanvasCE();
+	ASSERT(pCanvasCE_);
+	pCanvasCE_->Create(this, pDC->GetSafeHdc(), rcWnd.Width(), rcWnd.Height(), RGB(1, 1, 0));
+	nBackgroundLayerIndex_	= pCanvasCE_->GetCanvasCELayerMgr()->Add(FALSE, RGB(1, 1, 0));
+	nStatusLayerIndex_		= pCanvasCE_->GetCanvasCELayerMgr()->Add(TRUE, RGB(1, 1, 0));
+
+	pCanvasCE_->GetCanvasCELayerMgr()->Get(nBackgroundLayerIndex_)->LoadImageFormFile(strImageFilePath, CPoint(0, 0), CPoint(rcWnd.Width(), rcWnd.Height()));
+
+	ReleaseDC(pDC); pDC = NULL;
+
+	CDialog::PreInitDialog();
+}
+
+BOOL CSplashDlg::OnInitDialog()
+{
+	CDialog::OnInitDialog();
+
+	//////////////////////////////////////////////////////////////////////////
+	// 메시지 Font 생성 
+	font_.CreateFont(
+		24, 0,
+		0, 0, FW_THIN, //FW_NORMAL, //FW_BOLD, //FW_NORMAL, 
+		FALSE, FALSE, FALSE, 
+		ANSI_CHARSET, 
+		OUT_DEFAULT_PRECIS, 
+		CLIP_DEFAULT_PRECIS, 
+		DEFAULT_QUALITY, 
+		DEFAULT_PITCH, _T("NotoSans") ); //_T("Courier New") );
+
+	fontMsg_.CreateFont(
+		24, 0,
+		0, 0, FW_THIN, //FW_NORMAL, //FW_BOLD, //FW_NORMAL, 
+		FALSE, FALSE, FALSE, 
+		ANSI_CHARSET, 
+		OUT_DEFAULT_PRECIS, 
+		CLIP_DEFAULT_PRECIS, 
+		DEFAULT_QUALITY, 
+		DEFAULT_PITCH, _T("NotoSans") ); //_T("Courier New") );
+
+	CenterWindow();
+
+	return TRUE;  // return TRUE unless you set the focus to a control
+	// 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
+}
+
+void CSplashDlg::OnDestroy()
+{
+	font_.DeleteObject();
+	fontMsg_.DeleteObject();
+
+	CDialog::OnDestroy();
+}
+
+void CSplashDlg::OnPaint()
+{
+	CPaintDC dc(this); // device context for painting
+
+	if (pCanvasCE_) {
+		pCanvasCE_->Draw(dc, dc.m_ps.rcPaint);
+	}
+}
+
+void CSplashDlg::OnTimer(UINT_PTR nIDEvent)
+{
+// 	static int STEP_NO = 0;
+// 	CString strTrace;
+// 	BOOL	bRet = FALSE;
+// 
+// 	KillTimer(1);
+// 
+// 	strTrace.Format(_T("CSplashDlg::OnTimer %d/%d\n"), STEP_NO, 20);
+// 	TRACE(strTrace);
+// 
+// 	updateProgress(STEP_NO);
+// 
+// 	bRet = ((CEPncUIDlg2*)AfxGetMainWnd())->Splash_Call_Init(STEP_NO++);
+// 	if (bRet == FALSE) {
+// 		((CEPncUIDlg2*)AfxGetMainWnd())->PostMessage(WM_EPNCUI_QUIT, 0, 0);
+// 		return ;
+// 	}
+// 
+// 	if (STEP_NO <= 20) {
+// 		SetTimer(1, 100, NULL);
+// 	}
+// 	else {
+// 		strTrace.Format(_T("CSplashDlg::OnTimer Hide-Splash\n"));
+// 		CSplashDlg::HIDE_DLG();
+// 	}
+
+	static int STEP_NO = 0;
+	static int PROGRESS_NO = 0;
+	
+	if (nIDEvent == 1)
+	{
+		KillTimer(1);
+
+// 		CString str;
+// 		str.Format(_T("STEP_NO: %d\n"), STEP_NO);
+// 		TRACE(str);
+
+		updateProgress(STEP_NO);
+
+		BOOL bRet = ((CEPncUIDlg2*)AfxGetMainWnd())->Splash_Call_Init(STEP_NO++);
+		if (bRet == FALSE) {
+			((CEPncUIDlg2*)AfxGetMainWnd())->PostMessage(WM_EPNCUI_QUIT, 0, 0);
+			return;
+		}
+
+		if (STEP_NO <= 20) {
+			SetTimer(1, 150, NULL);
+		}
+		else {
+			CSplashDlg::HIDE_DLG();
+		}
+	}
+
+	if (nIDEvent == 2)
+	{
+// 		KillTimer(2);
+// 
+// 		CString str;
+// 		str.Format(_T("PROGRESS_NO: %d\n"), PROGRESS_NO);
+// 		TRACE(str);
+// 
+// 		if (STEP_NO <= 3) {
+// 			PROGRESS_NO += 1;
+// 			//PROGRESS_NO = (PROGRESS_NO >= 50) ? 50 : PROGRESS_NO;
+// 			if (PROGRESS_NO >= 50) {
+// 				PROGRESS_NO = 50;
+// 			}
+// 		} 
+// 		else {
+// 			// 4 ~ 20 까지는 50~100% 로 나눈다 
+// 			PROGRESS_NO = 50 + (int)((double)(STEP_NO - 3.0) / 16.0 * 50.0); 
+// 			if (PROGRESS_NO > 100) {
+// 				PROGRESS_NO = 100;
+// 			}
+// 		}
+// 
+// 		updateProgress(PROGRESS_NO);
+// 
+// 		if (PROGRESS_NO <= 100) {
+// 			SetTimer(2, 1000, NULL);
+// 		}
+	}
+
+	CDialog::OnTimer(nIDEvent);
+}
+
+void CSplashDlg::updateProgress(int stepNo)
+{
+	hcutil::CCanvasCELayer* pLayer = pCanvasCE_->GetCanvasCELayerMgr()->Get(nStatusLayerIndex_);
+	int		nPercent = (int)(((double)stepNo / 20.0) * 100.0);
+	CString strMsg;
+
+	int	prevBkMode = pLayer->SetBkMode( TRANSPARENT );
+	COLORREF prevTextColor = pLayer->SetTextColor(RGB(93, 93, 93));
+	CFont* poldfont = pLayer->SelectObject(&fontMsg_);
+
+	//////////////////////////////////////////////////////////////////////////
+	// 1. 메시지 출력 
+	CRect rcMessageText = CRect(106, 330-10, 560, 346+10);
+
+	switch (stepNo)
+	{
+	case 0: 
+	case 1:
+	case 2:
+	case 3:
+	case 50:
+		strMsg.Format(_T("Initialize... (connect controller...)"));
+		break;
+	default:
+		strMsg.Format(_T("Initialize..."));
+		break;
+	}
+	pLayer->Clear(rcMessageText, FALSE);
+	pLayer->DrawText(strMsg, &rcMessageText, DT_LEFT|DT_VCENTER|DT_SINGLELINE);
+	
+	//////////////////////////////////////////////////////////////////////////
+	// 2. % 출력 
+	CRect rcPrecentText = CRect(620, 330, 665, 346);
+	strMsg.Format(_T("%d%%"), nPercent);
+	pLayer->Clear(rcPrecentText, FALSE);
+	pLayer->SelectObject(&font_);
+	pLayer->DrawText(strMsg, &rcPrecentText, DT_CENTER|DT_VCENTER|DT_SINGLELINE);
+
+	//////////////////////////////////////////////////////////////////////////
+	pLayer->SelectObject(poldfont);
+	pLayer->SetBkMode(prevBkMode);
+	pLayer->SetTextColor(prevTextColor);
+
+	//////////////////////////////////////////////////////////////////////////
+	// 3. Progreaabar 출력 
+	CRect percentArea(105, 365, 660, 373);
+	CRect rcPrecent = percentArea;
+	rcPrecent.right = rcPrecent.left + (int)((percentArea.right - percentArea.left) * (nPercent / 100.0));
+	
+ 	CBrush	brh, *poldbrh = NULL;
+	CPen	pen, *poldpen = NULL;
+	brh.CreateSolidBrush(RGB(255, 0, 0));
+	pen.CreatePen(PS_NULL, 1, RGB(255, 0, 0));
+	poldpen = pLayer->SelectObject(&pen);
+	poldbrh = pLayer->SelectObject(&brh);
+
+	pLayer->Rectangle(&rcPrecent);
+
+	pLayer->SelectObject(poldpen);
+	pLayer->SelectObject(poldbrh);
+	brh.DeleteObject();
+	pen.DeleteObject();
+
+	//////////////////////////////////////////////////////////////////////////
+	// 4. 화면 갱신 
+	//Invalidate();
+	InvalidateRect(rcMessageText, FALSE);
+	InvalidateRect(rcPrecentText, FALSE);
+	InvalidateRect(percentArea, FALSE);
+}

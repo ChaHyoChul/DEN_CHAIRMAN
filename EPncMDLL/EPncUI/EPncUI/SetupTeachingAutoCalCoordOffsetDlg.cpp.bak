@@ -1,0 +1,562 @@
+// SetupTeachingAutoCalCoordOffsetDlg.cpp : 구현 파일입니다.
+//
+
+#include "stdafx.h"
+#include "EPncUI.h"
+#include "SetupTeachingAutoCalCoordOffsetDlg.h"
+#include "SetupTeachingDlg.h"
+#include "NumericInputDlg.h"
+#include "MsgDlg.h"
+#include "MsgDlgThread.h"
+
+//////////////////////////////////////////////////////////////////////////
+// CSetupTeachingAutoCalCoordOffsetDlg 대화 상자입니다.
+//////////////////////////////////////////////////////////////////////////
+
+IMPLEMENT_DYNCREATE(CSetupTeachingAutoCalCoordOffsetDlg, CDialogListPage)
+
+CSetupTeachingAutoCalCoordOffsetDlg::CSetupTeachingAutoCalCoordOffsetDlg(CWnd* pParent /*=NULL*/)
+	: CDialogListPage(CSetupTeachingAutoCalCoordOffsetDlg::IDD, pParent)
+{
+	pParent_ = NULL;
+	nIsPressStopButton_ = -1;
+}
+
+CSetupTeachingAutoCalCoordOffsetDlg::~CSetupTeachingAutoCalCoordOffsetDlg()
+{
+}
+
+void CSetupTeachingAutoCalCoordOffsetDlg::DoDataExchange(CDataExchange* pDX)
+{
+	CDialogListPage::DoDataExchange(pDX);
+}
+
+void CSetupTeachingAutoCalCoordOffsetDlg::StartPageWork()
+{
+	if( pParent_ ) {
+		((CSetupTeachingDlg*)pParent_)->HideModeSelectRadioButton();
+	}
+
+	SetTimer( 1, 500, NULL );
+	SetTimer( 2, 100, NULL );
+
+	updateButtonState();
+}
+
+void CSetupTeachingAutoCalCoordOffsetDlg::StopPageWork()
+{
+	if( pParent_ ) {
+		((CSetupTeachingDlg*)pParent_)->ShowModeSelectRadioButton();
+	}
+}
+
+void CSetupTeachingAutoCalCoordOffsetDlg::UpdatePage()
+{
+
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+BEGIN_MESSAGE_MAP(CSetupTeachingAutoCalCoordOffsetDlg, CDialogListPage)
+	ON_WM_DESTROY()
+	ON_WM_PAINT()
+	ON_WM_CTLCOLOR()
+	ON_MESSAGE(WM_NOTIFY_OPTIONDATA_LISTBOX, &CSetupTeachingAutoCalCoordOffsetDlg::OnNotifyPointDataListBox)
+	ON_WM_TIMER()
+	ON_BN_CLICKED(IDC_BUTTON_START_STOP, &CSetupTeachingAutoCalCoordOffsetDlg::OnBnClickedButtonStartStop)
+	ON_BN_CLICKED(IDC_CHECK_DUMMY, &CSetupTeachingAutoCalCoordOffsetDlg::OnBnClickedCheckDummy)
+	ON_BN_CLICKED(IDC_CHECK_X_AXIS_CENTER, &CSetupTeachingAutoCalCoordOffsetDlg::OnBnClickedCheckXaxisCenter)
+	ON_BN_CLICKED(IDC_CHECK_Y1AXIS_CENTER, &CSetupTeachingAutoCalCoordOffsetDlg::OnBnClickedCheckY1axisCenter)
+	ON_BN_CLICKED(IDC_CHECK_Y2AXIS_CENTER, &CSetupTeachingAutoCalCoordOffsetDlg::OnBnClickedCheckY2axisCenter)
+	ON_BN_CLICKED(IDC_CHECK_Z1AXIS_ORG_OFFSET, &CSetupTeachingAutoCalCoordOffsetDlg::OnBnClickedCheckZ1axisOrgOffset)
+	ON_BN_CLICKED(IDC_CHECK_Z2AXIS_ORG_OFFSET, &CSetupTeachingAutoCalCoordOffsetDlg::OnBnClickedCheckZ2axisOrgOffset)
+END_MESSAGE_MAP()
+
+//////////////////////////////////////////////////////////////////////////
+// CSetupTeachingAutoCalCoordOffsetDlg 메시지 처리기입니다.
+//////////////////////////////////////////////////////////////////////////
+
+BOOL CSetupTeachingAutoCalCoordOffsetDlg::PreTranslateMessage(MSG* pMsg)
+{
+	if(pMsg->message == WM_KEYDOWN && (pMsg->wParam == VK_RETURN || pMsg->wParam == VK_ESCAPE))
+		return TRUE;
+
+	return CDialogListPage::PreTranslateMessage(pMsg);
+}
+
+void CSetupTeachingAutoCalCoordOffsetDlg::PreInitDialog()
+{
+	CDialogListPage::PreInitDialog();
+}
+
+BOOL CSetupTeachingAutoCalCoordOffsetDlg::OnInitDialog()
+{
+	CDialogListPage::OnInitDialog();
+
+	brhBkgnd_.CreateSolidBrush( pa::CLR_SETUP_TEACHING );
+
+	fntBtn_.CreateFont(
+		28, 0,
+		0, 0, FW_BOLD, //FW_NORMAL, 
+		FALSE, FALSE, FALSE, 
+		ANSI_CHARSET, 
+		OUT_DEFAULT_PRECIS, 
+		CLIP_DEFAULT_PRECIS, 
+		DEFAULT_QUALITY, 
+		DEFAULT_PITCH, _T("Arial") ); //_T("Courier New") ); //_T("MS Sans Serif") );
+
+	((CButton *)GetDlgItem(IDC_BUTTON_START_STOP))->SetFont( &fntBtn_, TRUE );
+
+	//////////////////////////////////////////////////////////////////////////
+	//
+	CRect rcTemp;
+	GetClientRect( &CUIrectSTAO );
+	MoveWindow(0,0,651,492);
+	GetClientRect( &rcTemp );
+
+
+	CRect recbutton;
+	hcutil::reposbutton( (CButton*)GetDlgItem(IDC_BUTTON_START_STOP), this, &recbutton, &CUIrectSTAO);
+	hcutil::reposstatic( (CStatic*)GetDlgItem(IDC_STATIC_G), this, &recbutton, &CUIrectSTAO);
+
+	hcutil::reposbutton( (CButton*)GetDlgItem(IDC_CHECK_TOUCH_SIGNAL), this, &recbutton, &CUIrectSTAO);
+	hcutil::reposbutton( (CButton*)GetDlgItem(IDC_CHECK_TOUCH_SIGNAL2), this, &recbutton, &CUIrectSTAO );
+	hcutil::reposbutton( (CButton*)GetDlgItem(IDC_CHECK_DUMMY), this, &recbutton, &CUIrectSTAO);
+	hcutil::reposbutton( (CButton*)GetDlgItem(IDC_CHECK_X_AXIS_CENTER), this, &recbutton, &CUIrectSTAO);
+	hcutil::reposbutton( (CButton*)GetDlgItem(IDC_CHECK_Y1AXIS_CENTER), this, &recbutton, &CUIrectSTAO);
+	hcutil::reposbutton( (CButton*)GetDlgItem(IDC_CHECK_Y2AXIS_CENTER), this, &recbutton, &CUIrectSTAO);
+	hcutil::reposbutton( (CButton*)GetDlgItem(IDC_CHECK_Z1AXIS_ORG_OFFSET), this, &recbutton, &CUIrectSTAO);
+	hcutil::reposbutton( (CButton*)GetDlgItem(IDC_CHECK_Z2AXIS_ORG_OFFSET), this, &recbutton, &CUIrectSTAO);
+
+	int		nNumRow = 2;
+	CString strRowName[] = { _T("Name"), _T("Value") };
+	int		nRowWidth[] = { 260, 140, 90, 90, 90, 90, 90 };		// 420 = 280 + 140
+
+	hcutil::GetControlPos2( IDC_STATIC_TITLE, this, &rcTemp, &CUIrectSTAO, TRUE );
+	pTitleBarWnd_ = new CTitleBarWnd();
+	ASSERT( pTitleBarWnd_ );
+	pTitleBarWnd_->InitResource( CString(_T("Parameter")), pa::CLR_SETUP_TEACHING, RGB(32, 32, 32), RGB(32, 32, 32), CSize(0, 14) ); //CSize(8, 16) );
+	pTitleBarWnd_->InitResourceEx( nNumRow, strRowName, nRowWidth, 24 );
+	pTitleBarWnd_->Create( this, rcTemp, IDC_STATIC_TITLE ); //IDC_STATIC_TEACHING_OTION_TITLE_AREA );
+	pTitleBarWnd_->SetWindowPos( &wndTop, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE );
+
+	//////////////////////////////////////////////////////////////////////////
+	//
+	hcutil::GetControlPos2( IDC_STATIC_LIST_AREA, this, &rcTemp, &CUIrectSTAO, TRUE );
+
+	pParamListBox_ = new COptionDataListBox();
+	pParamListBox_->SetBackgroundColor( RGB(180, 180, 180) );
+	pParamListBox_->SetFontSize( 0, 15 );
+	pParamListBox_->SetItemHeight( 30 );
+	pParamListBox_->SetItemWidth( nNumRow, nRowWidth );
+	pParamListBox_->SetID( IDC_STATIC_LIST_AREA );
+	pParamListBox_->Create( WS_CHILD|WS_VISIBLE, rcTemp, this, IDC_STATIC_LIST_AREA );
+
+	for( int i = 0; i<(int)pa::SAutoCalCoordinateOffsetParam::PARAM_NUM; i++ ) 
+	{
+		int index = pParamListBox_->AddString( pa::SAutoCalCoordinateOffsetParam::STR_PARAM_NAME[i] );
+		void *p = &(pa::PPAStatus->GetAutoCalCoordinateOffsetParam()->fParam[i] );
+		pParamListBox_->SetItemDataPtr( i, p );
+	}
+
+	return TRUE;  // return TRUE unless you set the focus to a control
+	// 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
+}
+
+void CSetupTeachingAutoCalCoordOffsetDlg::OnDestroy()
+{
+	brhBkgnd_.DeleteObject();
+
+	fntBtn_.DeleteObject();
+
+	if( pTitleBarWnd_ ) {
+		pTitleBarWnd_->DestroyWindow();
+		delete pTitleBarWnd_;
+		pTitleBarWnd_ = NULL;
+	}
+
+	if( pParamListBox_ ) {
+		pParamListBox_->DestroyWindow();
+		delete pParamListBox_;
+		pParamListBox_ = NULL;
+	}
+
+	CDialogListPage::OnDestroy();
+}
+
+void CSetupTeachingAutoCalCoordOffsetDlg::OnPaint()
+{
+	CPaintDC dc(this); // device context for painting
+}
+
+void CSetupTeachingAutoCalCoordOffsetDlg::UpdateOptionListBox()
+{
+	if( pParamListBox_ )
+	{
+		pParamListBox_->Invalidate( TRUE );
+	}
+}
+
+HBRUSH CSetupTeachingAutoCalCoordOffsetDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
+{
+	HBRUSH hbr = CDialogListPage::OnCtlColor(pDC, pWnd, nCtlColor);
+
+	if( nCtlColor == 4 ) {
+		hbr = (HBRUSH)brhBkgnd_;
+	}
+	else {
+		UINT nCtrlID = pWnd->GetDlgCtrlID();
+		switch( nCtrlID )
+		{
+		case IDC_CHECK_TOUCH_SIGNAL:
+		case IDC_CHECK_TOUCH_SIGNAL2:
+		case IDC_STATIC_G:
+		case IDC_CHECK_DUMMY:
+		case IDC_CHECK_X_AXIS_CENTER:
+		case IDC_CHECK_Y1AXIS_CENTER:
+		case IDC_CHECK_Y2AXIS_CENTER:
+		case IDC_CHECK_Z1AXIS_ORG_OFFSET:
+		case IDC_CHECK_Z2AXIS_ORG_OFFSET:
+		case IDC_CHECK_AB_DISTANCE:
+			hbr = (HBRUSH)brhBkgnd_;
+			break;
+		}
+	}
+
+	return hbr;
+}
+
+LRESULT CSetupTeachingAutoCalCoordOffsetDlg::OnNotifyPointDataListBox(WPARAM wparam, LPARAM lparam)
+{
+	CNumericInputDlg dlg;
+	int		nCurSel		= LOWORD( lparam );		// low  word
+	int		nCurSelItem = HIWORD( lparam );		// high word
+
+	//////////////////////////////////////////////////////////////////////////
+	// 2017.04.28 
+	// User 모드에 관계없이, Tool 번호와 Tool Diameter, Disk Thickness 이외 데이터를 수정할 수 없도록 한다 
+	/*
+	PARAM_TOOL_NO,					// P6050
+	PARAM_TOOL_DIAMETER,			// P6058 
+	PARAM_MEASURE_COUNT,			// P6051
+	PARAM_DISK_THICK,				// P6052
+	*/
+	switch( nCurSel )
+	{
+	case pa::SAutoCalCoordinateOffsetParam::PARAM_TOOL_NUMBER_LEFT:
+	case pa::SAutoCalCoordinateOffsetParam::PARAM_TOOL_NUMBER_RIGHT:
+	case pa::SAutoCalCoordinateOffsetParam::PARAM_TOOL_DIAMETER_LEFT:
+	case pa::SAutoCalCoordinateOffsetParam::PARAM_TOOL_DIAMETER_RIGHT:
+		break;
+	default:
+		return 0;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+
+	if( pa::GET_CURRENT_USERMODE() < pa::USER_MODE_RND )
+	{
+		return 0;
+	}
+
+	dlg.SetIsFloatType( TRUE );
+	dlg.SetPrevNumber( pa::PPAStatus->GetAutoCalCoordinateOffsetParam()->fParam[nCurSel] );
+	dlg.SetProperty( 0 );
+
+	if( dlg.DoModal() == IDOK ) 
+	{
+		double fVal = hcutil::ToDouble( (TCHAR*)(LPCTSTR)dlg.GetNumber(), FALSE );
+	
+		//////////////////////////////////////////////////////////////////////////
+		// 2017.04.28 데이타 확인 
+		{
+			BOOL	bRet = TRUE;
+			CString strErrMsg;
+			switch( nCurSel )
+			{
+			case pa::SAutoCalCoordinateOffsetParam::PARAM_TOOL_NUMBER_LEFT:
+				// 왼쪽 툴 번호를 사용할 수 있는지 확인 
+				bRet = pa::PPAStatus->GetMeasureParamEtc()->CheckToolNo( FALSE, (int)fVal, strErrMsg );
+				break;
+			case pa::SAutoCalCoordinateOffsetParam::PARAM_TOOL_NUMBER_RIGHT:
+				// 오른쪽 툴 번호를 사용할 수 있는지 확인
+				bRet = pa::PPAStatus->GetMeasureParamEtc()->CheckToolNo( TRUE, (int)fVal, strErrMsg );
+				break;
+			case pa::SAutoCalCoordinateOffsetParam::PARAM_TOOL_DIAMETER_LEFT:
+				// 툴 두께 확인
+				bRet = pa::PPAStatus->GetMeasureParamEtc()->CheckToolDiameter( FALSE, fVal, strErrMsg );
+				break;
+			case pa::SAutoCalCoordinateOffsetParam::PARAM_TOOL_DIAMETER_RIGHT:
+				// 디스크 두께 확인 
+				bRet = pa::PPAStatus->GetMeasureParamEtc()->CheckToolDiameter( TRUE, fVal, strErrMsg );
+				break;
+			}
+
+			if( bRet == FALSE )
+			{
+				// 데이터 에러 
+				CMsgDlgThread::GetInstance()->Show( CMsgDlg::TYPE_CLOSE, CMsgDlg::ICON_ERROR, strErrMsg );
+				CMsgDlgThread::GetInstance()->Wait();
+
+				return 0;
+			}
+		}
+		//////////////////////////////////////////////////////////////////////////
+
+		pa::PPAStatus->GetAutoCalCoordinateOffsetParam()->fParam[nCurSel] = fVal;
+
+		//////////////////////////////////////////////////////////////////////////
+		// save to file 버튼의 상태를 변경 
+		((CSetupTeachingDlg*)pParent_)->ResetSaveToFileButtonState( CSetupTeachingDlg::SUB_PAGE_AT_COORDINATE_OFFSET );
+		//////////////////////////////////////////////////////////////////////////
+	}
+
+	// 	update_TeachingPointListBox();
+	UpdateOptionListBox();
+
+	return 0;
+}
+
+//////////////////////////////////////////////////////////////////////////
+//
+//////////////////////////////////////////////////////////////////////////
+
+void CSetupTeachingAutoCalCoordOffsetDlg::OnTimer(UINT_PTR nIDEvent)
+{
+	if( nIDEvent == 1 )
+	{
+		KillTimer( 1 );
+
+		updateButtonState();
+
+		if( pa::PPAStatus->GetRunMode() == pa::RUNMODE_RUN )
+		{
+			updateCheckBoxState();
+		}
+
+		if( IsWindowVisible() ) {
+			SetTimer( 1, 250, NULL );
+		}
+	}
+	else if( nIDEvent == 2 )
+	{
+		KillTimer( 2 );
+
+		if( IsWindowVisible() )
+		{
+			SetTimer( 2, 1000, NULL );
+		}
+	}
+
+	CDialogListPage::OnTimer(nIDEvent);
+}
+
+void CSetupTeachingAutoCalCoordOffsetDlg::updateButtonState()
+{
+	static int PREV_CHECK_STATE[7] = { -1, -1, -1, -1, -1, -1, -1 };
+	int check_btn_id[] = { 
+		IDC_CHECK_DUMMY, IDC_CHECK_X_AXIS_CENTER, IDC_CHECK_Y1AXIS_CENTER,
+		IDC_CHECK_Y2AXIS_CENTER, IDC_CHECK_Z1AXIS_ORG_OFFSET, IDC_CHECK_Z2AXIS_ORG_OFFSET,
+		IDC_CHECK_AB_DISTANCE };
+	int curr_check_state[7];
+	int is_stop_mode = (pa::PPAStatus->GetRunMode() == pa::RUNMODE_STOP ) ? 1 : 0;
+
+	//////////////////////////////////////////////////////////////////////////
+	// check-box state
+		curr_check_state[0] = 0;
+		curr_check_state[1] = 0;
+		curr_check_state[2] = 0;
+		curr_check_state[3] = 0;
+		curr_check_state[4] = 0;
+		curr_check_state[5] = 0;
+		curr_check_state[6] = 0;
+
+	for( int i = 0; i<7; i++ ) {
+		curr_check_state[i] = is_stop_mode && curr_check_state[i];
+		if( PREV_CHECK_STATE[i] != curr_check_state[i] ) {
+			PREV_CHECK_STATE[i] = curr_check_state[i];
+			((CButton*)GetDlgItem( check_btn_id[i]))->EnableWindow( PREV_CHECK_STATE[i] );
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// touch signal 
+	int prev_touch_signal = ((CButton*)GetDlgItem(IDC_CHECK_TOUCH_SIGNAL))->GetCheck();
+	int prev_touch_signal2 = ((CButton*)GetDlgItem(IDC_CHECK_TOUCH_SIGNAL2))->GetCheck();
+
+	int curr_touch_signal = pa::PPAStatus->GetPAStatus()->bInput[pa::IN10003_AutoCalibrationLeft];
+	int curr_touch_signal2 = pa::PPAStatus->GetPAStatus()->bInput[pa::IN10004_AutoCalibrationRight];
+
+	if( prev_touch_signal != curr_touch_signal ) 
+	{
+		((CButton*)GetDlgItem(IDC_CHECK_TOUCH_SIGNAL))->SetCheck( curr_touch_signal );
+		prev_touch_signal = curr_touch_signal;
+	}
+
+	if( prev_touch_signal2 != curr_touch_signal2 )
+	{
+		((CButton*)GetDlgItem(IDC_CHECK_TOUCH_SIGNAL2))->SetCheck( curr_touch_signal2 );
+		prev_touch_signal2 = curr_touch_signal2;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// run button state 
+	// step 번호 50000~ 52000이면 auto calibration for coordinate offset 
+	//	- start		: stop 모드일 때,  
+	//	- stop		: run 모드이고, 50000 ~ 52000 일 때,
+	//	- disable	: 
+
+	static int PREV_BTN_MODE	= -1;	// 0:stop, 1:start
+	static int PREV_BTN_ENABLE	= -1;	// 0:disable, 1:enable
+	int curr_btn_mode	= 0;
+	int curr_btn_enable	= 0;
+
+	pa::EN_RUNMODE hRunMode = pa::PPAStatus->GetRunMode();
+	int run_step = pa::PPAStatus->GetThreadState()->nRunMode_StepNo;	// >= 50000
+//	int axis_num = pa::PSWConfig->GetConfigData()->nNumAxis;
+	int axis_num = pa::MODEL_INFO.GetNumAxis();
+
+	if( axis_num == 4 || axis_num == 5 ) {
+		if( hRunMode == pa::RUNMODE_STOP ) {
+			// start 버튼 
+			curr_btn_mode = 1;
+			curr_btn_enable = 1;
+		}
+		else if( hRunMode == pa::RUNMODE_RUN ) {
+			if( run_step >= 50000 && run_step < 52000 ) {
+				// stop 버튼 
+				curr_btn_mode = 0;
+				curr_btn_enable = 1;
+			} else {
+				// disable 
+				curr_btn_mode = 0;
+				curr_btn_enable = 0;
+			}
+		}
+		else {
+			// disable 
+			curr_btn_mode = 0;
+			curr_btn_enable = 0;
+		}
+	}
+	else {
+		// disable 
+		curr_btn_mode = 0;
+		curr_btn_enable = 0;
+	}
+
+	if( PREV_BTN_MODE != curr_btn_mode ) {
+		PREV_BTN_MODE = curr_btn_mode;
+		if( PREV_BTN_MODE == 0 ) 
+		{
+			((CButton*)GetDlgItem(IDC_BUTTON_START_STOP))->SetWindowText( _T("Stop") );
+		}
+		else 
+		{
+			((CButton*)GetDlgItem(IDC_BUTTON_START_STOP))->SetWindowText( _T("Start") );
+
+			if( nIsPressStopButton_ == 0 )
+			{
+				// 완료 메시지 박스
+				TRACE( _T("Auto Calibration Complete !!!\n") );
+				CString strMsg;
+				strMsg.Format( _T("Auto Calibration Complete !!!") );
+				CMsgDlgThread::GetInstance()->Show( CMsgDlg::TYPE_CLOSE, CMsgDlg::ICON_INFO, strMsg );
+				CMsgDlgThread::GetInstance()->Wait();		
+			//	CMsgDlgThread::GetInstance()->Hide();
+			}
+		}
+	} 
+	if( PREV_BTN_ENABLE != curr_btn_enable ) {
+		PREV_BTN_ENABLE = curr_btn_enable;
+		((CButton*)GetDlgItem(IDC_BUTTON_START_STOP))->EnableWindow( PREV_BTN_ENABLE );
+	}
+}
+
+void CSetupTeachingAutoCalCoordOffsetDlg::updateCheckBoxState()
+{
+	static int PREV_SELECT[7] = { -1, -1, -1, -1, -1, -1, -1 };
+	int nID_CHECKBOX[7] = { 
+		IDC_CHECK_DUMMY, IDC_CHECK_X_AXIS_CENTER, IDC_CHECK_Y1AXIS_CENTER,
+		IDC_CHECK_Y2AXIS_CENTER, IDC_CHECK_Z1AXIS_ORG_OFFSET, IDC_CHECK_Z2AXIS_ORG_OFFSET,
+		IDC_CHECK_AB_DISTANCE
+	};
+
+	for( int i = 0; i<7; i++ )
+	{
+		if( PREV_SELECT[i] != pa::PPAStatus->GetThreadState()->nAutoCal_CheckingItem[i] )
+		{
+			PREV_SELECT[i] = pa::PPAStatus->GetThreadState()->nAutoCal_CheckingItem[i];
+			((CButton*)GetDlgItem(nID_CHECKBOX[i]))->SetCheck( PREV_SELECT[i] );
+		}
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+void CSetupTeachingAutoCalCoordOffsetDlg::OnBnClickedButtonStartStop()
+{
+	CString strBtn;
+	CString strMsg;
+
+	((CButton*)GetDlgItem(IDC_BUTTON_START_STOP))->GetWindowText( strBtn );
+
+	if( strBtn == CString( _T("Start") ) )
+	{
+		strMsg.Format( _T("do you want to start auto calibration ?") );
+		CMsgDlgThread::GetInstance()->Show( CMsgDlg::TYPE_OKCANCEL, CMsgDlg::ICON_QUEST, strMsg );
+		CMsgDlg::EN_RET ret = CMsgDlgThread::GetInstance()->Wait();
+
+		if( ret == CMsgDlg::RET_OK ) 
+		{
+			nIsPressStopButton_ = 0;
+
+			// X Axis Center 부터 Z2 Aixs Orgin offset 까지 전체를 한번에 수행
+			((CButton*)GetDlgItem(IDC_CHECK_X_AXIS_CENTER))->SetCheck(0);
+			((CButton*)GetDlgItem(IDC_CHECK_Y1AXIS_CENTER))->SetCheck(0);
+			((CButton*)GetDlgItem(IDC_CHECK_Y2AXIS_CENTER))->SetCheck(0);
+			((CButton*)GetDlgItem(IDC_CHECK_Z1AXIS_ORG_OFFSET))->SetCheck(0);
+			((CButton*)GetDlgItem(IDC_CHECK_Z2AXIS_ORG_OFFSET))->SetCheck(0);
+
+			pa::PPAStatus->GetThreadState()->nAutoCal_CheckingItem[0] = ((CButton*)GetDlgItem(IDC_CHECK_DUMMY))->GetCheck();
+			pa::PPAStatus->GetThreadState()->nAutoCal_CheckingItem[1] = ((CButton*)GetDlgItem(IDC_CHECK_X_AXIS_CENTER))->GetCheck();
+			pa::PPAStatus->GetThreadState()->nAutoCal_CheckingItem[2] = ((CButton*)GetDlgItem(IDC_CHECK_Y1AXIS_CENTER))->GetCheck();
+			pa::PPAStatus->GetThreadState()->nAutoCal_CheckingItem[3] = ((CButton*)GetDlgItem(IDC_CHECK_Y2AXIS_CENTER))->GetCheck();
+			pa::PPAStatus->GetThreadState()->nAutoCal_CheckingItem[4] = ((CButton*)GetDlgItem(IDC_CHECK_Z1AXIS_ORG_OFFSET))->GetCheck();
+			pa::PPAStatus->GetThreadState()->nAutoCal_CheckingItem[5] = ((CButton*)GetDlgItem(IDC_CHECK_Z2AXIS_ORG_OFFSET))->GetCheck();
+			pa::PPAStatus->GetThreadState()->nAutoCal_CheckingItem[6] = ((CButton*)GetDlgItem(IDC_CHECK_AB_DISTANCE))->GetCheck();
+
+			PPNC_IPC_CLIENT->Start_AutoCal_CoordinateOffset();
+		}
+	}
+	else if( strBtn == CString( _T("Stop") ) )
+	{
+		strMsg.Format( _T("do you want to stop auto calibration ?") );
+		CMsgDlgThread::GetInstance()->Show( CMsgDlg::TYPE_OKCANCEL, CMsgDlg::ICON_QUEST, strMsg );
+		CMsgDlg::EN_RET ret = CMsgDlgThread::GetInstance()->Wait();
+
+		if( ret == CMsgDlg::RET_OK ) 
+		{
+			nIsPressStopButton_ = 1;
+
+			pa::PPAStatus->GetThreadState()->nAutoCal_CheckingItem[0] = 1; 
+			pa::PPAStatus->GetThreadState()->nAutoCal_CheckingItem[1] = 1;
+			pa::PPAStatus->GetThreadState()->nAutoCal_CheckingItem[2] = 1;
+			pa::PPAStatus->GetThreadState()->nAutoCal_CheckingItem[3] = 1;
+			pa::PPAStatus->GetThreadState()->nAutoCal_CheckingItem[4] = 1;
+			pa::PPAStatus->GetThreadState()->nAutoCal_CheckingItem[5] = 1;
+			pa::PPAStatus->GetThreadState()->nAutoCal_CheckingItem[6] = 1;
+
+			PPNC_IPC_CLIENT->Stop_AutoCal_CoordinateOffset();
+		}
+	}
+}
+
+void CSetupTeachingAutoCalCoordOffsetDlg::OnBnClickedCheckDummy() { }
+void CSetupTeachingAutoCalCoordOffsetDlg::OnBnClickedCheckXaxisCenter() {  }
+void CSetupTeachingAutoCalCoordOffsetDlg::OnBnClickedCheckY1axisCenter() {  }
+void CSetupTeachingAutoCalCoordOffsetDlg::OnBnClickedCheckY2axisCenter() { }
+void CSetupTeachingAutoCalCoordOffsetDlg::OnBnClickedCheckZ1axisOrgOffset() { }
+void CSetupTeachingAutoCalCoordOffsetDlg::OnBnClickedCheckZ2axisOrgOffset() {  }
+
+

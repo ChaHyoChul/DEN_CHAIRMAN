@@ -1,0 +1,270 @@
+#pragma once
+
+#include "Transform.h"
+
+namespace pa
+{
+//////////////////////////////////////////////////////////////////////////
+class CPMotion;
+class CTransform;
+
+class CPThread : public CGeneralThread
+{
+public:
+	enum EN_CHECK_NC_CODE {
+		CHECK_NC_CODE_RUN = 0,							// 정상 처리 
+		CHECK_NC_CODE_M30,								// 코드에 M30 포함 
+		CHECK_NC_CODE_M47,								// 코드에 M47 포함 
+		CHECK_NC_CODE_ERROR,							// 코드 에러 
+		CHECK_NC_CODE_SKIP,								// 라인 스킵
+		CHECK_NC_CODE_TOOL_OVERTIME,					// 툴 사용시간 지남 or 툴 에러 
+		CHECK_NC_CODE_NUM
+	};
+
+	enum IS_ALH_IP_TOGETHER {
+		NOT_TOGETHER,
+		TOGETHER_LOADING,
+		TOGETHER_UNLOADING
+	};
+
+private:
+	CRITICAL_SECTION cs_;
+
+	EN_RUNMODE	hPrevRunMode_;					// 이전 상태. 에러 모드로 전환될 때, 이전 상태가 RUN, TO_RUN일 경우만 에러 표시  
+	int			PREV_SPINDLE_AIR_PURGE_;
+	int			nCurrSpindleAirPurge_;			// 현재 SpindleAirPurge 상태 (1:ON, 0:OFF)
+//	DWORD		dwSpindleAirPurgeOffTime_;		// SpindleAirPurge가 꺼지는 시간 
+												// nCurrSpindleAirPurge가 0일 경우, 이 시간과 비교 Air Purge를 끈다 
+												// AirPurge를 껏다면, 0으로 만든다 
+	CTime		tmSpindleAirPurgeOffTime_;		//
+
+	int		nStep_[RUNMODE_NUM];
+
+	int		nStartLineNo_;						// 시작 라인 번호. 임시 저장 
+	BOOL	bRestoreBeforeRun_;					// 이어서 실행시 이전 상태 복원
+
+	BOOL	bIsPressStopButton_;				// 사용자가 Stop 버튼을 눌렸으면 TRUE
+	BOOL	bIsSensingExistBlock_;				// Block 감지 여부 
+
+	BOOL	bIsNeedBlockLoading_;				// 새 블록 로딩이 필요함 
+	BOOL	bIsNeedBlockUnloading_;				// 작업 종료 블록 언로딩 필요함 
+
+	int		nNextNCFileIndex_;					// 다음 NC File 인덱스 
+
+// 	int		nLastUsedToolNo_;					// 마지막 사용한 툴 번호 
+// 	DWORD	dwLastUsedToolChangeLineNo_;		// 툴 체인지한 라인 번호 
+	int		nToolErrorHandlingCode_;			// 
+
+	BOOL 		hasRescanForRefill_;
+
+	CPException	hBackupExecpt_;
+public:
+	CPException& GetBackExcept() { return hBackupExecpt_; }
+
+private:
+
+// 	CTransform	hTransform_;
+	CTransformVPst	hTransformVPst_;
+
+	char	szCommandBuffer_[256];
+
+	BOOL	bIsToolError_;						// Tool 에러여부 저장
+	BOOL	bToolDirection_;					// 0 : Left, 1 : Right
+	BOOL	bIsEMOError_;						// EMO 에러여부 저장 
+	int 	nErrorLineNo_;						// 에러가 발생한 라인 번호 
+
+private:
+	void doInit();
+	void doStop();
+	void doToStop();
+	void doToRun();
+	void doToRun2();
+	void doRun();
+	void doError();
+	void doPause();
+
+	//////////////////////////////////////////////////////////////////////////
+
+	void doAutoCal_CoordinateOffset();							// step : 50000 ~ 52000
+	BOOL doAutoCal_Prepare( BOOL bResetStep, int tool_no );		// 툴을 잡고 대기 
+	BOOL doAutlCal_MoveReadyPos( BOOL bResetStep );				// 툴을 잡은 후 대기 위치(G53 X0 Y0 A0)로 이동한다 
+	BOOL doAutoCal_Dummy( BOOL bResetStep );					// Dummy 측정
+	BOOL doAutoCal_X( BOOL bResetStep );						// X축 Center 측정
+	BOOL doAutoCal_Y1( BOOL bResetStep );						// Y1축 Center 측정
+	BOOL doAutoCal_Y2( BOOL bResetStep );						// Y2축 Center 측정
+	BOOL doAutoCal_Z1( BOOL bResetStep );						// Z1 Origin Offset 측정
+	BOOL doAutoCal_Z2( BOOL bResetStep );						// Z2 Origin Offset 측정
+
+	void doAutoTeaching_ToolPocket1();							// step : 52000 ~ 54000 (Tool Pocket을 이용하여 측정)
+	void doAutoTeaching_ToolPocket2();							// step : 52000 ~ 54000 (Tray를 이용하여 측정)
+	void doAutoTeaching_ToolPocket3();							// step : 52000 ~ 54000 (Offset 데이터를 사용해서 계산으로 입력)
+	BOOL getCrossPoint( double A1[2], double A2[2], double B1[2], double Ret[2] );
+
+
+	void doAutoTeaching_MultiOrigin();							// step : 56000 ~ 58000
+	BOOL measure_RoundBar( BOOL bResetStep, int coord_index, int coord_no, int objectno );
+
+	void doAutoCal_SingleAbutmentCoordinateOffset();			// step : 58000 ~ 59999
+	void doAutoCal_SingleAbutmentCoordinateOffset_A();			// step : 60000 ~ 61999
+
+	void doATCTest();											// step : 62000 ~ 62999
+
+	BOOL doAutoloaderRescan( BOOL bResetStep );
+	BOOL doAutoloaderExistanceScan( BOOL bResetStep );
+	BOOL doAutoloaderBarcodeScan( BOOL bResetStep );
+
+	BOOL GetItemFromAutoLoaderSlot( BOOL bResetStep, int itemNumber );
+	BOOL GetItemFromAutoLoaderHand( BOOL bResetStep );
+	BOOL GetItemFromItemPasser( BOOL bResetStep );
+	BOOL GetItem( BOOL bResetStep, int itemNumber );
+
+	BOOL ReturnItemFromAutoLoaderHand( BOOL bResetStep );
+	BOOL ReturnItemFromItemPasser( BOOL bResetStep );
+	BOOL ReturnItemFromWorkSpace( BOOL bResetStep );
+	BOOL ReturnItem( BOOL bResetStep );
+	BOOL ReturnItemExceptWorkSpace( BOOL bResetStep );
+
+	BOOL PlaceItemOnAnEmptySlotFromAutoLoaderHand( BOOL bResetStep );
+
+	BOOL MoveItemFromAutoLoaderHandToItemPasser( BOOL bResetStep );
+	BOOL MoveItemFromItemPasserToAutoLoaderHand( BOOL bResetStep );
+	BOOL MoveItemFromWorkSpaceToItemPasser( BOOL bResetStep );
+
+	BOOL SeparateWorkSpaceToItemPasser( BOOL bResetStep );
+	BOOL SeparateItemPasserToWorkSpace( BOOL bResetStep );
+	BOOL SeparateItemPasserToAutoLoaderHand( BOOL bResetStep, int isUnLoading );
+	BOOL SeparateAutoLoaderHandToItemPasser( BOOL bResetStep, int isUnLoading );
+	BOOL MoveReadyPosWrapper( BOOL bResetStep );
+
+	IS_ALH_IP_TOGETHER IsAutoLoaderHandItemPasserTogether();
+	BOOL IsItemPasserWorkSpaceTogether();
+
+	//////////////////////////////////////////////////////////////////////////
+
+	void changeRunMode( EN_RUNMODE runMode, BOOL resetStep );
+	
+	void checkHome();
+	void checkState();
+	void checkOpPanel();
+	void checkDoorOpen();
+	void checkRemoteUploadData();
+	void checkLimitSensor();
+	void checkFilterTime();
+
+	void check_abnormal_stop();		// 가공중 일정시간 멈추어 있을 경우, 에러 처리 한다 
+	void logging_pa_status();		// pa 제어기의 상태를 로그로 남긴다 
+	void logging_tool_status();		// 
+
+	void checkAirLimit_SingleSensor();
+	void checkAirLimit_DaulSensor();
+	void checkFlowSensor();
+
+	EN_CHECK_NC_CODE checkNCCode( char* pNCCode, int* pnErrorToolNo, int* pnToolNo );
+
+	BOOL doItemLoading( BOOL bResetStep );
+	BOOL doItemUnloading( BOOL bResetStep );
+
+	void errorProc(CPException& e);
+
+	EN_PNC_ERR checkAutoloaderStartInterlock();		// 초기화 하기 전, autoloader의 각 센서 상태를 checking 한다 
+
+	void writeLog_OpPanel( LPCTSTR logMsg );
+	void writeLog_Door( LPCTSTR logMsg );
+	void writeLog_EXT( LPCTSTR logMsg );
+	void writeLog_Error( LPCTSTR type, LPCTSTR message, LPCTSTR solution );
+	void writeLog_ChangeRunMode( LPCTSTR logMsg );
+	void writeLog_AutoCal( LPCTSTR logMsg, BOOL bExt );
+	void writeLog_UploadData( LPCTSTR logMsg );
+
+	void change_external_button_led( pa::EN_RUNMODE hRunMode );
+
+public:
+	void checkSpindleAirPurge();
+
+	// 
+public:
+	BOOL Initialize( DWORD dwCycleTime, CString& strErrMsg );
+	void Destoy();
+
+	void DoInit();
+	void DoStop( BOOL bUseToStop );
+	void DoPause();
+	void DoRun( int nStartLineNo, BOOL bRestoreBeforeRun );		// bCont==TRUE 이면, 이어서 실행 
+	void DoAutoLoaderReFill();
+	void DoStopAutoLoaderReFill();
+	void DoReturnItems();
+	
+	void DoStartAutoCalCoordinateOffset();
+	void DoStopAutoCalCoordinateOffset();
+	void DoStartAutoTeachMultiOrigin();
+	void DoStopAutoTeachMultiOrigin();
+	void DoStartAutoTeachToolPocket();
+	void DoStopAutoTeachToolPocket();
+
+	void DoStartAutoCalSingleAbutmentCoordinateOffset();
+	void DoStopAutoCalSingleAbutmentCoordinateOffset();
+	void DoStartAutoCalSingleAbutmentCoordinateOffset_A();
+	void DoStopAutoCalSingleAbutmentCoordinateOffset_A();
+
+	void DoStartATCTest();
+	void DoStopATCTest();
+
+	BOOL OpenNCFile( int nNCFileIndex, CString& strErrMsg );
+	void CloseNCFile();
+
+/*	void updateLCDProgressbar();
+	void updateLCDMillingTime();
+	void updateLCDToolState();
+	void sendLCDConnectionFlag();
+	void updateLCDPage();
+	void updateLCDChairmanState();
+*/
+	void updateLCDButtonstate();
+	void updateLCDState();
+
+	//////////////////////////////////////////////////////////////////////////
+	void ErrorProc( CPException& e ) {
+		errorProc( e );
+	}
+	//////////////////////////////////////////////////////////////////////////
+
+	int GetStep(EN_RUNMODE  hRunMode ) {
+		return nStep_[hRunMode];
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	void CHANGE_STOP_MODE() {
+		changeRunMode( pa::RUNMODE_STOP, TRUE );
+	}
+	
+	//////////////////////////////////////////////////////////////////////////
+	//
+	//////////////////////////////////////////////////////////////////////////
+	void ERROR_PROC( CPException& e );
+
+	//////////////////////////////////////////////////////////////////////////
+	//
+	//////////////////////////////////////////////////////////////////////////
+	void SET_ERROR_LINENO( int nErrorLineNo ) { 
+		nErrorLineNo_ = nErrorLineNo; 
+	}
+
+	static void WRITE_TOOL_INFO(  int direction, int tool_no, double tool_length, int tool_length_update_flag );
+// 	static void READ_TOOL_INFO( int* tool_no, double* tool_length );
+	static void READ_TOOL_INF0(  int direction, int* tool_no, double* tool_length, int* tool_length_update_flag );
+
+	// Virtual Method 
+public:
+	virtual void Execute();
+
+public:
+	CPThread(void);
+	~CPThread(void);
+
+	friend class CPAMotion;
+	friend class CPAAsyncComm;
+};
+
+//////////////////////////////////////////////////////////////////////////
+}
+

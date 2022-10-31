@@ -1,0 +1,2051 @@
+#include "StdAfx.h"
+#include "PAAsyncComm.h"
+
+//////////////////////////////////////////////////////////////////////////
+//
+CString pa::CPAAsyncComm::STR_PA_RUNMODE[CPAAsyncComm::PA_RUNMODE_NUM] =
+{
+	_T("OFF"),
+	_T("AUTO"),
+	_T("STEP"),
+	_T("MDA")
+};
+
+char* pa::CPAAsyncComm::STR_COMMAND[] =
+{
+	"RND_CDTEX",		// 우선순위를 맨 앞으로 변경 
+	"RND_CDT",
+
+	"RND_HALT",
+	"RND_RST",
+	"RND_INIT",
+	"RND_MODE",
+	"RND_STREAM",
+	"RND_STOP",
+	"RND_PAUSE",
+	"RND_CONTINUE",
+	"RND_STATUS",
+	"RND_MDA",
+	"RND_ATTACH",
+	"RND_COMMAND",
+
+	"RND_HOME",
+	"RND_ORG",
+	"RND_BLCHK",
+	"JOG",
+	"JSTOP",
+	"RJSS",
+	"WJSS",
+	"RCFG",
+	"WCFG",
+	"RTCP",
+	"WTCP",
+	"RZOO",
+	"RTOO",
+	"RTDATA",
+	"WZOO",
+	"WTOO",
+	"WTDATA",
+	"RTHS",
+	"WTHS",
+	"RTLS",
+	"WTLS",
+
+	"IOT",
+
+	"RND_STATE",
+	"RND_AES",
+	"RND_ASS",
+	"RND_MMA",
+	"RND_MMI",
+	"DO_MASURE",
+	"SCAL",
+	"GET_MASURE_RESULT",
+
+	"RTMG",
+	"WTMG",
+	"RMAXL",
+	"WMAXL",
+	"RMINL",
+// 	"WMINL",
+
+	"RENABLE",
+	"RDISABLE",
+
+	"RND_SINIT",
+
+	"M140",
+	"M141",
+	"M142",
+	"M143",
+	"M144",
+	"M145",
+	"M146",
+	"M147",
+	"M148",
+
+	"M05",
+	"M29",
+
+	"RND_SUHO",		// Set Home Offset 
+
+	"VER",
+
+	"RND_STIN",
+	"WDSSZ",
+
+	"RND_SABHO",
+
+	"RTPPO",		// Read Tool Pocket Put Offset 
+	"WTPPO",		// Write Tool Pocket Put Offset 		
+	
+	"RADR",			// Read. PA Controller IP Address 
+	"WADR",			// Writw. PA Controller IP Address 
+	"RRIOADR",		// Read. IO Board IP Address	
+	"WRIOADR",		// Write. IO Board IP Address 
+
+	"SORZ",
+	"SMCT",			// PowerOn Test 명령 
+
+	// set tool manually
+	"WCTN",			// Change current tool number
+
+	"WALP",
+	"RALP",
+
+	"M753",			// i	AL_MoveBlockSensingPosition
+	"M757",			// i	AL_MoveBlockFromCassetteToPNC
+	"M758",			// i	AL_MoveBlockFromPNCToCassette
+	"M773",			//		AL_Init_Loader_ARM
+	"M775",			//      AL_Init_Loader_ARM
+	"M779",			//		AL_Init_PNC_ARM
+	"M777",			//		AL_GripperGrip
+	"M778",			//		AL_GripperUngrip
+
+	"M771",
+	"M772",
+	"M774", 
+	"M776", 
+	"M751",
+	"M752",
+	"M785",
+	"M786",
+	"M787",
+	"M781",
+	"M782",
+	"M780",
+	"M783", 
+	"M784",
+
+	// 추가 
+	"M701",
+	"M702",
+	"M703",
+	"M704",
+	"M710",
+	"M750",
+	"M761",
+	"M762",
+	"M788",
+	"M789",
+	"M801",
+	"M802",
+	"M910",
+	"M911",
+	"M912",		// Block(Disk) Clamp
+	"M913",		// Block(Disk) Unclamp
+	"M914",		// Block(Disk) DoubleClamp
+
+	"GWVF",
+	"SWVF",
+
+	"M754",
+
+	"RISM",		// 2017.06.28 
+
+	"RND_MSC",	// 2017.08.25 
+
+	"FZS",		// 2018.08.31
+
+	"RND_MCODE_THREAD_PAUSE",	
+	"RND_MCODE_THREAD_RESUME",
+
+	"SALF",		// 2018.02.27 
+
+	"SFSF",		// 2018.05.16 
+
+	"M131",		// 2018.05.24 퍼지에어 ON
+	"M132",		// 퍼지에어 OFF
+
+	"RDT",
+	"WPAR",
+	"RPAR"
+};
+
+BOOL pa::CPAAsyncComm::B_IS_RUNNING_COMPLETE[CMD_NUM];						// 동작중이면 TRUE, 그렇지 않으면 FALSE
+DWORD pa::CPAAsyncComm::DW_SEND_RUNNING_COMMAND[CMD_NUM];					// 2017.05.22 
+DWORD pa::CPAAsyncComm::DW_RECV_RUNNING_COMMAND[CMD_NUM];					//	명령을 보낸시간과 응답을 받은 시간을 저장하고, 에러 났을때 로그에 남긴다 
+DWORD pa::CPAAsyncComm::DW_SEND_RECV_MAX[CMD_NUM];							// 
+pa::EN_COORDINATE		pa::CPAAsyncComm::H_TEMP_COORDINATE_NO;				//
+pa::EN_TEACHING_POINT	pa::CPAAsyncComm::H_TEMP_TEACHING_POINT_NO;			// 업로드한 Teaching Point 번호 
+// int		pa::CPAAsyncComm::N_TEMP_JOG_SPEED = 0;								//
+double	pa::CPAAsyncComm::F_TEMP_MEASURE_RESULT = 0.0;						// 
+TCHAR	pa::CPAAsyncComm::SZ_RND_ERR_MSG[256];								//
+TCHAR	pa::CPAAsyncComm::SZ_PA_CTRL_VER[128];
+
+TCHAR	pa::CPAAsyncComm::SZ_PA_IP_ADDR[32];
+TCHAR	pa::CPAAsyncComm::SZ_CANTOPS_IP_ADDR[32];
+
+DWORD	pa::CPAAsyncComm::DW_RESPONSE_SMCT_CMD = 0;							//
+int		pa::CPAAsyncComm::N_ERRORCODE_SMCT_CMD = 0;
+DWORD	pa::CPAAsyncComm::DW_RESPONSE_RISMCT_CMD = 0;						//
+int		pa::CPAAsyncComm::N_ERRORCODE_RISMCT_CMD = 0;
+
+DWORD	pa::CPAAsyncComm::DW_RESPONSE_RDT_CMD = 0;
+int		pa::CPAAsyncComm::N_ERRORCODE_RDT_CMD = 0;
+
+//////////////////////////////////////////////////////////////////////////
+
+pa::CPAAsyncComm::CPAAsyncComm(int buffer_size) 
+: hcsock::CClientSocket(buffer_size)
+{
+	nReveiveBufferIndex_= 0;
+	nCommandBufferSize_ = buffer_size;
+	nReceiveBufferSize_ = buffer_size * 2;
+	pCommandBuffer_ = new char [nCommandBufferSize_];
+	pReceiveBuffer_ = new char [nReceiveBufferSize_];
+
+	pRefPAStatus_	= NULL;
+	pRefThreadState_= NULL;
+
+	InitializeCriticalSection( &hCS_ );
+
+	reset_running_command();
+}
+
+pa::CPAAsyncComm::~CPAAsyncComm(void)
+{
+	DeleteCriticalSection( &hCS_ );
+
+	if( pCommandBuffer_ ) {
+		delete [] pCommandBuffer_;
+		pCommandBuffer_ = NULL;
+	}
+	if( pReceiveBuffer_ ) 
+	{
+		delete [] pReceiveBuffer_;
+		pReceiveBuffer_ = NULL;
+	}
+}
+
+void pa::CPAAsyncComm::OnRecv( const char* p, int len )
+{
+	const char* P_END_OF_RESPONSE = "\r\n";
+	char szTempResponse[2048];	// 응답 버퍼 
+
+	if( p == NULL || len == 0 ) {
+		return ;
+	}
+// 
+// 	TRACE(p);
+// 	TRACE("\n");
+
+	//////////////////////////////////////////////////////////////////////////
+	// 받은 데이터를 버퍼에 복사 
+	memcpy((void*)(pReceiveBuffer_+nReveiveBufferIndex_), (void*)p, len);
+	nReveiveBufferIndex_ += len;
+	//////////////////////////////////////////////////////////////////////////
+	
+// 	if( strstr(p, "M757") != NULL ) {
+// 		CString str;
+// 		str.Format( _T("RECV M757\n") );
+// 		TRACE( str );
+// 	}
+
+	while( nReveiveBufferIndex_ >= 3 )
+	{
+		//////////////////////////////////////////////////////////////////////////
+		// 명령에 포함된 데이터까지 다 받았는지 확인 
+		// 응답 데이터는 [command param\r\n] 
+		char*	ptemp = strstr(pReceiveBuffer_, P_END_OF_RESPONSE);
+
+		if( ptemp != NULL ) 
+		{
+			// 응답 데이터를 분리한 후...
+			int copy_byte = ptemp - pReceiveBuffer_ + 2;	// "\r\n" 포함 
+			memcpy( (void*)szTempResponse, pReceiveBuffer_, copy_byte );
+			szTempResponse[copy_byte-2] = 0;	// \r => 0
+			szTempResponse[copy_byte-1] = 0;	// \n => 0
+
+			// Receive Buffer 정리 
+			int ndbg = nReveiveBufferIndex_;
+			nReveiveBufferIndex_ -= copy_byte;
+			if( nReveiveBufferIndex_ < 0 ) {
+				ndbg = ndbg;
+				nReveiveBufferIndex_ = nReveiveBufferIndex_;
+				copy_byte = copy_byte;
+				ASSERT( FALSE );
+			}
+			memcpy( (void*)pReceiveBuffer_, (void*)(pReceiveBuffer_+copy_byte), nReveiveBufferIndex_ );
+			pReceiveBuffer_[nReveiveBufferIndex_] = 0;
+			memset( (void*)(pReceiveBuffer_+nReveiveBufferIndex_), 0, nReceiveBufferSize_-nReveiveBufferIndex_ );
+
+			//////////////////////////////////////////////////////////////////////////
+			// 응답 처리 
+			try
+			{
+				process_response( szTempResponse );
+			}
+			catch( CPException& e ) 
+			{
+				if( pa::PPAStatus->GetThreadState()->hRunMode != pa::RUNMODE_ERROR ) {
+					TRACE("1. CALL PThread->ERROR_PROC()\n");
+					pa::PThread->ERROR_PROC( e );
+				}
+			}
+			//////////////////////////////////////////////////////////////////////////
+		}
+		else 
+		{
+			break;
+		}
+	}
+}
+
+// 응답 처리 
+//	COMMAND\r\n				데이터가 없을 경우 
+//	COMMAND data,data\r\n	데이터가 있을 경우
+//	COMMAND Enn				에러가 있을 경우 
+void pa::CPAAsyncComm::process_response( char* pResponse )
+{
+	TCHAR	SZ_TEMP[128];
+	double	ftemp[20];
+	int		ntemp[20];
+	char*	ptr;
+	char*	pData;
+	char*	pDataPtr = NULL;
+	int		response_command = -1;
+	int		nErrorCode = 0;
+
+	// 응답 Command를 찾아서 command index를 저장 한다 
+	for( int i = 0; i<CMD_NUM; i++ )
+	{
+		if( strstr(pResponse, STR_COMMAND[i]) )
+		{
+			response_command = i;
+			break;
+		}
+	}
+
+	if( response_command == CMD_RND_CDT || response_command == CMD_RND_CDTEX)
+	{
+		response_command = response_command;
+	}
+
+// 2017.05.16 디버깅 
+// 	if( response_command!=8 && response_command!=29)
+// 	{
+// 		if( response_command == -1 )
+// 		{
+// 			response_command = response_command;
+// 		}
+// 		CString strDbg;
+// 		CString strMsg = hcutil::ASCII_TO_CSTRING( pResponse );
+// 		strDbg.Format( _T("[%d] %s\n"), response_command, strMsg );
+// 		TRACE( strDbg );
+// 	}
+
+// 	if( response_command == CMD_RCFG )
+// 	{
+// 		response_command = response_command;
+// 	}
+// 	if( response_command == CMD_RND_STATE )
+// 	{
+// 		response_command = response_command;
+// 	}
+// 	if( response_command == CMD_RND_S_INIT )
+// 	{
+// 		response_command = response_command;
+// 	}
+// 	if( response_command == CMD_RTCP ) 
+// 	{
+// 		response_command = response_command;
+// 	}
+// 	if( response_command == CMD_RND_STATUS )
+// 	{
+// 		response_command = response_command;
+// 	}
+// 	if( response_command == CMD_FZS ) 
+// 	{
+// 		response_command = response_command;
+// 	}
+
+	if( response_command != -1 ) 
+	{
+		DW_RECV_RUNNING_COMMAND[response_command] = GetTickCount();		// 응답은 받은 것 이므로, 시간을 저장한다 
+		// 응답 대기 최대 시간 저장 
+		DWORD dwTemp = DW_RECV_RUNNING_COMMAND[response_command] - DW_SEND_RUNNING_COMMAND[response_command];
+		if( dwTemp > DW_SEND_RECV_MAX[response_command] ) {
+			DW_SEND_RECV_MAX[response_command] = dwTemp;
+		}
+
+		// 명령과 데이터를 분리 (데이터 위치를 찾는다)
+		pDataPtr = strstr( pResponse, " " );
+		szResponse_[0] = NULL;
+
+		if( pDataPtr != NULL ) 
+		{
+			pDataPtr += 1;	// skip white space 
+
+			if( response_command == pa::CPAAsyncComm::CMD_RTCP ) {
+				memset((void*)szResponse_, 0, 512);
+				sprintf_s( szResponse_, 512, "%s", pDataPtr );	// 응답 데이터를 저장한다 
+			}
+
+			//////////////////////////////////////////////////////////////////////////
+			// 데이터에 에러 코드가 있는지 확인 
+			// 에러가 있더라도, STATUS, STATE는 처리 해야 한다 
+			char cErrCode = pDataPtr[0];
+			BOOL bRespError= FALSE;
+			if( cErrCode == 'E' || cErrCode == 'e' )
+			{
+				memset((void*)SZ_RND_ERR_MSG, 0, sizeof(TCHAR)*256);
+
+				// 상태 전송 명령은 따로 처리 
+				// 2016.06.23 응답에 NULL이 있을 경우 처리 기능 수정 
+				if( response_command == CMD_RND_STATUS ) 
+				{
+// 					char *p = strstr( pDataPtr, " " ) + 1;
+// 					parsing_rnd_status_data( p );
+					char* p = strstr( pDataPtr, " " );
+					if( p != NULL )
+					{
+						p += 1;
+						parsing_rnd_status_data( p );
+					}
+					else 
+					{
+						bRespError = TRUE;
+					}
+				}
+				else if( response_command == CMD_RND_STATE )
+				{
+// 					char *p = strstr( pDataPtr, "," ) + 1;	// RND_STATE E-1234,0,0,.... 에러 번호 다음 ,로 구분 
+// 					parsing_rnd_state_data( p, TRUE );
+					char *p = strstr( pDataPtr, "," );
+					if( p != NULL )
+					{
+						p += 1;
+						parsing_rnd_state_data( p, TRUE );
+					}
+					else 
+					{
+						bRespError = TRUE;
+					}
+					hcutil::ASCII_TO_UNICODE( pRefPAStatus_->szRndErrorMessage, SZ_RND_ERR_MSG, 256 );
+			
+					if( bRespError == TRUE )
+					{
+						_tcscat_s( SZ_RND_ERR_MSG, 256, _T(" [NULL DATA]") );
+					}
+				}
+				else if( response_command == CMD_RND_CDT )
+				{
+					char *p = strstr( pDataPtr, ",");
+					if( p != NULL )
+					{
+						p += 1;
+						parsing_rnd_cdt_data( p );
+					}
+					else 
+					{
+						bRespError = TRUE;
+					}
+					hcutil::ASCII_TO_UNICODE( pRefPAStatus_->szRndErrorMessage, SZ_RND_ERR_MSG, 256 );
+
+					if( bRespError == TRUE ) 
+					{
+						_tcscat_s( SZ_RND_ERR_MSG, 256, _T(" [NULL DATA]") );
+					}
+				}
+
+ 				else if( response_command == CMD_RND_CDTEX )
+ 				{
+ 					char *p = strstr( pDataPtr, ",");
+ 					if( p != NULL )
+ 					{
+ 						p += 1;
+ 						parsing_rnd_cdtex_data( p, TRUE );
+ 					}
+ 					else 
+ 					{
+ 						bRespError = TRUE;
+ 					}
+ 					hcutil::ASCII_TO_UNICODE( pRefPAStatus_->szRndErrorMessage, SZ_RND_ERR_MSG, 256 );
+ 
+ 					if( bRespError == TRUE ) 
+ 					{
+ 						_tcscat_s( SZ_RND_ERR_MSG, 256, _T(" [NULL DATA]") );
+ 					}
+ 				}
+
+				// 에러 
+				nErrorCode = atoi( pDataPtr+1 );
+
+				// 예외 처리 
+				if( nErrorCode != 0 ) 
+				{
+					B_IS_RUNNING_COMPLETE[response_command] = FALSE;
+					if( response_command == CMD_SMCT ) {
+						CPAAsyncComm::N_ERRORCODE_SMCT_CMD = nErrorCode;
+						CPAAsyncComm::DW_RESPONSE_SMCT_CMD = 99999;		// 에러 리턴 
+						return ;
+					}
+					else if( response_command == CMD_RISM ) {
+						CPAAsyncComm::N_ERRORCODE_RISMCT_CMD = nErrorCode;
+						CPAAsyncComm::DW_RESPONSE_RISMCT_CMD = 99999;	// 에러 리턴 
+						return ;
+					}
+					else {
+						if( response_command == CMD_FZS ) { 
+							pa::PPAStatus->GetThreadState()->bCompleteResetOrigin_ = TRUE; 
+						}
+						throw CPException( ERR_RND_CMD, nErrorCode, SZ_RND_ERR_MSG );
+					}
+				}
+			}
+		}
+
+		//////////////////////////////////////////////////////////////////////////
+		// 응답 처리 
+		switch( response_command )
+		{
+		case CMD_RND_HALT:
+		case CMD_RND_RST:
+		case CMD_RND_INIT:
+		case CMD_RND_MODE:
+		case CMD_RND_STREAM:
+		case CMD_RND_MCODE_THREAD_PAUSE:
+		case CMD_RND_MCODE_THREAD_RESUME:
+		case CMD_RND_STOP:
+		case CMD_RND_PAUSE:
+		case CMD_RND_CONTINUE:
+		case CMD_RND_MDA:
+			break;
+
+		case CMD_RND_STATUS: // gm_status 처리 
+			parsing_rnd_status_data( pDataPtr );
+			break;
+
+		case CMD_RND_HOME:
+		case CMD_RND_ORG:
+		case CMD_JOG:
+		case CMD_JSTOP:
+			break;
+
+		case CMD_RJSS: // Jog speed 
+			parsing_data( pDataPtr, ',', (int*)ntemp );
+// 			N_TEMP_JOG_SPEED = ntemp[0];
+			PPAStatus->GetThreadState()->nJogSpeed_ = ntemp[0];
+			break;
+		case CMD_WJSS:
+			break;
+		case CMD_RCFG: // read coordinate offset data 
+			parsing_data( pDataPtr, ',', (double*)ftemp );
+			PConfig->pConfig_->fCoordOffset[H_TEMP_COORDINATE_NO][0] = ftemp[0];
+			PConfig->pConfig_->fCoordOffset[H_TEMP_COORDINATE_NO][1] = ftemp[1];
+			PConfig->pConfig_->fCoordOffset[H_TEMP_COORDINATE_NO][2] = ftemp[2];
+			PConfig->pConfig_->fCoordOffset[H_TEMP_COORDINATE_NO][3] = ftemp[6];
+			PConfig->pConfig_->fCoordOffset[H_TEMP_COORDINATE_NO][4] = ftemp[7];
+			//////////////////////////////////////////////////////////////////////////
+			// log 기록 
+			{
+				_stprintf_s( SZ_TEMP, 128, _T("[COORD-%d] %.3f %.3f %.3f %.3f %.3f"),
+					(int)H_TEMP_COORDINATE_NO + 53,
+					PConfig->pConfig_->fCoordOffset[H_TEMP_COORDINATE_NO][0],
+					PConfig->pConfig_->fCoordOffset[H_TEMP_COORDINATE_NO][1],
+					PConfig->pConfig_->fCoordOffset[H_TEMP_COORDINATE_NO][2],
+					PConfig->pConfig_->fCoordOffset[H_TEMP_COORDINATE_NO][3],
+					PConfig->pConfig_->fCoordOffset[H_TEMP_COORDINATE_NO][4] );
+				PThread->writeLog_UploadData( (LPCTSTR)SZ_TEMP );
+				TRACE( SZ_TEMP );
+				TRACE( _T("\n") );
+			}
+			//////////////////////////////////////////////////////////////////////////
+			break;
+		case CMD_WCFG:
+			break;
+		case CMD_RTCP: // read teaching point data 
+			parsing_data( pDataPtr, ',', (double*)ftemp );
+			PConfig->pConfig_->fTeachingPoint[H_TEMP_TEACHING_POINT_NO][0] = ftemp[0];
+			PConfig->pConfig_->fTeachingPoint[H_TEMP_TEACHING_POINT_NO][1] = ftemp[1];
+			PConfig->pConfig_->fTeachingPoint[H_TEMP_TEACHING_POINT_NO][2] = ftemp[2];
+			PConfig->pConfig_->fTeachingPoint[H_TEMP_TEACHING_POINT_NO][3] = ftemp[3];
+			PConfig->pConfig_->fTeachingPoint[H_TEMP_TEACHING_POINT_NO][4] = ftemp[4];
+			//////////////////////////////////////////////////////////////////////////
+			// log 기록 
+			{
+				_stprintf_s( SZ_TEMP, 128, _T("[TP-%d] %.3f %.3f %.3f %.3f %.3f"),
+					(int)H_TEMP_TEACHING_POINT_NO,
+					PConfig->pConfig_->fTeachingPoint[H_TEMP_TEACHING_POINT_NO][0],
+					PConfig->pConfig_->fTeachingPoint[H_TEMP_TEACHING_POINT_NO][1],
+					PConfig->pConfig_->fTeachingPoint[H_TEMP_TEACHING_POINT_NO][2],
+					PConfig->pConfig_->fTeachingPoint[H_TEMP_TEACHING_POINT_NO][3],
+					PConfig->pConfig_->fTeachingPoint[H_TEMP_TEACHING_POINT_NO][4] );
+				PThread->writeLog_UploadData( (LPCTSTR)SZ_TEMP );
+
+			}
+			//////////////////////////////////////////////////////////////////////////
+			break;
+
+		case CMD_WTCP:
+			break;
+		case CMD_RZOO:	// read z-origin data 
+			parsing_data( pDataPtr, ',', (double*)ftemp );
+			PConfig->pConfig_->fOptionData[OPTION_Z1AXIS_ORIGIN_OFFSET] = ftemp[0];
+			//////////////////////////////////////////////////////////////////////////
+			// log 기록 
+			{
+				_stprintf_s( SZ_TEMP, 128, _T("[Z_ORG_OFFSET] %.3f"), PConfig->pConfig_->fOptionData[OPTION_Z1AXIS_ORIGIN_OFFSET] );
+				PThread->writeLog_UploadData( (LPCTSTR)SZ_TEMP );
+			}
+			break;
+		case CMD_RTOO:	//RTOO -31.576,1 ; RTOO 31.576,2
+			parsing_data( pDataPtr, ',', (double*)ftemp );
+			if (ftemp[1] == 1)
+			{
+				PConfig->pConfig_->fOptionData[OPTION_Z1AXIS_ORIGIN_OFFSET] = ftemp[0];
+				//////////////////////////////////////////////////////////////////////////
+				// log 기록 
+				{
+					_stprintf_s( SZ_TEMP, 128, _T("[OPTION_Z1AXIS_ORIGIN_OFFSET] %.3f"), PConfig->pConfig_->fOptionData[OPTION_Z1AXIS_ORIGIN_OFFSET] );
+					PThread->writeLog_UploadData( (LPCTSTR)SZ_TEMP );
+				}
+			}
+			else if ( ftemp[1] == 2 )
+			{
+				PConfig->pConfig_->fOptionData[OPTION_Z2AXIS_ORIGIN_OFFSET] = ftemp[0];
+				//////////////////////////////////////////////////////////////////////////
+				// log 기록 
+				{
+					_stprintf_s( SZ_TEMP, 128, _T("[OPTION_Z2AXIS_ORIGIN_OFFSET] %.3f"), PConfig->pConfig_->fOptionData[OPTION_Z2AXIS_ORIGIN_OFFSET] );
+					PThread->writeLog_UploadData( (LPCTSTR)SZ_TEMP );
+				}
+			}
+			break;
+		case CMD_RTDATA:
+			ptr = strtok(pDataPtr,",");
+			for(int i = 0; i < 2; i++)
+			{
+				if (i == 0)
+				{
+					pData = ptr;
+					ptr = strtok(NULL,",");
+				}
+				else if (i == 1)
+				{
+					ftemp[0] = atof(ptr);
+				}
+			}
+			if (strcmp(pData, "spindleoffset") == 0)
+			{
+				PConfig->pConfig_->fOptionData[OPTION_SPINDLE_OFFSET] = ftemp[0];
+				//////////////////////////////////////////////////////////////////////////
+				// log 기록 
+				{
+					_stprintf_s( SZ_TEMP, 128, _T("[OPTION_SPINDLE_OFFSET] %.3f"), PConfig->pConfig_->fOptionData[OPTION_SPINDLE_OFFSET] );
+					PThread->writeLog_UploadData( (LPCTSTR)SZ_TEMP );
+				}
+			}
+			else if (strcmp(pData, "spindle1runtime") == 0)
+			{
+				PPAStatus->GetThreadState()->dwTOTAL_LEFT_SPINDLE_RUN_TIME = ftemp[0];
+				//////////////////////////////////////////////////////////////////////////
+				// log 기록 
+				{
+					_stprintf_s( SZ_TEMP, 128, _T("[SPINDLE1_RUNTIME] %.3f"), PConfig->pConfig_->fOptionData[OPTION_SPINDLE_OFFSET] );
+					PThread->writeLog_UploadData( (LPCTSTR)SZ_TEMP );
+				}	
+			}
+			else if (strcmp(pData, "spindle2runtime") == 0)
+			{
+				PPAStatus->GetThreadState()->dwTOTAL_RIGHT_SPINDLE_RUN_TIME = ftemp[0];
+				//////////////////////////////////////////////////////////////////////////
+				// log 기록 
+				{
+					_stprintf_s( SZ_TEMP, 128, _T("[SPINDLE2_RUNTIME] %.3f"), PConfig->pConfig_->fOptionData[OPTION_SPINDLE_OFFSET] );
+					PThread->writeLog_UploadData( (LPCTSTR)SZ_TEMP );
+				}				
+			}
+			break;
+		case CMD_WZOO:
+			break;
+		case CMD_WTOO:
+			break;
+		case CMD_WTDATA:
+			break;
+		case CMD_RTHS:	// read tool sensing high speed 
+			parsing_data( pDataPtr, ',', (double*)ftemp );
+			PConfig->pConfig_->fOptionData[OPTION_TOOL_SENSING_HIGHSPEED] = ftemp[0];
+			//////////////////////////////////////////////////////////////////////////
+			// log 기록 
+			{
+				_stprintf_s( SZ_TEMP, 128, _T("[OPTION_TOOL_SENSING_HIGHSPEED] %.3f"), PConfig->pConfig_->fOptionData[OPTION_TOOL_SENSING_HIGHSPEED] );
+				PThread->writeLog_UploadData( (LPCTSTR)SZ_TEMP );
+			}
+			break;
+		case CMD_WTHS:
+			break;
+		case CMD_RTLS:	// read tool sensing low speed 
+			parsing_data( pDataPtr, ',', (double*)ftemp );
+			PConfig->pConfig_->fOptionData[OPTION_TOOL_SENSING_LOWSPEED] = ftemp[0];
+			//////////////////////////////////////////////////////////////////////////
+			// log 기록 
+			{
+				_stprintf_s( SZ_TEMP, 128, _T("[OPTION_TOOL_SENSING_LOWSPEED] %.3f"), PConfig->pConfig_->fOptionData[OPTION_TOOL_SENSING_LOWSPEED] );
+				PThread->writeLog_UploadData( (LPCTSTR)SZ_TEMP );
+			}
+			break;
+		case CMD_WTLS:
+			break;
+
+			//////////////////////////////////////////////////////////////////////////
+		case CMD_RMAXL:
+			parsing_data( pDataPtr, ',', (double*)ftemp );
+			{
+				int i = 0;
+				for( i = 0; i<pa::MODEL_INFO.GetNumAxis(); i++ ) {
+					pRefThreadState_->fSoftLimit_[i][1] = ftemp[i];
+				}
+				for( ; i<6; i++ ) {
+					pRefThreadState_->fSoftLimit_[i][1] = 0.0;
+				}
+			}
+			break;
+            
+		case CMD_WMAXL:
+			break;
+            
+		case CMD_RMINL:
+			parsing_data( pDataPtr, ',', (double*)ftemp );
+			{
+				int i = 0;
+				for( i = 0; i<pa::MODEL_INFO.GetNumAxis(); i++ ) {
+					pRefThreadState_->fSoftLimit_[i][0] = ftemp[i];
+				}
+				for( ; i<6; i++ ) {
+					pRefThreadState_->fSoftLimit_[i][0] = 0.0;
+				}
+			}
+			break;
+            
+		case CMD_IOT:
+			break;
+
+		case CMD_RND_STATE:
+			parsing_rnd_state_data( pDataPtr, FALSE );
+			{
+#ifdef _DEBUG
+				DWORD dwTime = GetTickCount();
+				CString strDbg;
+				strDbg.Format( _T("CMD_RND_STATE[%d] : %d %d %d %d %d %d %d %d \n"), 
+					dwTime, 
+					pRefPAStatus_->nIO_Board_Status,
+					pRefPAStatus_->nSpindle_Board_Status, 
+					pRefPAStatus_->nCurrentToolNo,
+					pRefPAStatus_->nSpindleRun,
+					pRefPAStatus_->nSpindleSpeed,
+					pRefPAStatus_->nSpindleOverride,
+					pRefPAStatus_->nMotorOverride,
+					pRefPAStatus_->nMotorFeedrate
+					);
+			//	TRACE( strDbg );
+#endif
+			}
+			break;
+
+		case CMD_RND_AES:
+		case CMD_RND_ASS:
+		case CMD_RND_MMA:
+		case CMD_RND_MMI:
+			break;
+
+		case CMD_RND_DO_MEASURE:
+			{
+				CString strDbg;
+				strDbg.Format( _T("%d RECV : DO_MEASURE\n"), GetTickCount() );
+				TRACE( strDbg );
+			}
+			break;
+		case CMD_RND_GET_MEASURE_RESULT:
+			// 데이터를 CThreadState::fTempMeasureResult 변수에 저장 한다 
+			parsing_data( pDataPtr, ',', (double*)ftemp );
+			F_TEMP_MEASURE_RESULT = ftemp[0];
+			{
+				CString strDbg;
+				strDbg.Format( _T("%d RECV : GET_MEASURE_RESULT (%.3f)\n"), GetTickCount(), F_TEMP_MEASURE_RESULT );
+				TRACE( strDbg );
+			}
+			break;
+
+		case CMD_RTMG:
+			parsing_data( pDataPtr, ',', (double*)ftemp );
+			PConfig->pConfig_->fOptionData[OPTION_TOOL_SENSING_MARGIN] = ftemp[0];
+			break;
+		case CMD_WTMG:
+			break;
+
+		case CMD_VER:
+			// 제이기 버전을 SZ_PA_CTRL_VER에 저장한다
+			memset((void*)CPAAsyncComm::SZ_PA_CTRL_VER, 0, sizeof(TCHAR)*128);
+			hcutil::ASCII_TO_UNICODE( pDataPtr, CPAAsyncComm::SZ_PA_CTRL_VER, 128 );
+			//////////////////////////////////////////////////////////////////////////
+			// log 기록 
+			{
+				_stprintf_s( SZ_TEMP, 128, _T("[CTRL_VERSION] %s"), CPAAsyncComm::SZ_PA_CTRL_VER );
+				PThread->writeLog_UploadData( (LPCTSTR)SZ_TEMP );
+			}
+			break;
+
+			// 2017.01.11
+		case CMD_RTPPO:
+			parsing_data( pDataPtr, ',', (double*)ftemp );
+			PConfig->pConfig_->fOptionData[OPTION_TOOL_POCKET_PUT_OFFSET] = ftemp[0];
+			break;
+		case CMD_WTPPO:
+			break;
+
+			// 2017.01.12 
+		case CMD_RADR:			// Read. PA Controller IP Address 
+			memset((void*)CPAAsyncComm::SZ_PA_IP_ADDR, 0, sizeof(TCHAR)*32);
+			hcutil::ASCII_TO_UNICODE(pDataPtr, CPAAsyncComm::SZ_PA_IP_ADDR, 32);
+			//////////////////////////////////////////////////////////////////////////
+			// log 기록 
+			{
+				_stprintf_s( SZ_TEMP, 128, _T("[PA_IP] %s"), CPAAsyncComm::SZ_PA_IP_ADDR );
+				PThread->writeLog_UploadData( (LPCTSTR)SZ_TEMP );
+			}
+			break;
+		case CMD_WADR:			// Writw. PA Controller IP Address 
+			break;
+		case CMD_RRIOADR:		// Read. IO Board IP Address			
+			memset((void*)CPAAsyncComm::SZ_CANTOPS_IP_ADDR, 0, sizeof(TCHAR)*32);
+			hcutil::ASCII_TO_UNICODE(pDataPtr, CPAAsyncComm::SZ_CANTOPS_IP_ADDR, 32);
+			//////////////////////////////////////////////////////////////////////////
+			// log 기록 
+			{
+				_stprintf_s( SZ_TEMP, 128, _T("[IO_IP] %s"), CPAAsyncComm::SZ_CANTOPS_IP_ADDR );
+				PThread->writeLog_UploadData( (LPCTSTR)SZ_TEMP );
+			}
+			break;
+		case CMD_WRIOADR:		// Write. IO Board IP Address 
+			break;
+
+			// 2017.05.01
+		case CMD_SMCT:
+			{
+				int nRet[5] = { 0, 0, 0, 0, 0 };
+				parsing_data( pDataPtr, ',', nRet );
+				DW_RESPONSE_SMCT_CMD = nRet[0];
+				//////////////////////////////////////////////////////////////////////////
+				// log 기록 
+				{
+					_stprintf_s( SZ_TEMP, 128, _T("[SMCT] %d"), DW_RESPONSE_SMCT_CMD );
+					PThread->writeLog_UploadData( (LPCTSTR)SZ_TEMP );
+				}
+			}
+			break;
+			// 2017.06.28
+		case CMD_RISM:
+			{
+				int nRet[5] = { 0, 0, 0, 0, 0 };
+				parsing_data( pDataPtr, ',', nRet );
+				DW_RESPONSE_RISMCT_CMD = nRet[0];
+				//////////////////////////////////////////////////////////////////////////
+				// log 기록 
+				{
+					_stprintf_s( SZ_TEMP, 128, _T("[RISMCT] %d"), DW_RESPONSE_RISMCT_CMD );
+					PThread->writeLog_UploadData( (LPCTSTR)SZ_TEMP );
+				}
+			}
+			break;
+
+		case CMD_SWVF:			// Write WET/DRY
+			break;
+		case CMD_GWVF:			// Read. WET/DRY
+			parsing_data( pDataPtr, ',', (int*)ntemp );
+			PConfig->pConfig_->nSelectM28Operation = ntemp[0];		// Wet/Dry 정보 저장 
+			break;
+
+		case CMD_M757:
+			parsing_data( pDataPtr, ',', (int*)ntemp);
+			break;
+
+		case CMD_RND_MSC:
+			//////////////////////////////////////////////////////////////////////////
+			// 2017.08.25. 
+			//	RND_MSC 명령의 응답을 log 기록 
+			{
+				int nRet[5] = { 0, 0, 0, 0, 0 };
+				parsing_data( pDataPtr, ',', nRet );
+				_stprintf_s( SZ_TEMP, 128, _T("[RND_MSC] %d"), nRet[0] );
+				PThread->writeLog_UploadData( (LPCTSTR)SZ_TEMP );
+				TRACE( SZ_TEMP );
+				TRACE( _T("\n") );
+			}
+			break;
+
+		case CMD_FZS:
+			pa::PPAStatus->GetThreadState()->bCompleteResetOrigin_ = TRUE;
+			break;
+
+		case CMD_SALF:
+			// TRACE(_T("receive cmd_salf command\n"));
+			break;
+
+			// 2018.03.07 
+		case CMD_RND_CDT:
+			parsing_rnd_cdt_data( pDataPtr );
+			break;
+
+ 		case CMD_RND_CDTEX:
+ 			parsing_rnd_cdtex_data( pDataPtr, FALSE );
+ 			break;
+
+			// 2018.05.18 
+		case CMD_SFSF:
+			TRACE(_T("receive SFSF command \n"));
+			break;
+
+		case CMD_RDT:
+			{
+				CString strRDT;
+				CString strRDT_Day, strRDT_Time;
+				CString strYear, strMonth, strDay, strHour, strMinute, strSecond;
+
+				strRDT = (LPSTR)pDataPtr;
+
+				AfxExtractSubString(strRDT_Day, strRDT, 0, ' ');
+				AfxExtractSubString(strRDT_Time, strRDT, 1, ' ');
+
+				AfxExtractSubString(strMonth, strRDT_Day, 0, '-');
+				AfxExtractSubString(strDay, strRDT_Day, 1, '-');
+				AfxExtractSubString(strYear, strRDT_Day, 2, '-');
+
+				AfxExtractSubString(strHour, strRDT_Time, 0, ':');
+				AfxExtractSubString(strMinute, strRDT_Time, 1, ':');
+				AfxExtractSubString(strSecond, strRDT_Time, 2, ':');
+
+				int m_Year = _ttoi(strYear);
+				int m_Month = _ttoi(strMonth);
+				int m_Day = _ttoi(strDay);
+				int m_Hour = _ttoi(strHour);
+				int m_Minute = _ttoi(strMinute);
+				int m_Second = _ttoi(strSecond);
+
+				pa::PPAStatus->GetThreadState()->nPAYear = m_Year;
+				pa::PPAStatus->GetThreadState()->nPAMonth = m_Month;
+				pa::PPAStatus->GetThreadState()->nPADay = m_Day;
+
+				SYSTEMTIME new_time;
+				GetLocalTime(&new_time);
+
+				new_time.wYear = m_Year;
+				new_time.wMonth = m_Month;
+				new_time.wDay = m_Day;
+				new_time.wHour = m_Hour;
+				new_time.wMinute = m_Minute;
+				new_time.wSecond = m_Second;
+
+				SetLocalTime(&new_time);
+				_stprintf_s( SZ_TEMP, 128, _T("[RDT] %s"), strRDT);
+
+				PThread->writeLog_UploadData( (LPCTSTR)SZ_TEMP );
+			}
+			break;
+
+		}
+
+		B_IS_RUNNING_COMPLETE[response_command] = FALSE;
+	}
+	else 
+	{
+
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+// RND_STATE 명령의 응답을 parsing 한다 
+//  0. io board connect 
+//  1. spindle board connect 
+//	2. tool no
+//  3. too length	=> 2016.06.22 추가 
+//	4. spindle statue : 0/1 run/stop
+//	5. spindle speed 
+//	6. spindle override 
+//	7. motor override
+//	8. motor feedrate
+//	9. system input
+//	10. system output
+//	11. cantops input
+//	12. cantops output
+//  13. tool length update flag		=> 2017.08.22 추가 
+//	14. rnd_errormsg 
+//	x. rnd_errorcode : 없어짐 
+
+void pa::CPAAsyncComm::parsing_rnd_state_data( char* pData, BOOL is_error )
+{
+	char	szTemp[64];
+	BOOL	bSignal[32];
+	int		nTempIndex = 0;
+	int		nResultIndex = 0;
+	int		len = 0;
+	char*	pDataStartPos = NULL;
+
+	if( pData == NULL ) {
+		return ;
+	}
+
+	len = strlen( pData );
+	memset((void*)szTemp, 0, sizeof(char)*64);
+
+	for( int i = 0; i<len; i++ ) 
+	{
+		if( nTempIndex == 0 ) {
+			pDataStartPos = pData + i;
+		}
+		
+		szTemp[nTempIndex++] = pData[i];
+
+
+		if( ( pData[i] == ',' ) || ( i == len-1 ) )
+		{
+			if( szTemp[nTempIndex-1] == ',' ) {
+				szTemp[nTempIndex-1] = 0;	// ','를 제거 하고, 문자열을 만든다 
+			} else {
+				szTemp[nTempIndex] = 0;		// ','가 없으므로, 문자열만 만든다 
+			}
+
+			switch( nResultIndex )
+			{
+			case 0: // I/O Board 상태 (1이면 정상, 0이면 에러)
+				pRefPAStatus_->nIO_Board_Status = atoi( szTemp );
+				break;
+			case 1:	// Spindle Board 상태 (1이면 정상, 0이면 에러)
+				pRefPAStatus_->nSpindle_Board_Status = atoi( szTemp );
+				break;
+
+			case 2: // Tool Number 
+				pRefPAStatus_->nCurrentToolNo = atoi( szTemp );
+				{
+// 					CString strDbg;
+// 					strDbg.Format( _T("tool no : %d\n"), pRefPAStatus_->nCurrentToolNo );
+// 					TRACE( strDbg );
+				}
+				break;
+			case 3:	// Tool Length. 중국 4WA는 이 기능이 없어서 주석처리 해야함. tool sensor까지 거리. offset 값을 더하면 coordinate 의 z 위치가 됨  
+				pRefPAStatus_->fCurrentToolLenght = atof( szTemp );
+				break;
+			case 4:	// Spindle Status
+				pRefPAStatus_->nSpindleRun = atoi(szTemp);
+				break;
+			case 5:	// Spindle Speed 
+				pRefPAStatus_->nSpindleSpeed = atoi(szTemp);
+				break;
+			case 6: // Spindle Override 
+				{
+					int nTemp = atoi( szTemp );
+					pRefPAStatus_->nSpindleOverride = ( nTemp <= 0 ) ? 100 : nTemp; 
+				}
+				break;
+			case 7: // MotorOverride '
+				pRefPAStatus_->nMotorOverride = atoi(szTemp);
+				break;
+			case 8: // MotorFeedrate
+				pRefPAStatus_->nMotorFeedrate = atoi(szTemp);
+				break;
+			case 9: // system input
+				//	parsing_rnd_sys_io_data( szTemp, bSignal, 4 );
+				//	for( int i = 0; i<4; i++ ) {
+				{
+				//	int bit_no = (pa::PConfig->pConfig_->nModelID == 0) ? 4: 8;	// 5Z일 경우 4, 나머지는 8
+					int bit_no = 8;
+					parsing_rnd_sys_io_data( szTemp, bSignal, bit_no );
+					for( int i = 0; i<bit_no; i++ ) {
+						pRefPAStatus_->bInput[i] = bSignal[i];
+					}
+				}
+				break;
+			case 10: // system output 
+				//	parsing_rnd_sys_io_data( szTemp, bSignal, 4 );
+				//	for( int i = 0; i<4; i++ ) {
+				{
+				//	int bit_no = (pa::PConfig->pConfig_->nModelID == 0) ? 4: 8;	// 5Z일 경우 4, 나머지는 8
+					int bit_no = 8;
+					parsing_rnd_sys_io_data( szTemp, bSignal, bit_no );
+					for( int i = 0; i<bit_no; i++ ) {
+						pRefPAStatus_->bOutput[i] = bSignal[i];
+					}
+				}
+				break;
+			case 11: // captios input
+				//	parsing_rnd_io_data( szTemp, bSignal, 16 );
+				//	for( int i = 0; i<16; i++ ) {
+				{
+				//	int bit_no	= (pa::PConfig->pConfig_->nModelID == 0) ? 16: 32;	// 5Z일 경우 4, 나머지는 8
+				//	int bit_skip= (pa::PConfig->pConfig_->nModelID == 0) ? 4: 8;
+					int bit_no	= 32;
+					int bit_skip= 8;
+					parsing_rnd_io_data( szTemp, bSignal, bit_no );
+					for( int i = 0; i<bit_no; i++ ) {
+						pRefPAStatus_->bInput[i+bit_skip] = bSignal[i];
+					}
+				}
+				if( pa::MODEL_INFO.IsUsingInvertBlockDetectBit() == TRUE )
+				{
+					// DM200-5A일 경우, 반전 시킨다
+					//pRefPAStatus_->bInput[pa::IN20017_DetectedBlock] = pRefPAStatus_->bInput[pa::IN20017_DetectedBlock] == TRUE ? FALSE : TRUE;
+				}
+				break;
+			case 12: // cantops output
+				//	parsing_rnd_io_data( szTemp, bSignal, 16 );
+				//	for( int i = 0; i<16; i++ ) {
+				{
+				//	int bit_no	= (pa::PConfig->pConfig_->nModelID == 0) ? 16: 32;	// 5Z일 경우 4, 나머지는 8
+				//	int bit_skip= (pa::PConfig->pConfig_->nModelID == 0) ? 4: 8;
+					int bit_no	= 32;
+					int bit_skip= 8;
+					parsing_rnd_io_data( szTemp, bSignal, bit_no );
+					for( int i = 0; i<bit_no; i++ ) {
+						pRefPAStatus_->bOutput[i+bit_skip] = bSignal[i];
+					}
+				}
+				break;;
+			case 13: // tool length update flag 
+				{
+					pRefPAStatus_->nToolLengthUpdateFlag = atoi( szTemp );
+// 					CString strDbg;
+// 					strDbg.Format( _T("tool length update flag : %d\n"), pRefPAStatus_->nToolLengthUpdateFlag );
+// 					TRACE( strDbg );
+				}
+				break;
+			case 14:
+				{
+					pRefPAStatus_->nDuringToolChaneFlag = atoi( szTemp );
+#ifdef DEBUG 
+					CString strDbg;
+					strDbg.Format( _T("during tool change flag : %d\n"), pRefPAStatus_->nDuringToolChaneFlag );
+					TRACE( strDbg );
+#endif 
+				}
+				break;
+			case 15:
+				{
+					pRefPAStatus_->nEMOButtonFlag = atoi( szTemp );
+#ifdef DEBUG 
+					CString strDbg;
+					strDbg.Format( _T("emo button flag : %d\n"), pRefPAStatus_->nEMOButtonFlag );
+					TRACE( strDbg );
+#endif 
+				}
+				break;
+			case 16: // RND ErrorMessage 
+				memset( pRefPAStatus_->szRndErrorMessage, 0, sizeof(char)*256 );
+			//	if( pRefPAStatus_->nRndErrorCode != 0 ) {
+				if( is_error == TRUE ) {
+			//		memcpy( pRefPAStatus_->szRndErrorMessage, szTemp, sizeof(char)*strlen(szTemp));
+					int len = strlen(pDataStartPos);
+					memcpy( pRefPAStatus_->szRndErrorMessage, pDataStartPos, len );
+				}
+				break;
+			}
+
+			memset((void*)szTemp, 0, sizeof(char)*64);
+			nTempIndex	= 0;
+			nResultIndex+= 1;
+		}
+	}
+}
+
+// 데이터를 반전 시킨다 
+void pa::CPAAsyncComm::parsing_rnd_sys_io_data( char* p, BOOL b[], int nNumBits )
+{
+	unsigned long	dwData = 0;
+	int				len = strlen( p );
+
+	// HEX 문자열을 Decamil로 변환 
+	for( int i = 0; i<len; i++ )
+	{
+		char c = p[i];
+		if( c>='0' && c<='9' ) {
+			c -= '0';
+		}
+		else if( c>='A' && c<='F' ) {
+			c = (c - 'A') + 10;
+		}
+		dwData += c * ( 1 << ((len-i-1)*4) );
+	}
+
+	unsigned long dwMask = 1 << (nNumBits-1);
+	for( int i = nNumBits-1; i>=0; i-- )
+	{
+		b[i] = (dwData & dwMask) ? TRUE : FALSE;
+		dwMask >>= 1;
+	}
+}
+
+// HEX 문자열을 받아서, bit array를 채운다 
+void pa::CPAAsyncComm::parsing_rnd_io_data( char* p, BOOL b[], int nNumBits )
+{
+	unsigned long	dwData = 0;
+	int				len = strlen( p );
+
+	// HEX 문자열을 Decamil로 변환 
+	for( int i = 0; i<len; i++ )
+	{
+		char c = p[i];
+		if( c>='0' && c<='9' ) {
+			c -= '0';
+		}
+		else if( c>='A' && c<='F' ) {
+			c = (c - 'A') + 10;
+		}
+		dwData += c * ( 1 << ((len-i-1)*4) );
+	}
+
+	unsigned long dwMask = 1 << (nNumBits-1);
+	for( int i = nNumBits-1; i>=0; i-- )
+	{
+		b[i] = (dwData & dwMask) ? TRUE : FALSE;
+		dwMask >>= 1;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+int pa::CPAAsyncComm::parsing_data( char* pBuffer, char parsing_code, double fRet[] )
+{
+	char	szTemp[64];
+	int		nTempIndex = 0;
+	int		nRetIndex = 0;
+	int		len = strlen(pBuffer);
+
+	memset((void*)szTemp, 0, sizeof(char)*64);
+	nTempIndex = 0;
+
+	for( int i = 0; i<len; i++ ) 
+	{
+		szTemp[nTempIndex++] = pBuffer[i];
+		if( pBuffer[i] == parsing_code || i==len-1) 
+		{
+			fRet[nRetIndex++] = atof(szTemp);
+			memset((void*)szTemp, 0, sizeof(char)*64);
+			nTempIndex = 0;
+		}
+	}
+
+	return nRetIndex;
+}
+
+int pa::CPAAsyncComm::parsing_data( char* pBuffer, char parsing_code, int nRet[] )
+{
+	char	szTemp[64];
+	int		nTempIndex = 0;
+	int		nRetIndex = 0;
+//	int		len = strlen(pBuffer);
+	int		len = 0;
+
+	if( pBuffer != NULL ) {
+		len = strlen(pBuffer);
+	}
+
+	memset((void*)szTemp, 0, sizeof(char)*64);
+	nTempIndex = 0;
+
+	for( int i = 0; i<len; i++ ) 
+	{
+		szTemp[nTempIndex++] = pBuffer[i];
+		if( pBuffer[i] == parsing_code || i==len-1) 
+		{
+			nRet[nRetIndex++] = atoi(szTemp);
+			memset((void*)szTemp, 0, sizeof(char)*64);
+			nTempIndex = 0;
+		}
+	}
+
+	return nRetIndex;
+}
+
+// gm_status 명령에 대한 응답을 parsing 한다 
+void pa::CPAAsyncComm::parsing_rnd_status_data( char* p )
+{
+	char	sztemp[64];
+	int		nIndex = 0;
+	int		len = strlen( p );
+
+	memset( (void*)sztemp, 0, sizeof(char)*64 );
+
+	for( int i = 0; i<len; i++ )
+	{
+		sztemp[nIndex++] = p[i];
+
+		if( p[i] == ',' || p[i] == NULL ) 
+		{
+			sztemp[nIndex-1] = ':';	// 데이터 마지막에 ':'를 붙여서 전달한다 
+			parsing_rnd_status_data_each_set( sztemp, CMD_RND_STATUS );
+			memset((void*)sztemp, 0, sizeof(char)*64);
+			nIndex = 0;
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// 데이터 파싱이 끝났으면, 속도 데이터를 사용해서 nMotorStopFlag 를 저장한다 
+	int nMotorMoving = 0;
+	for( int i = 0; i<pa::AXIS_NUM; i++ ) {
+		if( fabs(pRefPAStatus_->fVelocity[i]) > 0.02 ) {
+			nMotorMoving = 1;	
+			break;
+		}
+	}
+	pRefPAStatus_->nMotorMovingFlag = nMotorMoving;
+	//////////////////////////////////////////////////////////////////////////
+}
+
+void pa::CPAAsyncComm::parsing_rnd_status_data_each_set( char* p, EN_COMMAND cmd )
+{
+	char* pRunMode[] = { "OFF", "AUTO", "STEP", "MDA" };
+	char sztemp[32];
+
+	if( p == NULL || strlen(p) < 3 ) {
+		return ;
+	}
+
+	if( p[0]=='M' && p[1]=='D' ) 
+	{
+		// MD:AUTO(/OFF/STEP/MDA)
+		for( int i = 0; i<PA_RUNMODE_NUM; i++ ) {
+			if( strstr( p, pRunMode[i] ) ) {
+				pRefPAStatus_->nMDCode = i;
+				break;
+			}
+		}
+	}
+	else if( p[0]=='D' && ( p[1]=='I' || p[1]=='O') ) 
+	{
+	}
+	else if( p[0]=='P' && p[1]=='S' )
+	{
+		// PS:filename:0:8:0:0
+		char* ptmp1 = strstr(p, ":");
+		char* ptmp2 = NULL;
+		if( cmd == CMD_RND_STATUS )
+		{
+			// filename 
+			ptmp2 = strstr(ptmp1+1, ":");
+			memset((void*)(pRefPAStatus_->szCurrentFileName), 0, sizeof(char)*128);
+			memcpy((void*)(pRefPAStatus_->szCurrentFileName), ptmp1+1, (ptmp2-ptmp1-1));
+			// nBlockNumber
+			ptmp1 = ptmp2;
+			ptmp2 = strstr(ptmp1+1, ":");
+			memset((void*)sztemp, 0, sizeof(char)*32);
+			memcpy((void*)sztemp, ptmp1+1, (ptmp2-ptmp1-1));
+			pRefPAStatus_->nBlockNumber = atoi(sztemp);
+			//
+			ptmp1 = ptmp2;
+		}
+		// nLineNumber
+		ptmp2 = strstr(ptmp1+1, ":");
+		memset((void*)sztemp, 0, sizeof(char)*32);
+		memcpy((void*)sztemp, ptmp1+1, (ptmp2-ptmp1-1));
+		pRefPAStatus_->nLineNumber = atoi(sztemp);
+		// nGPLErrorCode
+		ptmp1 = ptmp2;
+		ptmp2 = strstr(ptmp1+1, ":");
+		memset((void*)sztemp, 0, sizeof(char)*32);
+		memcpy((void*)sztemp, ptmp1+1, (ptmp2-ptmp1-1));
+		pRefPAStatus_->nGPLErrorCode = atoi(sztemp);
+		// nRunStatus : PA Program run status = 0(idle), 1(running), 2(paused), 3(error)
+		ptmp1 = ptmp2;
+		ptmp2 = strstr(ptmp1+1, ":");
+		memset((void*)sztemp, 0, sizeof(char)*32);
+		memcpy((void*)sztemp, ptmp1+1, (ptmp2-ptmp1-1));
+		pRefPAStatus_->nRunStatus = atoi(sztemp);
+	}
+	else if( p[0]=='P' && p[1]=='T' ) {
+		// PT:0
+		char* ptmp1 = strstr(p, ":");
+		char* ptmp2 = NULL;
+		ptmp2 = strstr(ptmp1+1, ":");
+		memset((void*)sztemp, 0, sizeof(char)*32);
+		memcpy((void*)sztemp, ptmp1+1, (ptmp2-ptmp1-1));
+		pRefPAStatus_->fProgramCycleTime = atof(sztemp);
+	} 
+	else if( p[0]=='X' && p[1]==':' ) {
+		// X:21.111
+		char* ptmp1 = strstr(p, ":");
+		char* ptmp2 = NULL;
+		ptmp2 = strstr(ptmp1+1, ":");
+		memset((void*)sztemp, 0, sizeof(char)*32);
+		memcpy((void*)sztemp, ptmp1+1, (ptmp2-ptmp1-1));
+		double pos = atof(sztemp);
+		pRefPAStatus_->fPosition[AXIS_X]	= pos; //atof(sztemp);
+		pRefPAStatus_->fPositionTool[AXIS_X]= pos - PConfig->pConfig_->fCoordOffset[pa::COORD_G54][AXIS_X];
+	}
+	else if( p[0]=='Y' && p[1]==':' ) {
+		// Y:nnn 
+		char* ptmp1 = strstr(p, ":");
+		char* ptmp2 = NULL;
+		ptmp2 = strstr(ptmp1+1, ":");
+		memset((void*)sztemp, 0, sizeof(char)*32);
+		memcpy((void*)sztemp, ptmp1+1, (ptmp2-ptmp1-1));
+		double pos = atof(sztemp);
+		pRefPAStatus_->fPosition[AXIS_Y]	= pos; //atof(sztemp);
+		pRefPAStatus_->fPositionTool[AXIS_Y]= pos - PConfig->pConfig_->fCoordOffset[pa::COORD_G54][AXIS_Y];
+	}
+	else if( p[0]=='Z' && p[1]==':' ) {
+		char* ptmp1 = strstr(p, ":");
+		char* ptmp2 = NULL;
+		ptmp2 = strstr(ptmp1+1, ":");
+		memset((void*)sztemp, 0, sizeof(char)*32);
+		memcpy((void*)sztemp, ptmp1+1, (ptmp2-ptmp1-1));
+		double pos = atof(sztemp);
+		pRefPAStatus_->fPosition[AXIS_Z]	= pos;
+		pRefPAStatus_->fPositionTool[AXIS_Z]= pos - PConfig->pConfig_->fCoordOffset[pa::COORD_G54][AXIS_Z];
+	}
+	else if( p[0]=='A' && p[1]==':' ) {
+		char* ptmp1 = strstr(p, ":");
+		char* ptmp2 = NULL;
+		ptmp2 = strstr(ptmp1+1, ":");
+		memset((void*)sztemp, 0, sizeof(char)*32);
+		memcpy((void*)sztemp, ptmp1+1, (ptmp2-ptmp1-1));
+		double pos = atof(sztemp);
+		pRefPAStatus_->fPosition[AXIS_A]	= pos; //atof(sztemp);
+		pRefPAStatus_->fPositionTool[AXIS_A]= pos - PConfig->pConfig_->fCoordOffset[pa::COORD_G54][AXIS_A];
+	}
+	else if( p[0]=='B' && p[1]==':' ) {
+		char* ptmp1 = strstr(p, ":");
+		char* ptmp2 = NULL;
+		ptmp2 = strstr(ptmp1+1, ":");
+		memset((void*)sztemp, 0, sizeof(char)*32);
+		memcpy((void*)sztemp, ptmp1+1, (ptmp2-ptmp1-1));
+		double pos = atof(sztemp);
+		pRefPAStatus_->fPosition[AXIS_B]	= pos; //atof(sztemp);
+		pRefPAStatus_->fPositionTool[AXIS_B]= pos - PConfig->pConfig_->fCoordOffset[pa::COORD_G54][AXIS_B];
+	}
+	else if( p[0]=='C' && p[1]==':' ) {
+	}
+	else if( p[0]=='V' && p[1]=='X' ) {
+		char* ptmp1 = strstr(p, ":");
+		char* ptmp2 = NULL;
+		ptmp2 = strstr(ptmp1+1, ":");
+		memset((void*)sztemp, 0, sizeof(char)*32);
+		memcpy((void*)sztemp, ptmp1+1, (ptmp2-ptmp1-1));
+		pRefPAStatus_->fVelocity[AXIS_X] = atof(sztemp);
+	}
+	else if( p[0]=='V' && p[1]=='Y' ) {
+		char* ptmp1 = strstr(p, ":");
+		char* ptmp2 = NULL;
+		ptmp2 = strstr(ptmp1+1, ":");
+		memset((void*)sztemp, 0, sizeof(char)*32);
+		memcpy((void*)sztemp, ptmp1+1, (ptmp2-ptmp1-1));
+		pRefPAStatus_->fVelocity[AXIS_Y] = atof(sztemp);
+	}
+	else if( p[0]=='V' && p[1]=='Z' ) {
+		char* ptmp1 = strstr(p, ":");
+		char* ptmp2 = NULL;
+		ptmp2 = strstr(ptmp1+1, ":");
+		memset((void*)sztemp, 0, sizeof(char)*32);
+		memcpy((void*)sztemp, ptmp1+1, (ptmp2-ptmp1-1));
+		pRefPAStatus_->fVelocity[AXIS_Z] = atof(sztemp);
+	}
+	else if( p[0]=='V' && p[1]=='A' ) {
+		char* ptmp1 = strstr(p, ":");
+		char* ptmp2 = NULL;
+		ptmp2 = strstr(ptmp1+1, ":");
+		memset((void*)sztemp, 0, sizeof(char)*32);
+		memcpy((void*)sztemp, ptmp1+1, (ptmp2-ptmp1-1));
+		pRefPAStatus_->fVelocity[AXIS_A] = atof(sztemp);
+	}
+	else if( p[0]=='V' && p[1]=='B' ) {
+		char* ptmp1 = strstr(p, ":");
+		char* ptmp2 = NULL;
+		ptmp2 = strstr(ptmp1+1, ":");
+		memset((void*)sztemp, 0, sizeof(char)*32);
+		memcpy((void*)sztemp, ptmp1+1, (ptmp2-ptmp1-1));
+		pRefPAStatus_->fVelocity[AXIS_B] = atof(sztemp);
+	}
+	else if( p[0]=='V' && p[1]=='C' ) {
+	}
+	else if( p[0]=='S' && p[1]=='V' ) {
+		// SV:0:0:0
+		char* ptmp1 = strstr(p, ":");
+		char* ptmp2 = NULL;
+		// 
+		ptmp2 = strstr(ptmp1+1, ":");
+		memset((void*)sztemp, 0, sizeof(char)*32);
+		memcpy((void*)sztemp, ptmp1+1, (ptmp2-ptmp1-1));
+		pRefPAStatus_->nServoPower = atoi(sztemp);
+		// 
+		ptmp1 = ptmp2;
+		ptmp2 = strstr(ptmp1+1, ":");
+		memset((void*)sztemp, 0, sizeof(char)*32);
+		memcpy((void*)sztemp, ptmp1+1, (ptmp2-ptmp1-1));
+		pRefPAStatus_->nServoHomeState = atoi(sztemp);
+		// 
+		ptmp1 = ptmp2;
+		ptmp2 = strstr(ptmp1+1, ":");
+		memset((void*)sztemp, 0, sizeof(char)*32);
+		memcpy((void*)sztemp, ptmp1+1, (ptmp2-ptmp1-1));
+		pRefPAStatus_->nServoErrorState = atoi(sztemp);
+	}
+	else if( p[0]=='Z' && p[1]=='R' ) {
+		// ZR:0
+		char* ptmp1 = strstr(p, ":");
+		char* ptmp2 = NULL;
+		// 
+		ptmp2 = strstr(ptmp1+1, ":");
+		memset((void*)sztemp, 0, sizeof(char)*32);
+		memcpy((void*)sztemp, ptmp1+1, (ptmp2-ptmp1-1));
+		pRefPAStatus_->nZReadyState = atoi(sztemp);
+	}
+	else if( p[0]=='F' && p[1]=='O' ) {
+
+	}
+	else if( p[0]=='S' && p[1]=='P' ) {
+
+	}
+}
+
+DWORD pa::CPAAsyncComm::parsing_io_data( char* p )
+{
+	DWORD	dwRet = 0;
+	int		len = strlen(p);
+
+	for( int i = 0; i<len; i++ )
+	{
+		char	ch = p[len-i-1];										// hex-ascii
+		DWORD	dwTemp = ( ch>='0' && ch<='9' ) ? (ch-'0') : (ch-'A');	// change to hex number 
+		dwRet |= ( dwTemp << ( i * 4 ) );								// bit shift 해서 bit or 연산 한다 
+	}
+
+	return dwRet;
+}
+
+//////////////////////////////////////////////////////////////////////////
+//
+//////////////////////////////////////////////////////////////////////////
+
+void pa::CPAAsyncComm::write_log( pa::CPAAsyncComm::EN_COMMAND hCommand, LPCTSTR logmsg )
+{
+#ifdef _WRITE_LOG_PA_COMMAND_
+	if( hCommand != pa::CPAAsyncComm::CMD_RND_STATE &&
+		hCommand != pa::CPAAsyncComm::CMD_RND_STATUS )
+	{
+		P_LOG->WriteLog( CLog::TYPE_PA_CMD, hCommand, logmsg );
+	}
+#endif
+}
+
+void pa::CPAAsyncComm::SendCommand( pa::CPAAsyncComm::EN_COMMAND hCommand )
+{
+	//////////////////////////////////////////////////////////////////////////
+	// 2017.05.25 
+	if( socket_ == INVALID_SOCKET ) {
+		return ;
+	}
+	//////////////////////////////////////////////////////////////////////////
+
+	EnterCriticalSection( &hCS_ );
+
+#ifdef _WRITE_LOG_PA_COMMAND_ 
+	TCHAR szTemp[64];
+	_stprintf_s( szTemp, 64, _T("==> CPAAsyncComm::SendCommand(%d)"), (int)hCommand );
+	write_log( hCommand, szTemp );
+#endif 
+
+	if( B_IS_RUNNING_COMPLETE[hCommand] == TRUE )
+	{
+#ifdef _WRITE_LOG_PA_COMMAND_
+		write_log( hCommand, _T("==> already running") );
+#endif
+		LeaveCriticalSection( &hCS_ );
+		return ;	// 이미 실행 중 
+	}
+
+	sprintf_s( pCommandBuffer_, nCommandBufferSize_, "%s\r\n", pa::CPAAsyncComm::STR_COMMAND[hCommand] );
+
+	DW_SEND_RUNNING_COMMAND[hCommand] = GetTickCount();
+	DW_RECV_RUNNING_COMMAND[hCommand] = 0;
+
+	int errcode = Send( pCommandBuffer_, strlen(pCommandBuffer_) );
+
+	if( errcode != 0 ) 
+	{
+		B_IS_RUNNING_COMPLETE[hCommand] = TRUE;
+	}
+	else 
+	{
+		// 전송 에러 
+	}
+
+	LeaveCriticalSection( &hCS_ );
+}
+
+void pa::CPAAsyncComm::SendCommand( pa::CPAAsyncComm::EN_COMMAND hCommand, char* pParam )
+{
+	//////////////////////////////////////////////////////////////////////////
+	// 2017.05.25 
+	if( socket_ == INVALID_SOCKET ) {
+		return ;
+	}
+	//////////////////////////////////////////////////////////////////////////
+
+	EnterCriticalSection( &hCS_ );
+
+#ifdef _WRITE_LOG_PA_COMMAND_ 
+	TCHAR szTemp[64];
+	_stprintf_s( szTemp, 64, _T("==> CPAAsyncComm::SendCommand(%d)"), (int)hCommand );
+	write_log( hCommand, szTemp );
+#endif 
+
+	if( B_IS_RUNNING_COMPLETE[hCommand] == TRUE )
+	{
+#ifdef _WRITE_LOG_PA_COMMAND_
+		write_log( hCommand, _T("==> already running") );
+#endif
+		LeaveCriticalSection( &hCS_ );
+		return ;	// 이미 실행 중 
+	}
+
+	sprintf_s( pCommandBuffer_, nCommandBufferSize_, "%s %s\r\n", pa::CPAAsyncComm::STR_COMMAND[hCommand], pParam );
+
+	DW_SEND_RUNNING_COMMAND[hCommand] = GetTickCount();
+	DW_RECV_RUNNING_COMMAND[hCommand] = 0;
+
+	int errcode = Send( pCommandBuffer_, strlen( pCommandBuffer_ ) );
+
+	if( errcode != 0 ) 
+	{
+		B_IS_RUNNING_COMPLETE[hCommand] = TRUE;
+	}
+	else 
+	{
+		// 전송 에러 
+	}
+
+	LeaveCriticalSection( &hCS_ );
+}
+
+void pa::CPAAsyncComm::SendCommand( char* p )
+{
+	//////////////////////////////////////////////////////////////////////////
+	// 2017.05.25 
+	if( socket_ == INVALID_SOCKET ) {
+		return ;
+	}
+	//////////////////////////////////////////////////////////////////////////
+
+	int command_index = 0;
+	BOOL bFind = FALSE;
+
+#ifdef _WRITE_LOG_PA_COMMAND_
+	char  sztemp[128];
+	TCHAR szTemp[128];
+	sprintf_s( sztemp, 128, "CPAAsyncComm::SendCommand(%s)", p );
+	hcutil::ASCII_TO_UNICODE( sztemp, szTemp, 128 );
+	write_log( pa::CPAAsyncComm::CMD_NUM, szTemp );
+#endif
+
+	EnterCriticalSection( &hCS_ );
+
+	for( command_index = 0; command_index<CMD_NUM; command_index++ ) 
+	{
+		if( strstr( p, STR_COMMAND[command_index] ) != NULL ) 
+		{
+			bFind = TRUE;
+			break;
+		}
+	}
+	if( bFind == FALSE ) {
+		LeaveCriticalSection( &hCS_ );
+		return ;
+	} 
+
+	DW_SEND_RUNNING_COMMAND[command_index] = GetTickCount();
+	DW_RECV_RUNNING_COMMAND[command_index] = 0;
+
+	int errcode = Send( p, strlen(p) );
+	if( errcode != 0 )
+	{
+		B_IS_RUNNING_COMPLETE[command_index] = TRUE;
+	}
+	else 
+	{
+		// 전송 에러 
+	}
+
+	LeaveCriticalSection( &hCS_ );
+}
+
+void pa::CPAAsyncComm::Wait( pa::CPAAsyncComm::EN_COMMAND hCommand, DWORD dwTimeout/*=5000*/ )
+{
+	DWORD dwTime = GetTickCount();
+
+	while( B_IS_RUNNING_COMPLETE[hCommand] == TRUE )
+	{
+		// checking timeout 
+		if( ( dwTimeout != 0 ) && ( GetTickCount() - dwTime > dwTimeout ) )
+		{
+			// Timeout 에러 
+			B_IS_RUNNING_COMPLETE[hCommand] = FALSE;
+			// 예외 처리 
+			if( ( PPAStatus->GetThreadState()->hRunMode != pa::RUNMODE_ERROR ) )
+			{
+				throw CPException( ERR_TIMEOUT, hCommand, _T("") );
+			}
+		}
+
+		// message pumping 
+		{
+			MSG msg;
+
+			if( PeekMessage( &msg, NULL, 0, 0, PM_REMOVE ) ) 
+			{
+				if( msg.message == WM_QUIT )
+				{
+					PostQuitMessage( 0 );
+					return ;
+				}
+				TranslateMessage( &msg );
+				DispatchMessage( &msg );
+			}
+		}
+
+		//
+		Sleep( 0 );
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+void pa::CPAAsyncComm::parsing_rnd_cdt_data( char* pData )
+{
+	char	szTemp[64];
+	BOOL	bSignal[32];
+	int		nTempIndex = 0;
+	int		nResultIndex = 0;
+	int		len = 0;
+	char*	pDataStartPos = NULL;
+
+	if( pData == NULL ) {
+		return ;
+	}
+
+	len = strlen(pData);
+	memset((void*)szTemp, 0, sizeof(char)*64);
+
+	for( int i = 0; i<len; i++ ) 
+	{
+		if( nTempIndex == 0 ) {
+		//	pDataStartPos = pData[i];
+			pDataStartPos = pData + i;
+		}
+
+		szTemp[nTempIndex++] = pData[i];
+
+		if( (pData[i] == ',') || (i == len-1) )
+		{
+			if( szTemp[nTempIndex-1] == ',' ) {
+				szTemp[nTempIndex-1] = 0;	// '123,'일 경우, '123' 으로 
+			} 
+			else {
+				szTemp[nTempIndex] = 0;		// '123'일 경우, '123' 으로 
+			}
+
+			switch( nResultIndex )
+			{
+			case 0:		// MD:AUTO
+			case 1:		// PS:0:0:0
+			case 2:		// X:
+			case 3:		// Y:
+			case 4:		// Z:
+			case 5:		// A:
+			case 6:		// B:
+			case 7:		// C:
+// 			case 8:		// VX: 
+// 			case 9:		// VY:
+// 			case 10:	// VZ: 
+// 			case 11:	// VA: 
+// 			case 12:	// VB: 
+// 			case 13:	// VC: 
+			case 8:		// SV:0:0:0
+				szTemp[nTempIndex-1] = ':';	// 데이터 마지막에 ':'를 붙여서 전달한다 
+				parsing_rnd_status_data_each_set( szTemp, CMD_RND_CDT );
+				break;
+				
+			case 9:		// ToolNo
+				pRefPAStatus_->nCurrentToolNo = atoi(szTemp);
+				break;
+			case 10:	// Tool Length. 중국 4WA는 이 기능이 없어서 주석처리 해야함. tool sensor까지 거리. offset 값을 더하면 coordinate 의 z 위치가 됨  
+				pRefPAStatus_->fCurrentToolLenght = atof(szTemp);
+				break;
+			case 11:	// Spindle Speed
+				pRefPAStatus_->nSpindleSpeed = atoi(szTemp);
+				break;
+			case 12:	// Spindle Override 
+				{
+					int nTemp = atoi(szTemp);
+					pRefPAStatus_->nSpindleOverride = ( nTemp <= 0 ) ? 100 : nTemp;
+				}
+				break;
+			case 13:	// Motor Override
+				pRefPAStatus_->nMotorOverride = atoi(szTemp);
+				break;
+			case 14:	// Motor Feedrate
+				pRefPAStatus_->nMotorFeedrate = atoi(szTemp);
+				break;
+			case 15:	// System intput 
+				{
+					int bit_no = 8;
+					parsing_rnd_sys_io_data( szTemp, bSignal, bit_no );
+					for( int i = 0; i<bit_no; i++ ) {
+						pRefPAStatus_->bInput[i] = bSignal[i];
+					}
+				}
+				break;
+			case 16:	// system output
+				{
+					//	int bit_no = (pa::PConfig->pConfig_->nModelID == 0) ? 4: 8;	// 5Z일 경우 4, 나머지는 8
+					int bit_no = 8;
+					parsing_rnd_sys_io_data( szTemp, bSignal, bit_no );
+					for( int i = 0; i<bit_no; i++ ) {
+						pRefPAStatus_->bOutput[i] = bSignal[i];
+					}
+				}
+				break; 
+			case 17:	// cantop input
+				{
+					int bit_no	= 32;
+					int bit_skip= 8;
+					parsing_rnd_io_data( szTemp, bSignal, bit_no );
+					for( int i = 0; i<bit_no; i++ ) {
+						pRefPAStatus_->bInput[i+bit_skip] = bSignal[i];
+					}
+				}
+				if( pa::MODEL_INFO.IsUsingInvertBlockDetectBit() == TRUE )
+				{
+					// DM200-5A일 경우, 반전 시킨다
+					//pRefPAStatus_->bInput[pa::IN20017_DetectedBlock] = pRefPAStatus_->bInput[pa::IN20017_DetectedBlock] == TRUE ? FALSE : TRUE;
+				}
+				break;
+			case 18:	// cantops output
+				{
+					int bit_no	= 32;
+					int bit_skip= 8;
+					parsing_rnd_io_data( szTemp, bSignal, bit_no );
+					for( int i = 0; i<bit_no; i++ ) {
+						pRefPAStatus_->bOutput[i+bit_skip] = bSignal[i];
+					}
+				}
+				break;
+			case 19:	// bit-field data :  
+				{
+					int nTemp = atoi(szTemp);
+					pRefPAStatus_->nIO_Board_Status				= (nTemp & 0x00000001) == 0 ? 0 : 1;
+					pRefPAStatus_->nSpindle_Board_Status		= (nTemp & 0x00000002) == 0 ? 0 : 1;
+					pRefPAStatus_->nSpindleRun					= (nTemp & 0x00000004) == 0 ? 0 : 1;
+					pRefPAStatus_->nToolLengthUpdateFlag		= (nTemp & 0x00000008) == 0 ? 0 : 1;
+					pRefPAStatus_->nDuringToolChaneFlag			= (nTemp & 0x00000010) == 0 ? 0 : 1;
+					pRefPAStatus_->nEMOButtonFlag				= (nTemp & 0x00000020) == 0 ? 0 : 1;
+					pRefPAStatus_->nMotorMovingFlag				= (nTemp & 0x00000040) == 0 ? 0 : 1;	// 모터이동중 1, 멈춤 0
+				}
+				break;
+
+				// 2020.06.09. PA 제어기에서 올라오는 에러 메시지 저장 
+			case 20: // RND ErrorMessage 
+// 				memset( pRefPAStatus_->szRndErrorMessage, 0, sizeof(char)*256 );
+// 				if( is_error ) {
+// 					int len = strlen(pDataStartPos);
+// 					memcpy( pRefPAStatus_->szRndErrorMessage, pDataStartPos, len );
+// 				}
+				break;
+			}
+
+			memset((void*)szTemp, 0, sizeof(char)*64);
+			nTempIndex = 0;
+			nResultIndex += 1;
+		}
+	}
+}
+
+void pa::CPAAsyncComm::parsing_rnd_cdtex_data( char* pData, BOOL is_error )
+{
+	char	szTemp[64];
+	BOOL	bSignal[32];
+	int		nTempIndex = 0;
+	int		nResultIndex = 0;
+	int		len = 0;
+	char*	pDataStartPos = NULL;
+
+	if( pData == NULL ) {
+		return ;
+	}
+
+	len = strlen(pData);
+	memset((void*)szTemp, 0, sizeof(char)*64);
+
+	for( int i = 0; i<len; i++ ) 
+	{
+		if( nTempIndex == 0 ) {
+			//	pDataStartPos = pData[i];
+			pDataStartPos = pData + i;
+		}
+
+		szTemp[nTempIndex++] = pData[i];
+
+		if( (pData[i] == ',') || (i == len-1) )
+		{
+			if( szTemp[nTempIndex-1] == ',' ) {
+				szTemp[nTempIndex-1] = 0;	// '123,'일 경우, '123' 으로 
+			} 
+			else {
+				szTemp[nTempIndex] = 0;		// '123'일 경우, '123' 으로 
+			}
+
+			switch( nResultIndex )
+			{
+			case 0:		// MD:AUTO
+			case 1:		// PS:0:0:0
+			case 2:		// X:
+			case 3:		// Y:
+			case 4:		// Z:
+			case 5:		// A:
+			case 6:		// B:
+			case 7:		// C:
+				// 			case 8:		// VX: 
+				// 			case 9:		// VY:
+				// 			case 10:	// VZ: 
+				// 			case 11:	// VA: 
+				// 			case 12:	// VB: 
+				// 			case 13:	// VC: 
+			case 8:		// SV:0:0:0
+				szTemp[nTempIndex-1] = ':';	// 데이터 마지막에 ':'를 붙여서 전달한다 
+				parsing_rnd_status_data_each_set( szTemp, CMD_RND_CDTEX );
+				break;
+
+			case 9:		// ToolNo
+				pRefPAStatus_->nCurrentToolNo = atoi(szTemp);
+				break;
+			case 10:	// Tool Length. 중국 4WA는 이 기능이 없어서 주석처리 해야함. tool sensor까지 거리. offset 값을 더하면 coordinate 의 z 위치가 됨  
+				pRefPAStatus_->fCurrentToolLenght = atof(szTemp);
+				break;
+			case 11:	// Spindle Speed
+				pRefPAStatus_->nSpindleSpeed = atoi(szTemp);
+				break;
+			case 12:	// Spindle Override 
+				{
+					int nTemp = atoi(szTemp);
+					pRefPAStatus_->nSpindleOverride = ( nTemp <= 0 ) ? 100 : nTemp;
+				}
+				break;
+			case 13:	// Motor Override
+				pRefPAStatus_->nMotorOverride = atoi(szTemp);
+				break;
+			case 14:	// Motor Feedrate
+				pRefPAStatus_->nMotorFeedrate = atoi(szTemp);
+				break;
+			case 15:	// System intput 
+				{
+					int bit_no = 8;
+					parsing_rnd_sys_io_data( szTemp, bSignal, bit_no );
+					for( int i = 0; i<bit_no; i++ ) {
+						pRefPAStatus_->bInput[i] = bSignal[i];
+					}
+				}
+				break;
+			case 16:	// system output
+				{
+					//	int bit_no = (pa::PConfig->pConfig_->nModelID == 0) ? 4: 8;	// 5Z일 경우 4, 나머지는 8
+					int bit_no = 8;
+					parsing_rnd_sys_io_data( szTemp, bSignal, bit_no );
+					for( int i = 0; i<bit_no; i++ ) {
+						pRefPAStatus_->bOutput[i] = bSignal[i];
+					}
+				}
+				break; 
+			case 17:	// cantop input
+				{
+					int bit_no	= 32;
+					int bit_skip= 8;
+					parsing_rnd_io_data( szTemp, bSignal, bit_no );
+					for( int i = 0; i<bit_no; i++ ) {
+						pRefPAStatus_->bInput[i+bit_skip] = bSignal[i];
+					}
+				}
+				if( pa::MODEL_INFO.IsUsingInvertBlockDetectBit() == TRUE )
+				{
+					// DM200-5A일 경우, 반전 시킨다
+//					pRefPAStatus_->bInput[pa::IN20017_DetectedBlock] = pRefPAStatus_->bInput[pa::IN20017_DetectedBlock] == TRUE ? FALSE : TRUE;
+				}
+				break;
+			case 18:	// cantops output
+				{
+					int bit_no	= 32;
+					int bit_skip= 8;
+					parsing_rnd_io_data( szTemp, bSignal, bit_no );
+					for( int i = 0; i<bit_no; i++ ) {
+						pRefPAStatus_->bOutput[i+bit_skip] = bSignal[i];
+					}
+				}
+				break;
+			case 19:	// bit-field data :  
+				{
+					int nTemp = atoi(szTemp);
+					pRefPAStatus_->nIO_Board_Status				= (nTemp & 0x00000001) == 0 ? 0 : 1;
+					pRefPAStatus_->nSpindle_Board_Status		= (nTemp & 0x00000002) == 0 ? 0 : 1;
+					pRefPAStatus_->nSpindleRun					= (nTemp & 0x00000004) == 0 ? 0 : 1;
+					pRefPAStatus_->nToolLengthUpdateFlag		= (nTemp & 0x00000008) == 0 ? 0 : 1;
+					pRefPAStatus_->nDuringToolChaneFlag			= (nTemp & 0x00000010) == 0 ? 0 : 1;
+					pRefPAStatus_->nEMOButtonFlag				= (nTemp & 0x00000020) == 0 ? 0 : 1;
+					pRefPAStatus_->nMotorMovingFlag				= (nTemp & 0x00000040) == 0 ? 0 : 1;	// 모터이동중 1, 멈춤 0
+					pRefPAStatus_->nSpindle2_Board_Status		= (nTemp & 0x00000200) == 0 ? 0 : 1;
+					pRefPAStatus_->nSpindle2Run					= (nTemp & 0x00000400) == 0 ? 0 : 1;
+					pRefPAStatus_->nTool2LengthUpdateFlag		= (nTemp & 0x00000800) == 0 ? 0 : 1;
+					pRefPAStatus_->nSpindle1ColletOpenFlag		= (nTemp & 0x00001000) == 0 ? 0 : 1;
+					pRefPAStatus_->nSpindle2ColletOpenFlag		= (nTemp & 0x00002000) == 0 ? 0 : 1;
+					pRefPAStatus_->nSpindle1PurgeAirOnFlag		= (nTemp & 0x00004000) == 0 ? 0 : 1;
+					pRefPAStatus_->nSpindle2PurgeAirOnFlag		= (nTemp & 0x00008000) == 0 ? 0 : 1;
+				}
+				break;
+
+			case 20:	// tool2 number
+				pRefPAStatus_->nCurrentTool2No = atoi(szTemp);
+				break;
+
+			case 21:	// tool2 length
+				pRefPAStatus_->fCurrentTool2Lenght = atof(szTemp);
+				break;
+
+			case 22:	// Spindle2 Speed
+				pRefPAStatus_->nSpindleSpeed2 = atoi(szTemp);
+				break;
+
+				// 2020.06.09. PA 제어기에서 올라오는 에러 메시지 저장 
+			case 23: // RND ErrorMessage 
+				memset( pRefPAStatus_->szRndErrorMessage, 0, sizeof(char)*256 );
+				if( is_error ) {
+					int len = strlen(pDataStartPos);
+					memcpy( pRefPAStatus_->szRndErrorMessage, pDataStartPos, len );
+				}
+				break;
+
+			}
+
+			memset((void*)szTemp, 0, sizeof(char)*64);
+			nTempIndex = 0;
+			nResultIndex += 1;
+		}
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////

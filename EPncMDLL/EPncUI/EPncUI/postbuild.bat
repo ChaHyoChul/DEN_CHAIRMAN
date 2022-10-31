@@ -1,0 +1,2 @@
+xcopy C:\Users\pc\Documents\GitHub\DEN_Chairside\EPncMDLL\Debug\EPncUI.exe \\192.6.94.5\Remotedebug\Newfolder\Newfolder /y
+xcopy C:\Users\pc\Documents\GitHub\DEN_Chairside\EPncMDLL\Debug\EPncUI.pdb \\192.6.94.5\RemoteDebug\Newfolder\Newfolder /y
