@@ -602,3 +602,47 @@ double pa::CPNCFile::GetFirstX()
 
 	return retVal;
 }
+
+BOOL pa::CPNCFile::GetBlockLength(double* fBlockLength)
+{
+	BOOL bRet = FALSE; 
+	BOOL dummy = FALSE;
+	char szTemp[256];
+	CString strWorkLine;
+	CString strLength;
+
+	*fBlockLength = 0.0;
+
+	for( int i = 1; i < 50; i++)
+	{
+		memset((void*)szTemp, 0, sizeof(char)*256);
+		dummy = GetLine( i, FALSE, szTemp );
+		strWorkLine = szTemp;
+		
+		if (strWorkLine.Find(_T("(LENGTH=")) >= 0)
+		{
+			int startIndex = strWorkLine.Find('=');
+			int stopIndex = strWorkLine.Find(')');
+
+			TRACE(_T("startIndex : %d\n"), startIndex);
+			TRACE(_T("stopIndex : %d\n"), stopIndex);
+			
+			if (startIndex < 0 || stopIndex < 0)
+			{
+				return FALSE; 
+			}
+
+			strLength = strWorkLine.Mid(startIndex+1, stopIndex - startIndex - 1);
+			TRACE(strLength); TRACE(_T("\n"));
+
+			*fBlockLength = _wtof(strLength);
+			TRACE(_T("Block Length : %.3f"), *fBlockLength);
+
+			return TRUE;
+		}
+
+	}
+
+	return FALSE;
+}
+

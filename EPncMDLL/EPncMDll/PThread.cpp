@@ -2101,10 +2101,11 @@ void pa::CPThread::doToRun2()
 {
 	static int DELAY;
 	static int COUNT_SPINDLE_RUN;
+	static double CHECK_BLOCK_SIZE_X_POS;
+
 	int& step = nStep_[RUNMODE_TORUN];
 	char sztemp[128];
 	int	 ntemp;
-	double fCheckingX;
 	CString msg;
 	
 	static int PREV_STEP_NO = -1;
@@ -2523,39 +2524,56 @@ void pa::CPThread::doToRun2()
 	case 2900:
 		if( pa::PConfig->pConfig_->bCheckBlockSize )
 		{
-			// Check the block size
-			// add the Chairman 5X block size checking sequence
-			fCheckingX = PNCFile->GetFirstX();										// Get X-axis coordinate in G54 from NC file's 1st line with G01
-			
-			if( fCheckingX < -1000 )
+			double fLength = 0.0;
+
+			if (!PNCFile->GetBlockLength(&fLength))
 			{
-				msg.Format( _T("X coordinate at the first G01 line not found or G01 command not found in the first 100 lines."));
-				throw CPException( ERR_PNC, PNC_ERR_INVALID_NCCODE, msg );
+				msg.Format( _T("Not found block length infomation form nc-file"));
+				throw CPException( ERR_PNC, PNC_ERR_INVALID_NCCODE, msg );	
 			}
-			else if( fCheckingX >= 1000 )
-			{
-				msg.Format( _T("The X coordinate found at the first G01 line was not confirmed by lines around it."));
-				throw CPException( ERR_PNC, PNC_ERR_INVALID_NCCODE, msg );				
-			}
-			else if( fCheckingX >= 5 )
-			{
-				msg.Format( _T("The X coordinate found at the first G01 line is not safe ([G54] X%.3f)."), fCheckingX);
-				throw CPException( ERR_PNC, PNC_ERR_INVALID_NCCODE, msg );				
-			}
-			
-			fCheckingX += PConfig->pConfig_->fCoordOffset[pa::COORD_G54][AXIS_X];	// Transform X coordinate to G53 from G54
-			fCheckingX -= 0.1;														// Safety margin - go little bit down
+
+			// 15.2 + 2.5 - 10.0 = 8.5  
+			CHECK_BLOCK_SIZE_X_POS = (fLength + 2.5 + 1.25 - 10.0) * -1.0;	// block length + cap + (tool thiness : 2.5)/2 - g54(10.0)
+
+// 			// Check the block size
+// 			// add the Chairman 5X block size checking sequence
+// 			fCheckingX = PNCFile->GetFirstX();										// Get X-axis coordinate in G54 from NC file's 1st line with G01
+// 			
+// 			if( fCheckingX < -1000 )
+// 			{
+// 				msg.Format( _T("X coordinate at the first G01 line not found or G01 command not found in the first 100 lines."));
+// 				throw CPException( ERR_PNC, PNC_ERR_INVALID_NCCODE, msg );
+// 			}
+// 			else if( fCheckingX >= 1000 )
+// 			{
+// 				msg.Format( _T("The X coordinate found at the first G01 line was not confirmed by lines around it."));
+// 				throw CPException( ERR_PNC, PNC_ERR_INVALID_NCCODE, msg );				
+// 			}
+// 			else if( fCheckingX >= 5 )
+// 			{
+// 				msg.Format( _T("The X coordinate found at the first G01 line is not safe ([G54] X%.3f)."), fCheckingX);
+// 				throw CPException( ERR_PNC, PNC_ERR_INVALID_NCCODE, msg );				
+// 			}
+// 			
+// 			fCheckingX += PConfig->pConfig_->fCoordOffset[pa::COORD_G54][AXIS_X];	// Transform X coordinate to G53 from G54
+// 			fCheckingX -= 0.1;														// Safety margin - go little bit down
 			PAMotion->UploadSoftLimit();											// Get current soft limits
 
 			
-	#ifdef _USE_PA_			 +
-			if( fCheckingX < PPAStatus->GetThreadState()->fSoftLimit_[0][0] || fCheckingX > PPAStatus->GetThreadState()->fSoftLimit_[0][1])
+	#ifdef _USE_PA_			 
 			{
-				msg.Format( _T("X coordinate %.3f is not within limits (%.3f,%.3f)"), fCheckingX, PPAStatus->GetThreadState()->fSoftLimit_[0][0], PPAStatus->GetThreadState()->fSoftLimit_[0][1]);
-				throw CPException( ERR_PNC, PNC_ERR_INVALID_NCCODE, msg );
+				// bychul2. CHECK_BLOCK... 
+				double check_x = CHECK_BLOCK_SIZE_X_POS + PConfig->pConfig_->fCoordOffset[pa::COORD_G54][AXIS_X];
+				if ( check_x < PPAStatus->GetThreadState()->fSoftLimit_[0][0] || 
+					 check_x > PPAStatus->GetThreadState()->fSoftLimit_[0][1])
+				{
+					msg.Format( _T("X coordinate %.3f is not within limits (%.3f,%.3f)"), CHECK_BLOCK_SIZE_X_POS, PPAStatus->GetThreadState()->fSoftLimit_[0][0], PPAStatus->GetThreadState()->fSoftLimit_[0][1]);
+					throw CPException( ERR_PNC, PNC_ERR_INVALID_NCCODE, msg );
+				}
 			}
 	#else
-			msg.Format( _T("The X coordinate is %f."), fCheckingX);
+// 			msg.Format( _T("The X coordinate is %f."), fCheckingX);
+ 			msg.Format( _T("The X coordinate is %f."), CHECK_BLOCK_SIZE_X_POS);
 			AfxMessageBox( msg, MB_OK|MB_ICONINFORMATION );
 	#endif
 			step = 2910;
@@ -2578,8 +2596,7 @@ void pa::CPThread::doToRun2()
 	
 	case 2930:		
 		// Move YL to origin position, X to checking position
-		fCheckingX = PNCFile->GetFirstX() - 0.1;										// Get X-axis coordinate in G54 from NC file's 1st line with G01
-		sprintf_s( sztemp, 128, "G54 X%.3f Y0\r\n", fCheckingX );
+		sprintf_s(sztemp, 128, "G54 X%.3f Y0\r\n",CHECK_BLOCK_SIZE_X_POS);
 		PAMotion->SendStreamCommand( sztemp, TRUE );
 		Sleep( 100 );
 		step = 2939;

@@ -52,6 +52,8 @@ public:
 	
 	double GetFirstX( );
 
+	BOOL GetBlockLength(double* fBlockLength);	// (LENGTH=) 값을 리턴한다. 찾으면 True, 없으면 False를 리턴한다 
+
 public:
 	CPNCFile(void);
 	~CPNCFile(void);
