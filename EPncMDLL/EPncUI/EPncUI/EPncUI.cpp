@@ -284,7 +284,8 @@ BOOL CEPncUIApp::InitInstance()
                                                             // 3. Removed obsolete startup messages regarding water changes and filter changes
                                                             // 4. Cleaned up code (multi origin, autoloader, obsolete commented code, ...)
 
-	P_VERSION = _T("CM-20220923-002-debug-blocksensing");	// 1.NC 파일의 BLOCK LENGTH를 사용해서 블럭 검사하는 것으로 수정 
+//	P_VERSION = _T("CM-20220923-002-debug-blocksensing");		// 1.NC 파일의 BLOCK LENGTH를 사용해서 블럭 검사하는 것으로 수정 
+	P_VERSION = _T("CM-20220923-003-debug-unify-button-name");	// 1.버튼 이름 통일 (collet open/close)  
 
 
 	if( isRunningProgram() ) {

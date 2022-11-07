@@ -803,9 +803,11 @@ void CSetupTeachingDlg::updateState_ManualButton()
 	if( PREV_SPINDLE_L_STATE != spindle_left_state ) {
 		PREV_SPINDLE_L_STATE = spindle_left_state;
 		if( spindle_left_state == 0 ) {
-			btnSpindleClamp_.SetWindowText( _T("Spindle L\r\nUnclamp") );
+		//	btnSpindleClamp_.SetWindowText( _T("Spindle L\r\nUnclamp") );
+			btnSpindleClamp_.SetWindowText(_T("Spindle L\r\nCollet\r\nOpen"));
 		} else {
-			btnSpindleClamp_.SetWindowText( _T("Spindle L\r\nClamp") );
+		//	btnSpindleClamp_.SetWindowText( _T("Spindle L\r\nClamp") );
+			btnSpindleClamp_.SetWindowText(_T("Spindle L\r\nCollet\r\nClose"));
 		}
 	}
 
@@ -814,9 +816,11 @@ void CSetupTeachingDlg::updateState_ManualButton()
 	if ( PREV_SPINDLE_R_STATE != spindle_right_state) {
 		PREV_SPINDLE_R_STATE = spindle_right_state;
 		if( spindle_right_state == 0 ) {
-			btnSpindle2Clamp_.SetWindowText( _T("Spindle R\r\nUnclamp") );
+		//	btnSpindle2Clamp_.SetWindowText( _T("Spindle R\r\nUnclamp") );
+			btnSpindle2Clamp_.SetWindowText(_T("Spindle R\r\nCollet\r\nOpen"));
 		} else {
-			btnSpindle2Clamp_.SetWindowText( _T("Spindle R\r\nClamp") );
+		//	btnSpindle2Clamp_.SetWindowText( _T("Spindle R\r\nClamp") );
+			btnSpindle2Clamp_.SetWindowText(_T("Spindle R\r\nCollet\r\nClose"));
 		}
 	}
 

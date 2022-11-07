@@ -742,22 +742,26 @@ void CSetupToolDlg::updateState_MenuButton()
 	if( PREV_NAME_TOOL_CLAMP != curr_name_tool_clamp ) {
 		PREV_NAME_TOOL_CLAMP = curr_name_tool_clamp;
 		if( curr_name_tool_clamp != 0 ) {
-			((CButton*)GetDlgItem(IDC_CHECK_TOOL_CLAMP_UNCLAMP))->SetWindowText( _T("Clamp") );
+		//	((CButton*)GetDlgItem(IDC_CHECK_TOOL_CLAMP_UNCLAMP))->SetWindowText( _T("Clamp") );
+			((CButton*)GetDlgItem(IDC_CHECK_TOOL_CLAMP_UNCLAMP))->SetWindowText( _T("Collet Close") );
 		}
 		else {
 			((CButton*)GetDlgItem(IDC_CHECK_TOOL_CLAMP_UNCLAMP))->SetCheck(PREV_NAME_TOOL_CLAMP);	
-			((CButton*)GetDlgItem(IDC_CHECK_TOOL_CLAMP_UNCLAMP))->SetWindowText( _T("Unclamp") );
+		//	((CButton*)GetDlgItem(IDC_CHECK_TOOL_CLAMP_UNCLAMP))->SetWindowText( _T("Unclamp") );
+			((CButton*)GetDlgItem(IDC_CHECK_TOOL_CLAMP_UNCLAMP))->SetWindowText( _T("Collet Open") );
 		}
 	}
 
 	if( PREV_NAME_TOOL2_CLAMP != curr_name_tool2_clamp ) {
 		PREV_NAME_TOOL2_CLAMP = curr_name_tool2_clamp;
 		if( curr_name_tool2_clamp != 0 ) {	
-			((CButton*)GetDlgItem(IDC_CHECK_TOOL2_CLAMP_UNCLAMP))->SetWindowText( _T("Clamp") );
+		//	((CButton*)GetDlgItem(IDC_CHECK_TOOL2_CLAMP_UNCLAMP))->SetWindowText( _T("Clamp") );
+			((CButton*)GetDlgItem(IDC_CHECK_TOOL2_CLAMP_UNCLAMP))->SetWindowText( _T("Collet Close") );
 		}
 		else {
 			((CButton*)GetDlgItem(IDC_CHECK_TOOL2_CLAMP_UNCLAMP))->SetCheck(PREV_NAME_TOOL2_CLAMP);	
-			((CButton*)GetDlgItem(IDC_CHECK_TOOL2_CLAMP_UNCLAMP))->SetWindowText( _T("Unclamp") );
+		//	((CButton*)GetDlgItem(IDC_CHECK_TOOL2_CLAMP_UNCLAMP))->SetWindowText( _T("Unclamp") );
+			((CButton*)GetDlgItem(IDC_CHECK_TOOL2_CLAMP_UNCLAMP))->SetWindowText( _T("Collet Open") );
 		}
 	}
 

@@ -221,22 +221,26 @@ void CSetupAutoTeachingStep2Dlg::updateState_MenuButton()
 	if( PREV_NAME_TOOL_CLAMP != curr_name_tool_clamp ) {
 		PREV_NAME_TOOL_CLAMP = curr_name_tool_clamp;
 		if( curr_name_tool_clamp != 0 ) {
-			((CButton*)GetDlgItem(IDC_CHECK_TOOL_CLAMP_UNCLAMP))->SetWindowText( _T("LEFT Clamp") );
+		//	((CButton*)GetDlgItem(IDC_CHECK_TOOL_CLAMP_UNCLAMP))->SetWindowText( _T("LEFT Clamp") );
+			((CButton*)GetDlgItem(IDC_CHECK_TOOL_CLAMP_UNCLAMP))->SetWindowText( _T("LEFT Collet Close") );
 		}
 		else {
 			((CButton*)GetDlgItem(IDC_CHECK_TOOL_CLAMP_UNCLAMP))->SetCheck(PREV_NAME_TOOL_CLAMP);	
-			((CButton*)GetDlgItem(IDC_CHECK_TOOL_CLAMP_UNCLAMP))->SetWindowText( _T("LEFT Unclamp") );
+		//	((CButton*)GetDlgItem(IDC_CHECK_TOOL_CLAMP_UNCLAMP))->SetWindowText( _T("LEFT Unclamp") );
+			((CButton*)GetDlgItem(IDC_CHECK_TOOL_CLAMP_UNCLAMP))->SetWindowText( _T("LEFT Collet Open") );
 		}
 	}
 
 	if( PREV_NAME_TOOL2_CLAMP != curr_name_tool2_clamp ) {
 		PREV_NAME_TOOL2_CLAMP = curr_name_tool2_clamp;
 		if( curr_name_tool2_clamp != 0 ) {	
-			((CButton*)GetDlgItem(IDC_CHECK_TOOL2_CLAMP_UNCLAMP))->SetWindowText( _T("RIGHT Clamp") );
+		//	((CButton*)GetDlgItem(IDC_CHECK_TOOL2_CLAMP_UNCLAMP))->SetWindowText( _T("RIGHT Clamp") );
+			((CButton*)GetDlgItem(IDC_CHECK_TOOL2_CLAMP_UNCLAMP))->SetWindowText( _T("RIGHT Collet Close") );
 		}
 		else {
 			((CButton*)GetDlgItem(IDC_CHECK_TOOL2_CLAMP_UNCLAMP))->SetCheck(PREV_NAME_TOOL2_CLAMP);	
-			((CButton*)GetDlgItem(IDC_CHECK_TOOL2_CLAMP_UNCLAMP))->SetWindowText( _T("RIGHT Unclamp") );
+		//	((CButton*)GetDlgItem(IDC_CHECK_TOOL2_CLAMP_UNCLAMP))->SetWindowText( _T("RIGHT Unclamp") );
+			((CButton*)GetDlgItem(IDC_CHECK_TOOL2_CLAMP_UNCLAMP))->SetWindowText( _T("RIGHT Collet Open") );
 		}
 	}
 
