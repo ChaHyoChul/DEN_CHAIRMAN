@@ -300,6 +300,8 @@ public:
 
 	afx_msg LRESULT OnEPncUIDlgQuit(WPARAM wparam, LPARAM lparam);
 
+	afx_msg LRESULT OnSetup(WPARAM wparam, LPARAM lparam);
+
 	static double F_CURRENT_RUN_RATE;
 
 #ifdef _SAVE_RUNTIME_UI_

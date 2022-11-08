@@ -71,6 +71,7 @@ BEGIN_MESSAGE_MAP(CEPncUIDlg2, CDialog)
 	ON_WM_MOVE()
 	ON_WM_CTLCOLOR()
 	ON_MESSAGE(WM_EPNCUI_QUIT, &CEPncUIDlg2::OnEPncUIDlgQuit)
+	ON_MESSAGE(WM_SETUP, &CEPncUIDlg2::OnSetup)
 END_MESSAGE_MAP()
 
 //////////////////////////////////////////////////////////////////////////
@@ -1375,13 +1376,19 @@ void CEPncUIDlg2::OnTimer(UINT_PTR nIDEvent)
 			pa::PPAStatus->GetThreadState()->bUpdateNcFileListForSD_ = FALSE;
 		}
 		// hide error message box
-		if( pa::PPAStatus->GetThreadState()->bRemoteReset_ == TRUE )
+		if( pa::PPAStatus->GetThreadState()->bHideErrorMsgDialog_ == TRUE )
 		{
 			if( PERROR_DLG ) {
 			//	PERROR_DLG->ShowWindow( SW_HIDE );
 				PERROR_DLG->RESET_SHOW_ERROR_DLG();
 			}
-			pa::PPAStatus->GetThreadState()->bRemoteReset_ = FALSE;
+			pa::PPAStatus->GetThreadState()->bHideErrorMsgDialog_ = FALSE;
+		}
+		// show setup-tool dialog 
+		if (pa::PPAStatus->GetThreadState()->bShowSetupToolDlg_ == TRUE) 
+		{
+			PostMessage(WM_SETUP, (LPARAM)SETUP_TOOL, (WPARAM)0);
+			pa::PPAStatus->GetThreadState()->bShowSetupToolDlg_ = FALSE;
 		}
 		//
 		SetTimer( 3, 1000, NULL );
@@ -1701,6 +1708,7 @@ void CEPncUIDlg2::doButtonSetup()
 
 		PSETUP_DLG->ShowWindow( SW_SHOW );
 		PSETUP_DLG->ShowMain();
+		// PostMessage(WM_SETUP, (WPARAM)SETUP_TOOL, (LPARAM)0);
 	} else {
 		//////////////////////////////////////////////////////////////////////////
 		// log 
@@ -4125,3 +4133,9 @@ int  CEPncUIDlg2::getToolAlarm()
 	return nRet;
 }
 
+LRESULT CEPncUIDlg2::OnSetup(WPARAM wparam, LPARAM lparam)
+{
+	PSETUP_DLG->ShowWindow(SW_SHOW);
+	PSETUP_DLG->PostMessage(WM_SETUP, wparam, lparam);
+	return 0;
+}

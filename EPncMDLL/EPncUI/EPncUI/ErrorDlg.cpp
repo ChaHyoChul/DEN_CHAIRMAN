@@ -143,13 +143,14 @@ void CErrorDlg::OnShowWindow(BOOL bShow, UINT nStatus)
 
 void CErrorDlg::OnBnClickedButtonOk()
 {
-	ShowWindow( SW_HIDE );
+	//ShowWindow( SW_HIDE );
+	hideWindow();
 }
 
 void CErrorDlg::OnBnClickedButtonClose()
 {
-	ShowWindow( SW_HIDE );
-
+	//ShowWindow( SW_HIDE );
+	hideWindow();
 }
 
 void CErrorDlg::RESET_SHOW_ERROR_DLG()
@@ -159,6 +160,32 @@ void CErrorDlg::RESET_SHOW_ERROR_DLG()
 								// 리셋 후 난 에러에 대해 다이얼로그를 띄운다 
 
 	ShowWindow( SW_HIDE );
+}
+
+void CErrorDlg::hideWindow()
+{
+	ShowWindow(SW_HIDE);
+	
+	if (isToolError())
+	{
+		AfxGetMainWnd()->PostMessage(WM_SETUP, (WPARAM)SETUP_TOOL, (LPARAM)0);
+	}
+}
+
+BOOL CErrorDlg::isToolError()
+{
+	BOOL bRet = FALSE;
+	CString error_type = strErrorType_;
+
+	error_type.Replace(_T(" "), NULL);
+	error_type.MakeLower();
+
+	if (error_type == CString(_T("toolmanagement")))
+	{
+		bRet = TRUE;
+	}
+
+	return bRet;
 }
 
 void CErrorDlg::SHOW_ERROR_DLG()

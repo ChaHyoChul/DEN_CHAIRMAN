@@ -14,6 +14,9 @@ class CErrorDlg : public CDialog
 	CFont	fntMessage_;
 	CFont	fntButton_;
 
+	void hideWindow();
+	BOOL isToolError();
+
 public:
 	CErrorDlg(CWnd* pParent = NULL);   // 표준 생성자입니다.
 	virtual ~CErrorDlg();

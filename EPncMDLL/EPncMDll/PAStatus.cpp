@@ -118,7 +118,7 @@ BOOL pa::CPAStatus::Initialize( CString& strErrMsg )
 	pThreadState_->bIsDemoMode_			= FALSE;
 	pThreadState_->bIsClientConnected_	= FALSE;
 	pThreadState_->bRemoteLock_			= FALSE;
-	pThreadState_->bRemoteReset_		= FALSE;
+	pThreadState_->bHideErrorMsgDialog_		= FALSE;
 
 	pThreadState_->bRemoteAutoUpdate_	= TRUE; //FALSE;
 	pThreadState_->bSendRegistered_NCFileList_	= FALSE;

@@ -2048,7 +2048,7 @@ void pa::CPThread::doError()
 		break;
 
 	case  20:
-		PPAStatus->GetThreadState()->bRemoteReset_ = TRUE;	// ERROR DIALOG를 숨긴다 
+		PPAStatus->GetThreadState()->bHideErrorMsgDialog_ = TRUE;	// ERROR DIALOG를 숨긴다 
 		nToolErrorHandlingCode_ = PConfig->pConfig_->nToolErrorOccure_HandlingCode;
 		if( nToolErrorHandlingCode_ < 0 || nToolErrorHandlingCode_ >= 4 )
 		{
@@ -2974,6 +2974,8 @@ NEXT_LINE:
 		PPAStatus->SetNCFileState( NCFILE_STATE_ERROR, TRUE );
 		// NC 파일 리스트를 업데이트 한다 
 		pa::PPAStatus->GetThreadState()->bUpdateNcFileList_ = TRUE;
+		// Setup->Tool  화면으로 전환 
+		pa::PPAStatus->GetThreadState()->bShowSetupToolDlg_ = TRUE;
 		step = 22010;
 		break;
 	case 22010:
