@@ -394,57 +394,59 @@ IDD_DIALOG_SETUP_OPTION DIALOGEX 0, 0, 585, 413
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 9, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
+    CONTROL         " Use embedded LCD",IDC_CHECK_USING_LCD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,22,243,18
+    CONTROL         " Use door open sensor",IDC_CHECK_USING_OP_PANEL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,46,190,18
     CONTROL         " Use air pressure checking ",IDC_CHECK_USING_AIR_PRESSURE_LIMIT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,70,205,18
     PUSHBUTTON      "",IDC_BUTTON_AIR_PRESSURE_INTERVAL,227,89,66,22
+    CONTROL         " Automatically turn off spindle's air purge when idle",IDC_CHECK_USING_SPINDLE_AIR_PURGE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,121,201,18
+    PUSHBUTTON      "",IDC_BUTTON_PURGE_AIR_HOLD_TIME,227,141,66,22
+    CONTROL         " Use water flow checking",IDC_CHECK_USING_FLOW_SENSOR,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,170,127,18
+    PUSHBUTTON      "",IDC_BUTTON_FLOW_SENSOR_TIMEOUT,227,189,66,22
+    PUSHBUTTON      "",IDC_BUTTON_FLOW_SENSOR_START_TIMEOUT,227,215,66,22
+    CONTROL         " Use water level sensor",IDC_CHECK_USING_WATER_LEVEL_SENSOR,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,239,127,18
+    CONTROL         " Use logging function",IDC_CHECK_USING_LOGGING,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,264,114,18
     CONTROL         " Demo mode (loop execution of NC programs)",IDC_CHECK_DEMO_MODE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,264,185,18
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,289,185,18
+    LTEXT           "Actions when loading and starting NC files:",IDC_STATIC_NCFILE_LOADING,312,25,206,12
+    CONTROL         " Check for invalid NC-code",IDC_CHECK_INVALID_NC_CODE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,332,41,231,12
+    CONTROL         " Check start/finish tag (%)",IDC_CHECK_NC_FILE_TAG,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,332,57,230,12
+    CONTROL         " Check MACHINE ID",IDC_CHECK_MACHINE_ID,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,332,73,230,12
+    CONTROL         " Check spindle offset (XR-XL)",IDC_CHECK_SPINDLE_OFFSET,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,332,89,230,12
+    CONTROL         " Optimize NC-code (remove duplicates)",IDC_CHECK_TRANSFORM_COORDINATE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,332,105,227,12
+    CONTROL         " Validate block size before milling using ZL axis",IDC_CHECK_BLCHK,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,312,134,227,12
+    PUSHBUTTON      "",IDC_BUTTON_BLCHK_SPEED,498,150,66,22
+    PUSHBUTTON      "",IDC_BUTTON_BLCHK_TORQUE,498,176,66,22
+    PUSHBUTTON      "",IDC_BUTTON_TOOLS14,445,231,66,22
+    PUSHBUTTON      "",IDC_BUTTON_TOOLS25,445,254,66,22
+    PUSHBUTTON      "",IDC_BUTTON_TOOLS3,445,277,66,22
+    PUSHBUTTON      "",IDC_BUTTON_TOOLS6,445,300,66,22
     PUSHBUTTON      "Save",IDC_BUTTON_SAVE,92,350,71,52,BS_MULTILINE
     PUSHBUTTON      "",IDC_BUTTON_DOWNLOAD_TO_COLTROLLOR,10,350,71,52,BS_MULTILINE | WS_DISABLED
     PUSHBUTTON      "",IDC_BUTTON4,257,350,71,52,WS_DISABLED
     PUSHBUTTON      "",IDC_BUTTON6,340,350,71,52,WS_DISABLED
     PUSHBUTTON      "Back",IDC_BUTTON_CLOSE,505,350,71,52
     RTEXT           "Pressure error confirmation interval (msec)",IDC_STATIC_AIR_PRESSURE_INTERVAL,32,94,177,17
-    CONTROL         " Use water flow checking",IDC_CHECK_USING_FLOW_SENSOR,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,170,127,18
-    PUSHBUTTON      "",IDC_BUTTON_FLOW_SENSOR_TIMEOUT,227,189,66,22
     RTEXT           "Timeout during M28 operation (msec)",IDC_STATIC_FLOW_SENSOR_TIMEOUT,24,196,185,12
-    LTEXT           "Actions when loading and starting NC files:",IDC_STATIC_NCFILE_LOADING,312,25,206,12
-    CONTROL         " Check for invalid NC-code",IDC_CHECK_INVALID_NC_CODE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,332,41,231,12
-    CONTROL         " Check start/finish tag (%)",IDC_CHECK_NC_FILE_TAG,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,332,57,230,12
-    CONTROL         " Optimize NC-code (remove duplicates)",IDC_CHECK_TRANSFORM_COORDINATE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,332,105,227,12
-    CONTROL         " Automatically turn off spindle's air purge when idle",IDC_CHECK_USING_SPINDLE_AIR_PURGE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,121,201,18
     PUSHBUTTON      "",IDC_BUTTON8,422,350,71,52,WS_DISABLED
-    CONTROL         " Use door open sensor",IDC_CHECK_USING_OP_PANEL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,46,190,18
-    CONTROL         " Use logging function",IDC_CHECK_USING_LOGGING,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,239,114,18
     PUSHBUTTON      "Load backup",IDC_BUTTON_LOAD_FROM_FILE,175,350,71,52,BS_MULTILINE
-    PUSHBUTTON      "",IDC_BUTTON_FLOW_SENSOR_START_TIMEOUT,227,215,66,22
     RTEXT           "Purge air hold interval (sec)",IDC_STATIC_PURGE_AIR_HOLD_TIME,34,146,174,16
-    PUSHBUTTON      "",IDC_BUTTON_PURGE_AIR_HOLD_TIME,227,141,66,22
     RTEXT           "Timeout on M28 start (msec)",IDC_STATIC_FLOW_SENSOR_START_TIMEOUT,24,220,185,12
     LTEXT           "Time usage per milling (approximation):",IDC_STATIC_TOOL_TIME,312,213,206,12
-    PUSHBUTTON      "",IDC_BUTTON_TOOLS14,445,231,66,22
     RTEXT           "Roughing Tools (#1, #4)",IDC_STATIC_TOOLS14,326,238,101,12
-    PUSHBUTTON      "",IDC_BUTTON_TOOLS25,445,254,66,22
     RTEXT           "Finishing Tools (#2, #5)",IDC_STATIC_TOOLS25,326,261,101,12
-    PUSHBUTTON      "",IDC_BUTTON_TOOLS3,445,277,66,22
     RTEXT           "Finishing Tool (#3)",IDC_STATIC_TOOLS3,326,284,101,12
-    PUSHBUTTON      "",IDC_BUTTON_TOOLS6,445,300,66,22
     RTEXT           "Groove Tool (#6)",IDC_STATIC_TOOLS6,326,307,101,12
-    CONTROL         " Validate block size before milling using ZL axis",IDC_CHECK_BLCHK,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,312,134,227,12
-    CONTROL         " Check MACHINE ID",IDC_CHECK_MACHINE_ID,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,332,73,230,12
-    CONTROL         " Check spindle offset (XR-XL)",IDC_CHECK_SPINDLE_OFFSET,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,332,89,230,12
-    CONTROL         " Use embedded LCD",IDC_CHECK_USING_LCD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,22,243,18
-    PUSHBUTTON      "",IDC_BUTTON_BLCHK_TORQUE,498,176,66,22
     RTEXT           "Max. PID torque [% of rated TQ] (def: -6)",IDC_STATIC_BLCHK_TORQUE,303,181,177,17
     RTEXT           "Checking velocity (def: -3)",IDC_STATIC_blchk_speed,306,155,174,16
-    PUSHBUTTON      "",IDC_BUTTON_BLCHK_SPEED,498,150,66,22
 END
 
 IDD_DIALOG_PASSWORD DIALOGEX 0, 0, 166, 239

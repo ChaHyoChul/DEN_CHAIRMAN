@@ -643,6 +643,10 @@ BOOL pa::CPConfig::load_from_file_sw_config_data( CString& strErrMsg )
 	hIniFile.GetValue( strKeyName, _T("FlowSensorStartTimeout"), (int*)&nTemp );
 	pConfig_->nFlowSensorStartTimeout = nTemp;
 
+	// 
+	hIniFile.GetValue(strKeyName, _T("Using_WaterLevelSensor"), (int*)&nTemp);
+	pConfig_->bUsingWaterLevelSensor = nTemp;
+
 	//
 	hIniFile.GetValue( strKeyName, _T("PurgeAirHoldTime"), (int*)&nTemp );
 	pConfig_->nPurgeAirHoldTime = nTemp;

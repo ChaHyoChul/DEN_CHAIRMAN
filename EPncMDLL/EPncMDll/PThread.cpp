@@ -1202,6 +1202,7 @@ void pa::CPThread::checkAirLimit_DaulSensor()
 	}
 }
 
+// 사용 안함 
 void pa::CPThread::checkFlowSensor()
 {
 	static int		PREV_FLOW_SENSING = -1;

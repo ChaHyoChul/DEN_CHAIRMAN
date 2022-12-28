@@ -451,7 +451,8 @@ BOOL pa::PA_INITIALIZE( char* pIpAddr, int nPortNo1, int nPortNo2, int nPortNoFo
 		int nUsingWaterFlowSensor = PConfig->pConfig_->bUsingFlowSensor == FALSE ? 0 : 1;
 		int startTimeout = PConfig->pConfig_->nFlowSensorStartTimeout;
 		int sensingTimeout = PConfig->pConfig_->nFlowSensorTimeout;
-		PAMotion->RND_SFSF( TRUE, nUsingWaterFlowSensor, startTimeout, sensingTimeout);
+		int nUsingWaterLevelSensor = PConfig->pConfig_->bUsingWaterLevelSensor == FALSE ? 0 : 1;
+		PAMotion->RND_SFSF( TRUE, nUsingWaterFlowSensor, startTimeout, sensingTimeout, nUsingWaterLevelSensor);
         
 		// 2020.03.19 Purge air hold time 파라메타를 제어기로 전달한다 
 		BOOL bUsingSpindleAirPurge = PConfig->pConfig_->bUsingSpindleAirPurge;

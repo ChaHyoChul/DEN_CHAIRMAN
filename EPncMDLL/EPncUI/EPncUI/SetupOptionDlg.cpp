@@ -50,6 +50,7 @@ void CSetupOptionDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_BUTTON_TOOLS25, btnTool25_);
 	DDX_Control(pDX, IDC_BUTTON_TOOLS3, btnTool3_);
 	DDX_Control(pDX, IDC_BUTTON_TOOLS6, btnTool6_);
+	DDX_Control(pDX, IDC_CHECK_USING_WATER_LEVEL_SENSOR, chkUsingWaterLevelSensor_);
 }
 
 void CSetupOptionDlg::StartPageWork()
@@ -99,7 +100,10 @@ void CSetupOptionDlg::updateState()
 	btnFlowSensorTimeout_.SetWindowText( strTemp );
 	strTemp.Format( _T("%d"), pa::PSWConfig->GetConfigData()->nFlowSensorStartTimeout );
 	btnFlowSensorStartTimeout_.SetWindowText( strTemp );
-	
+
+	// 
+	chkUsingWaterLevelSensor_.SetCheck(pa::PSWConfig->GetConfigData()->bUsingWaterLevelSensor);
+
 	chkInvalidNcCode_.SetCheck( pa::PSWConfig->GetConfigData()->bCheckInvalidNcCode );
 	chkNcFileTag_.SetCheck( pa::PSWConfig->GetConfigData()->bCheckNcFileTag );
 	chkMachineID_.SetCheck( pa::PSWConfig->GetConfigData()->bCheckMachineID );
@@ -252,6 +256,7 @@ BOOL CSetupOptionDlg::OnInitDialog()
 	chkUsingAirPressureLimit_.SetFont( &fntCheckBox_, TRUE );
 	chkDemoMode_.SetFont( &fntCheckBox_, TRUE );
 	chkUsingFlowSensor_.SetFont( &fntCheckBox_, TRUE );
+	chkUsingWaterLevelSensor_.SetFont(&fntCheckBox_, TRUE);
 	btnFlowSensorTimeout_.SetFont( &fntCheckBox_, TRUE );
 	btnFlowSensorStartTimeout_.SetFont( &fntCheckBox_, TRUE );
 	chkUsingSpindleAirPurge_.SetFont( &fntCheckBox_, TRUE );
@@ -307,7 +312,6 @@ BOOL CSetupOptionDlg::OnInitDialog()
 	((CButton*)GetDlgItem(IDC_BUTTON_TOOLS3))->SetFont( &fntCheckBox_, TRUE );
 	((CButton*)GetDlgItem(IDC_BUTTON_TOOLS6))->SetFont( &fntCheckBox_, TRUE );
 	
-
 	//////////////////////////////////////////////////////////////////////////
 
 	hcutil::reposbutton( (CButton*)GetDlgItem(IDC_STATIC_NCFILE_LOADING), this, &recbutton, &CUIrectSetT);
@@ -339,6 +343,8 @@ BOOL CSetupOptionDlg::OnInitDialog()
 	hcutil::reposbutton( (CButton*)GetDlgItem(IDC_BUTTON8), this, &recbutton, &CUIrectSetT);
 
 	hcutil::reposbutton( (CButton*)GetDlgItem(IDC_CHECK_USING_FLOW_SENSOR), this, &recbutton, &CUIrectSetT);
+
+	hcutil::reposbutton( (CButton*)GetDlgItem(IDC_CHECK_USING_WATER_LEVEL_SENSOR), this, &recbutton, &CUIrectSetT);
 
 	hcutil::reposbutton( (CButton*)GetDlgItem(IDC_BUTTON_PURGE_AIR_HOLD_TIME), this, &recbutton, &CUIrectSetT);
 
@@ -450,6 +456,7 @@ HBRUSH CSetupOptionDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 		case IDC_CHECK_TRANSFORM_COORDINATE:
 		case IDC_CHECK_USING_SPINDLE_AIR_PURGE:
 		case IDC_CHECK_USING_LOGGING:
+		case IDC_CHECK_USING_WATER_LEVEL_SENSOR:
 		case IDC_STATIC_PURGE_AIR_HOLD_TIME:
 		case IDC_STATIC_TOOL_TIME:
 		case IDC_STATIC_TOOLS14:
@@ -629,6 +636,11 @@ BOOL CSetupOptionDlg::save_sw_config_data( CString& strErrMsg )
 	hIniFile.SetValue( strKeyName, _T("PurgeAirHoldTime"), (int)nTemp );
 	pa::PSWConfig->GetConfigData()->nPurgeAirHoldTime = nTemp;
 
+	// 11. Using. Water Level Sensor 
+	nTemp = chkUsingWaterLevelSensor_.GetCheck(); 
+	hIniFile.SetValue(strKeyName, _T("Using_WaterLevelSensor"), (int)nTemp);
+	pa::PSWConfig->GetConfigData()->bUsingWaterLevelSensor = nTemp == 0 ? FALSE : TRUE;
+
 	// 12. Tool Error Occure...
 	hIniFile.SetValue( strKeyName, _T("ToolErrorOccure"), (int)nToolErrOccureHandingCode_ );
 	pa::PSWConfig->GetConfigData()->nToolErrorOccure_HandlingCode = nToolErrOccureHandingCode_;
@@ -807,6 +819,11 @@ BOOL CSetupOptionDlg::load_sw_config_data( CString& strErrMsg )
 	btnFlowSensorStartTimeout_.SetWindowText( strTemp );
 	pa::PSWConfig->GetConfigData()->nFlowSensorStartTimeout = nTemp;
 
+	// 11. Using. Water Level Sensor 
+	hIniFile.GetValue(strKeyName, _T("Using_WaterLevelSensor"), (int*)&nTemp);
+	chkUsingWaterLevelSensor_.SetCheck(nTemp);
+	pa::PSWConfig->GetConfigData()->bUsingWaterLevelSensor = nTemp == 0 ? FALSE : TRUE;
+
 	// xx. PurgeAirHoldTime 
 	hIniFile.GetValue( strKeyName, _T("PurgeAirHoldTime"), (int*)&nTemp );
 	strTemp.Format( _T("%d"), nTemp );
@@ -957,7 +974,8 @@ void CSetupOptionDlg::updateControlState()
 		((CButton*)GetDlgItem(IDC_BUTTON_FLOW_SENSOR_START_TIMEOUT))->EnableWindow( FALSE );
 		((CStatic*)GetDlgItem(IDC_STATIC_FLOW_SENSOR_START_TIMEOUT))->EnableWindow( FALSE );
 		((CButton*)GetDlgItem(IDC_CHECK_USING_LOGGING))->EnableWindow( FALSE );
-		
+		chkUsingWaterLevelSensor_.EnableWindow(FALSE);
+
 		((CButton*)GetDlgItem(IDC_STATIC_TOOL_TIME))->EnableWindow( FALSE );
 		((CButton*)GetDlgItem(IDC_STATIC_TOOLS14))->EnableWindow( FALSE );
 		((CButton*)GetDlgItem(IDC_STATIC_TOOLS25))->EnableWindow( FALSE );
@@ -1045,6 +1063,8 @@ void CSetupOptionDlg::updateControlState()
 
 		((CStatic*)GetDlgItem(IDC_STATIC_PURGE_AIR_HOLD_TIME))->EnableWindow( curr_state && chkUsingSpindleAirPurge_.GetCheck() );
 		((CButton*)GetDlgItem(IDC_BUTTON_PURGE_AIR_HOLD_TIME))->EnableWindow( curr_state && chkUsingSpindleAirPurge_.GetCheck() );		
+
+		chkUsingWaterLevelSensor_.EnableWindow(curr_state);
 	}
 }
 

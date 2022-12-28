@@ -600,7 +600,8 @@ void pa::CPIpcServer::subCommandProc( SIpcCommCommand& cmd )
 			int nUsingWaterFlowSensor = PConfig->pConfig_->bUsingFlowSensor == FALSE ? 0 : 1;
 			int startTimeout = PConfig->pConfig_->nFlowSensorStartTimeout;
 			int sensingTimeout = PConfig->pConfig_->nFlowSensorTimeout;
-			PAMotion->RND_SFSF( TRUE, nUsingWaterFlowSensor, startTimeout, sensingTimeout);
+			int nUsingWaterLevelSensor = PConfig->pConfig_->bUsingWaterLevelSensor == FALSE ? 0 : 1;
+			PAMotion->RND_SFSF( TRUE, nUsingWaterFlowSensor, startTimeout, sensingTimeout, nUsingWaterLevelSensor);
 		}
 		break;
 

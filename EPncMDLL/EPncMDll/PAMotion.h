@@ -207,7 +207,7 @@ public:
 
 	//////////////////////////////////////////////////////////////////////////
 	// 2018.05.16 워터 플로우 센서 측정 파라메타를 전달 한다 
-	void RND_SFSF( BOOL blocking, int using_waterflow_sensor, int startTimeout, int sensingTimeout );
+	void RND_SFSF( BOOL blocking, int using_waterflow_sensor, int startTimeout, int sensingTimeout, int using_water_level_sensor );
 
 	//////////////////////////////////////////////////////////////////////////
 	// 2020.03.19 Purge air hold time 파라메타 전달 

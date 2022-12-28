@@ -1765,11 +1765,11 @@ void pa::CPAMotion::RND_CDTEX()
 	PPAAsyncComm[1]->Wait( CPAAsyncComm::CMD_RND_CDTEX, 5000 );
 }
 
-void pa::CPAMotion::RND_SFSF( BOOL blocking, int using_waterflow_senor, int startTimeout, int sensingTimeout )
+void pa::CPAMotion::RND_SFSF( BOOL blocking, int using_waterflow_senor, int startTimeout, int sensingTimeout, int using_water_level_sensor )
 {
 	char szParam[64];
 
-	sprintf_s( szParam, 64, "%d,%d,%d", using_waterflow_senor, startTimeout, sensingTimeout );
+	sprintf_s( szParam, 64, "%d,%d,%d,%d", using_waterflow_senor, startTimeout, sensingTimeout, using_water_level_sensor );
 	PPAAsyncComm[0]->SendCommand( CPAAsyncComm::CMD_SFSF, szParam );
 
 	if( blocking )

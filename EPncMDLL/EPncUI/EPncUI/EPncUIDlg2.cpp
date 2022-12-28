@@ -1748,6 +1748,21 @@ void CEPncUIDlg2::doButtonRunPause()
 	}
 
 	//////////////////////////////////////////////////////////////////////////
+	// Water level sensor 
+	if (pa::PSWConfig->GetConfigData()->bUsingWaterLevelSensor == TRUE)
+	{
+		int water_level_sensor = pa::PPAStatus->GetPAStatus()->bInput[pa::IN20016_WaterLevelSensor] == FALSE ? 0 : 1;
+		if (water_level_sensor == 0)
+		{
+			CString strMsg;
+			writeLog(_T("START - Water level sensor fail"));
+			strMsg.Format(_T("Water level sensor is not detected! \n\nPlease check if there is water in the water tank"));
+			CMsgDlgThread::GetInstance()->Show(CMsgDlg::TYPE_CLOSE, CMsgDlg::ICON_WARM, strMsg);
+			return; 
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
 	//Tool overtime/error notification
 	BOOL isToolError = FALSE;
 

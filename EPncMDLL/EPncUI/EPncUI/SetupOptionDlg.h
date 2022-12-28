@@ -179,4 +179,6 @@ private:
 	
 	CString parseSecToTimeStr(int seconds);
 
+public:
+	CButton chkUsingWaterLevelSensor_;
 };
