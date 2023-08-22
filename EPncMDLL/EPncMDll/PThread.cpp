@@ -1672,7 +1672,17 @@ void pa::CPThread::doToStop()
 	{
 	case 0: break;
 	case 1: 
-		step = 100;
+	//	step = 100;
+		// Stop 하기 전에, Pause 후, Stop 하도록 수정 
+		step = 10;
+		break;
+	case 10:
+		PAMotion->PAUSE();
+		DELAY = 5;
+		step = 11;
+		break; 
+	case 11:
+		if (--DELAY < 0) { step = 100; }
 		break;
 
 	case 100:

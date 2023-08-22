@@ -287,7 +287,8 @@ BOOL CEPncUIApp::InitInstance()
 //	P_VERSION = _T("CM-20220923-002-debug-blocksensing");		// 1.NC 파일의 BLOCK LENGTH를 사용해서 블럭 검사하는 것으로 수정 
 //	P_VERSION = _T("CM-20220923-003-debug-unify-button-name");	// 1.버튼 이름 통일 (collet open/close)  
 // 	P_VERSION = _T("CM-20220923-004-debug-improve-toolerror-handling");	// 1.툴 에러 발생시, 에러 메시지 박스 닫으면 Tool 화면으로 전환 
-	P_VERSION = _T("CM-20220923-005-debug-waterlevelsensor");	// 1.Water level sensor 기능 추가 
+//	P_VERSION = _T("CM-20220923-005-debug-waterlevelsensor");	// 1.Water level sensor 기능 추가 
+	P_VERSION = _T("CM-20220923-006-debug-stop-after-pause");	// 1.Stop 할 때, Pause 후 Stop 하도록 수정 
 
 
 	if( isRunningProgram() ) {
