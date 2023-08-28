@@ -298,7 +298,8 @@ void CEPncUIDlg2::PreInitDialog()
 		
 	init_status_layout();
 
-	strImageFilePath.Format( _T("%s\\Background4.bmp"), pResourcePath_ );
+//	strImageFilePath.Format( _T("%s\\Background4.bmp"), pResourcePath_ );
+	strImageFilePath.Format( _T("%s\\Background5.bmp"), pResourcePath_ );
 	strImageFilePathCurrL.Format( _T("%s\\outline_tool_L_current.bmp"), pResourcePath_ );
 	strImageFilePathCurrR.Format( _T("%s\\outline_tool_R_current.bmp"), pResourcePath_ );
 	strImageFilePathL.Format( _T("%s\\outline_tool_L_ATC.bmp"), pResourcePath_ );
