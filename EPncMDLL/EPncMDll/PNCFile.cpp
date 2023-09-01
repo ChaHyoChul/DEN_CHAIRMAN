@@ -130,6 +130,11 @@ BOOL pa::CPNCFile::Open2( CString& strNcFilePath, CString& strErrMsg )
 		return FALSE;
 	}
 
+	// Material, Block name을 초기화 한다 
+	_stprintf_s(pa::PPAStatus->GetThreadState()->szMaterialName, 62, _T(""));
+	_stprintf_s(pa::PPAStatus->GetThreadState()->szBlockName, 62, _T(""));
+
+
 	pLines_[nNumTotalLines_] = pFile_;
 	nNumTotalLines_++;
 
@@ -219,6 +224,31 @@ BOOL pa::CPNCFile::Open2( CString& strNcFilePath, CString& strErrMsg )
 			}
 		}
 #endif
+		{
+			if (nNumTotalLines_ <= 20 && szCurrLine.Find(_T("MATERIAL NAME")) >= 0)
+			{
+				int nStart = szCurrLine.Find('=');
+				int nFinish = szCurrLine.ReverseFind(')');
+				if (nStart >= 0 && (nFinish - nStart) > 0)
+				{
+					CString strMaterialName = szCurrLine.Mid(nStart+1, nFinish-nStart-1);
+					_stprintf_s(pa::PPAStatus->GetThreadState()->szMaterialName, 62, _T("%s"), strMaterialName);
+
+				}
+			}
+
+			if (nNumTotalLines_ <= 20 && szCurrLine.Find(_T("BLOCK NAME")) >= 0)
+			{
+				int nStart = szCurrLine.Find('=');
+				int nFinish = szCurrLine.ReverseFind(')');
+				if (nStart >= 0 && (nFinish - nStart) > 0)
+				{
+					CString strBlockName = szCurrLine.Mid(nStart+1, nFinish-nStart-1);
+					_stprintf_s(pa::PPAStatus->GetThreadState()->szBlockName, 62, _T("%s"), strBlockName);
+
+				}
+			}
+		}
 		
 		int ln = strlen( szTemp );
 		dwOpening += ln;

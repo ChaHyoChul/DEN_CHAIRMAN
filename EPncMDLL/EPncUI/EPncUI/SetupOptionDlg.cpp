@@ -51,6 +51,7 @@ void CSetupOptionDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_BUTTON_TOOLS3, btnTool3_);
 	DDX_Control(pDX, IDC_BUTTON_TOOLS6, btnTool6_);
 	DDX_Control(pDX, IDC_CHECK_USING_WATER_LEVEL_SENSOR, chkUsingWaterLevelSensor_);
+	DDX_Control(pDX, IDC_CHECK_NCFILE_AUTO_CLOSE, chkNCFileAutoClose_);
 }
 
 void CSetupOptionDlg::StartPageWork()
@@ -143,6 +144,9 @@ void CSetupOptionDlg::updateState()
 	btnTool3_.SetWindowText(strTemp);
 	strTemp.Format( parseSecToTimeStr(dToolTimes[5]) );
 	btnTool6_.SetWindowText(strTemp);
+
+	// 
+	chkNCFileAutoClose_.SetCheck(pa::PSWConfig->GetConfigData()->bUsingNCFileAutoClose); 
 	
 	UpdateData( FALSE );
 }
@@ -255,6 +259,7 @@ BOOL CSetupOptionDlg::OnInitDialog()
 	chkUsingOpPanel_.SetFont( &fntCheckBox_, TRUE );
 	chkUsingAirPressureLimit_.SetFont( &fntCheckBox_, TRUE );
 	chkDemoMode_.SetFont( &fntCheckBox_, TRUE );
+	chkNCFileAutoClose_.SetFont( &fntCheckBox_, TRUE );
 	chkUsingFlowSensor_.SetFont( &fntCheckBox_, TRUE );
 	chkUsingWaterLevelSensor_.SetFont(&fntCheckBox_, TRUE);
 	btnFlowSensorTimeout_.SetFont( &fntCheckBox_, TRUE );
@@ -311,6 +316,7 @@ BOOL CSetupOptionDlg::OnInitDialog()
 	((CButton*)GetDlgItem(IDC_BUTTON_TOOLS25))->SetFont( &fntCheckBox_, TRUE );
 	((CButton*)GetDlgItem(IDC_BUTTON_TOOLS3))->SetFont( &fntCheckBox_, TRUE );
 	((CButton*)GetDlgItem(IDC_BUTTON_TOOLS6))->SetFont( &fntCheckBox_, TRUE );
+
 	
 	//////////////////////////////////////////////////////////////////////////
 
@@ -358,6 +364,7 @@ BOOL CSetupOptionDlg::OnInitDialog()
 	hcutil::reposbutton( (CButton*)GetDlgItem(IDC_CHECK_USING_OP_PANEL), this, &recbutton, &CUIrectSetT);
 
 	hcutil::reposbutton( (CButton*)GetDlgItem(IDC_CHECK_DEMO_MODE), this, &recbutton, &CUIrectSetT);
+	hcutil::reposbutton( (CButton*)GetDlgItem(IDC_CHECK_NCFILE_AUTO_CLOSE), this, &recbutton, &CUIrectSetT);
 
     // Set up tooltips
     if( m_tip_ctrl.Create( this, TTS_ALWAYSTIP ) )
@@ -467,6 +474,7 @@ HBRUSH CSetupOptionDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 		case IDC_BUTTON_TOOLS25:
 		case IDC_BUTTON_TOOLS3:
 		case IDC_BUTTON_TOOLS6:
+		case IDC_CHECK_NCFILE_AUTO_CLOSE: 
 			hbr = (HBRUSH)brhBkgnd_;
 			break;
 		case IDC_BUTTON_CLOSE:
@@ -706,6 +714,12 @@ BOOL CSetupOptionDlg::save_sw_config_data( CString& strErrMsg )
 	pa::PSWConfig->GetConfigData()->nEnableExtLog		= nTemp;	
 	pa::PSWConfig->GetConfigData()->nEnableErrLog		= nTemp;
 
+	nTemp = chkNCFileAutoClose_.GetCheck();
+	// nTemp = ((CButton*)GetDlgItem(IDC_CHECK_NCFILE_AUTO_CLOSE))->GetCheck();
+	nTemp = (nTemp == 0) ? 0 : 1;
+	hIniFile.SetValue(strKeyName, _T("UsingNCFileAutoClose"), (int)nTemp);
+	pa::PSWConfig->GetConfigData()->bUsingNCFileAutoClose = nTemp;
+
 	//
 	hIniFile.Close();
 
@@ -888,6 +902,11 @@ BOOL CSetupOptionDlg::load_sw_config_data( CString& strErrMsg )
 
 
 	// 
+	hIniFile.GetValue( strKeyName, _T("UsingNCFileAutoClose"), (int*)&nTemp );
+	chkUsingLCD_.SetCheck( nTemp );
+	pa::PSWConfig->GetConfigData()->bUsingNCFileAutoClose = (nTemp == 0) ? FALSE : TRUE;
+
+	// 
 	hIniFile.GetValue( strKeyName, _T("Using_Logging"), (int*)&nTemp );
 	chkUsingLogging_.SetCheck( nTemp );
 	pa::PSWConfig->GetConfigData()->nEnableOperationLog	= nTemp;				// Log option
@@ -999,6 +1018,7 @@ void CSetupOptionDlg::updateControlState()
 		((CStatic*)GetDlgItem(IDC_STATIC_BLCHK_TORQUE))->EnableWindow(FALSE);
 		((CButton*)GetDlgItem(IDC_BUTTON_BLCHK_TORQUE))->EnableWindow(FALSE);
 		
+		((CButton*)GetDlgItem(IDC_CHECK_NCFILE_AUTO_CLOSE))->EnableWindow(FALSE);
 		
 		btnPurgeAirHoldTime_.EnableWindow(FALSE);
 
@@ -1063,6 +1083,8 @@ void CSetupOptionDlg::updateControlState()
 
 		((CStatic*)GetDlgItem(IDC_STATIC_PURGE_AIR_HOLD_TIME))->EnableWindow( curr_state && chkUsingSpindleAirPurge_.GetCheck() );
 		((CButton*)GetDlgItem(IDC_BUTTON_PURGE_AIR_HOLD_TIME))->EnableWindow( curr_state && chkUsingSpindleAirPurge_.GetCheck() );		
+
+		((CButton*)GetDlgItem(IDC_CHECK_NCFILE_AUTO_CLOSE))->EnableWindow(curr_state);
 
 		chkUsingWaterLevelSensor_.EnableWindow(curr_state);
 	}

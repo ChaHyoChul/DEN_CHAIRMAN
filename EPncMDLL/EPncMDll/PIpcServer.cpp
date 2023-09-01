@@ -94,49 +94,74 @@ void pa::CPIpcServer::Execute()
 				// 에러.
 				throw CPException( ERR_PNC, PNC_ERR_FILE_OPEN, (LPCTSTR)strErrMsg );
 			}
+			// LCD에 Material/Block 정보 출력 
+			else 
+			{
+				CString strMsg; 
+				strMsg.Format(_T("pgMain.txtModelInfo1=\"%s\""), pa::PPAStatus->GetThreadState()->szMaterialName);
+				pGLCD->SendCommand(strMsg);
+				strMsg.Format(_T("pgMain.txtModelInfo2=\"%s\""), pa::PPAStatus->GetThreadState()->szBlockName);
+				pGLCD->SendCommand(strMsg);
+				strMsg.Format(_T("pgRunningMain.txtModelInfo1=\"%s\""), pa::PPAStatus->GetThreadState()->szMaterialName);
+				pGLCD->SendCommand(strMsg);
+				strMsg.Format(_T("pgRunningMain.txtModelInfo2=\"%s\""), pa::PPAStatus->GetThreadState()->szBlockName);
+				pGLCD->SendCommand(strMsg);
+			}
 			//////////////////////////////////////////////////////////////////////////
 			// 2017.01.11 
 			// 이어서 실행 정보 수집 테스트 
-			{
-				PContinueRunInfo->StartCheckingRunInfo( 100 );
-				while( TRUE )
-				{
-					if( PContinueRunInfo->IsComplete() == TRUE ) {
-						break;
-					}
-					Sleep(1000);
-				}
-				CString strTemp;
-				strTemp.Format( _T("G%02d\n"), PContinueRunInfo->GetCoordinate() );		// G53
-				TRACE( strTemp );
-
-				strTemp.Format( _T("G%02d\n"), PContinueRunInfo->GetMovingMode() );		// G90
-				TRACE( strTemp );
-
-				strTemp.Format( _T("M%02d\n"), PContinueRunInfo->GetLeftSpindle() );	// M03 / M103
-				TRACE( strTemp );
-
-				strTemp.Format( _T("M%02d\n"), PContinueRunInfo->GetRightSpindle() );	// M03 / M113
-				TRACE( strTemp );
-
-				strTemp.Format( _T("SL%d\n"), PContinueRunInfo->GetLeftSpindleSpeed() );	// SL1000
-				TRACE( strTemp );
-
-				strTemp.Format( _T("SR%d\n"), PContinueRunInfo->GetRightSpindleSpeed() );	// SR1000
-				TRACE( strTemp );
-
-				strTemp.Format( _T("F%d\n"), PContinueRunInfo->GetFeedRate() );			// F1000
-				TRACE( strTemp );
-
-				strTemp.Format( _T("M%02d\n"), PContinueRunInfo->GetDustCollection() );	// M28
-				TRACE( strTemp );
-			}
+			// 2023.08.30 필요없 주석 처리 
+// 			{
+// 				PContinueRunInfo->StartCheckingRunInfo( 100 );
+// 				while( TRUE )
+// 				{
+// 					if( PContinueRunInfo->IsComplete() == TRUE ) {
+// 						break;
+// 					}
+// 					Sleep(1000);
+// 				}
+// 				CString strTemp;
+// 				strTemp.Format( _T("G%02d\n"), PContinueRunInfo->GetCoordinate() );		// G53
+// 				TRACE( strTemp );
+// 
+// 				strTemp.Format( _T("G%02d\n"), PContinueRunInfo->GetMovingMode() );		// G90
+// 				TRACE( strTemp );
+// 
+// 				strTemp.Format( _T("M%02d\n"), PContinueRunInfo->GetLeftSpindle() );	// M03 / M103
+// 				TRACE( strTemp );
+// 
+// 				strTemp.Format( _T("M%02d\n"), PContinueRunInfo->GetRightSpindle() );	// M03 / M113
+// 				TRACE( strTemp );
+// 
+// 				strTemp.Format( _T("SL%d\n"), PContinueRunInfo->GetLeftSpindleSpeed() );	// SL1000
+// 				TRACE( strTemp );
+// 
+// 				strTemp.Format( _T("SR%d\n"), PContinueRunInfo->GetRightSpindleSpeed() );	// SR1000
+// 				TRACE( strTemp );
+// 
+// 				strTemp.Format( _T("F%d\n"), PContinueRunInfo->GetFeedRate() );			// F1000
+// 				TRACE( strTemp );
+// 
+// 				strTemp.Format( _T("M%02d\n"), PContinueRunInfo->GetDustCollection() );	// M28
+// 				TRACE( strTemp );
+// 			}
 			//////////////////////////////////////////////////////////////////////////
 			break;
 
 		case IPC_COMMAND_CLOSE:
 			writeLog_IPC( _T("IPC_COMMAND_CLOSE") );
 			pa::PThread->CloseNCFile();
+			{
+				CString strMsg; 
+				strMsg.Format(_T("pgMain.txtModelInfo1=\"\""));
+				pGLCD->SendCommand(strMsg);
+				strMsg.Format(_T("pgMain.txtModelInfo2=\"\""));
+				pGLCD->SendCommand(strMsg);
+				strMsg.Format(_T("pgRunningMain.txtModelInfo1=\"\""));
+				pGLCD->SendCommand(strMsg);
+				strMsg.Format(_T("pgRunningMain.txtModelInfo2=\"\""));
+				pGLCD->SendCommand(strMsg);
+			}
 			break;
 
 		case IPC_COMMAND_RUN:

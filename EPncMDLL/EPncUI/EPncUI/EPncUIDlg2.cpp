@@ -234,7 +234,8 @@ void CEPncUIDlg2::PreInitDialog()
 		
 	hFntMillingClock_.CreateFont(
 		// 32, 0, 
-		34, 0, 
+		// 34, 0, 
+		28, 0,
 		0, 0, FW_NORMAL, //FW_BOLD, //FW_NORMAL, 
 		FALSE, FALSE, FALSE, 
 		DEFAULT_CHARSET, 
@@ -295,7 +296,17 @@ void CEPncUIDlg2::PreInitDialog()
 		CLIP_DEFAULT_PRECIS, 
 		DEFAULT_QUALITY, 
 		DEFAULT_PITCH, _T("Bahnschrift") );
-		
+
+	hFntMaterialInfo.CreateFont(
+		20, 0, 
+		0, 0, FW_NORMAL, //FW_BOLD, //FW_NORMAL, 
+		FALSE, FALSE, FALSE, 
+		DEFAULT_CHARSET, 
+		OUT_DEFAULT_PRECIS, 
+		CLIP_DEFAULT_PRECIS, 
+		DEFAULT_QUALITY, 
+		DEFAULT_PITCH, _T("Arial") );
+
 	init_status_layout();
 
 //	strImageFilePath.Format( _T("%s\\Background4.bmp"), pResourcePath_ );
@@ -341,7 +352,7 @@ void CEPncUIDlg2::init_status_layout()
 
 	//////////////////////////////////////////////////////////////////////////
 	// Progressbar and Rate 
-	rcStatusArea_[STATUS_PROG_RATE1].SetRect( 75, 463, 451, 468 ); //206, 585, 780, 592 );			// progress bar
+	rcStatusArea_[STATUS_PROG_RATE1].SetRect(75, 458, 451, 463);  	// 75, 463-5, 451, 468-5 ); //206, 585, 780, 592 );			// progress bar
 	
 	rcStatusArea_[STATUS_TOOL_HEALTH_1].SetRect( 609, 387, 692, 400 );
 	rcStatusArea_[STATUS_TOOL_HEALTH_2].SetRect( 609, 427, 692, 440 );
@@ -381,14 +392,12 @@ void CEPncUIDlg2::draw_font()
 
 	((CStatic*)GetDlgItem(IDC_STATIC_MACHINE_ID))->SetFont(&hFntMachineID_, TRUE);
 	((CStatic*)GetDlgItem(IDC_STATIC_VERSION))->SetFont(&hFntVersion_, TRUE);
-	
-	((CListBox*)GetDlgItem(IDC_LIST_HISTO))->SetFont(&hFntMaintenanceStatus_, TRUE);
 
 	((CStatic*)GetDlgItem(IDC_STATIC_START_TIME))->SetFont(&hFntMillingClock_, TRUE);
 	((CStatic*)GetDlgItem(IDC_STATIC_FINISH_TIME))->SetFont(&hFntMillingClock_, TRUE);
 
-	((CStatic*)GetDlgItem(IDC_STATIC_START_TIME))->SetWindowText(_T("-"));
-	((CStatic*)GetDlgItem(IDC_STATIC_FINISH_TIME))->SetWindowText(_T("-"));
+	((CStatic*)GetDlgItem(IDC_STATIC_START_TIME))->SetWindowText(_T("88:88:88")); //(_T("-"));
+	((CStatic*)GetDlgItem(IDC_STATIC_FINISH_TIME))->SetWindowText(_T("88:88:88")); //(_T("-"));
 	
 	((CStatic*)GetDlgItem(IDC_STATIC_TOOL_NO))->SetFont(&hFntToolNo_, TRUE);
 	((CStatic*)GetDlgItem(IDC_STATIC_TOOL_NO_2))->SetFont(&hFntToolNo_, TRUE);
@@ -398,6 +407,9 @@ void CEPncUIDlg2::draw_font()
 
 	((CStatic*)GetDlgItem(IDC_STATIC_TOOL_EMPTY))->SetFont(&hFntToolNo_, TRUE);
 	((CStatic*)GetDlgItem(IDC_STATIC_TOOL2_EMPTY))->SetFont(&hFntToolNo_, TRUE);	
+
+	((CStatic*)GetDlgItem(IDC_STATIC_MATERIAL_INFO1))->SetFont(&hFntMaterialInfo, TRUE); 
+	((CStatic*)GetDlgItem(IDC_STATIC_MATERIAL_INFO2))->SetFont(&hFntMaterialInfo, TRUE); 
 }
 
 BOOL CEPncUIDlg2::OnInitDialog()
@@ -678,6 +690,8 @@ void CEPncUIDlg2::OnDestroy()
 	
 	hFntMaintenanceStatus_.DeleteObject();
 
+	hFntMaterialInfo.DeleteObject();
+
 	if( pCanvasCE_ ) {
 		delete pCanvasCE_;
 		pCanvasCE_ = NULL;
@@ -757,7 +771,7 @@ void CEPncUIDlg2::initialize_OperButtons()
 		IDC_BUTTON_V2_EMO, IDC_BUTTON_V2_SETUP, IDC_BUTTON_V2_START, IDC_BUTTON_V2_STOP, 
 		IDC_BUTTON_V2_OPEN, IDC_BUTTON_V2_READY_POS, IDC_BUTTON_V2_TOOL,
 		IDC_ICN_TOOLS, IDC_ICN_COLLETS, IDC_ICN_COOLANT, IDC_ICN_FILTER, IDC_ICN_NOZZLE,
-		IDC_ICN_DOOR, IDC_ICN_CONNECTION, IDC_ICN_MAINTENANCE, IDC_ICN_READY,
+		IDC_ICN_DOOR, IDC_ICN_CONNECTION, /*IDC_ICN_MAINTENANCE,*/ IDC_ICN_READY,
 		IDC_BUTTON_SPINDLE_RPM, IDC_BUTTON_SPINDLE_RPM2, 
 		IDC_BUTTON_LOADED, IDC_BUTTON_RUNNING, IDC_BUTTON_FINISHED, 
 		IDC_BUTTON_MINIMIZE, IDC_BUTTON_CLOSE, IDC_BUTTON_DART
@@ -855,45 +869,45 @@ void CEPncUIDlg2::initialize_OperButtons()
 		},
 		{
 			// COOLANT
-			_T("icn_ok"),
-			_T("icn_ok"),
-			_T("icn_ok"),
-			_T("icn_ng_warning"),
-			_T("icn_ng_warning"),
-			_T("icn_ng_warning"),
+			_T("icn_ok_40px"),
+			_T("icn_ok_40px"),
+			_T("icn_ok_40px"),
+			_T("icn_ng_warning_40px"),
+			_T("icn_ng_warning_40px"),
+			_T("icn_ng_warning_40px"),
 			_T(""),
 			_T(""),
 		},
 		{
 			// COOLANT
-			_T("icn_ok"),
-			_T("icn_ok"),
-			_T("icn_ok"),
-			_T("icn_ng_warning"),
-			_T("icn_ng_warning"),
-			_T("icn_ng_warning"),
+			_T("icn_ok_40px"),
+			_T("icn_ok_40px"),
+			_T("icn_ok_40px"),
+			_T("icn_ng_warning_40px"),
+			_T("icn_ng_warning_40px"),
+			_T("icn_ng_warning_40px"),
 			_T(""),
 			_T(""),
 		},
 		{
 			// FILTER
-			_T("icn_ok"),
-			_T("icn_ok"),
-			_T("icn_ok"),
-			_T("icn_ng_warning"),
-			_T("icn_ng_warning"),
-			_T("icn_ng_warning"),
+			_T("icn_ok_40px"),
+			_T("icn_ok_40px"),
+			_T("icn_ok_40px"),
+			_T("icn_ng_warning_40px"),
+			_T("icn_ng_warning_40px"),
+			_T("icn_ng_warning_40px"),
 			_T(""),
 			_T(""),
 		},
 		{
 			// NOZZLE
-			_T("icn_ok"),
-			_T("icn_ok"),
-			_T("icn_ok"),
-			_T("icn_ng_warning"),
-			_T("icn_ng_warning"),
-			_T("icn_ng_warning"),
+			_T("icn_ok_40px"),
+			_T("icn_ok_40px"),
+			_T("icn_ok_40px"),
+			_T("icn_ng_warning_40px"),
+			_T("icn_ng_warning_40px"),
+			_T("icn_ng_warning_40px"),
 			_T(""),
 			_T(""),
 		},
@@ -919,17 +933,17 @@ void CEPncUIDlg2::initialize_OperButtons()
 			_T(""),
 			_T(""),
 		},
-		{
-			// ICN MAINTENANCE
-			_T("icn_ng_warning_40px"),
-			_T("icn_ok_40px"),
-			_T("icn_ng_warning_40px"),
-			_T("icn_ng_40px"),
-			_T("icn_ng_40px"),
-			_T("icn_ng_40px"),
-			_T(""),
-			_T(""),
-		},
+// 		{
+// 			// ICN MAINTENANCE
+// 			_T("icn_ng_warning_40px"),
+// 			_T("icn_ok_40px"),
+// 			_T("icn_ng_warning_40px"),
+// 			_T("icn_ng_40px"),
+// 			_T("icn_ng_40px"),
+// 			_T("icn_ng_40px"),
+// 			_T(""),
+// 			_T(""),
+// 		},
 		{
 			// ICN READY
 			_T("icn_ng_warning_40px"),
@@ -1465,20 +1479,20 @@ LRESULT CEPncUIDlg2::OnImgButtonExClicked(WPARAM wparam, LPARAM lparam)
 			doButtonTools();
 			break;
 		case OPER_BTN_ICN_COLLETS:
-			doButtonMaintenance();
+			doButtonMaintenance(4); //CSetupMaintenanceDlg::SELECT_COLLET);
 			break;
 		case OPER_BTN_ICN_COOLANT:
-			doButtonMaintenance();
+			doButtonMaintenance(1); //CSetupMaintenanceDlg::SELECT_COOLANT);
 			break;
 		case OPER_BTN_ICN_FILTER:
-			doButtonMaintenance();
+			doButtonMaintenance(2); //CSetupMaintenanceDlg::SELECT_FILTER);
 			break;
 		case OPER_BTN_ICN_NOZZLE:
-			doButtonMaintenance();
+			doButtonMaintenance(3); //CSetupMaintenanceDlg::SELECT_NOZZLE);
 			break;
-		case OPER_BTN_ICN_MAINTENANCE:
-			doButtonMaintenance();
-			break;
+// 		case OPER_BTN_ICN_MAINTENANCE:
+// 			// doButtonMaintenance();
+// 			break;
 		case OPER_BTN_ICN_CONNECTION:
 			doButtonConnect();
 			break;
@@ -1733,20 +1747,20 @@ void CEPncUIDlg2::doButtonRunPause()
 
 	//////////////////////////////////////////////////////////////////////////
 	//Maintenance notification
-	BOOL needMaintenance = pOperButtonsEx_[OPER_BTN_ICN_MAINTENANCE]->GetEnable();	//ImgButtonEx2.h class
-
-	if( needMaintenance ){
-		CString strMsg;
-		writeLog( _T("START - Maintenance needed msg"));
-		strMsg.Format( _T("Maintenance required!\n\nPerform the required maintenance actions as soon as possible.\n\nYou can start the milling by pressing \"OK\"."));
-		CMsgDlgThread::GetInstance()->Show( CMsgDlg::TYPE_OKCANCEL, CMsgDlg::ICON_WARM, strMsg );
-			
-		CMsgDlg::EN_RET hRet = CMsgDlgThread::GetInstance()->Wait();
-
-		if( hRet == CMsgDlg::RET_CANCEL ) {
-			return ;
-		}
-	}
+// 	BOOL needMaintenance = pOperButtonsEx_[OPER_BTN_ICN_MAINTENANCE]->GetEnable();	//ImgButtonEx2.h class
+// 
+// 	if( needMaintenance ){
+// 		CString strMsg;
+// 		writeLog( _T("START - Maintenance needed msg"));
+// 		strMsg.Format( _T("Maintenance required!\n\nPerform the required maintenance actions as soon as possible.\n\nYou can start the milling by pressing \"OK\"."));
+// 		CMsgDlgThread::GetInstance()->Show( CMsgDlg::TYPE_OKCANCEL, CMsgDlg::ICON_WARM, strMsg );
+// 			
+// 		CMsgDlg::EN_RET hRet = CMsgDlgThread::GetInstance()->Wait();
+// 
+// 		if( hRet == CMsgDlg::RET_CANCEL ) {
+// 			return ;
+// 		}
+// 	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// Water level sensor 
@@ -1918,6 +1932,7 @@ void CEPncUIDlg2::doButtonStop()
 void CEPncUIDlg2::doButtonOpen()
 {
 	writeLog(_T("OPEN button click"));
+
 	if( pa::PNCFileMgr->GetCurrentWorkNCFileIndex() == -1 )
 	{
 		// 1. 리스트 박스에 있는 NC 파일 전체 체크
@@ -2025,10 +2040,14 @@ void CEPncUIDlg2::doButtonOpen()
 			Sleep( 50 );
 
 			WaitForFileToOpen( pa::PNCFileMgr->EstimateLoadingTime(0) );
+
+			// Material/Block 정보 출력 
+			displayMaterialInformation(TRUE);
 		}
 	}
 	else 
 	{
+		displayMaterialInformation(FALSE);
 		// 열려 있는 파일이 있으면, 파일을 닫고 is_select를 0으로 리셋한다
 		writeLog( _T("file close button click") );
 
@@ -2093,6 +2112,21 @@ bool CEPncUIDlg2::WaitForFileToOpen(DWORD dwTimeout)
 }
 
 
+void CEPncUIDlg2::displayMaterialInformation(BOOL b)
+{
+	if (b)
+	{
+		((CStatic*)GetDlgItem(IDC_STATIC_MATERIAL_INFO1))->SetWindowText(pa::PPAStatus->GetThreadState()->szMaterialName);
+		((CStatic*)GetDlgItem(IDC_STATIC_MATERIAL_INFO2))->SetWindowText(pa::PPAStatus->GetThreadState()->szBlockName);
+	}
+	else
+	{
+		((CStatic*)GetDlgItem(IDC_STATIC_MATERIAL_INFO1))->SetWindowText(_T(""));
+		((CStatic*)GetDlgItem(IDC_STATIC_MATERIAL_INFO2))->SetWindowText(_T(""));
+	}
+}
+
+
 void CEPncUIDlg2::doButtonReadyPos()
 {
 	//////////////////////////////////////////////////////////////////////////
@@ -2127,14 +2161,14 @@ void CEPncUIDlg2::doButtonTools()
 	PSETUP_DLG->ShowToolSetup();
 }
 
-void CEPncUIDlg2::doButtonMaintenance()
+void CEPncUIDlg2::doButtonMaintenance(int selectedMode)
 {
 	//////////////////////////////////////////////////////////////////////////
 	// log 
 	writeLog( _T("maintenance button click") );
 	//////////////////////////////////////////////////////////////////////////
 	PSETUP_DLG->ShowWindow(SW_SHOW);
-	PSETUP_DLG->ShowMaintenanceSetup();
+	PSETUP_DLG->ShowMaintenanceSetup(selectedMode);
 }
 
 void CEPncUIDlg2::updateButtonState()
@@ -2310,16 +2344,16 @@ void CEPncUIDlg2::updateButtonState()
 		
 		//////////////////////////////////////////////////////////////////////////
 		// MAINTENANCE
-		btn_ena[OPER_BTN_ICN_MAINTENANCE] = (btn_sel[OPER_BTN_ICN_COLLETS] != 0 || btn_sel[OPER_BTN_ICN_COOLANT] != 0 || btn_sel[OPER_BTN_ICN_FILTER] != 0 || btn_sel[OPER_BTN_ICN_NOZZLE] != 0 || btn_sel[OPER_BTN_ICN_TOOLS] != 0 ) ? 1 : 0;
-		btn_blk[OPER_BTN_ICN_MAINTENANCE] = 0;
-		btn_sel[OPER_BTN_ICN_MAINTENANCE] = btn_sel[OPER_BTN_ICN_TOOLS];	// if tools bad
-		nIndex++;
-
-		// READY
-		btn_ena[OPER_BTN_ICN_READY] = btn_ena[OPER_BTN_ICN_MAINTENANCE];
-		btn_blk[OPER_BTN_ICN_READY] = 0;
-		btn_sel[OPER_BTN_ICN_READY] = (btn_sel[OPER_BTN_ICN_MAINTENANCE] != 0 || btn_sel[OPER_BTN_ICN_CONNECTION] != 0 || (btn_sel[OPER_BTN_ICN_DOOR] != 0 && isUsingOpSensor)) ? 1 : 0;
-		nIndex++;
+// 		btn_ena[OPER_BTN_ICN_MAINTENANCE] = (btn_sel[OPER_BTN_ICN_COLLETS] != 0 || btn_sel[OPER_BTN_ICN_COOLANT] != 0 || btn_sel[OPER_BTN_ICN_FILTER] != 0 || btn_sel[OPER_BTN_ICN_NOZZLE] != 0 || btn_sel[OPER_BTN_ICN_TOOLS] != 0 ) ? 1 : 0;
+// 		btn_blk[OPER_BTN_ICN_MAINTENANCE] = 0;
+// 		btn_sel[OPER_BTN_ICN_MAINTENANCE] = btn_sel[OPER_BTN_ICN_TOOLS];	// if tools bad
+// 		nIndex++;
+// 
+// 		// READY
+// 		btn_ena[OPER_BTN_ICN_READY] = btn_ena[OPER_BTN_ICN_MAINTENANCE];
+// 		btn_blk[OPER_BTN_ICN_READY] = 0;
+// 		btn_sel[OPER_BTN_ICN_READY] = (btn_sel[OPER_BTN_ICN_MAINTENANCE] != 0 || btn_sel[OPER_BTN_ICN_CONNECTION] != 0 || (btn_sel[OPER_BTN_ICN_DOOR] != 0 && isUsingOpSensor)) ? 1 : 0;
+// 		nIndex++;
 		
 		//////////////////////////////////////////////////////////////////////////
 		// start 버튼:  origin * ready * nc file selected * runmode
@@ -2332,334 +2366,6 @@ void CEPncUIDlg2::updateButtonState()
 		btn_sel[OPER_BTN_START] = 0;
 		nIndex++; 
 
-		
-		
-		//https://docs.microsoft.com/en-us/cpp/mfc/reference/clistbox-class?view=msvc-160
-		//maybe use CListBox::FindString?
-		// reset everything if the box is empty
-		if(((CListBox*)GetDlgItem(IDC_LIST_HISTO))->GetCount() < 1)
-		{
-				for(int i=0; i<MSG_NUM; i++)
-				{
-					msgStatusID[i] = -1;
-				}
-				msgOkID = -1;
-		}
-		
-		// update status messages for each element
-		if(!btn_sel[OPER_BTN_ICN_READY] && !btn_ena[OPER_BTN_ICN_READY])
-		{
-			if(msgOkID < 0)
-			{
-				((CListBox*)GetDlgItem(IDC_LIST_HISTO))->ResetContent();
-				for(int i=0; i<MSG_NUM; i++)
-				{
-					msgStatusID[i] = -1;
-				}
-				
-				strLogTemp.Format( _T("[MSG ADD] Ready for milling!") );
-				writeLog( strLogTemp );
-					
-				((CListBox*)GetDlgItem(IDC_LIST_HISTO))->AddString( _T("Ready for milling!") );
-				msgOkID = ((CListBox*)GetDlgItem(IDC_LIST_HISTO))->GetCount() - 1;
-			}
-		}
-		else
-		{
-			//REMOVE OK MESSAGE IF NOT REMOVED
-			if(msgOkID >= 0)
-			{
-				strLogTemp.Format( _T("[MSG DEL] Ready for milling!") );
-				writeLog( strLogTemp );
-				
-				((CListBox*)GetDlgItem(IDC_LIST_HISTO))->DeleteString( msgOkID );
-				msgOkID = -1;
-			}
-			
-			//CONNECT MACHINE MESSAGE
-			if(btn_sel[OPER_BTN_ICN_CONNECTION])
-			{
-				if(msgStatusID[MSG_CONNECT] < 0)
-				{
-					strLogTemp.Format( _T("[MSG ADD] %s"), GetStatusMsg(MSG_CONNECT) );
-					writeLog( strLogTemp );
-					
-					((CListBox*)GetDlgItem(IDC_LIST_HISTO))->AddString( GetStatusMsg(MSG_CONNECT) );
-					msgStatusID[MSG_CONNECT] = ((CListBox*)GetDlgItem(IDC_LIST_HISTO))->GetCount() - 1;
-				}
-			}
-			else
-			{
-				if(msgStatusID[MSG_CONNECT] >= 0)
-				{
-					strLogTemp.Format( _T("[MSG DEL] %s"), GetStatusMsg(MSG_CONNECT) );
-					writeLog( strLogTemp );
-					
-					((CListBox*)GetDlgItem(IDC_LIST_HISTO))->DeleteString( msgStatusID[MSG_CONNECT] );
-					for(int i=0; i < MSG_NUM; i++)
-					{
-						if(msgStatusID[i] > msgStatusID[MSG_CONNECT])
-						{
-							msgStatusID[i]--;
-						}
-					}
-					msgStatusID[MSG_CONNECT] = -1;
-				}
-			}
-			
-			//CLOSE DOOR MESSAGE
-			if((btn_sel[OPER_BTN_ICN_DOOR] != 0 && isUsingOpSensor))
-			{
-				if(msgStatusID[MSG_DOOR] < 0)
-				{
-					strLogTemp.Format( _T("[MSG ADD] %s"), GetStatusMsg(MSG_DOOR) );
-					writeLog( strLogTemp );
-					
-					((CListBox*)GetDlgItem(IDC_LIST_HISTO))->AddString( GetStatusMsg(MSG_DOOR) );
-					msgStatusID[MSG_DOOR] = ((CListBox*)GetDlgItem(IDC_LIST_HISTO))->GetCount() - 1;
-				}
-			}
-			else
-			{
-				if(msgStatusID[MSG_DOOR] >= 0)
-				{
-					strLogTemp.Format( _T("[MSG DEL] %s"), GetStatusMsg(MSG_DOOR) );
-					writeLog( strLogTemp );
-					
-					((CListBox*)GetDlgItem(IDC_LIST_HISTO))->DeleteString( msgStatusID[MSG_DOOR] );
-					for(int i=0; i < MSG_NUM; i++)
-					{
-						if(msgStatusID[i] > msgStatusID[MSG_DOOR])
-						{
-							msgStatusID[i]--;
-						}
-					}
-					msgStatusID[MSG_DOOR] = -1;
-				}
-			}
-			
-			// COLLETS CLEANING MESSAGE
-			if(btn_sel[OPER_BTN_ICN_COLLETS])
-			{
-				if(msgStatusID[MSG_COLLET] < 0)
-				{
-					strLogTemp.Format( _T("[MSG ADD] %s"), GetStatusMsg(MSG_COLLET) );
-					writeLog( strLogTemp );
-					
-					((CListBox*)GetDlgItem(IDC_LIST_HISTO))->AddString( GetStatusMsg(MSG_COLLET) );
-					msgStatusID[MSG_COLLET] = ((CListBox*)GetDlgItem(IDC_LIST_HISTO))->GetCount() - 1;
-				}
-			}
-			else
-			{
-				if(msgStatusID[MSG_COLLET] >= 0)
-				{
-					strLogTemp.Format( _T("[MSG DEL] %s"), GetStatusMsg(MSG_COLLET) );
-					writeLog( strLogTemp );
-					
-					((CListBox*)GetDlgItem(IDC_LIST_HISTO))->DeleteString( msgStatusID[MSG_COLLET] );
-					for(int i=0; i < MSG_NUM; i++)
-					{
-						if(msgStatusID[i] > msgStatusID[MSG_COLLET])
-						{
-							msgStatusID[i]--;
-						}
-					}
-					msgStatusID[MSG_COLLET] = -1;
-				}
-			}
-			
-			// COOLANT EXCHANGE MESSAGE
-			if(btn_sel[OPER_BTN_ICN_COOLANT])
-			{
-				if(msgStatusID[MSG_COOLANT] < 0)
-				{
-					strLogTemp.Format( _T("[MSG ADD] %s"), GetStatusMsg(MSG_COOLANT) );
-					writeLog( strLogTemp );
-					
-					((CListBox*)GetDlgItem(IDC_LIST_HISTO))->AddString( GetStatusMsg(MSG_COOLANT) );
-					msgStatusID[MSG_COOLANT] = ((CListBox*)GetDlgItem(IDC_LIST_HISTO))->GetCount() - 1;
-					((CListBox*)GetDlgItem(IDC_LIST_HISTO))->AddString( GetStatusMsg(MSG_COOLANT_2) );
-				}
-			}
-			else
-			{
-				if(msgStatusID[MSG_COOLANT] >= 0)
-				{
-					strLogTemp.Format( _T("[MSG DEL] %s"), GetStatusMsg(MSG_COOLANT) );
-					writeLog( strLogTemp );
-					
-					((CListBox*)GetDlgItem(IDC_LIST_HISTO))->DeleteString( msgStatusID[MSG_COOLANT] );
-					((CListBox*)GetDlgItem(IDC_LIST_HISTO))->DeleteString( msgStatusID[MSG_COOLANT] );
-					for(int i=0; i < MSG_NUM; i++)
-					{
-						if(msgStatusID[i] > msgStatusID[MSG_COOLANT])
-						{
-							msgStatusID[i] -= 2;	// 2 entries
-						}
-					}
-					msgStatusID[MSG_COOLANT] = -1;
-				}
-			}
-			
-			// COLLET-CLEANING MESSAGE
-			if(btn_sel[OPER_BTN_ICN_COLLETS])
-			{
-				if(msgStatusID[MSG_COLLET] < 0)
-				{
-					strLogTemp.Format( _T("[MSG ADD] %s"), GetStatusMsg(MSG_COLLET) );
-					writeLog( strLogTemp );
-					
-					((CListBox*)GetDlgItem(IDC_LIST_HISTO))->AddString( GetStatusMsg(MSG_COLLET) );
-					msgStatusID[MSG_COLLET] = ((CListBox*)GetDlgItem(IDC_LIST_HISTO))->GetCount() - 1;
-				}
-			}
-			else
-			{
-				if(msgStatusID[MSG_COLLET] >= 0)
-				{
-					strLogTemp.Format( _T("[MSG DEL] %s"), GetStatusMsg(MSG_COLLET) );
-					writeLog( strLogTemp );
-					
-					((CListBox*)GetDlgItem(IDC_LIST_HISTO))->DeleteString( msgStatusID[MSG_COLLET] );
-					for(int i=0; i < MSG_NUM; i++)
-					{
-						if(msgStatusID[i] > msgStatusID[MSG_COLLET])
-						{
-							msgStatusID[i]--;
-						}
-					}
-					msgStatusID[MSG_COLLET] = -1;
-				}			
-			}
-			
-			// FILTER EXCHANGE MESSAGE
-			if(btn_sel[OPER_BTN_ICN_FILTER])
-			{
-				if(msgStatusID[MSG_FILTER] < 0)
-				{
-					strLogTemp.Format( _T("[MSG ADD] %s"), GetStatusMsg(MSG_FILTER) );
-					writeLog( strLogTemp );
-					
-					((CListBox*)GetDlgItem(IDC_LIST_HISTO))->AddString( GetStatusMsg(MSG_FILTER) );
-					msgStatusID[MSG_FILTER] = ((CListBox*)GetDlgItem(IDC_LIST_HISTO))->GetCount() - 1;
-				}
-			}
-			else
-			{
-				if(msgStatusID[MSG_FILTER] >= 0)
-				{
-					strLogTemp.Format( _T("[MSG DEL] %s"), GetStatusMsg(MSG_FILTER) );
-					writeLog( strLogTemp );
-					
-					((CListBox*)GetDlgItem(IDC_LIST_HISTO))->DeleteString( msgStatusID[MSG_FILTER] );
-					for(int i=0; i < MSG_NUM; i++)
-					{
-						if(msgStatusID[i] > msgStatusID[MSG_FILTER])
-						{
-							msgStatusID[i]--;
-						}
-					}
-					msgStatusID[MSG_FILTER] = -1;
-				}			
-			}
-			
-			// NOZZLE CLEANING MESSAGE
-			if(btn_sel[OPER_BTN_ICN_NOZZLE])
-			{
-				if(msgStatusID[MSG_NOZZLES] < 0)
-				{
-					strLogTemp.Format( _T("[MSG ADD] %s"), GetStatusMsg(MSG_NOZZLES) );
-					writeLog( strLogTemp );
-					
-					((CListBox*)GetDlgItem(IDC_LIST_HISTO))->AddString( GetStatusMsg(MSG_NOZZLES) );
-					msgStatusID[MSG_NOZZLES] = ((CListBox*)GetDlgItem(IDC_LIST_HISTO))->GetCount() - 1;
-				}
-			}
-			else
-			{
-				if(msgStatusID[MSG_NOZZLES] >= 0)
-				{
-					strLogTemp.Format( _T("[MSG DEL] %s"), GetStatusMsg(MSG_NOZZLES) );
-					writeLog( strLogTemp );
-
-					((CListBox*)GetDlgItem(IDC_LIST_HISTO))->DeleteString( msgStatusID[MSG_NOZZLES] );
-					for(int i=0; i < MSG_NUM; i++)
-					{
-						if(msgStatusID[i] > msgStatusID[MSG_NOZZLES])
-						{
-							msgStatusID[i]--;
-						}
-					}
-					msgStatusID[MSG_NOZZLES] = -1;
-				}			
-			}
-			
-			// TOOL MESSAGE
-			if(btn_sel[OPER_BTN_ICN_TOOLS])
-			{
-				CString strToolMsg;
-				CString strTmp;
-				BOOL bUpdateToolMsg;
-				
-				strToolMsg = GetStatusMsg(MSG_TOOLS);
-				for (int i = 1; i<=6; i++) 
-				{
-					if ((pa::PTool->GetToolData(i)->dwErrCode != 0 ) || (pa::PTool->GetEnableToolUsageTime() && pa::PTool->GetToolData(i)->dwMaximumTime * 1.0 <= pa::PTool->GetToolData(i)->dwUsingTime))
-					{
-						strTmp.Format(_T(" #%d"),i);
-						strToolMsg += strTmp;
-					}
-				}
-				
-				if(msgStatusID[MSG_TOOLS] >= 0)
-				{
-					CString strCurrToolMsg;
-					((CListBox*)GetDlgItem(IDC_LIST_HISTO))->GetText(msgStatusID[MSG_TOOLS], strCurrToolMsg);
-					if(strToolMsg.Compare(strCurrToolMsg))
-					{
-						strLogTemp.Format( _T("[MSG REPLACE] \"%s\" with \"%s\""), strCurrToolMsg, strToolMsg );
-						writeLog( strLogTemp );
-						
-						((CListBox*)GetDlgItem(IDC_LIST_HISTO))->DeleteString( msgStatusID[MSG_TOOLS] );
-						((CListBox*)GetDlgItem(IDC_LIST_HISTO))->InsertString( msgStatusID[MSG_TOOLS], strToolMsg );
-					}
-				}
-				
-				if(msgStatusID[MSG_TOOLS] < 0)
-				{
-					strLogTemp.Format( _T("[MSG ADD] %s"), strToolMsg );
-					writeLog( strLogTemp );
-					
-					((CListBox*)GetDlgItem(IDC_LIST_HISTO))->AddString( strToolMsg );
-					msgStatusID[MSG_TOOLS] = ((CListBox*)GetDlgItem(IDC_LIST_HISTO))->GetCount() - 1;
-				}
-			}
-			else
-			{
-				if(msgStatusID[MSG_TOOLS] >= 0)
-				{
-					CString strCurrToolMsg;
-					((CListBox*)GetDlgItem(IDC_LIST_HISTO))->GetText(msgStatusID[MSG_TOOLS], strCurrToolMsg);
-					strLogTemp.Format( _T("[MSG DEL] %s"), strCurrToolMsg );
-					writeLog( strLogTemp );
-                    
-					((CListBox*)GetDlgItem(IDC_LIST_HISTO))->DeleteString( msgStatusID[MSG_TOOLS] );
-					for(int i=0; i < MSG_NUM; i++)
-					{
-						if(msgStatusID[i] > msgStatusID[MSG_TOOLS])
-						{
-							msgStatusID[i]--;
-						}
-					}
-					msgStatusID[MSG_TOOLS] = -1;
-				}			
-			}
-			
-			
-			//TODO: add door, connection, fix this to ready, not maintenance
-		}
-		
 		// Spindle RPM 버튼 
 		if(bIsSpindleRun && !PREV_SHOWN_SPINDLE1)
 		{
@@ -3216,7 +2922,7 @@ void CEPncUIDlg2::updateProgressBarStatus()
 	static int				PREV_NCFILE_LOADING = -1;
 	static double			PREV_PROGRESS = -10.0;
 	static pa::EN_RUNMODE	PREV_RUNMODE = pa::RUNMODE_INIT;
-	static double				NEXT_UPDATE_LINE = -1.0;
+	static double			NEXT_UPDATE_LINE = -1.0;
 	
 	double fCurrProgress	= PREV_PROGRESS; //(fCurrStep / fTotalLines ) * 100.0;
 	double fTotalLines;
@@ -3309,20 +3015,20 @@ void CEPncUIDlg2::updateProgressBarStatus()
 		F_CURRENT_RUN_RATE = fCurrProgress;
         
 		// 진행율 표시 - 그림 
-//		PREV_PROGRESS = 54;		// test
 		CRect rcTemp = rcPROG_AREA;
+	
 		rcTemp.right = rcTemp.left + (int)( rcPROG_AREA.Width() * ( PREV_PROGRESS / 100.0 ) + 0.5 );
 		pLayer->Clear( rcPROG_AREA, FALSE );
 		pLayer->FillSolidRect( &rcTemp, RGB(0,255,0) );
 		InvalidateRect( rcPROG_AREA );
 		
 		// Change dart position
-		pOperButtonsEx_[OPER_BTN_DART]->SetWindowPos( NULL,rcTemp.right-5,470,9,8, SWP_SHOWWINDOW );
+		pOperButtonsEx_[OPER_BTN_DART]->SetWindowPos( NULL,rcTemp.right-5,465,9,8, SWP_SHOWWINDOW );
 		
 		// 진행율 표시 - 문자
 		CString strRate;
 		strRate.Format(_T("%.0f%%"), PREV_PROGRESS);
-		((CStatic*)GetDlgItem(IDC_STATIC_PROG_RATE))->SetWindowPos( NULL,rcTemp.right-25,478,50,20, SWP_SHOWWINDOW );
+		((CStatic*)GetDlgItem(IDC_STATIC_PROG_RATE))->SetWindowPos( NULL,rcTemp.right-25,473,50,20, SWP_SHOWWINDOW );
 		((CStatic*)GetDlgItem(IDC_STATIC_PROG_RATE))->SetWindowText( strRate );
 	}
 	
@@ -3932,15 +3638,6 @@ HBRUSH CEPncUIDlg2::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 				pDC->SetTextColor(RGB(255,255,255));
 				return (HBRUSH)m_brModelID;
 			}
-			
-			// does not work now
-			if (pWnd->GetDlgCtrlID() == IDC_LIST_HISTO)
-			{
-				pDC->SetBkMode(TRANSPARENT);
-				pDC->SetBkColor(RGB(255,0,0));
-				pDC->SetTextColor(RGB(255,0,0));
-				return (HBRUSH)m_brMaintenanceStatus;
-			}
 
 			if (pWnd->GetDlgCtrlID() == IDC_STATIC_START_TIME || pWnd->GetDlgCtrlID() == IDC_STATIC_FINISH_TIME)
 			{
@@ -4004,11 +3701,20 @@ HBRUSH CEPncUIDlg2::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 				pDC->SetTextColor(RGB(58, 58, 58));
 				return (HBRUSH)m_brNCFileInfo;
 			}
+
+			if (pWnd->GetDlgCtrlID() == IDC_STATIC_MATERIAL_INFO1 || 
+				pWnd->GetDlgCtrlID() == IDC_STATIC_MATERIAL_INFO2)
+			{
+				pDC->SetBkMode(TRANSPARENT);
+				pDC->SetTextColor(RGB(58, 58, 58));
+				return (HBRUSH)m_brNCFileInfo;
+			}
 		}
 	}
 
 	return hbr;
 }
+
 
 BOOL CEPncUIDlg2::OnDeviceChange(UINT nEventType, DWORD dwData)
 {

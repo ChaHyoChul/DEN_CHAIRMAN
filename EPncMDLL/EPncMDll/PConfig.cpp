@@ -85,79 +85,84 @@ BOOL pa::CPConfig::Load( CString& strErrMsg )
 // => teaching point 화면에서 저장 버튼을 누르면, teachingpoint 만 파일에 저장 
 BOOL pa::CPConfig::Save( CString& strErrMsg ) 
 {
-	if( !SaveCoordOffset( strErrMsg ) ) {
-		return FALSE;
-	}
-
-	if( !SaveTeachingPoint( strErrMsg ) ) {
-		return FALSE;
-	}
-
-	if( !SaveOption( strErrMsg ) ) {
-		return FALSE;
-	}
-
-	if( !SaveUsingDetectBlock( pConfig_->bUsingDetectBlock, strErrMsg ) ) {
-		return FALSE;
-	}
-
-	if( !SaveUsingAirLimitSensor( pConfig_->bUsingAirLimitSensor, strErrMsg ) ) {
-		return FALSE;
-	}
-
-	if( !SaveDelayGripBlock( pConfig_->nDelayGripBlock, strErrMsg ) ) {
-		return FALSE;
-	}
-
-	if( !SaveAirLimitInterval( pConfig_->nAirLimitInterval, strErrMsg ) ) {
-		return FALSE;
-	}
-
-	if( !SaveToolErrorOccureHandlingCode( pConfig_->nToolErrorOccure_HandlingCode, strErrMsg ) ) {
-		return FALSE;
-	}
-
-	if( !SaveUsingLCD( pConfig_->bUsingLCD, strErrMsg ) ) {
-		return FALSE;
-	}
-	
-	if( !SaveUsingOpPanel( pConfig_->bUsingOpPanel, strErrMsg ) ) {
-		return FALSE;
-	}
-
-	if( !SaveUsingFlowSensor( strErrMsg ) ) {
-		return FALSE;
-	}
-
-	if( !SaveNcFileChecker( strErrMsg ) ) {
-		return FALSE;
-	}
-
-	if( !SaveSpindleAirPurge( strErrMsg ) ) {
-		return FALSE;
-	}
-
-	if( !SaveSpindleAirPurge( strErrMsg ) ) {
-		return FALSE;
-	}
-
-	if( !pa::PPAStatus->GetAutoCalCoordinateOffsetParam()->Save( INI_AUTO_TEACH_COORD_OFFSET_PARAM_PATH, strErrMsg ) ) {
-		return FALSE;
-	}
-
-	if( !pa::PPAStatus->GetAutoTeachToolPocketParam()->Save( INI_AUTO_TEACH_COORD_OFFSET_PARAM_PATH, strErrMsg ) ) {
-		return FALSE;
-	}
-
-	// Log 파라메타 
-	if( !SaveUsingLog( strErrMsg ) ) {
-		return FALSE;
-	}
-	
-	// Tool times per milling
-	if( !SaveToolTimesPerMilling( pConfig_->nToolTimesPerMilling, strErrMsg ) ) {
-		return FALSE;
-	}
+// 	if( !SaveCoordOffset( strErrMsg ) ) {
+// 		return FALSE;
+// 	}
+// 
+// 	if( !SaveTeachingPoint( strErrMsg ) ) {
+// 		return FALSE;
+// 	}
+// 
+// 	if( !SaveOption( strErrMsg ) ) {
+// 		return FALSE;
+// 	}
+// 
+// 	if( !SaveUsingDetectBlock( pConfig_->bUsingDetectBlock, strErrMsg ) ) {
+// 		return FALSE;
+// 	}
+// 
+// 	if( !SaveUsingAirLimitSensor( pConfig_->bUsingAirLimitSensor, strErrMsg ) ) {
+// 		return FALSE;
+// 	}
+// 
+// 	if( !SaveDelayGripBlock( pConfig_->nDelayGripBlock, strErrMsg ) ) {
+// 		return FALSE;
+// 	}
+// 
+// 	if( !SaveAirLimitInterval( pConfig_->nAirLimitInterval, strErrMsg ) ) {
+// 		return FALSE;
+// 	}
+// 
+// 	if( !SaveToolErrorOccureHandlingCode( pConfig_->nToolErrorOccure_HandlingCode, strErrMsg ) ) {
+// 		return FALSE;
+// 	}
+// 
+// 	if( !SaveUsingLCD( pConfig_->bUsingLCD, strErrMsg ) ) {
+// 		return FALSE;
+// 	}
+// 	
+// 	if( !SaveUsingOpPanel( pConfig_->bUsingOpPanel, strErrMsg ) ) {
+// 		return FALSE;
+// 	}
+// 
+// 	if( !SaveUsingFlowSensor( strErrMsg ) ) {
+// 		return FALSE;
+// 	}
+// 
+// 	if( !SaveNcFileChecker( strErrMsg ) ) {
+// 		return FALSE;
+// 	}
+// 
+// 	if( !SaveSpindleAirPurge( strErrMsg ) ) {
+// 		return FALSE;
+// 	}
+// 
+// 	if( !SaveSpindleAirPurge( strErrMsg ) ) {
+// 		return FALSE;
+// 	}
+// 
+// 	if( !pa::PPAStatus->GetAutoCalCoordinateOffsetParam()->Save( INI_AUTO_TEACH_COORD_OFFSET_PARAM_PATH, strErrMsg ) ) {
+// 		return FALSE;
+// 	}
+// 
+// 	if( !pa::PPAStatus->GetAutoTeachToolPocketParam()->Save( INI_AUTO_TEACH_COORD_OFFSET_PARAM_PATH, strErrMsg ) ) {
+// 		return FALSE;
+// 	}
+// 
+// 	// Log 파라메타 
+// 	if( !SaveUsingLog( strErrMsg ) ) {
+// 		return FALSE;
+// 	}
+// 	
+// 	// Tool times per milling
+// 	if( !SaveToolTimesPerMilling( pConfig_->nToolTimesPerMilling, strErrMsg ) ) {
+// 		return FALSE;
+// 	}
+// 
+// 	//
+// 	if (!SaveNcFileAutoClose(strErrMsg)) {
+// 		return FALSE;
+// 	}
 
 	return TRUE;
 }
@@ -363,6 +368,12 @@ BOOL pa::CPConfig::SaveUsingLCD( BOOL b, CString& strErrMsg )
 	pConfig_->bUsingLCD = b;
 	hIniFile.SetValue( strKeyName, strValueName, (int)( ( pConfig_->bUsingLCD == FALSE ) ? 0 : 1) );
 	hIniFile.Close();
+
+	return TRUE;
+}
+
+BOOL pa::CPConfig::SaveNcFileAutoClose(CString* strErrMsg)
+{
 
 	return TRUE;
 }
@@ -700,8 +711,10 @@ BOOL pa::CPConfig::load_from_file_sw_config_data( CString& strErrMsg )
 	hIniFile.GetValue( strKeyName, _T("ToolTimePerMilling6"), (int*)&nTemp );
 	pConfig_->nToolTimesPerMilling[5] = nTemp;
 	
+	//
+	hIniFile.GetValue(strKeyName, _T("UsingNCFileAutoClose"), (int*)&nTemp);
+	pConfig_->bUsingNCFileAutoClose = (nTemp == 0) ? FALSE : TRUE;
 	
-
 	// 
 	hIniFile.GetValue( strKeyName, _T("Using_Logging"), (int*)&nTemp );
 	pConfig_->nEnableOperationLog	= nTemp;			// Log option

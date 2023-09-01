@@ -79,9 +79,10 @@ void CSetupMaintenanceDlg::StartPageWork()
 
 void CSetupMaintenanceDlg::StopPageWork()
 {
+	selectedMode_ = CSetupMaintenanceDlg::SELECT_NONE; 
+
 	KillTimer( 1 );
 	KillTimer( 2 );
-
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -676,6 +677,7 @@ void CSetupMaintenanceDlg::updateCurrentTime()
 
 #include <algorithm> // for std::find
 #include <iterator> // for std::begin, std::end
+// IDC_STATIC_GB_1
 HBRUSH CSetupMaintenanceDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 {
 	HBRUSH hbr = CDialogListPage::OnCtlColor(pDC, pWnd, nCtlColor);
@@ -691,7 +693,7 @@ HBRUSH CSetupMaintenanceDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 		//IDC_STATIC_LABEL_IN5, IDC_STATIC_LABEL_H5, IDC_STATIC_LABEL_M5,	IDC_STATIC_H5, IDC_STATIC_M5,
 		IDC_STATIC_TOOL_STATUS,
 		IDC_STATIC_LABEL_CURR_DATE};
-		
+
 	if( nCtlColor == 4 ) {
 		hbr = (HBRUSH)brhBkgnd_;
 	}
@@ -711,10 +713,6 @@ HBRUSH CSetupMaintenanceDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 				hbr = (HBRUSH)brhBkgnd_;
 				pDC->SetBkMode( TRANSPARENT );
 				pDC->SetTextColor(RGB(50,50,50));
-			/*} else if( nID == IDC_BUTTON_TOOL_MANAGER){
-				hbr = (HBRUSH)brhToolBkgnd_;
-				//pDC->SetBkMode( TRANSPARENT );
-				//pDC->SetTextColor(RGB(50,50,50));*/
 			}
 			else {
 				for( int i = 0; i<(sizeof(nLabelIDs)/sizeof(nLabelIDs[0])); i++ ) {
@@ -728,6 +726,29 @@ HBRUSH CSetupMaintenanceDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 			}
 		}
 
+		//////////////////////////////////////////////////////////////////////////
+		UINT IDS [5][7] = {
+			{0, 0, 0, 0, 0, 0, 0 }, 
+			{IDC_STATIC_COOLANT, IDC_STATIC_LABEL_LAST1, IDC_STATIC_LABEL_NEXT1, IDC_STATIC_LAST1, IDC_STATIC_NEXT1, IDC_BUTTON_MAINTENANCE1}, //, IDC_BUTTON_SAVE1 }, 
+			{IDC_STATIC_FILTER, IDC_STATIC_LABEL_LAST2, IDC_STATIC_LABEL_NEXT2, IDC_STATIC_LAST2, IDC_STATIC_NEXT2, IDC_BUTTON_MAINTENANCE2}, //, IDC_BUTTON_SAVE2 }, 
+			{IDC_STATIC_NOZZLES, IDC_STATIC_LABEL_LAST3, IDC_STATIC_LABEL_NEXT3, IDC_STATIC_LAST3, IDC_STATIC_NEXT3, IDC_BUTTON_MAINTENANCE3}, //, IDC_BUTTON_SAVE3 },
+			{IDC_STATIC_COLLET, IDC_STATIC_LABEL_LAST4, IDC_STATIC_LABEL_NEXT4, IDC_STATIC_LAST4, IDC_STATIC_NEXT4, IDC_BUTTON_MAINTENANCE4}, //, IDC_BUTTON_SAVE4 }
+		};
+
+		if (selectedMode_ != 0)
+		{
+			for (int i = 0; i<6; i++)
+			{
+				if (nID == IDS[selectedMode_][i])
+				{
+					pDC->SetTextColor(RGB(0, 128, 255));
+					if (i >= 5) 
+					{
+						hbr = ::CreateSolidBrush(RGB(0, 128, 255));
+					} 
+				}
+			}
+		}
 	}
 
 	return hbr;

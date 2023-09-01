@@ -28,7 +28,6 @@ void CSetupTerminalDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_EDIT_SEND, editSend_);
 	DDX_Control(pDX, IDC_CHECK_SEND_MODE, chkSendMode_);
 	DDX_Control(pDX, IDC_CHECK_SHIFT, chkShift_);
-	DDX_Control(pDX, IDC_LIST_HISTO, lbHisto_);
 	DDX_Control(pDX, IDC_BUTTON_CLOSE, btnBack_);
 }
 
@@ -170,8 +169,6 @@ BOOL CSetupTerminalDlg::OnInitDialog()
 
 	editSend_.SetFont( &hfntInEdit_, TRUE );
 	editSend_.SetWindowText( _T("") );
-	lbHisto_.SetFont( &hfntOutListBox_, TRUE );
-	lbHisto_.ResetContent();
 	chkShift_.SetCheck( FALSE );
 	OnBnClickedCheckShift();
 	chkSendMode_.SetCheck( FALSE );
@@ -205,7 +202,6 @@ BOOL CSetupTerminalDlg::OnInitDialog()
 	brhBackButton_.CreateSolidBrush( pa::CLR_BUTTON_BACK );
 
 	hcutil::reposstatic( (CStatic*)GetDlgItem(IDC_STATIC), this, &recbutton, &CUIrectST);
-	hcutil::reposlist( (CListBox*)GetDlgItem(IDC_LIST_HISTO), this, &recbutton, &CUIrectST);
 	hcutil::reposbutton( (CButton*)GetDlgItem(IDC_BUTTON_CLOSE), this, &recbutton, &CUIrectST);
 	hcutil::reposbutton( (CButton*)GetDlgItem(IDC_BUTTON_SEND), this, &recbutton, &CUIrectST);
 	hcutil::reposbutton( (CButton*)GetDlgItem(IDC_BUTTON1), this, &recbutton, &CUIrectST);
@@ -483,15 +479,6 @@ void CSetupTerminalDlg::OnBnClickedButtonSend()
 
 	} else {
 		strCommand = CString( _T("[M] ") ) + strCommand;
-	}
-
-	lbHisto_.AddString( strCommand );
-	while( TRUE ) {
-		int count = lbHisto_.GetCount();
-		if( count < 100 ) {
-			break;
-		}
-		lbHisto_.DeleteString( 0 );
 	}
 
 	strCommand.Format( _T("") );

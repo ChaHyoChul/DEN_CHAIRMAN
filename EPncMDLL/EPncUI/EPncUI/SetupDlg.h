@@ -17,7 +17,7 @@ public:
 
 	void ShowMain();
 	void ShowToolSetup();
-	void ShowMaintenanceSetup();
+	void ShowMaintenanceSetup(int selectedMode);
 
 
 // 대화 상자 데이터입니다.

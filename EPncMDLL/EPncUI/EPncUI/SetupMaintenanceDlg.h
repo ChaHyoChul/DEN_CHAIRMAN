@@ -9,7 +9,19 @@ class CSetupMaintenanceDlg : public CDialogListPage
 {
 	DECLARE_DYNCREATE(CSetupMaintenanceDlg)
 
+public:
+	enum EN_SELECT_MODE
+	{
+		SELECT_NONE = 0, 
+		SELECT_COOLANT, 
+		SELECT_FILTER, 
+		SELECT_NOZZLE, 
+		SELECT_COLLET, 
+	};
+
+private:
 	CTitleBarWnd*	pTitleBarWnd_;
+	EN_SELECT_MODE	selectedMode_;
 
 	BOOL	bDirectAccess_;					// Operation 화면에서 직접 접근 
 	
@@ -33,7 +45,6 @@ class CSetupMaintenanceDlg : public CDialogListPage
 	CFont	fntToolNoLabel_;
 	CFont	fntTime_;
 	CFont	fntHeadings_;
-	
 	
 	CRect	CUIrectSetT; 
 
@@ -102,6 +113,8 @@ public:
 	void SetParentWnd( CWnd* p ) { pParentWnd_ = p; }
 
 	void SetDirectAccess( BOOL b ) { bDirectAccess_ = b; };
+
+	void SetSelectMode(EN_SELECT_MODE mode) { selectedMode_= mode; }
 
 // 대화 상자 데이터입니다.
 	enum { IDD = IDD_DIALOG_SETUP_TOOL };

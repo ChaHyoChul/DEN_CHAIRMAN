@@ -181,4 +181,5 @@ private:
 
 public:
 	CButton chkUsingWaterLevelSensor_;
+	CButton chkNCFileAutoClose_;
 };

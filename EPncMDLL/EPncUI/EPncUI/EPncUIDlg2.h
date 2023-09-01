@@ -39,7 +39,7 @@ public:
 		OPER_BTN_ICN_NOZZLE,
 		OPER_BTN_ICN_DOOR,
 		OPER_BTN_ICN_CONNECTION,
-		OPER_BTN_ICN_MAINTENANCE,
+// 		OPER_BTN_ICN_MAINTENANCE,
 		OPER_BTN_ICN_READY,
 		OPER_BTN_SPINDLE_RPM,
 		OPER_BTN_SPINDLE_RPM2,
@@ -149,6 +149,7 @@ private:
 	CFont	hFntMaintenanceStatus_;
 	CFont	hFntVersion_;
 	CFont	hFntMachineID_;
+	CFont	hFntMaterialInfo; 
 
 	CBrush	m_brModelInfo;
 	CBrush	m_brModelID;
@@ -240,7 +241,7 @@ private:
 	void doButtonOpen();
 	void doButtonReadyPos();
 	void doButtonTools();
-	void doButtonMaintenance();
+	void doButtonMaintenance(int selectedMode);
 
 	void doButtonProgramCollapse();
 	void doButtonProgramClose();
@@ -254,6 +255,7 @@ private:
 	int findRemainingTime( int nTotalLine, int nCurrLine );
 
 	bool WaitForFileToOpen(DWORD dwTimeout) ;
+	void CEPncUIDlg2::displayMaterialInformation(BOOL b);
 
 	void DeleteLeftOverNCFiles();
 

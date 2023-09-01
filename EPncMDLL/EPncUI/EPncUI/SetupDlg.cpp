@@ -226,9 +226,10 @@ void CSetupDlg::ShowToolSetup()
 	((CSetupToolDlg*)hDlgMap_.GetDialog(_T("Tool")))->SetDirectAccess( TRUE );
 }
 
-void CSetupDlg::ShowMaintenanceSetup()
+void CSetupDlg::ShowMaintenanceSetup(int selectedMode)
 {
 	hDlgMap_.HideAll();
+	((CSetupMaintenanceDlg*)hDlgMap_.GetDialog(_T("Maintenance")))->SetSelectMode((CSetupMaintenanceDlg::EN_SELECT_MODE)selectedMode);
 	hDlgMap_.Show( _T("Maintenance") );
 	((CSetupMaintenanceDlg*)hDlgMap_.GetDialog(_T("Maintenance")))->SetDirectAccess( TRUE );
 }

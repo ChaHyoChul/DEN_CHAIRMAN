@@ -52,6 +52,7 @@ public:
 	BOOL SaveSpindleAirPurge( CString& strErrMsg );
 	BOOL SaveUsingLog( CString& strErrMsg );
 	BOOL SaveToolTimesPerMilling( int newTimes[pa::MAX_TOOL_NUM], CString& strErrMsg );
+	BOOL SaveNcFileAutoClose(CString* strErrMsg);
 
 public:
 	CPConfig(void);

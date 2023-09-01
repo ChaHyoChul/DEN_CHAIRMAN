@@ -389,10 +389,7 @@ BOOL pa::CPThread::OpenNCFile( int nNCFileIndex, CString& strErrMsg )
 		return FALSE;
 	}
 
-
 	CString strNcFileNameLCD;
-	
-	
 	
 	// preprocess the file if needed
 	if( pa::PConfig->pConfig_->bTransformNcFile )
@@ -444,11 +441,26 @@ void pa::CPThread::CloseNCFile()
 	// PState에 현재 작업 파일 정보 초기화 
 	PPAStatus->ResetNCFileInfo();
 
+	// Material, Block name을 초기화 한다 
+	_stprintf_s(pa::PPAStatus->GetThreadState()->szMaterialName, 62, _T(""));
+	_stprintf_s(pa::PPAStatus->GetThreadState()->szBlockName, 62, _T(""));
+
+	// 
 	if ( isFirstTime != 0 && PConfig->pConfig_->bUsingLCD )	// 처음 프로그램 실행 시, Graphic LCD의 NC파일명 초기화 코드가 실행되면 pGLCDComm->Recv에서 이상한 Return이 온다. 이를 방지
 	{
 		CString strSendmessage;
 		strSendmessage.Format(_T("sctxtFilename.txt=\"\""));
 		pGLCD->SendCommand(strSendmessage); // Graphic LCD 파일명 초기화
+		
+		strSendmessage.Format(_T("pgMain.txtModelInfo1=\"\""));
+		pGLCD->SendCommand(strSendmessage);
+		strSendmessage.Format(_T("pgMain.txtModelInfo2=\"\""));
+		pGLCD->SendCommand(strSendmessage);
+
+		strSendmessage.Format(_T("pgRunningMain.txtModelInfo1=\"\""));
+		pGLCD->SendCommand(strSendmessage);
+		strSendmessage.Format(_T("pgRunningMain.txtModelInfo2=\"\""));
+		pGLCD->SendCommand(strSendmessage);
 	}
 
 	isFirstTime++;
@@ -736,22 +748,22 @@ void pa::CPThread::updateLCDState()
 			strSendMessage.Format(_T("pgMainRunning.txtToolR.txt=\"%d\""), tool2_no);
 			pGLCD->SendCommand(strSendMessage);
 		}
-		if (PREV_SPINDLE1_RPM != spindle1_rpm)
-		{
-			PREV_SPINDLE1_RPM = spindle1_rpm;
-			strSendMessage.Format(_T("pgMain.txtRpmL.txt=\"%d\""), spindle1_rpm);
-			pGLCD->SendCommand(strSendMessage);
-			strSendMessage.Format(_T("pgMainRunning.txtRpmL.txt=\"%d\""), spindle1_rpm);
-			pGLCD->SendCommand(strSendMessage);
-		}
-		if (PREV_SPINDLE2_RPM != spindle2_rpm)
-		{
-			PREV_SPINDLE2_RPM = spindle2_rpm;
-			strSendMessage.Format(_T("pgMain.txtRpmR.txt=\"%d\""), spindle2_rpm);
-			pGLCD->SendCommand(strSendMessage);
-			strSendMessage.Format(_T("pgMainRunning.txtRpmR.txt=\"%d\""), spindle2_rpm);
-			pGLCD->SendCommand(strSendMessage);
-		}
+// 		if (PREV_SPINDLE1_RPM != spindle1_rpm)
+// 		{
+// 			PREV_SPINDLE1_RPM = spindle1_rpm;
+// 			strSendMessage.Format(_T("pgMain.txtRpmL.txt=\"%d\""), spindle1_rpm);
+// 			pGLCD->SendCommand(strSendMessage);
+// 			strSendMessage.Format(_T("pgMainRunning.txtRpmL.txt=\"%d\""), spindle1_rpm);
+// 			pGLCD->SendCommand(strSendMessage);
+// 		}
+// 		if (PREV_SPINDLE2_RPM != spindle2_rpm)
+// 		{
+// 			PREV_SPINDLE2_RPM = spindle2_rpm;
+// 			strSendMessage.Format(_T("pgMain.txtRpmR.txt=\"%d\""), spindle2_rpm);
+// 			pGLCD->SendCommand(strSendMessage);
+// 			strSendMessage.Format(_T("pgMainRunning.txtRpmR.txt=\"%d\""), spindle2_rpm);
+// 			pGLCD->SendCommand(strSendMessage);
+// 		}
 	}
 
 }
@@ -1773,8 +1785,23 @@ void pa::CPThread::doToStop()
 		// 2016.08.19. COMPLETE로 멈춘 경우만 파을을 닫는다 
 		if( PPAStatus->GetNCFileState() == pa::NCFILE_STATE_COMPLETE )
 		{
-//			CloseNCFile();
-		} else {
+			// NC 파일을 Close 한다 
+			if (pa::PConfig->pConfig_->bUsingNCFileAutoClose)
+			{
+				CloseNCFile();
+				CString strMsg; 
+				strMsg.Format(_T("pgMain.txtModelInfo1=\"\""));
+				pGLCD->SendCommand(strMsg);
+				strMsg.Format(_T("pgMain.txtModelInfo2=\"\""));
+				pGLCD->SendCommand(strMsg);
+				strMsg.Format(_T("pgRunningMain.txtModelInfo1=\"\""));
+				pGLCD->SendCommand(strMsg);
+				strMsg.Format(_T("pgRunningMain.txtModelInfo2=\"\""));
+				pGLCD->SendCommand(strMsg);
+			}
+		}
+		else 
+		{
 			int nCurrNCFileIndex = PNCFileMgr->GetCurrentWorkNCFileIndex();
 			SNCFileInfo* fileInfo = PNCFileMgr->GetNCFileInfo(nCurrNCFileIndex);
         }

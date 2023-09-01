@@ -318,6 +318,8 @@
 #define IDC_CHECK_DEMO_MODE             1205
 #define IDC_CHECK_USING_OP_PANEL        1206
 #define IDC_STATIC_BLOCK_GRIP_INTERVAL  1207
+#define IDC_CHECK_DEMO_MODE2            1207
+#define IDC_CHECK_NCFILE_AUTO_CLOSE     1207
 #define IDC_STATIC_AIR_PRESSURE_INTERVAL 1208
 #define IDC_BUTTON_SAVE                 1209
 #define IDC_BUTTON_BLOCK_GRIP_INTERVAL  1210
@@ -903,6 +905,8 @@
 #define IDC_STATIC_ARROW_67             1518
 #define IDC_STATIC_SUBSTEP1             1519
 #define IDC_STATIC_SUCCESS_TXT2         1520
+#define IDC_STATIC_MATERIAL_INFO1       1521
+#define IDC_STATIC_MATERIAL_INFO2       1522
 
 // Next default values for new objects
 // 
@@ -910,7 +914,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        213
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1521
+#define _APS_NEXT_CONTROL_VALUE         1523
 #define _APS_NEXT_SYMED_VALUE           109
 #endif
 #endif
