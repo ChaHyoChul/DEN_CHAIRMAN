@@ -70,4 +70,8 @@
 #include "IGLCD.h"
 #include "GLCDCommEx.h"
 
+#include "ScreenCapture.h"
+#include "RemoteServer.h"
+
+
 #define _GLCD_SOCKET_

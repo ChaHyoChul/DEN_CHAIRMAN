@@ -97,14 +97,20 @@ void pa::CPIpcServer::Execute()
 			// LCD에 Material/Block 정보 출력 
 			else 
 			{
+				// strSendmessage.Format(_T("pgMain.sctxtFilename.txt=\"%s\""), pInfo->file_name);
+
 				CString strMsg; 
-				strMsg.Format(_T("pgMain.txtModelInfo1=\"%s\""), pa::PPAStatus->GetThreadState()->szMaterialName);
+				strMsg.Format(_T("pgMain.txtModelInfo1.txt=\"%s\""), pa::PPAStatus->GetThreadState()->szMaterialName);
+				TRACE(strMsg); TRACE("\n");
 				pGLCD->SendCommand(strMsg);
-				strMsg.Format(_T("pgMain.txtModelInfo2=\"%s\""), pa::PPAStatus->GetThreadState()->szBlockName);
+				strMsg.Format(_T("pgMain.txtModelInfo2.txt=\"%s\""), pa::PPAStatus->GetThreadState()->szBlockName);
+				TRACE(strMsg); TRACE("\n");
 				pGLCD->SendCommand(strMsg);
-				strMsg.Format(_T("pgRunningMain.txtModelInfo1=\"%s\""), pa::PPAStatus->GetThreadState()->szMaterialName);
+				strMsg.Format(_T("pgRunningMain.txtModelInfo1.txt=\"%s\""), pa::PPAStatus->GetThreadState()->szMaterialName);
+				TRACE(strMsg); TRACE("\n");
 				pGLCD->SendCommand(strMsg);
-				strMsg.Format(_T("pgRunningMain.txtModelInfo2=\"%s\""), pa::PPAStatus->GetThreadState()->szBlockName);
+				strMsg.Format(_T("pgRunningMain.txtModelInfo2.txt=\"%s\""), pa::PPAStatus->GetThreadState()->szBlockName);
+				TRACE(strMsg); TRACE("\n");
 				pGLCD->SendCommand(strMsg);
 			}
 			//////////////////////////////////////////////////////////////////////////
@@ -153,13 +159,13 @@ void pa::CPIpcServer::Execute()
 			pa::PThread->CloseNCFile();
 			{
 				CString strMsg; 
-				strMsg.Format(_T("pgMain.txtModelInfo1=\"\""));
+				strMsg.Format(_T("pgMain.txtModelInfo1.txt=\"\""));
 				pGLCD->SendCommand(strMsg);
-				strMsg.Format(_T("pgMain.txtModelInfo2=\"\""));
+				strMsg.Format(_T("pgMain.txtModelInfo2.txt=\"\""));
 				pGLCD->SendCommand(strMsg);
-				strMsg.Format(_T("pgRunningMain.txtModelInfo1=\"\""));
+				strMsg.Format(_T("pgRunningMain.txtModelInfo1.txt=\"\""));
 				pGLCD->SendCommand(strMsg);
-				strMsg.Format(_T("pgRunningMain.txtModelInfo2=\"\""));
+				strMsg.Format(_T("pgRunningMain.txtModelInfo2.txt=\"\""));
 				pGLCD->SendCommand(strMsg);
 			}
 			break;

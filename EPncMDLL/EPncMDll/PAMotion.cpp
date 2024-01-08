@@ -1004,6 +1004,19 @@ void pa::CPAMotion::ErrorReset()
 	catch ( pa::CPException& e ) {
 		dwErr = 0;
 	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// 2023.09.12. 가공중 에러일 경우, 에러 릿세 후 Spindle을 대기 위치로 이동한다 
+	if (PPAStatus->GetThreadState()->bIsNCFileRun_ == TRUE)
+	{
+		PPAStatus->GetThreadState()->bIsNCFileRun_ = FALSE;
+
+		char szCommand[128];
+		sprintf_s(szCommand, 63, "G00 G90 G53 Z%.3f B%.3f", 
+			PConfig->pConfig_->fTeachingPoint[pa::TEACHING_POINT_READYPOS][pa::AXIS_Z], 
+			PConfig->pConfig_->fTeachingPoint[pa::TEACHING_POINT_READYPOS][pa::AXIS_B]);
+		MDA(TRUE, szCommand);
+	}
 	
 	PThread->changeRunMode( RUNMODE_STOP, TRUE );
 }
@@ -1222,6 +1235,25 @@ void pa::CPAMotion::MoveReadyPos()
 		0.0,
 		PConfig->pConfig_->fTeachingPoint[pa::TEACHING_POINT_READYPOS][pa::AXIS_A],
 		0.0);
+
+	MDA( FALSE, szCommand );
+	PPAAsyncComm[0]->Wait( pa::CPAAsyncComm::CMD_RND_MDA, 10000 ); //0 );
+	Sleep( 100 );
+}
+
+void pa::CPAMotion::MoveReadyPosSpindle()
+{
+	char szCommand[256];
+	double fAPos;
+	double fBPos;
+
+	// ZL, ZR 만 Ready 위치로 이동 
+	sprintf_s( szCommand, 256, "G00 G90 G53 X%.3f Y%.3f Z%.3f A%.3f B%.3f",
+		PPAStatus->GetPAStatus()->fPosition[pa::AXIS_X],
+		PPAStatus->GetPAStatus()->fPosition[pa::AXIS_Y],
+		PConfig->pConfig_->fTeachingPoint[pa::TEACHING_POINT_READYPOS][pa::AXIS_Z],
+		PPAStatus->GetPAStatus()->fPosition[pa::AXIS_A],
+		PConfig->pConfig_->fTeachingPoint[pa::TEACHING_POINT_READYPOS][pa::AXIS_B]);
 
 	MDA( FALSE, szCommand );
 	PPAAsyncComm[0]->Wait( pa::CPAAsyncComm::CMD_RND_MDA, 10000 ); //0 );

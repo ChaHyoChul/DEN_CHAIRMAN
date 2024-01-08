@@ -512,6 +512,27 @@ BOOL pa::PA_INITIALIZE( char* pIpAddr, int nPortNo1, int nPortNo2, int nPortNoFo
 		return FALSE;
 	}
 
+	//////////////////////////////////////////////////////////////////////////
+	// Maxxlink 기능 추가 
+	P_REMOTE_SERVER = new CRemoteServer();
+	if (P_REMOTE_SERVER == NULL) {
+		strErrMsg.Format( _T("memory alloc error for P_REMOTE_SERVER object") );
+		return FALSE;
+	}
+	if (P_REMOTE_SERVER->Listen(21000) != 0) {
+		strErrMsg.Format( _T("maxxlink remote server. listen error") );
+		return FALSE;
+	}
+
+	P_SCRN_CAPTURE = new CScreenCapture();
+	if (P_SCRN_CAPTURE == NULL) {
+		strErrMsg.Format( _T("memory alloc error for P_SCRN_CAPTURE") );
+		return FALSE;
+	}
+	P_SCRN_CAPTURE->Initialize();
+
+	//////////////////////////////////////////////////////////////////////////
+
 	PContinueRunInfo = new CPContinueRunInfo();
 	if( PContinueRunInfo == NULL ) {
 		strErrMsg.Format( _T("memory alloc error for pmac::PContinueRunInfo object") );
@@ -546,6 +567,17 @@ BOOL pa::PA_INITIALIZE( char* pIpAddr, int nPortNo1, int nPortNo2, int nPortNoFo
 		pGLCD->SendCommand(_T("pgMain.btnColletR.picc2=0"));
 		pGLCD->SendCommand(_T("pgMain.btnColletL.picc=0"));
 		pGLCD->SendCommand(_T("pgMain.btnColletL.picc2=0"));
+
+		CString strMsg; 
+		strMsg.Format(_T("pgMain.txtModelInfo1.txt=\"%s\""), _T(""));
+		pGLCD->SendCommand(strMsg);
+		strMsg.Format(_T("pgMain.txtModelInfo2.txt=\"%s\""), _T(""));
+		pGLCD->SendCommand(strMsg);
+		strMsg.Format(_T("pgRunningMain.txtModelInfo1.txt=\"%s\""), _T(""));
+		pGLCD->SendCommand(strMsg);
+		strMsg.Format(_T("pgRunningMain.txtModelInfo2.txt=\"%s\""), _T(""));
+		pGLCD->SendCommand(strMsg);
+
 		PPAStatus->GetPAStatus()->bLCDRefresh=TRUE;
 	}
 	
@@ -566,6 +598,16 @@ BOOL pa::PA_INITIALIZE( char* pIpAddr, int nPortNo1, int nPortNo2, int nPortNoFo
 
 void pa::PA_DESTROY()
 {
+	if (P_SCRN_CAPTURE) { 
+		delete P_SCRN_CAPTURE;
+		P_SCRN_CAPTURE = NULL; 
+	}
+
+	if (P_REMOTE_SERVER) { 
+		delete P_REMOTE_SERVER; 
+		P_REMOTE_SERVER = NULL; 
+	}
+
 	if( PThread ) {
 		PThread->Stop();
 	}

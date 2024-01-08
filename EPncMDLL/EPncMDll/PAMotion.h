@@ -129,6 +129,7 @@ public:
 	void DownloadSoftLimit();
 
 	void MoveReadyPos();
+	void MoveReadyPosSpindle();
 
 	//////////////////////////////////////////////////////////////////////////
 	// 2017.01.11

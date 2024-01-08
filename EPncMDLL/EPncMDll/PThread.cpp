@@ -452,14 +452,14 @@ void pa::CPThread::CloseNCFile()
 		strSendmessage.Format(_T("sctxtFilename.txt=\"\""));
 		pGLCD->SendCommand(strSendmessage); // Graphic LCD 파일명 초기화
 		
-		strSendmessage.Format(_T("pgMain.txtModelInfo1=\"\""));
+		strSendmessage.Format(_T("pgMain.txtModelInfo1.txt=\"\""));
 		pGLCD->SendCommand(strSendmessage);
-		strSendmessage.Format(_T("pgMain.txtModelInfo2=\"\""));
+		strSendmessage.Format(_T("pgMain.txtModelInfo2.txt=\"\""));
 		pGLCD->SendCommand(strSendmessage);
 
-		strSendmessage.Format(_T("pgRunningMain.txtModelInfo1=\"\""));
+		strSendmessage.Format(_T("pgRunningMain.txtModelInfo1.txt=\"\""));
 		pGLCD->SendCommand(strSendmessage);
-		strSendmessage.Format(_T("pgRunningMain.txtModelInfo2=\"\""));
+		strSendmessage.Format(_T("pgRunningMain.txtModelInfo2.txt=\"\""));
 		pGLCD->SendCommand(strSendmessage);
 	}
 
@@ -1654,6 +1654,8 @@ void pa::CPThread::doStop()
 	{
 	case 0: break;
 	case 1:
+		PPAStatus->GetThreadState()->bIsNCFileRun_ = FALSE;
+
 		hBackupExecpt_.hErr = ERR_NONE;
 		hBackupExecpt_.nErrCode = 0;
         
@@ -1790,13 +1792,13 @@ void pa::CPThread::doToStop()
 			{
 				CloseNCFile();
 				CString strMsg; 
-				strMsg.Format(_T("pgMain.txtModelInfo1=\"\""));
+				strMsg.Format(_T("pgMain.txtModelInfo1.txt=\"\""));
 				pGLCD->SendCommand(strMsg);
-				strMsg.Format(_T("pgMain.txtModelInfo2=\"\""));
+				strMsg.Format(_T("pgMain.txtModelInfo2.txt=\"\""));
 				pGLCD->SendCommand(strMsg);
-				strMsg.Format(_T("pgRunningMain.txtModelInfo1=\"\""));
+				strMsg.Format(_T("pgRunningMain.txtModelInfo1.txt=\"\""));
 				pGLCD->SendCommand(strMsg);
-				strMsg.Format(_T("pgRunningMain.txtModelInfo2=\"\""));
+				strMsg.Format(_T("pgRunningMain.txtModelInfo2.txt=\"\""));
 				pGLCD->SendCommand(strMsg);
 			}
 		}
@@ -2063,45 +2065,45 @@ void pa::CPThread::doError()
 		break;
 
     //	- 툴의 길이 보정 여부에 따라, M149를 호출할지 (길이 보정 ok), 에러를 유지할지 (길이보정x) 결정 
-	case 10:
-		if( pa::PPAStatus->GetPAStatus()->nToolLengthUpdateFlag == 0 &&
-			pa::PPAStatus->GetPAStatus()->nTool2LengthUpdateFlag == 0) 
-		{
-			// 에러 유지 
-			step = 100;
-			break;
-		}
-
-		// M149 호출하는 루틴으로...
-		change_external_button_led( pa::RUNMODE_RUN );
-
-		PAMotion->RST();
-		Sleep( 10 );
-		PAMotion->STOP(1);
-		Sleep( 10 );
-
-		PPAAsyncComm[0]->Reset();
-		PPAAsyncComm[1]->Reset();
-		step = 20;
-		break;
-
-	case  20:
-		PPAStatus->GetThreadState()->bHideErrorMsgDialog_ = TRUE;	// ERROR DIALOG를 숨긴다 
-		nToolErrorHandlingCode_ = PConfig->pConfig_->nToolErrorOccure_HandlingCode;
-		if( nToolErrorHandlingCode_ < 0 || nToolErrorHandlingCode_ >= 4 )
-		{
-			// UserConfirm Dialog를 띄운다 
-			CUserConfirmDlg::SHOW_DLG(bToolDirection_);
-			// 사용자 응답을 대기 한다 
-			nToolErrorHandlingCode_ = CUserConfirmDlg::WAIT_FOR_SELECT();
-			// UserConfirm Dialog를 숨긴다 
-			CUserConfirmDlg::HIDE_DLG();
-		}
-
-		nStep_[RUNMODE_RUN] = 20000;
-		changeRunMode( RUNMODE_RUN, FALSE );
-		step = 0;
-		break;
+// 	case 10:
+// 		if( pa::PPAStatus->GetPAStatus()->nToolLengthUpdateFlag == 0 &&
+// 			pa::PPAStatus->GetPAStatus()->nTool2LengthUpdateFlag == 0) 
+// 		{
+// 			// 에러 유지 
+// 			step = 100;
+// 			break;
+// 		}
+// 
+// 		// M149 호출하는 루틴으로...
+// 		change_external_button_led( pa::RUNMODE_RUN );
+// 
+// 		PAMotion->RST();
+// 		Sleep( 10 );
+// 		PAMotion->STOP(1);
+// 		Sleep( 10 );
+// 
+// 		PPAAsyncComm[0]->Reset();
+// 		PPAAsyncComm[1]->Reset();
+// 		step = 20;
+// 		break;
+// 
+// 	case  20:
+// 		PPAStatus->GetThreadState()->bHideErrorMsgDialog_ = TRUE;	// ERROR DIALOG를 숨긴다 
+// 		nToolErrorHandlingCode_ = PConfig->pConfig_->nToolErrorOccure_HandlingCode;
+// 		if( nToolErrorHandlingCode_ < 0 || nToolErrorHandlingCode_ >= 4 )
+// 		{
+// 			// UserConfirm Dialog를 띄운다 
+// 			CUserConfirmDlg::SHOW_DLG(bToolDirection_);
+// 			// 사용자 응답을 대기 한다 
+// 			nToolErrorHandlingCode_ = CUserConfirmDlg::WAIT_FOR_SELECT();
+// 			// UserConfirm Dialog를 숨긴다 
+// 			CUserConfirmDlg::HIDE_DLG();
+// 		}
+// 
+// 		nStep_[RUNMODE_RUN] = 20000;
+// 		changeRunMode( RUNMODE_RUN, FALSE );
+// 		step = 0;
+// 		break;
 
     // Spindle Stop, 집진기 Stop
 	case 100:
@@ -2110,6 +2112,23 @@ void pa::CPThread::doError()
 		PAMotion->M05();
 		Sleep(100);
 		PAMotion->M29();
+		step = 140;
+		break;
+
+	// Spindle 회피 
+// 	case 110:
+// 		sprintf_s( szCommandBuffer_, 256, "G00 G90 G53 X%.3f Y%.3f Z%.3f A%.3f B%.3f",
+// 			PPAStatus->GetPAStatus()->fPosition[pa::AXIS_X],
+// 			PPAStatus->GetPAStatus()->fPosition[pa::AXIS_Y],
+// 			PConfig->pConfig_->fTeachingPoint[pa::TEACHING_POINT_READYPOS][pa::AXIS_Z],
+// 			PPAStatus->GetPAStatus()->fPosition[pa::AXIS_A],
+// 			PConfig->pConfig_->fTeachingPoint[pa::TEACHING_POINT_READYPOS][pa::AXIS_B]);
+// 		step = 120;
+// 		break;
+// 		SEND_CMD_MDA(step, 120, 130, szCommandBuffer_)
+// 		MOVE_DNE_MDA(step, 130, 140)
+
+	case 140:
 		step = 0;
 		break;
 	}
@@ -2162,6 +2181,8 @@ void pa::CPThread::doToRun2()
 #ifdef _SAVE_RUNTIME_
 		pa::PPAStatus->SAVE_RUNNING_TIME(TRUE, pa::PPAStatus->GetThreadState()->hNCFileInfo.file_name );	// 초기화 
 #endif
+		PPAStatus->GetThreadState()->bIsNCFileRun_ = TRUE;
+
 		logging_tool_status();
 
 		checkLimitSensor();
@@ -2729,6 +2750,8 @@ void pa::CPThread::doRun()
 		N_BUFF_MAX = 0;
 		N_BUFF_OVER_5000 = 0;
 		N_PREV_BUFF_COUNT= 0;
+
+		PPAStatus->GetThreadState()->bIsNCFileRun_ = TRUE;
 		step = 100;
 		break;
 
@@ -2955,6 +2978,7 @@ NEXT_LINE:
 	}
 
 	case 6000:
+		PPAStatus->GetThreadState()->bIsNCFileRun_ = FALSE;
 		changeRunMode( RUNMODE_TOSTOP, TRUE );
 		step = 0;
 		break;

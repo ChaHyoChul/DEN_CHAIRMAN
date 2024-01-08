@@ -18,6 +18,8 @@
 //////////////////////////////////////////////////////////////////////////
 
 double CEPncUIDlg2::F_CURRENT_RUN_RATE = 0.0;
+CRect CEPncUIDlg2::RC_TOOL_AREA = CRect(560, 350, 960, 610);
+
 
 //////////////////////////////////////////////////////////////////////////
 // CEPncUIDlg2 대화 상자입니다.
@@ -72,6 +74,8 @@ BEGIN_MESSAGE_MAP(CEPncUIDlg2, CDialog)
 	ON_WM_CTLCOLOR()
 	ON_MESSAGE(WM_EPNCUI_QUIT, &CEPncUIDlg2::OnEPncUIDlgQuit)
 	ON_MESSAGE(WM_SETUP, &CEPncUIDlg2::OnSetup)
+	ON_WM_LBUTTONDOWN()
+	ON_WM_LBUTTONUP()
 END_MESSAGE_MAP()
 
 //////////////////////////////////////////////////////////////////////////
@@ -468,6 +472,8 @@ BOOL CEPncUIDlg2::OnInitDialog()
 
 	DeleteLeftOverNCFiles();
 
+	displayMaterialInformation(FALSE);
+
 	initialize_StatusIconWnd();
 	
 	BOOL b1 = pa::PTool->GetEnableToolUsageTime();
@@ -622,6 +628,7 @@ BOOL CEPncUIDlg2::Splash_Call_Init(int stepNo)
 		break;
 
 	case 20:
+		displayMaterialInformation(FALSE);
 		CenterWindow();
 		break;
 	}
@@ -2270,7 +2277,16 @@ void CEPncUIDlg2::updateButtonState()
 		#endif
 		btn_blk[OPER_BTN_OPEN] = 0;
 		btn_sel[OPER_BTN_OPEN] = ( pa::PNCFileMgr->GetCurrentWorkNCFileIndex() != -1 ) ? 1 : 0;
-		nIndex++; 
+		nIndex++;
+
+		static int pre_block_info = -1;
+		if (pre_block_info != btn_sel[OPER_BTN_OPEN])
+		{
+			pre_block_info = btn_sel[OPER_BTN_OPEN];
+			if (pre_block_info == 0) {
+				displayMaterialInformation(FALSE);
+			}
+		}
 
 		//////////////////////////////////////////////////////////////////////////
 		// ready-pos 버튼 
@@ -3547,14 +3563,33 @@ void CEPncUIDlg2::doButtonProgramClose()
 	CDialog::OnOK();
 }
 
+// LRESULT CEPncUIDlg2::OnNcHitTest(CPoint point)
+// {
+// 	UINT hit = CDialog::OnNcHitTest(point);
+// 	
+// 	if (hit == HTCLIENT)
+// 	{
+// 		hit = HTCAPTION;
+// 	}
+// 
+// 	return hit;
+// }
+
 LRESULT CEPncUIDlg2::OnNcHitTest(CPoint point)
 {
-  UINT hit = CDialog::OnNcHitTest(point);
-  if (hit == HTCLIENT)
-  {
-    hit = HTCAPTION;
-  }
-  return hit;
+	CPoint pt = point;
+	ScreenToClient(&pt);
+
+	UINT hit = CDialog::OnNcHitTest(point);
+	if (!CEPncUIDlg2::RC_TOOL_AREA.PtInRect(pt))
+	{
+		if (hit == HTCLIENT)
+		{
+			hit = HTCAPTION;
+		}
+	}
+
+	return hit;
 }
 
 //프로그램 창을 움직일때 창의 위치 정보에 대한 메세지를 보낸다 (PSETUP_DLG 가 이미지가 겹치는 문제로 child dlg 가 아닌 pop up dlg 로 되어있기때문에)
@@ -3860,4 +3895,26 @@ LRESULT CEPncUIDlg2::OnSetup(WPARAM wparam, LPARAM lparam)
 	PSETUP_DLG->ShowWindow(SW_SHOW);
 	PSETUP_DLG->PostMessage(WM_SETUP, wparam, lparam);
 	return 0;
+}
+
+void CEPncUIDlg2::OnLButtonDown(UINT nFlags, CPoint point)
+{
+
+	CDialog::OnLButtonDown(nFlags, point);
+}
+
+void CEPncUIDlg2::OnLButtonUp(UINT nFlags, CPoint point)
+{
+	if (CEPncUIDlg2::RC_TOOL_AREA.PtInRect(point))
+	{
+		// Tool 화면으로 전환 
+		//////////////////////////////////////////////////////////////////////////
+		// log 
+		writeLog( _T("tools area click") );
+		//////////////////////////////////////////////////////////////////////////
+		PSETUP_DLG->ShowWindow(SW_SHOW);
+		PSETUP_DLG->ShowToolSetup();
+	}
+	
+	CDialog::OnLButtonUp(nFlags, point);
 }

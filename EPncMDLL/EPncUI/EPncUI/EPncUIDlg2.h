@@ -22,6 +22,8 @@ class CEPncUIDlg2 : public CDialog
 		return a[index];
 	}
 
+	static CRect RC_TOOL_AREA;
+
 public:
 	enum EN_OPER_BUTTON
 	{
@@ -294,7 +296,7 @@ public:
 	afx_msg LRESULT OnUsbMemory(WPARAM wparam, LPARAM lparam);
 
 	afx_msg LRESULT OnNcHitTest(CPoint point);
-	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+	// afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnMove(int x, int y);
 
 	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
@@ -312,4 +314,6 @@ public:
 #endif
 	//////////////////////////////////////////////////////////////////////////
 	afx_msg void OnBnClickedButtonV2Emo2();
+	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
 };

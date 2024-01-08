@@ -39,12 +39,14 @@ void CSetupLogDlg::StartPageWork()
 
 	SetTimer( 1, 100, NULL );
 	SetTimer( 2, 100, NULL );
+	SetTimer(3, 200, NULL);
 }
 
 void CSetupLogDlg::StopPageWork()
 {
 	KillTimer( 1 );
 	KillTimer( 2 );
+	KillTimer(3);
 }
 
 void CSetupLogDlg::UpdatePage()
@@ -360,6 +362,47 @@ void CSetupLogDlg::OnTimer(UINT_PTR nIDEvent)
 		if( IsWindowVisible() )
 		{
 			SetTimer( 2, 1000, NULL );
+		}
+	}
+
+	else if( nIDEvent == 3 )
+	{
+		KillTimer( 3 );
+
+		if( pa::PPAStatus->GetThreadState()->bSaveSelectedLogFiles_ == TRUE )
+		{
+			// 파일 이름 저장 
+			CString strLogFiles[200];
+			int num = pFileListBoxForSD_->GetSelectedFileName( strLogFiles );
+			int index = 0;
+			//
+			for( int i = 0; i<num; i++ )
+			{
+				char sztemp[64];
+				memset((void*)sztemp, 0, 64);
+				hcutil::CSTRING_TO_ASCII( strLogFiles[i], sztemp, 64 );
+				// 				char* pDest = pa::PPAStatus->GetThreadState()->szSelectedLogFiles_;
+				// 				int ln = strLogFiles[i].GetLength();
+				// 				memcpy((void*)(pDest+index), (void*)(LPCTSTR)strLogFiles[i], ln*2);
+				// 				pDest[index++] = ';';
+				// 				index += ln;
+				int ln = strlen(sztemp);
+				sztemp[ln] = ';'; ln+=1;
+
+				char* pDest = pa::PPAStatus->GetThreadState()->szSelectedLogFiles_ + index;
+				memcpy((void*)pDest, sztemp, ln);
+
+				index += ln;
+			}
+			pa::PPAStatus->GetThreadState()->nNumSelectLogFiles_ = num;
+			pa::PPAStatus->GetThreadState()->nLenSelectLogFiles_ = index;
+			// 
+			pa::PPAStatus->GetThreadState()->bSaveSelectedLogFiles_ = FALSE;
+		}
+
+		if( IsWindowVisible() ) 
+		{
+			SetTimer( 3, 100, NULL );
 		}
 	}
 

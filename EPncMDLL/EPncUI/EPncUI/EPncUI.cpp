@@ -290,9 +290,13 @@ BOOL CEPncUIApp::InitInstance()
 //	P_VERSION = _T("CM-20220923-005-debug-waterlevelsensor");	// 1.Water level sensor 기능 추가 
 //	P_VERSION = _T("CM-20220923-006-debug-stop-after-pause");	// 1.Stop 할 때, Pause 후 Stop 하도록 수정 
 
-	P_VERSION = _T("CM-20230831-001-debug");				// 작업 요청 
+//	P_VERSION = _T("CM-20230831-001-debug");				// 작업 요청 
 															// - LCD 수정, Main 화면, Ncfile auto close 옵션 추가 
 
+	P_VERSION = _T("CM-20230831-002-debug");				// 추가 작업 요청 
+															//	- NC 가공 중 에러 발생시, 툴 대기위치로 이동 
+															//	- 메인 화면에서 Tool 영역 클릭시, 툴 화면으로 이동 
+															//	- 프로그램 초기화 할 때, Material/Block 정보 초기화 (프로그램 화면은 초기화 되지만, LCD 화면은 초기화 되지 않아 수정 했음) 
 
 	if( isRunningProgram() ) {
 		// TODO: is this fine to do?
