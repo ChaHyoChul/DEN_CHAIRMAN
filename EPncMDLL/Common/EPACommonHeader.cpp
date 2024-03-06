@@ -9,6 +9,15 @@
 namespace pa 
 {
 
+CString STR_PGM_TAG(_T(""));
+CString GET_OBJECT_NAME_WITH_TAG(CString strName)
+{
+	CString ret;
+// 	ret.Format(_T("%s-%s"), strName, STR_PGM_TAG);
+	ret.Format(_T("%s_%s"), strName, STR_PGM_TAG);
+	return ret;
+}
+
 EN_USER_MODE	USER_MODE = USER_MODE_USR;
 CString	STR_USER_MODE[USER_MODE_NUM] =
 {

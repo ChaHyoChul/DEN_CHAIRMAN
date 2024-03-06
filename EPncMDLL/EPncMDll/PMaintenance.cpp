@@ -26,7 +26,8 @@ BOOL pa::CPMaintenance::Initialize( CString& strErrMsg )
 		strErrMsg.Format( _T("memory alloc error for pa::CPMaintenance::pShMem_ object") );
 		return FALSE;
 	}
-	pMaintenanceData_ = (SMaintenanceData*)pShMem_->Create( IPC_FILEPATH, MAINTENANCE_OBJECT_NAME, sizeof(SMaintenanceData), bReset, 0 );
+	CString strObjectName = pa::GET_OBJECT_NAME_WITH_TAG(MAINTENANCE_OBJECT_NAME);
+	pMaintenanceData_ = (SMaintenanceData*)pShMem_->Create( IPC_FILEPATH, (TCHAR*)(LPCTSTR)strObjectName, sizeof(SMaintenanceData), bReset, 0 );
 	if( pMaintenanceData_ == NULL ) {
 		strErrMsg.Format( _T("create shared memory error for pa::CPMaintenance::pMaintenanceData_ object") );
 		return FALSE;

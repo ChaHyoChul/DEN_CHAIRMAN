@@ -38,15 +38,19 @@ BOOL pa::CPNCFileMgr::Initialize( CString& strErrMsg )
 	//////////////////////////////////////////////////////////////////////////
 	CString strTemp = CString(IPC_FILEPATH) + CString(_T("\\SHM_")) + CString(NCFILE_MANAGER_OBJECT_NAME);
 	BOOL bReset = hcutil::IsExistFile( strTemp ) == TRUE ? FALSE : TRUE;
-
 	int size = ( sizeof(pa::SNCFileInfo) * MAX_NCFILE_NUM ) + ( sizeof(int) * 3 );
 
-	int *pTemp = (int*)pShMem_->Create( IPC_FILEPATH, NCFILE_MANAGER_OBJECT_NAME, size, bReset, 0 );
+	// 2024.01.08 
+	CString strObjectName = pa::GET_OBJECT_NAME_WITH_TAG(NCFILE_MANAGER_OBJECT_NAME);
+// 	int *pTemp = (int*)pShMem_->Create( IPC_FILEPATH, NCFILE_MANAGER_OBJECT_NAME, size, bReset, 0 );
+	int *pTemp = (int*)pShMem_->Create( IPC_FILEPATH, (TCHAR*)(LPCTSTR)strObjectName, size, bReset, 0 ); TRACE(_T("%X\n"), pTemp);
 	if( pTemp ) {
-		pnNumNCFile_		= (int*)(pTemp + 0);
-		pnCurNCFileIndex_	= (int*)(pTemp + 1);
- 		pnReverse_			= (int*)(pTemp + 2);
-		pNCFileBasePoint_	= (pa::SNCFileInfo*)(pTemp + 3);
+		pnNumNCFile_		= (int*)(pTemp + 0);	 TRACE(_T("%X - %d\n"), pnNumNCFile_, *pnNumNCFile_);
+		pnCurNCFileIndex_	= (int*)(pTemp + 1);	 TRACE(_T("%X - %d\n"), pnCurNCFileIndex_, *pnCurNCFileIndex_);
+ 		pnReverse_			= (int*)(pTemp + 2);	 TRACE(_T("%X - %d\n"), pnReverse_, *pnReverse_);
+		pNCFileBasePoint_	= (pa::SNCFileInfo*)(pTemp + 3);	 TRACE(_T("%X\n"), pNCFileBasePoint_, *pNCFileBasePoint_);
+
+		*pnNumNCFile_ = 1;
 	} else {
 		// ERROR
 		strErrMsg.Format( _T("create shared memory for pa::CPNCFileMgr::pShMem_") );
@@ -56,7 +60,8 @@ BOOL pa::CPNCFileMgr::Initialize( CString& strErrMsg )
 	//////////////////////////////////////////////////////////////////////////
 	// create mutex
 	//////////////////////////////////////////////////////////////////////////
-	if( !pMutex_->Create( NCFILE_MANAGER_OBJECT_NAME ) ) {
+// 	if( !pMutex_->Create( NCFILE_MANAGER_OBJECT_NAME ) ) {
+	if( !pMutex_->Create( (TCHAR*)(LPCTSTR)strObjectName ) ) {
 		// ERROR
 		strErrMsg.Format( _T("create mutex for pa::CPNCFileMgr::pMutex_") );
 		return FALSE;

@@ -519,7 +519,9 @@ BOOL pa::PA_INITIALIZE( char* pIpAddr, int nPortNo1, int nPortNo2, int nPortNoFo
 		strErrMsg.Format( _T("memory alloc error for P_REMOTE_SERVER object") );
 		return FALSE;
 	}
-	if (P_REMOTE_SERVER->Listen(21000) != 0) {
+// 	if (P_REMOTE_SERVER->Listen(21000) != 0) {
+	int portno = theApp.nMAXXLINK_SERVER_PORTNO;
+	if (P_REMOTE_SERVER->Listen(portno) != 0) {
 		strErrMsg.Format( _T("maxxlink remote server. listen error") );
 		return FALSE;
 	}

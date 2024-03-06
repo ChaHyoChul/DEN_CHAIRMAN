@@ -25,8 +25,10 @@ BOOL pa::CPTool::Initialize( CString& strErrMsg )
 		strErrMsg.Format( _T("memory alloc error for pa::CPTool::pShMem_ object") );
 		return FALSE;
 	}
-// 	pToolData_ = (SToolData*)pShMem_->Create( IPC_FILEPATH, TOOL_OBJECT_NAME, sizeof(SToolData), FALSE, 0 );
-	pToolData_ = (SToolData*)pShMem_->Create( IPC_FILEPATH, TOOL_OBJECT_NAME, sizeof(SToolData), bReset, 0 );
+
+	CString strObjectName = pa::GET_OBJECT_NAME_WITH_TAG(TOOL_OBJECT_NAME);
+// 	pToolData_ = (SToolData*)pShMem_->Create( IPC_FILEPATH, TOOL_OBJECT_NAME, sizeof(SToolData), bReset, 0 );
+	pToolData_ = (SToolData*)pShMem_->Create( IPC_FILEPATH, (TCHAR*)(LPCTSTR)strObjectName, sizeof(SToolData), bReset, 0 );
 	if( pToolData_ == NULL ) {
 		strErrMsg.Format( _T("create shared memory error for pa::CPTool::pToolData_ object") );
 		return FALSE;

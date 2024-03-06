@@ -19,6 +19,8 @@ public:
 	int			nPortNo2;				//
 	int			nPortNoForStream;		// 
 	//////////////////////////////////////////////////////////////////////////
+	// 2024.01.08 프로그램을 동시에 여러개 실행 
+	int			nMAXXLINK_SERVER_PORTNO;
 
 	CEPncMDlg*	pMainDlg;				// 메인 다이얼로그 객체 생성 
 

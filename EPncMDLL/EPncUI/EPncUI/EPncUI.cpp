@@ -289,27 +289,36 @@ BOOL CEPncUIApp::InitInstance()
 // 	P_VERSION = _T("CM-20220923-004-debug-improve-toolerror-handling");	// 1.툴 에러 발생시, 에러 메시지 박스 닫으면 Tool 화면으로 전환 
 //	P_VERSION = _T("CM-20220923-005-debug-waterlevelsensor");	// 1.Water level sensor 기능 추가 
 //	P_VERSION = _T("CM-20220923-006-debug-stop-after-pause");	// 1.Stop 할 때, Pause 후 Stop 하도록 수정 
-
 //	P_VERSION = _T("CM-20230831-001-debug");				// 작업 요청 
 															// - LCD 수정, Main 화면, Ncfile auto close 옵션 추가 
-
-	P_VERSION = _T("CM-20230831-002-debug");				// 추가 작업 요청 
+// 	P_VERSION = _T("CM-20230831-002-debug");				// 추가 작업 요청 
 															//	- NC 가공 중 에러 발생시, 툴 대기위치로 이동 
 															//	- 메인 화면에서 Tool 영역 클릭시, 툴 화면으로 이동 
 															//	- 프로그램 초기화 할 때, Material/Block 정보 초기화 (프로그램 화면은 초기화 되지만, LCD 화면은 초기화 되지 않아 수정 했음) 
 
+	P_VERSION = _T("v2.0.0");								// 동시에 여러개 프로그램이 실행될 수 있도록 수정 (프로그램은 폴더로 구분한다) 
+
+	// 
+	CString		strConfigFilePath = CString(INI_PA_CONFIG_PATH);
+	CCEIniFile	hIniFile;
+	hIniFile.Open(INI_PA_CONFIG_PATH);
+	hIniFile.GetValue(_T("PGM"), _T("TAG_NAME"), (CString*)&pa::STR_PGM_TAG);
+	hIniFile.Close();
+
+
 	if( isRunningProgram() ) {
-		// TODO: is this fine to do?
-		HANDLE hEvent_ = OpenEvent( EVENT_ALL_ACCESS, FALSE, _T("EVT_EPNCUI") );
-		if( hEvent_ != NULL ) {
-			SetEvent( hEvent_ );
-		}
+		// TODO: is this fine to do? => embedded pc 에서 epncm 다음 epncui를 실행하기위해 아래 event 사용
+		// 2024.01.09 아래내용 주석처리 
+// 		HANDLE hEvent_ = OpenEvent( EVENT_ALL_ACCESS, FALSE, _T("EVT_EPNCUI") );
+// 		if( hEvent_ != NULL ) {
+// 			SetEvent( hEvent_ );
+// 		}
+// 
+// 		Sleep(1000);
+//		CloseHandle( hEvent_ );
 
-		Sleep(1000);
-
+		Sleep(500);
 		AfxMessageBox( _T("EPncUI is already running..."), MB_OK|MB_ICONINFORMATION );
-
-		CloseHandle( hEvent_ );
 
 		return FALSE;
 	}
@@ -451,18 +460,42 @@ void CEPncUIApp::SavePW( pa::EN_USER_MODE hUserMode, CString strPW )
 	hIniFile.Close();
 }
 
+// 이미 프로그램이 실행중이면 TRUE를 리턴한다 
+// BOOL CEPncUIApp::isRunningProgram( void )
+// {
+// 	BOOL	bRtValue= FALSE;
+// 	HANDLE	hMutex	= ::OpenMutex( MUTEX_ALL_ACCESS, FALSE, _T("Robots and Design : EPncUI") );
+// 
+// 	if( hMutex != NULL ) { bRtValue = TRUE; }
+// 	else 
+// 	{
+// 		int		nCount = 0;
+// 		while( hMutex == NULL && nCount < 5 )
+// 		{
+// 			hMutex = ::CreateMutex( NULL, FALSE, _T("Robots and Design : EPncUI") );
+// 			nCount++;
+// 		}
+// 		if( hMutex == NULL ) bRtValue = TRUE;
+// 	}
+// 
+// 	return bRtValue;
+// }
+
 BOOL CEPncUIApp::isRunningProgram( void )
 {
+	CString strObjectName = pa::GET_OBJECT_NAME_WITH_TAG(CString(_T("SW_CHAREMAN")));
 	BOOL	bRtValue= FALSE;
-	HANDLE	hMutex	= ::OpenMutex( MUTEX_ALL_ACCESS, FALSE, _T("Robots and Design : EPncUI") );
+//	HANDLE	hMutex	= ::OpenMutex( MUTEX_ALL_ACCESS, FALSE, _T("Robots and Design : EPncUI") );
+	HANDLE	hMutex = ::OpenMutex(MUTEX_ALL_ACCESS, FALSE, (LPCTSTR)strObjectName);
 
 	if( hMutex != NULL ) { bRtValue = TRUE; }
 	else 
 	{
 		int		nCount = 0;
-		while( hMutex == NULL && nCount < 5 )
+		while( hMutex == NULL && nCount < 2 )
 		{
-			hMutex = ::CreateMutex( NULL, FALSE, _T("Robots and Design : EPncUI") );
+		//	hMutex = ::CreateMutex( NULL, FALSE, _T("Robots and Design : EPncUI") );
+			hMutex = ::CreateMutex(NULL, FALSE, (LPCTSTR)strObjectName);
 			nCount++;
 		}
 		if( hMutex == NULL ) bRtValue = TRUE;

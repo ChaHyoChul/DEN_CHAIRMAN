@@ -35,7 +35,10 @@ BOOL pa::CPNCFile::Open( CString& strNcFilePath, CString& strErrMsg )
 	if( pShMem_ == NULL ) {
 		return FALSE;
 	}
-	pFile_ = (char*)pShMem_->CreateEx( (TCHAR*)(LPCTSTR)strNcFilePath, NCFILE_OBJ, (int)(dwFileSize+1), FALSE, 0 );
+	CString strObjectName;
+	strObjectName = pa::GET_OBJECT_NAME_WITH_TAG(CString(NCFILE_OBJ));
+// 	pFile_ = (char*)pShMem_->CreateEx( (TCHAR*)(LPCTSTR)strNcFilePath, NCFILE_OBJ, (int)(dwFileSize+1), FALSE, 0 );
+	pFile_ = (char*)pShMem_->CreateEx( (TCHAR*)(LPCTSTR)strNcFilePath, (TCHAR*)(LPCTSTR)strObjectName, (int)(dwFileSize+512), FALSE, 0 );
 	if( pFile_ == NULL ) {
 		return FALSE;
 	}

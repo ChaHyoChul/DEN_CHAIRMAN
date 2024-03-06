@@ -20,7 +20,9 @@ BOOL pa::CPIpcServer::Initialize( DWORD dwCycleTime, CString& strErrMsg )
 
 	ASSERT( pIpcQueue_ );
 
-	BOOL b = pIpcQueue_->Create( IPC_SERVER_NAME, IPC_SERVER_Q_SIZE, sizeof(SIpcCommCommand) );
+	CString strObjectName = pa::GET_OBJECT_NAME_WITH_TAG(IPC_SERVER_NAME);
+// 	BOOL b = pIpcQueue_->Create( IPC_SERVER_NAME, IPC_SERVER_Q_SIZE, sizeof(SIpcCommCommand) );
+	BOOL b = pIpcQueue_->Create( (TCHAR*)(LPCTSTR)strObjectName, IPC_SERVER_Q_SIZE, sizeof(SIpcCommCommand) );
 	if( !b ) {
 		strErrMsg.Format( _T("create ipc queue error for pmac::CPIpcServer") );
 		return FALSE;

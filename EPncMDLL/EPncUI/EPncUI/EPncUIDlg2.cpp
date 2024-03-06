@@ -619,7 +619,11 @@ BOOL CEPncUIDlg2::Splash_Call_Init(int stepNo)
 		break;
 
 	case 16:
-		((CStatic*)GetDlgItem(IDC_STATIC_VERSION))->SetWindowText( theApp.P_VERSION );
+// 		((CStatic*)GetDlgItem(IDC_STATIC_VERSION))->SetWindowText( theApp.P_VERSION );
+		{
+			CString strVersion = pa::GET_OBJECT_NAME_WITH_TAG(theApp.P_VERSION);
+			((CStatic*)GetDlgItem(IDC_STATIC_VERSION))->SetWindowText(strVersion);
+		}
 		break;
 	
 	case 17:

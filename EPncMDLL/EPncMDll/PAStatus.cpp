@@ -22,7 +22,9 @@ BOOL pa::CPAStatus::Initialize( CString& strErrMsg )
 		return FALSE;
 	}
 
-	pPAStatus_ = (SPAStatus *)pShMem_->Create( NULL, PMAC_STATE_OBJECT_NAME, sizeof(SPAStatus), FALSE, 0 );
+	CString strObjectName = pa::GET_OBJECT_NAME_WITH_TAG(PMAC_STATE_OBJECT_NAME);
+// 	pPAStatus_ = (SPAStatus *)pShMem_->Create( NULL, PMAC_STATE_OBJECT_NAME, sizeof(SPAStatus), FALSE, 0 );
+	pPAStatus_ = (SPAStatus *)pShMem_->Create( NULL, (TCHAR*)(LPCTSTR)strObjectName, sizeof(SPAStatus), FALSE, 0 );
 	if( pPAStatus_ == NULL ) {
 		strErrMsg.Format( _T("create shared memory error for pa::CPState::pState_ object") );
 		return FALSE;
@@ -36,7 +38,9 @@ BOOL pa::CPAStatus::Initialize( CString& strErrMsg )
 		strErrMsg.Format( _T("memory alloc error for pmac::CPThreadStateImpl::pShMemForThreadState_ object") );
 		return FALSE;
 	}
-	pThreadState_ = (SThreadState *)pShMemForThreadState_->Create( NULL, PTHREADSTATE_OBJECT_NAME, sizeof(SThreadState), FALSE, 0 );
+	strObjectName = pa::GET_OBJECT_NAME_WITH_TAG(PTHREADSTATE_OBJECT_NAME);
+// 	pThreadState_ = (SThreadState *)pShMemForThreadState_->Create( NULL, PTHREADSTATE_OBJECT_NAME, sizeof(SThreadState), FALSE, 0 );
+	pThreadState_ = (SThreadState *)pShMemForThreadState_->Create( NULL, (TCHAR*)(LPCTSTR)strObjectName, sizeof(SThreadState), FALSE, 0 );
 	if( pThreadState_ == NULL ) {
 		strErrMsg.Format( _T("create shared memory error for pa::CPThreadStateImpl::pShMemForThreadState_ object") );
 		return FALSE;
@@ -49,7 +53,8 @@ BOOL pa::CPAStatus::Initialize( CString& strErrMsg )
 		strErrMsg.Format( _T("memory alloc error for pa::SAutoCalParamForCoordOffset") );
 		return FALSE;
 	}
-	pAutoCalCoordinateOffsetParam_ = (SAutoCalCoordinateOffsetParam *)pShMemForAutoCalCoordinateOffsetParam_->Create( NULL, AUTOCAL_PARAM_OBEJCT_NAME, sizeof(SAutoCalCoordinateOffsetParam), FALSE, 0 );
+	strObjectName = pa::GET_OBJECT_NAME_WITH_TAG(AUTOCAL_PARAM_OBEJCT_NAME);
+	pAutoCalCoordinateOffsetParam_ = (SAutoCalCoordinateOffsetParam *)pShMemForAutoCalCoordinateOffsetParam_->Create( NULL, (TCHAR*)(LPCTSTR)strObjectName, sizeof(SAutoCalCoordinateOffsetParam), FALSE, 0 );
 	if( pAutoCalCoordinateOffsetParam_ == NULL ) {
 		strErrMsg.Format( _T("create shared memory error for pa::SAutoCalParamForCoordOffset") );
 		return FALSE;
@@ -63,7 +68,8 @@ BOOL pa::CPAStatus::Initialize( CString& strErrMsg )
 		strErrMsg.Format( _T("memory alloc error for pmac::SAutoTeachToolPocketParam") );
 		return FALSE;
 	}
-	pAutoTeachToolPocketParam_ = (SAutoTeachToolPocketParam *)pShMemForAutoTeachToolPocketParam_->Create( NULL, AUTOTEACH_TOOLPOCKET_PARAM_OBJECT_NAME, sizeof(SAutoTeachToolPocketParam), FALSE, 0 );
+	strObjectName = pa::GET_OBJECT_NAME_WITH_TAG(AUTOTEACH_TOOLPOCKET_PARAM_OBJECT_NAME);
+	pAutoTeachToolPocketParam_ = (SAutoTeachToolPocketParam *)pShMemForAutoTeachToolPocketParam_->Create( NULL, (TCHAR*)(LPCTSTR)strObjectName, sizeof(SAutoTeachToolPocketParam), FALSE, 0 );
 	if( pAutoTeachToolPocketParam_ == NULL ) {
 		strErrMsg.Format( _T("create shared memory error for pmac::SAutoTeachToolPocketParam") );
 		return FALSE;
@@ -78,9 +84,13 @@ BOOL pa::CPAStatus::Initialize( CString& strErrMsg )
 		strErrMsg.Format( _T("memory alloc error for pa::SCoordinateOffsetDataRange") );
 		return FALSE;
 	}
+	strObjectName = pa::GET_OBJECT_NAME_WITH_TAG(COORDINATE_OFFSET_DATA_RANGE);
+// 	pCoordinateOffsetDataRange_ = 
+// 		(SCoordinateOffsetDataRange*)pShMemForCoordinateOffsetDataRange_->
+// 		Create( NULL, COORDINATE_OFFSET_DATA_RANGE, sizeof(SCoordinateOffsetDataRange), FALSE, 0 );
 	pCoordinateOffsetDataRange_ = 
 		(SCoordinateOffsetDataRange*)pShMemForCoordinateOffsetDataRange_->
-		Create( NULL, COORDINATE_OFFSET_DATA_RANGE, sizeof(SCoordinateOffsetDataRange), FALSE, 0 );
+		Create( NULL, (TCHAR*)(LPCTSTR)strObjectName, sizeof(SCoordinateOffsetDataRange), FALSE, 0 );
 	if( pCoordinateOffsetDataRange_ == NULL ) {
 		strErrMsg.Format( _T("create shared memory error for pa::SCoordinateOffsetDataRange") );
 		return FALSE;
@@ -94,8 +104,11 @@ BOOL pa::CPAStatus::Initialize( CString& strErrMsg )
 		strErrMsg.Format( _T("memory alloc error for pa::SMeasureParamEtc") );
 		return FALSE;
 	}
+	strObjectName = pa::GET_OBJECT_NAME_WITH_TAG(MEASRE_PARAM_ETC);
+// 	pMeasureParamEtc_ = (SMeasureParamEtc *)pShMemForMeasureParamEtc_->
+// 		Create( NULL, MEASRE_PARAM_ETC, sizeof(SMeasureParamEtc), FALSE, 0 );
 	pMeasureParamEtc_ = (SMeasureParamEtc *)pShMemForMeasureParamEtc_->
-		Create( NULL, MEASRE_PARAM_ETC, sizeof(SMeasureParamEtc), FALSE, 0 );
+		Create( NULL, (TCHAR*)(LPCTSTR)strObjectName, sizeof(SMeasureParamEtc), FALSE, 0 );
 	if( pMeasureParamEtc_ == NULL ) {
 		strErrMsg.Format( _T("create shared memory error for pa::SMeasureParamEtc") );
 		return FALSE;

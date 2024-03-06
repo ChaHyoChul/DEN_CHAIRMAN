@@ -65,8 +65,10 @@ BOOL CEPncMDlg::OnInitDialog()
 	hIniFile.GetValue( _T("PA"), _T("PortNo2"), (int*)&theApp.nPortNo2 );
 	hIniFile.GetValue( _T("PA"), _T("PortNoForStream"), (int*)&theApp.nPortNoForStream );
 
-	memset((void*)theApp.szIpAddr, 0, sizeof(char)*64);
+	hIniFile.GetValue(_T("PGM"), _T("TAG_NAME"), (CString*)&pa::STR_PGM_TAG);
+	hIniFile.GetValue(_T("PGM"), _T("MAXXLINK_PORT_NO"), (int*)&theApp.nMAXXLINK_SERVER_PORTNO);
 
+	memset((void*)theApp.szIpAddr, 0, sizeof(char)*64);
 	hcutil::CSTRING_TO_ASCII( theApp.strIpAddr, theApp.szIpAddr, 63 );
 
 	// port1 = 10100

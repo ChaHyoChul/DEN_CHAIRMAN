@@ -19,7 +19,9 @@ BOOL pa::CPSWConfig::Initialzie( CString& strErrMsg )
 		strErrMsg.Format( _T("memory alloc error for pmac::CPConfig::pShMemConfigData_ object" ) );
 		return FALSE;
 	} 
-	pConfigData_ = (SConfigData*)pShMemConfigData_->Create( NULL, CONFIG_OBJECT_NAME, sizeof(SConfigData), FALSE, 0 );
+	CString strObjectName = pa::GET_OBJECT_NAME_WITH_TAG(CONFIG_OBJECT_NAME);
+// 	pConfigData_ = (SConfigData*)pShMemConfigData_->Create( NULL, CONFIG_OBJECT_NAME, sizeof(SConfigData), FALSE, 0 );
+	pConfigData_ = (SConfigData*)pShMemConfigData_->Create( NULL, (TCHAR*)(LPCTSTR)strObjectName, sizeof(SConfigData), FALSE, 0 );
 	if( pConfigData_ == NULL ) {
 		strErrMsg.Format( _T("create shared memory error for pmac::CPConfig::pConfigData_ object") );
 		return FALSE;

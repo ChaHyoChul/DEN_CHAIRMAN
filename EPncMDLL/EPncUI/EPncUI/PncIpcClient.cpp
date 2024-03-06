@@ -28,7 +28,9 @@ BOOL CPncIpcClient::Initialize( CString& strErrMsg )
 		return FALSE;
 	}
 
-	if( pIpcClient_->Create( IPC_SERVER_NAME, IPC_SERVER_Q_SIZE, sizeof(pa::SIpcCommCommand) ) == NULL ) {
+	CString strObjectName = pa::GET_OBJECT_NAME_WITH_TAG(IPC_SERVER_NAME);
+// 	if( pIpcClient_->Create( IPC_SERVER_NAME, IPC_SERVER_Q_SIZE, sizeof(pa::SIpcCommCommand) ) == NULL ) {
+	if( pIpcClient_->Create( (TCHAR*)(LPCTSTR)strObjectName, IPC_SERVER_Q_SIZE, sizeof(pa::SIpcCommCommand) ) == NULL ) {
 		strErrMsg.Format( _T("create error for ipc client object") );
 		return FALSE;
 	}
