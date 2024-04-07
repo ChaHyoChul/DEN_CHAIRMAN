@@ -1791,10 +1791,33 @@ void pa::CPAMotion::RND_SALF( BOOL blocking, int using_air, int interval, int se
 	}
 }
 
+// void pa::CPAMotion::RND_CDTEX()
+// {
+// 	PPAAsyncComm[1]->SendCommand( CPAAsyncComm::CMD_RND_CDTEX );
+// 	PPAAsyncComm[1]->Wait( CPAAsyncComm::CMD_RND_CDTEX, 5000 );
+// }
 void pa::CPAMotion::RND_CDTEX()
 {
-	PPAAsyncComm[1]->SendCommand( CPAAsyncComm::CMD_RND_CDTEX );
-	PPAAsyncComm[1]->Wait( CPAAsyncComm::CMD_RND_CDTEX, 5000 );
+	int retry_count = 5; 
+
+	while (TRUE)
+	{
+		try {
+			PPAAsyncComm[1]->SendCommand( CPAAsyncComm::CMD_RND_CDTEX );
+			PPAAsyncComm[1]->Wait( CPAAsyncComm::CMD_RND_CDTEX, 3000); //5000 );
+			break; 
+		}
+		catch (CPException& e) {
+			if (e.hErr == pa::ERR_TIMEOUT) {
+				if (retry_count-- > 0) {
+					P_LOG->WriteLog(CLog::TYPE_OPER, 0, _T("Retry -> RND_CDTEX"));
+				}
+				else {
+					throw e;
+				}
+			}
+		}
+	}
 }
 
 void pa::CPAMotion::RND_SFSF( BOOL blocking, int using_waterflow_senor, int startTimeout, int sensingTimeout, int using_water_level_sensor )

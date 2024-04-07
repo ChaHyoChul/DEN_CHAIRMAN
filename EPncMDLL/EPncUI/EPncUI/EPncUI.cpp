@@ -296,7 +296,8 @@ BOOL CEPncUIApp::InitInstance()
 															//	- 메인 화면에서 Tool 영역 클릭시, 툴 화면으로 이동 
 															//	- 프로그램 초기화 할 때, Material/Block 정보 초기화 (프로그램 화면은 초기화 되지만, LCD 화면은 초기화 되지 않아 수정 했음) 
 
-	P_VERSION = _T("v2.0.0");								// 동시에 여러개 프로그램이 실행될 수 있도록 수정 (프로그램은 폴더로 구분한다) 
+// 	P_VERSION = _T("v2.0.0");								// 동시에 여러개 프로그램이 실행될 수 있도록 수정 (프로그램은 폴더로 구분한다) 
+	P_VERSION = _T("v2.0.1");								// RND_CDT 명령에 Retry 추가 
 
 	// 
 	CString		strConfigFilePath = CString(INI_PA_CONFIG_PATH);
