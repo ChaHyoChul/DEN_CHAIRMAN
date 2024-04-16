@@ -228,7 +228,7 @@ void pa::CGCodeHelper::CheckReplaceCommand( char* pGCode )
  * Nc File Check 함수
  * 라인 단위로 입력되기 때문에 코드 단위로 파싱 해야함 
  */
-BOOL pa::CGCodeHelper::CheckNcFile( char* pNCCode )
+BOOL pa::CGCodeHelper::CheckNcFile( char* pNCCode, CString& refErrorMsg )
 {
 	char sztemp[64];
 	int tempIndex = 0;
@@ -286,11 +286,29 @@ BOOL pa::CGCodeHelper::CheckNcFile( char* pNCCode )
                         } 
                         else {
                             // ERROR. 데이터 범위 넘어섬
+							CString s = hcutil::ASCII_TO_CSTRING(sztemp);
+							if (cCode == 'X' || cCode == 'Y' || cCode == 'Z' || 
+								cCode == 'A' || cCode == 'B' || cCode == 'C') 
+							{
+								refErrorMsg.Format(_T("data out of range command \"%s\" : %.3f ~ %.3f"), 
+									s, 
+									fCheckCommandData[0][index_command], 
+									fCheckCommandData[1][index_command]);
+							}
+							else 
+							{
+								refErrorMsg.Format(_T("data out of range command \"%s\" : %d ~ %d"), 
+									s, 
+									(int)fCheckCommandData[0][index_command], 
+									(int)fCheckCommandData[1][index_command]);
+							}
                             return FALSE;
                         }
                     }
                     else {
                         // ERROR. 알수 없는 명령어 
+						CString s = hcutil::ASCII_TO_CSTRING(sztemp);
+						refErrorMsg.Format(_T("unregistered command \"%s\""), s);
                         return FALSE;
                     }
 				}

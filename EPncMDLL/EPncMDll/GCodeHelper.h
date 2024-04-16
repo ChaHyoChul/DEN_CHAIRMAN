@@ -69,7 +69,7 @@ public:
 	/** 
 	 * Nc File Check ÇÔ¼ö 
 	 */
-	static BOOL CheckNcFile( char* pNCCode );
+	static BOOL CheckNcFile( char* pNCCode, CString& refErrorMsg );
 
 };
 

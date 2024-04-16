@@ -93,7 +93,6 @@ namespace pa
 				pThreadState_->dwRunningTime += dwTemp;
 			}
 			// Pause 했을때, 함수가 호출되지 않지만, 다시 호출되었을 때 그동안 시간이 다 적용되는 문제 있음 
-
 #endif
 		}
 

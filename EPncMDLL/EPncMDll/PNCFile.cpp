@@ -287,11 +287,14 @@ BOOL pa::CPNCFile::Open2( CString& strNcFilePath, CString& strErrMsg )
 		// 1. NC-FILE checking
 		if( pa::PConfig->pConfig_->bCheckInvalidNcCode )
 		{
-			if( pa::CGCodeHelper::CheckNcFile( szTemp ) == FALSE ) 
+			CString strErr;
+			if( pa::CGCodeHelper::CheckNcFile( szTemp, strErr ) == FALSE ) 
 			{
-				TCHAR tempTchar[64];
-				hcutil::ASCII_TO_UNICODE( szTemp, tempTchar, 64 );
-				strErrMsg.Format( _T("NC code error (line %d):\n --> %s"), nNumTotalLines_, tempTchar );
+// 				TCHAR tempTchar[64];
+// 				hcutil::ASCII_TO_UNICODE( szTemp, tempTchar, 64 );
+// 				strErrMsg.Format( _T("NC code error (line %d):\n --> %s"), nNumTotalLines_, tempTchar );
+				strErrMsg.Format(_T("nc code error (line number is %d)\r\n"), nNumTotalLines_); 
+				strErrMsg += strErr;
 				Close();
 				fclose( pf );
 				return FALSE;
