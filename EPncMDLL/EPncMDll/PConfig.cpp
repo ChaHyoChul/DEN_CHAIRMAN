@@ -716,6 +716,11 @@ BOOL pa::CPConfig::load_from_file_sw_config_data( CString& strErrMsg )
 	//
 	hIniFile.GetValue(strKeyName, _T("UsingNCFileAutoClose"), (int*)&nTemp);
 	pConfig_->bUsingNCFileAutoClose = (nTemp == 0) ? FALSE : TRUE;
+
+	//
+	double fTemp = 0.015;
+	hIniFile.GetValue(strKeyName, _T("RunningTimePerLine"), (double*)&fTemp);
+	pConfig_->fRunningTimePerLine = fTemp;
 	
 	// 
 	hIniFile.GetValue( strKeyName, _T("Using_Logging"), (int*)&nTemp );

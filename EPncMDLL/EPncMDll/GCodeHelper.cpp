@@ -306,10 +306,10 @@ BOOL pa::CGCodeHelper::CheckNcFile( char* pNCCode, CString& refErrorMsg )
                         }
                     }
                     else {
-                        // ERROR. 알수 없는 명령어 
+						// ERROR. 알수 없는 명령어 
 						CString s = hcutil::ASCII_TO_CSTRING(sztemp);
 						refErrorMsg.Format(_T("unregistered command \"%s\""), s);
-                        return FALSE;
+						return FALSE;
                     }
 				}
 			}

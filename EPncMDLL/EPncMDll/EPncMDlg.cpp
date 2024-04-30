@@ -374,24 +374,11 @@ void CEPncMDlg::OnTimer(UINT_PTR nIDEvent)
 
 		// run 모드일 경우에만 시간을 증가 시킨다
 		//	- Maxxlink 수정하면서 가공시간이 증가되는 현상 때문에 IncRunningTime() 함수 수정 
-		pa::PPAStatus->IncRunningTime( (hRunMode == pa::RUNMODE_RUN) ? TRUE : FALSE );
-
-		if( hRunMode == pa::RUNMODE_RUN ) {
-			// 2017.01.05
-			int currLineNo = pa::PPAStatus->GetThreadState()->nCurrentNCCodeStepNo;
-			int firstToolChangeLineNo =	pa::PPAStatus->GetThreadState()->nNCFileInfo_FirstToolChageLine;
-			int secondToolChangeLineNo = pa::PPAStatus->GetThreadState()->nNCFileInfo_SecondToolChageLine;
-            
-			// If before Tool Change 2? increment first half. Increment second half otherwise.
-			if (currLineNo < secondToolChangeLineNo) {
-				if (currLineNo != firstToolChangeLineNo) {
-					pa::PPAStatus->IncFirstHalfRunningTime();
-				}
-			} else {
-				if (currLineNo != secondToolChangeLineNo) {
-					pa::PPAStatus->IncSecondHalfRunningTime();
-				}
-			}
+		// 2024/04/16 IncRunningTime 함수 수정 
+		// pa::PPAStatus->IncRunningTime( (hRunMode == pa::RUNMODE_RUN) ? TRUE : FALSE );
+		if (hRunMode == pa::RUNMODE_RUN) 
+		{
+			pa::PPAStatus->GetThreadState()->IncRunningTime();
 		}
 	}
 	else if( nIDEvent == 3 )

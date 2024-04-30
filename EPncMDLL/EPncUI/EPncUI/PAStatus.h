@@ -53,26 +53,59 @@ public:
 	EN_RUNMODE GetRunMode() { return pThreadState_->hRunMode; }		
 	pa::EN_NC_FILESTATE GetNCFileState();
 
-	void SetRunMode( EN_RUNMODE hRunMode ) { 
-	} 
+	void SetRunMode( EN_RUNMODE hRunMode ) {} 
 
-	void IncRunningTime() {
-		pThreadState_->dwRunningTime++;
-	}
 
-	void IncFirstHalfRunningTime() {
-#ifdef _USE_PA_
-		pThreadState_->dwFirstHalfRunningTime++;
-#endif
-	}
+	// 
+// 	void ResetRunningTime();
+// 	{
+// 		pThreadState_->dwRunningTime = 0;
+// 		pThreadState_->dwRunningTimeTickCount = GetTickCount();
+// 		pThreadState_->dwRunningTimeErrorCount = 0;
+// 		pThreadState_->dwRunningTimeTotal = 0;
+// 		pThreadState_->dwRunningTimeRemain = 0;
+// 	}
+	
+	// 
+//  void IncRunningTime();
+// 	{
+// 		DWORD dwPrevTimeCount = pThreadState_->dwRunningTimeTickCount;
+// 		pThreadState_->dwRunningTimeTickCount = GetTickCount();
+// 		pThreadState_->dwRunningTimeErrorCount += pThreadState_->dwRunningTimeTickCount - dwPrevTimeCount;
+// 		DWORD dwTemp = pThreadState_->dwRunningTimeErrorCount / 1000; 
+// 		pThreadState_->dwRunningTimeErrorCount %= 1000; 
+// 		if (dwTemp > 0) {
+// 			pThreadState_->dwRunningTime += dwTemp;
+// 		}
+// 
+// 		DWORD dwTotalLine = pThreadState_->hNCFileInfo.total_lines;
+// 		DWORD dwMachineLine = pThreadState_->hNCFileInfo.machining_lines;
+// 		if (dwTotalLine < dwMachineLine) {
+// 			double timePerLine = pa::PConfig->pConfig_->fRunningTimePerLine;
+// 			pThreadState_->dwRunningTimeRemain = (dwTotalLine - dwMachineLine) * timePerLine;
+// 		} 
+// 		else {
+// 			pThreadState_->dwRunningTimeRemain = 0;
+// 		}
+// 	}
 
-	void IncSecondHalfRunningTime() {
-#ifdef _USE_PA_
-		pThreadState_->dwSecondHalfRunningTime++;
-#endif
-	}
+// 	DWORD GetRunningTime();
+// 	{ 
+// 		return pThreadState_->dwRunningTime; 
+// 	}
 
-	DWORD GetRunningTime() { return pThreadState_->dwRunningTime; }
+	// 현재 라인을 사용해서 남은 시간을 계산한다 
+// 	DWORD GetRemainTime();
+// 	{
+// 		return pThreadState_->dwRunningTimeRemain;
+// 	}
+
+	// NC 파일의 라인 개수를 사용해서, 총 예상 시간을 계산 한다.  
+// 	void SetTotalRunningTime();
+// 	{
+// 		double timePerLine = pa::PConfig->pConfig_->fRunningTimePerLine;
+// 		pThreadState_->dwRunningTimeTotal = (DWORD)((pThreadState_->hNCFileInfo.total_lines * timePerLine) + 0.5);
+// 	}
 
 	//////////////////////////////////////////////////////////////////////////
 	//

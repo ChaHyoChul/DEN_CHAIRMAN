@@ -537,7 +537,7 @@ void pa::CPThread::updateLCDState()
         nPageNoCtrl = 1;
         break;
     case RUNMODE_STOP:
-        if( CHomeDlg::IS_SHOW() ){	//if home dialog is shown, show page 4 - press homing
+        if( CHomeDlg::IS_SHOW() ) {	//if home dialog is shown, show page 4 - press homing
             nPageNo = 4;
             nPageNoCtrl = 4;
         } else {
@@ -571,22 +571,17 @@ void pa::CPThread::updateLCDState()
 	
 	if (nPrevPageNo != nPageNo)
 	{
-		
-
-		
 		pa::PPAStatus->GetPAStatus()->bLCDAlive = FALSE;	//reset to false, always sends alive when changing page
 		strSendMessage.Format(_T("page %d"), nPageNo);
 		pGLCD->SendCommand(strSendMessage);
 
 		nPrevPageNo = nPageNo;
 		
-		if(nPageNo == 5){	//if updating to error screen
+		if(nPageNo == 5) {	//if updating to error screen
 			// Prepare the message for LCD
 			int maxCharPerLine = 35;
-			CString strErrCodeLCD;
-			
-			strErrCodeLCD = PPAStatus->GetThreadState()->szErrorCode;
-			
+			int errCode = PPAStatus->GetThreadState()->nLCDErrorCode;
+			CString strErrCodeLCD = PPAStatus->GetThreadState()->szLCDErrorCode;
 			int ErrorCodeLen = strErrCodeLCD.GetLength();
 			
 			for( int i = ErrorCodeLen/maxCharPerLine; i>0; i-- ){
@@ -594,17 +589,16 @@ void pa::CPThread::updateLCDState()
 				ASSERT(nnn == strErrCodeLCD.GetLength());
 			}
 			
-			int errCode = PPAStatus->GetThreadState()->nErrorCode;
-			
 			//send the error to LCD	
-			//CString strSendMessage;
 			strSendMessage.Format(_T("pgError.txtErrorNo.txt=\"[%d]\""), errCode);
 			pGLCD->SendCommand(strSendMessage);
 			strSendMessage.Format(_T("pgError.txtErrorCode.txt=\"%s\""), strErrCodeLCD);
 			pGLCD->SendCommand(strSendMessage);
 			
 			// if chosen error, enable reset button from lcd
-			if( errCode%10000 == 1 || errCode%10000 == 2 || errCode%10000 == 9 || errCode%10000 == 10 || errCode%10000 == 110 || errCode%10000 == 18 || errCode%10000 == 19 || errCode%10000 == 29 || errCode%10000 == 30 || errCode%10000 == 1100 )
+			if( errCode%10000 == 1 || errCode%10000 == 2 || errCode%10000 == 9 || errCode%10000 == 10 || 
+				errCode%10000 == 110 || errCode%10000 == 18 || errCode%10000 == 19 || errCode%10000 == 29 || 
+				errCode%10000 == 30 || errCode%10000 == 1100 )
 			{
 				strSendMessage.Format(_T("pgError.btnReset.picc=7"));
 				pGLCD->SendCommand(strSendMessage);
@@ -629,7 +623,10 @@ void pa::CPThread::updateLCDState()
 		else {
 			dCurrRate = (fCurrStep / fTotalLines) * 100.0;
 			dCurrRate = dCurrRate > 100.0 ? 100.0 : dCurrRate;	// 진행율이 100.0을 넘지 않도록
+			dCurrRate = 100.0 - dCurrRate;
+			dCurrRate = dCurrRate < 0.0 ? 0.0 : dCurrRate;		// 진행율이 0.0보다 작아지지 않도록 
 		}
+
 		if (PREV_RATE != dCurrRate || PPAStatus->GetPAStatus()->bLCDRefresh)
 		{
 			PREV_RATE = dCurrRate;
@@ -662,17 +659,23 @@ void pa::CPThread::updateLCDState()
 	if (nPageNoCtrl == 1 || nPageNoCtrl == 0)
 	{
 		static DWORD PREV_RUNNING_TIME = 99999999;
-		DWORD		dwRunningTime = pa::PPAStatus->GetThreadState()->dwRunningTime;
-		CTimeSpan	tms(dwRunningTime);
+	//	DWORD		dwRunningTime = pa::PPAStatus->GetThreadState()->dwRunningTime;
+		DWORD		dwRemainTime = pa::PPAStatus->GetThreadState()->dwRunningTimeRemain;
+		CTimeSpan	tms(dwRemainTime);
 
-		if (PREV_RUNNING_TIME != dwRunningTime)
+		if (PREV_RUNNING_TIME != dwRemainTime)
 		{
-			PREV_RUNNING_TIME = dwRunningTime;
+			PREV_RUNNING_TIME = dwRemainTime;
+			int totalMinutes = tms.GetTotalMinutes();
+			int seconds = tms.GetSeconds();
+
+			seconds = (int)((int)(seconds / 10.0) * 10);
+
 			strSendMessage.Format(_T("pgMain.txtTimer.txt=\"%02d:%02d\""), 
-				tms.GetMinutes(), tms.GetSeconds());
+				totalMinutes, seconds); //tms.GetMinutes(), tms.GetSeconds());
 			pGLCD->SendCommand(strSendMessage);
 			strSendMessage.Format(_T("pgMainRunning.txtTimer.txt=\"%02d:%02d\""),
-				tms.GetMinutes(), tms.GetSeconds());
+				totalMinutes, seconds); //tms.GetMinutes(), tms.GetSeconds());
 			pGLCD->SendCommand(strSendMessage);
 		}
 	}
@@ -851,7 +854,6 @@ void pa::CPThread::errorProc(CPException& e)
 	_stprintf_s( PPAStatus->GetThreadState()->szErrorMessage, 513, _T("%s"), strTmp[1] );
 	
 
-	
 	//////////////////////////////////////////////////////////////////////////
 
 	//////////////////////////////////////////////////////////////////////////
@@ -2177,6 +2179,8 @@ void pa::CPThread::doToRun2()
 	{
 	case 0: break;
 	case 1: 
+		// 라인당 실행시간을 저장한다 
+		pa::SThreadState::RUNNING_TIME_PER_LINE = pa::PConfig->pConfig_->fRunningTimePerLine;
 
 #ifdef _SAVE_RUNTIME_
 		pa::PPAStatus->SAVE_RUNNING_TIME(TRUE, pa::PPAStatus->GetThreadState()->hNCFileInfo.file_name );	// 초기화 
@@ -2246,10 +2250,9 @@ void pa::CPThread::doToRun2()
 		step = ( nStartLineNo_ > 1) ? 190 : 2900;
 		if( step == 2900 ) {
 			// 처음부터 시작일 경우, 작업 시간을 초기화 한다
-			PPAStatus->ResetRunningTime();
+			PPAStatus->GetThreadState()->ResetRunningTime();
+			PPAStatus->GetThreadState()->SetTotalRunningTime();
 		}
-		PPAStatus->GetThreadState()->dwFirstHalfRunningTime = 0;
-		PPAStatus->GetThreadState()->dwSecondHalfRunningTime = 0;
 		break;
 	case 190:
 		// 이어서 실행하더라도, 이전 상태를 복구하는지 확인한다 

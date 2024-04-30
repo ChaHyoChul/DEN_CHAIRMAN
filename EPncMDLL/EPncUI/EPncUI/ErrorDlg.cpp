@@ -196,6 +196,10 @@ void CErrorDlg::SHOW_ERROR_DLG()
 	strErrorCode_.Format( _T("%s [%d]"), pa::PPAStatus->GetThreadState()->szErrorCode, pa::PPAStatus->GetThreadState()->nErrorCode );
 	strErrorMessage_.Format( _T("%s"),	pa::PPAStatus->GetThreadState()->szErrorMessage );
 
+	// LCD에 표시될 메시지를 저장한다 
+	pa::PPAStatus->GetThreadState()->nLCDErrorCode = pa::PPAStatus->GetThreadState()->nErrorCode;
+	_stprintf_s(pa::PPAStatus->GetThreadState()->szLCDErrorCode, 127, _T("%s"), pa::PPAStatus->GetThreadState()->szErrorCode);
+
 
 	int n;
 	n = strErrorType_.Replace( _T("\\n"), _T("\r\n") );			// \n에서 \이 하나의 문자로 인식됨. 그래서 |\|n| 으로 2바이트로 저장됨 

@@ -9,6 +9,8 @@
 namespace pa 
 {
 
+double SThreadState::RUNNING_TIME_PER_LINE = 0.015;
+
 CString STR_PGM_TAG(_T(""));
 CString GET_OBJECT_NAME_WITH_TAG(CString strName)
 {

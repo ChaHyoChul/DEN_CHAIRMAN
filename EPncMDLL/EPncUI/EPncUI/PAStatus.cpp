@@ -183,3 +183,62 @@ pa::EN_NC_FILESTATE pa::CPAStatus::GetNCFileState()
 
  	return (pa::EN_NC_FILESTATE)(pThreadState_->hNCFileInfo.state);
 }
+
+//////////////////////////////////////////////////////////////////////////
+
+
+// void pa::CPAStatus::ResetRunningTime()	
+// {
+// 	pThreadState_->dwRunningTime = 0;
+// 	pThreadState_->dwRunningTimeTickCount = GetTickCount();
+// 	pThreadState_->dwRunningTimeErrorCount = 0;
+// 	pThreadState_->dwRunningTimeTotal = 0;
+// 	pThreadState_->dwRunningTimeRemain = 0;
+// }
+// 
+// 
+// void pa::CPAStatus::IncRunningTime() 
+// {
+// #ifdef _USE_PA_
+// 	DWORD dwPrevTimeCount = pThreadState_->dwRunningTimeTickCount;
+// 	pThreadState_->dwRunningTimeTickCount = GetTickCount();
+// 	pThreadState_->dwRunningTimeErrorCount += pThreadState_->dwRunningTimeTickCount - dwPrevTimeCount;
+// 	DWORD dwTemp = pThreadState_->dwRunningTimeErrorCount / 1000; 
+// 	pThreadState_->dwRunningTimeErrorCount %= 1000; 
+// 	if (dwTemp > 0) {
+// 		pThreadState_->dwRunningTime += dwTemp;
+// 	}
+// 
+// 	DWORD dwTotalLine = pThreadState_->hNCFileInfo.total_lines;
+// 	DWORD dwMachineLine = pThreadState_->hNCFileInfo.machining_lines;
+// 	if (dwTotalLine < dwMachineLine) {
+// 		
+// 		double timePerLine = pa::PConfig->pConfig_->fRunningTimePerLine;
+// 		pThreadState_->dwRunningTimeRemain = (dwTotalLine - dwMachineLine) * timePerLine;
+// 	} 
+// 	else {
+// 		pThreadState_->dwRunningTimeRemain = 0;
+// 	}
+// #endif 
+// }
+// 
+// DWORD pa::CPAStatus::GetRunningTime() 
+// { 
+// 	return pThreadState_->dwRunningTime; 
+// }
+// 
+// 현재 라인을 사용해서 남은 시간을 계산한다 
+// DWORD pa::CPAStatus::GetRemainTime() 
+// {
+// 	return pThreadState_->dwRunningTimeRemain;
+// }
+// 
+// NC 파일의 라인 개수를 사용해서, 총 예상 시간을 계산 한다 
+// void pa::CPAStatus::SetTotalRunningTime() 
+// {
+// #ifdef _USE_PA_
+// 	double timePerLine = pa::PConfig->pConfig_->fRunningTimePerLine;
+// 	pThreadState_->dwRunningTimeTotal = (DWORD)((pThreadState_->hNCFileInfo.total_lines * timePerLine) + 0.5);
+// #endif 
+// }
+// 

@@ -173,8 +173,6 @@ private:
 	CRect		rcStatusIconArea_[STATUS_ICON_NUM];		// 상태 출력 영역 
 
 	int			nPREV_MILLING_TIME_;					// 가공 남은 시간
-	int			nESTIMATED_TIME;						// Total time estimation
-	int			nBEFORE_TOOLCHANGE_RUNNINGTIME_;		// 툴 교체전 까지 가공시간
 
 	int			millingStartLine;
 	BOOL		isUSBConnected_;
@@ -219,6 +217,7 @@ private:
 	void updateFeedRateInfoDisp();					// FeedRate 정보를 화면에 표시 
 	void updateMillingTimeDisp();					// 가공 시간 정보를 화면에 표시 
 	void updateNumSelectNcFileDisp();				// 선택된 NC 파일 개수를 화면에 표시 
+	void updateRemainingMillingTimeDisp();			// 남은 가공시간을 화면에 표시 
 
 	void updateRemoteModeDisp();					// remote mode 표시 출력 
 	void updateUsbMemConnectDisp();					// usb memory 표시 출력
@@ -251,10 +250,6 @@ private:
 	void writeLog( LPCTSTR log_msg );
 
 	void updateDemoModeDisp();						// demo mode 표시 출력 
-
-	int calcExcpetTime( DWORD dwRunningTime, int nTotalLine, int nCurrLine );
-	int calcExcpetTime2( DWORD dwRunningTime, int nTotalLine, int nCurrLine );
-	int findRemainingTime( int nTotalLine, int nCurrLine );
 
 	bool WaitForFileToOpen(DWORD dwTimeout) ;
 	void CEPncUIDlg2::displayMaterialInformation(BOOL b);

@@ -70,45 +70,60 @@ namespace pa
 #endif
 		} 
 
-		void ResetRunningTime() {
-#ifdef _USE_PA_
-			pThreadState_->dwRunningTimeTickCount = GetTickCount();
-			pThreadState_->dwRunningTimeErrorCount= 0;
-			pThreadState_->dwRunningTime = 0;
-#endif
-		}
+		// 
+// 		void ResetRunningTime();
+// 		{
+// 			pThreadState_->dwRunningTime = 0;
+// 			pThreadState_->dwRunningTimeTickCount = GetTickCount();
+// 			pThreadState_->dwRunningTimeErrorCount = 0;
+// 			pThreadState_->dwRunningTimeTotal = 0;
+// 			pThreadState_->dwRunningTimeRemain = 0;
+// 		}
 
-		void IncRunningTime(BOOL bInc) {
-#ifdef _USE_PA_
-			// 기본값 1초 증가 
-			//	pThreadState_->dwRunningTime++;
-			// Timer가 1초에 한번씩 호출되지 않을 경우, 그 오차를 보정하기위해...
-			DWORD dwPrevTickCount = pThreadState_->dwRunningTimeTickCount;
-			pThreadState_->dwRunningTimeTickCount = GetTickCount();
-			pThreadState_->dwRunningTimeErrorCount += pThreadState_->dwRunningTimeTickCount - dwPrevTickCount;
-			DWORD dwTemp = pThreadState_->dwRunningTimeErrorCount / 1000;	// 초단위만 더한다 
-			pThreadState_->dwRunningTimeErrorCount %= 1000;					// msec 단위는 저장해 둔다 
-			if( bInc == TRUE && dwTemp > 0 ) 
-			{
-				pThreadState_->dwRunningTime += dwTemp;
-			}
-			// Pause 했을때, 함수가 호출되지 않지만, 다시 호출되었을 때 그동안 시간이 다 적용되는 문제 있음 
-#endif
-		}
+		// 
+// 		void IncRunningTime();
+// 		{
+// #ifdef _USE_PA_
+// 			DWORD dwPrevTimeCount = pThreadState_->dwRunningTimeTickCount;
+// 			pThreadState_->dwRunningTimeTickCount = GetTickCount();
+// 			pThreadState_->dwRunningTimeErrorCount += pThreadState_->dwRunningTimeTickCount - dwPrevTimeCount;
+// 			DWORD dwTemp = pThreadState_->dwRunningTimeErrorCount / 1000; 
+// 			pThreadState_->dwRunningTimeErrorCount %= 1000; 
+// 			if (dwTemp > 0) {
+// 				pThreadState_->dwRunningTime += dwTemp;
+// 			}
+// 
+// 			DWORD dwTotalLine = pThreadState_->hNCFileInfo.total_lines;
+// 			DWORD dwMachineLine = pThreadState_->hNCFileInfo.machining_lines;
+// 			if (dwTotalLine < dwMachineLine) {
+// 				double timePerLine = pa::PConfig->pConfig_->fRunningTimePerLine;
+// 				pThreadState_->dwRunningTimeRemain = (dwTotalLine - dwMachineLine) * timePerLine;
+// 			} 
+// 			else {
+// 				pThreadState_->dwRunningTimeRemain = 0;
+// 			}
+// #endif 
+// 		}
 
-		void IncFirstHalfRunningTime() {
-#ifdef _USE_PA_
-			pThreadState_->dwFirstHalfRunningTime++;
-#endif
-		}
+// 		DWORD GetRunningTime();
+// 		{ 
+// 			return pThreadState_->dwRunningTime; 
+// 		}
 
-		void IncSecondHalfRunningTime() {
-#ifdef _USE_PA_
-			pThreadState_->dwSecondHalfRunningTime++;
-#endif
-		}
+		// 현재 라인을 사용해서 남은 시간을 계산한다 
+// 		DWORD GetRemainTime();
+// 		{
+// 			return pThreadState_->dwRunningTimeRemain;
+// 		}
 
-		DWORD GetRunningTime() { return pThreadState_->dwRunningTime; }
+		// NC 파일의 라인 개수를 사용해서, 총 예상 시간을 계산 한다 
+// 		void SetTotalRunningTime();
+// 		{
+// #ifdef _USE_PA_
+// 			double timePerLine = pa::PConfig->pConfig_->fRunningTimePerLine;
+// 			pThreadState_->dwRunningTimeTotal = (DWORD)((pThreadState_->hNCFileInfo.total_lines * timePerLine) + 0.5);
+// #endif 
+// 		}
 
 		//////////////////////////////////////////////////////////////////////////
 		//
@@ -131,7 +146,6 @@ namespace pa
 		CPAStatus(void);
 		~CPAStatus(void);
 	};
-
 
 //////////////////////////////////////////////////////////////////////////
 }

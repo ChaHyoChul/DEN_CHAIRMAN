@@ -297,7 +297,11 @@ BOOL CEPncUIApp::InitInstance()
 															//	- 프로그램 초기화 할 때, Material/Block 정보 초기화 (프로그램 화면은 초기화 되지만, LCD 화면은 초기화 되지 않아 수정 했음) 
 
 // 	P_VERSION = _T("v2.0.0");								// 동시에 여러개 프로그램이 실행될 수 있도록 수정 (프로그램은 폴더로 구분한다) 
-	P_VERSION = _T("v2.0.1");								// RND_CDT 명령에 Retry 추가 
+// 	P_VERSION = _T("v2.0.1");								// RND_CDT 명령에 Retry 추가 
+
+//	P_VERSION = _T("v2.1.0-test");							// 가공 시간표시 수정 (남은 시간 표시. Progressbar도 감소 방향) 
+	P_VERSION = _T("v2.1.1-test");							// Error dialog와 Lcd의 에러 메시지를 동일하게 표시 
+
 
 	// 
 	CString		strConfigFilePath = CString(INI_PA_CONFIG_PATH);

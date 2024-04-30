@@ -314,7 +314,10 @@ void CEPncUIDlg2::PreInitDialog()
 	init_status_layout();
 
 //	strImageFilePath.Format( _T("%s\\Background4.bmp"), pResourcePath_ );
-	strImageFilePath.Format( _T("%s\\Background5.bmp"), pResourcePath_ );
+//	strImageFilePath.Format( _T("%s\\Background5.bmp"), pResourcePath_ );
+//	strImageFilePath.Format( _T("%s\\Background6.bmp"), pResourcePath_ );
+	strImageFilePath.Format(_T("%s\\%s"), pResourcePath_, pa::MODEL_INFO.GetBkgndImageFileName()); 
+
 	strImageFilePathCurrL.Format( _T("%s\\outline_tool_L_current.bmp"), pResourcePath_ );
 	strImageFilePathCurrR.Format( _T("%s\\outline_tool_R_current.bmp"), pResourcePath_ );
 	strImageFilePathL.Format( _T("%s\\outline_tool_L_ATC.bmp"), pResourcePath_ );
@@ -1426,7 +1429,8 @@ void CEPncUIDlg2::OnTimer(UINT_PTR nIDEvent)
 		//////////////////////////////////////////////////////////////////////////
 		// updateStatus();
 		//
-		updateMillingTimeDisp();	// 작업 시간 정보 
+		updateMillingTimeDisp();			// 작업 시간 정보 
+		updateRemainingMillingTimeDisp();	// 남은 시간 정보 
 		//
 		updateProgressBarStatus();
 		//
@@ -1436,7 +1440,7 @@ void CEPncUIDlg2::OnTimer(UINT_PTR nIDEvent)
 		//
 		updateNCStatus();
 
-		SetTimer( 4, 1000, NULL );
+		SetTimer( 4,1000, NULL );
 	}
 
 	else if ( nIDEvent == 5 )
@@ -1920,7 +1924,6 @@ void CEPncUIDlg2::doButtonRunPause()
 		//////////////////////////////////////////////////////////////////////////
 		// run 이면 milling_time 변수 초기화 
 		nPREV_MILLING_TIME_ = 999999999;
-		nBEFORE_TOOLCHANGE_RUNNINGTIME_ = 0;
 
 #ifdef _SAVE_RUNTIME_UI_
 		SAVE_RUNNING_TIME(TRUE, pa::PPAStatus->GetThreadState()->hNCFileInfo.file_name, 0, 0, 0, 0 );		// 초기화 
@@ -2639,126 +2642,62 @@ void CEPncUIDlg2::updateFeedRateInfoDisp()
 }
 
 // 가공 시간 정보를 화면에 표시 
+// 2024.04.17 milling time부분에 Remain time을 출력 하고, Milling time은 finish time 부분에 출력 한다 
 void CEPncUIDlg2::updateMillingTimeDisp()
 {
+// 	static CString PREV_MILLING_TIME = _T("");
+// 	CString strTemp;
+// 	DWORD dwRunningTime = pa::PPAStatus->GetThreadState()->dwRunningTime;
+// 	CTimeSpan tms( dwRunningTime );
+// 	
+// 	int	milling_time[2] = { tms.GetTotalMinutes(), tms.GetSeconds() };
+// 	strTemp.Format(_T("%02d:%02d"), milling_time[0], milling_time[1] );
+// 	
+// 	if (strTemp.Compare(PREV_MILLING_TIME))
+// 	{
+// 		((CStatic*)GetDlgItem(IDC_STATIC_MILLING_TIME))->SetWindowText( strTemp );
+// 		PREV_MILLING_TIME = strTemp;
+// 	}
+
 	static CString PREV_MILLING_TIME = _T("");
 	CString strTemp;
-	DWORD dwRunningTime = pa::PPAStatus->GetThreadState()->dwRunningTime;
-	CTimeSpan tms( dwRunningTime );
-	
-	int	milling_time[2] = { tms.GetTotalMinutes(), tms.GetSeconds() };
-	strTemp.Format(_T("%02d:%02d"), milling_time[0], milling_time[1] );
-	
+	DWORD dwMillingTime = pa::PPAStatus->GetThreadState()->dwRunningTime;
+	CTimeSpan tms(dwMillingTime);
+
+	int remain_time[2] = { tms.GetTotalMinutes(), tms.GetSeconds() };
+	strTemp.Format(_T("%02d:%02d"), remain_time[0], remain_time[1]);
+
 	if (strTemp.Compare(PREV_MILLING_TIME))
 	{
-		((CStatic*)GetDlgItem(IDC_STATIC_MILLING_TIME))->SetWindowText( strTemp );
+		((CStatic*)GetDlgItem(IDC_STATIC_FINISH_TIME))->SetWindowText(strTemp);
 		PREV_MILLING_TIME = strTemp;
 	}
 }
 
-int CEPncUIDlg2::calcExcpetTime( DWORD dwRunningTime, int nTotalLine, int nCurrLine )
+// 가공 남은 시간 정보를 화면에 표시 
+void CEPncUIDlg2::updateRemainingMillingTimeDisp()
 {
-	int nExcpetTime = 0;
+	static DWORD PREV_DW_REMAIN_TIME = 0;
+	static CString PREV_REMAIN_TIME = _T("");
+	CString strTemp;
+	DWORD dwRemainTime = pa::PPAStatus->GetThreadState()->dwRunningTimeRemain;	// dwRunningTimeReamin은 sec 단위 (line per sec) 
+	CTimeSpan tms(dwRemainTime);
 
-	if( nCurrLine > 0 )
+	int milling_time[2] = {tms.GetTotalMinutes(), tms.GetSeconds()};
+	milling_time[1] = (int)((milling_time[1] / 10) * 10);	// 10초 단위로 출력 한다 
+	strTemp.Format(_T("%02d:%02d"), milling_time[0], milling_time[1]);
+
+	// 남은 시간은 초 단위가 10초 단위로 변할때 만 업데이트 한다 
+//	if (abs((int)(PREV_DW_REMAIN_TIME - dwRemainTime)) < 10)
 	{
-		nExcpetTime = (int)( ( dwRunningTime * ( nTotalLine - nCurrLine ) ) / nCurrLine + 0.5 );
-		nExcpetTime = ( nExcpetTime * 0.9 );			// 예상 종료 시간을 10% 줄인다  
-	}
+		PREV_DW_REMAIN_TIME = dwRemainTime;
 
-	return nExcpetTime;
-}
-
-int CEPncUIDlg2::calcExcpetTime2( DWORD dwRunningTime, int nTotalLine, int nCurrLine )
-{
-	int		nExcpetTime = 0;
-	int		nToolChangeLine = pa::PPAStatus->GetThreadState()->nNCFileInfo_SecondToolChageLine;
-	int		nToolChangeLine_plus = nToolChangeLine + (int)( nTotalLine * 0.1 );
-
-	if( nToolChangeLine > 0 ) 
-	{
-		if( nCurrLine < nToolChangeLine )
+		if (strTemp.Compare(PREV_REMAIN_TIME))
 		{
-			// Tool Change 이전 까지 걸리는 시간 + 이후 걸리는 시간 
-			double fGradient = (double)dwRunningTime / (double)nCurrLine;
-			nExcpetTime = ( fGradient * ( nToolChangeLine - nCurrLine ) ) + ( ( fGradient * 0.6 ) * ( nTotalLine - nToolChangeLine ) );
-			nBEFORE_TOOLCHANGE_RUNNINGTIME_ = (int)dwRunningTime;
-		}
-		else if( nCurrLine < nToolChangeLine_plus ) 
-		{
-			double fGradient = (double)nBEFORE_TOOLCHANGE_RUNNINGTIME_ / (double)nToolChangeLine * 0.6;
-			nExcpetTime = ( fGradient * ( nTotalLine - nCurrLine ) );
-		}
-		else 
-		{
-			// Tool Change 라인 부터 다시 기울기를 구해서, 예상 시간은 계산한다 
-			double fGradient = (double)( dwRunningTime - nBEFORE_TOOLCHANGE_RUNNINGTIME_ ) / (double)( nCurrLine - nToolChangeLine );
-			nExcpetTime = fGradient * ( nTotalLine - nCurrLine );
+			((CStatic*)GetDlgItem(IDC_STATIC_MILLING_TIME))->SetWindowText(strTemp);
+			PREV_REMAIN_TIME = strTemp;
 		}
 	}
-	else 
-	{
-		double fGradient = (double)dwRunningTime / (double)nCurrLine;
-		nExcpetTime = ( fGradient * (nTotalLine - nCurrLine ) );
-	}
-
-	return nExcpetTime;
-}
-
-int CEPncUIDlg2::findRemainingTime( int nTotalLine, int nCurrLine )
-{
-	int REQUIRED_MIN_LINES = 2000;
-	double M1_CONSTANT = 0.03;
-	double M2_CONSTANT = 0.015;
-	double M1_M2_RATIO = 0.6; 
-
-	DWORD dwFirstHalfRunningTime = pa::PPAStatus->GetThreadState()->dwFirstHalfRunningTime;
-	DWORD dwSecondHalfRunningTime= pa::PPAStatus->GetThreadState()->dwFirstHalfRunningTime;
-
-	int nTC2 = pa::PPAStatus->GetThreadState()->nNCFileInfo_SecondToolChageLine;
-	int expectedRemainingTime = 0;
-	int nNCSoFar = 0;
-
-	// Before tool change 2
-	if (nCurrLine < nTC2) 
-	{
-		// if not enough data, use constant
-		nNCSoFar = nCurrLine - millingStartLine;
-
-		// constant estimate
-		double m1Constant = M1_CONSTANT;
-		double m2Constant = M1_M2_RATIO * m1Constant;
-		int constantEstimate = m1Constant * (nTC2 - nCurrLine) + m2Constant * (nTotalLine - nTC2);
-
-		// learned estimate
-		double m1Learned = ((double) dwFirstHalfRunningTime) / nNCSoFar;
-		double m2Learned = M1_M2_RATIO * m1Learned;
-		int learnedEstimate = m1Learned * (nTC2 - nCurrLine) + m2Learned * (nTotalLine - nTC2);
-
-		// Constant를 이용한 시간, Learning을 이용한 시간 중 작은걸 사용. Constant -> Learning 으로 넘어갈때 스파이크를 없애주는 용도.
-		expectedRemainingTime = (nNCSoFar < REQUIRED_MIN_LINES || constantEstimate < learnedEstimate) ? constantEstimate : learnedEstimate;
-
-		// Tool Change 2 이후로 넘어갔을ㅤㄸㅒㅤ의 남은시간과 비례해 평균을 낸다. TC2 이후에 남은시간이 급격히 변하는걸 막아준다.
-		expectedRemainingTime = (((nTC2 - nCurrLine) * expectedRemainingTime) + (nCurrLine * M2_CONSTANT * (nTotalLine - nTC2))) / nTC2;
-		// After tool change 2
-	}
-	else
-	{
-		nNCSoFar = nCurrLine - ((millingStartLine > nTC2) ? millingStartLine : nTC2);
-
-		// constant estimate
-		double m2Constant = M2_CONSTANT;
-		int constantEstimate = m2Constant * (nTotalLine - nCurrLine);
-
-		// learned estimate
-		double m2Learned = ((double) dwSecondHalfRunningTime) / nNCSoFar;
-		int learnedEstimate = m2Learned * (nTotalLine - nCurrLine);
-
-		// Constant를 이용한 시간, Learning을 이용한 시간 중 작은걸 사용. Constant -> Learning 으로 넘어갈때 스파이크를 없애주는 용도.
-		expectedRemainingTime = (nNCSoFar < REQUIRED_MIN_LINES || constantEstimate < learnedEstimate) ? constantEstimate : learnedEstimate;
-	}
-
-	return expectedRemainingTime;
 }
 
 // Remote 여부 표시 
@@ -2838,7 +2777,7 @@ void CEPncUIDlg2::updateNCStatus()
 	CString strEmpty = _T("-");
 	CString strLogTemp;
 	((CStatic*)GetDlgItem(IDC_STATIC_START_TIME))->GetWindowText(strStartTime);
-	((CStatic*)GetDlgItem(IDC_STATIC_FINISH_TIME))->GetWindowText(strFinishTime);
+//	((CStatic*)GetDlgItem(IDC_STATIC_FINISH_TIME))->GetWindowText(strFinishTime);
 	
 	
 	// make the start/finish time empty if TORUN mode
@@ -2848,7 +2787,7 @@ void CEPncUIDlg2::updateNCStatus()
 		if (strStartTime.Compare(strEmpty) || strFinishTime.Compare(strEmpty))
 		{
 			((CStatic*)GetDlgItem(IDC_STATIC_START_TIME))->SetWindowText(strEmpty);
-			((CStatic*)GetDlgItem(IDC_STATIC_FINISH_TIME))->SetWindowText(strEmpty);
+// 			((CStatic*)GetDlgItem(IDC_STATIC_FINISH_TIME))->SetWindowText(strEmpty);
 		}
 	}
 
@@ -2862,7 +2801,7 @@ void CEPncUIDlg2::updateNCStatus()
 		if (strStartTime.Compare(strEmpty) || strFinishTime.Compare(strEmpty))
 		{
 			((CStatic*)GetDlgItem(IDC_STATIC_START_TIME))->SetWindowText(strEmpty);
-			((CStatic*)GetDlgItem(IDC_STATIC_FINISH_TIME))->SetWindowText(strEmpty);
+// 			((CStatic*)GetDlgItem(IDC_STATIC_FINISH_TIME))->SetWindowText(strEmpty);
 		}
 		break;
 
@@ -2871,15 +2810,13 @@ void CEPncUIDlg2::updateNCStatus()
 		pOperButtonsEx_[OPER_BTN_NC_RUNNING]->ShowWindow(SW_SHOW);
 		pOperButtonsEx_[OPER_BTN_NC_FINISHED]->ShowWindow(SW_HIDE);
 		
-		curr_remaining_time.Format(_T("in %02d:%02d"), nESTIMATED_TIME/60, nESTIMATED_TIME%60 );
-		
 		// if starts same file again, clear messages to display new
-		if (strFinishTime.Compare(strEmpty))
-		{
-			((CStatic*)GetDlgItem(IDC_STATIC_START_TIME))->SetWindowText(strEmpty);
-			((CStatic*)GetDlgItem(IDC_STATIC_FINISH_TIME))->SetWindowText(strEmpty);
-			strStartTime = strEmpty;	// manual change
-		}
+// 		if (strFinishTime.Compare(strEmpty))
+// 		{
+// 			((CStatic*)GetDlgItem(IDC_STATIC_START_TIME))->SetWindowText(strEmpty);
+// // 			((CStatic*)GetDlgItem(IDC_STATIC_FINISH_TIME))->SetWindowText(strEmpty);
+// 			strStartTime = strEmpty;	// manual change
+// 		}
 		
 		// display current time as start time
 		if (!strStartTime.Compare(strEmpty))
@@ -2903,7 +2840,7 @@ void CEPncUIDlg2::updateNCStatus()
 		{
 			timeFinish = CTime::GetCurrentTime();
 			strFinishTime = timeFinish.Format(_T("%H:%M:%S"));
-			((CStatic*)GetDlgItem(IDC_STATIC_FINISH_TIME))->SetWindowText(strFinishTime);
+// 			((CStatic*)GetDlgItem(IDC_STATIC_FINISH_TIME))->SetWindowText(strFinishTime);
             
 			strLogTemp.Format( _T("Milling finished @ %s"), strFinishTime );
 			writeLog( strLogTemp );
@@ -2918,7 +2855,7 @@ void CEPncUIDlg2::updateNCStatus()
 		// only if not torun
 		if( hRunMode != pa::RUNMODE_TORUN )
 		{
-			((CStatic*)GetDlgItem(IDC_STATIC_FINISH_TIME))->SetWindowText( _T("STOP") );
+// 			((CStatic*)GetDlgItem(IDC_STATIC_FINISH_TIME))->SetWindowText( _T("STOP") );
 		}
 		break;
 
@@ -2929,7 +2866,7 @@ void CEPncUIDlg2::updateNCStatus()
 		if (strStartTime.Compare(strEmpty) || strFinishTime.Compare(strEmpty))
 		{
 			((CStatic*)GetDlgItem(IDC_STATIC_START_TIME))->SetWindowText(strEmpty);
-			((CStatic*)GetDlgItem(IDC_STATIC_FINISH_TIME))->SetWindowText(strEmpty);
+// 			((CStatic*)GetDlgItem(IDC_STATIC_FINISH_TIME))->SetWindowText(strEmpty);
 		}
 		break;
 	}
@@ -2968,8 +2905,14 @@ void CEPncUIDlg2::updateProgressBarStatus()
 		{
 			((CStatic*)GetDlgItem(IDC_STATIC_MILLING_TIME))->SetWindowText( _T("00:00") );
 		}
+
+		((CStatic*)GetDlgItem(IDC_STATIC_FINISH_TIME))->GetWindowText(strTmp);
+		if(strTmp.Compare( _T("00:00") ))
+		{
+			((CStatic*)GetDlgItem(IDC_STATIC_FINISH_TIME))->SetWindowText( _T("00:00") );
+		}
+
 		fCurrProgress = 0.0;
-		nESTIMATED_TIME = 0;
 		NEXT_UPDATE_LINE = 0;
 		break;
 
@@ -2983,33 +2926,26 @@ void CEPncUIDlg2::updateProgressBarStatus()
 		if( fCurrStep < 0.1 || fTotalLines < 0.1 ) 
 		{
 			fCurrProgress = 0.0;
-			nESTIMATED_TIME = 0;
 			NEXT_UPDATE_LINE = 0.0;
 		} 
 		else 
 		{
 			fCurrProgress = ( fCurrStep / fTotalLines ) * 100.0;
 			fCurrProgress = fCurrProgress > 99.0 ? 99.0 : fCurrProgress;	// 진행율이 100.0를 넘지 않도록 한다 //rather 99% until its finished 
+			// Progress를 감소하도록 반전 시킨다 
+			fCurrProgress = 100.0 - fCurrProgress;
 		}
-		
-		// compute estimated time for the first time
-		if( nESTIMATED_TIME == 0 && fTotalLines > 0.1 )
-		{
-			nESTIMATED_TIME = (int)(fTotalLines * 0.01);	// default is 10 ms/line (0.01 seconds)
-		}
-		
+				
 		// update estimated time
 		if( fCurrProgress > 30.0 && fCurrStep > NEXT_UPDATE_LINE)
 		{
 			NEXT_UPDATE_LINE = fCurrStep + 10000;	// update every 10k lines after 30%
-			nESTIMATED_TIME = 60 + (int)((fTotalLines) / fCurrStep * (pa::PPAStatus->GetThreadState()->dwRunningTime - 30));	// tool changes = 30 sec
 		}
-        
 		break;
 
 	case pa::NCFILE_STATE_COMPLETE:
-		fCurrProgress = 100.0;
-		nESTIMATED_TIME = pa::PPAStatus->GetThreadState()->dwRunningTime;
+		//fCurrProgress = 100.0;
+		fCurrProgress = 0.0;
 		break;
 		
 	case pa::NCFILE_STATE_STOP:
@@ -3023,6 +2959,13 @@ void CEPncUIDlg2::updateProgressBarStatus()
 		{
 			((CStatic*)GetDlgItem(IDC_STATIC_MILLING_TIME))->SetWindowText( _T("00:00") );
 		}
+
+		((CStatic*)GetDlgItem(IDC_STATIC_FINISH_TIME))->GetWindowText(strTmp);
+		if( strTmp.Compare( _T("00:00") ))
+		{
+			((CStatic*)GetDlgItem(IDC_STATIC_FINISH_TIME))->SetWindowText( _T("00:00") );
+		}
+
 		fCurrProgress = 0.0;
 		break;
 	}
@@ -3678,7 +3621,7 @@ HBRUSH CEPncUIDlg2::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 				return (HBRUSH)m_brModelID;
 			}
 
-			if (pWnd->GetDlgCtrlID() == IDC_STATIC_START_TIME || pWnd->GetDlgCtrlID() == IDC_STATIC_FINISH_TIME)
+			if (pWnd->GetDlgCtrlID() == IDC_STATIC_START_TIME) // || pWnd->GetDlgCtrlID() == IDC_STATIC_FINISH_TIME)
 			{
 				pDC->SetBkMode(TRANSPARENT);
 				pDC->SetTextColor(RGB(0,0,0));
@@ -3706,7 +3649,7 @@ HBRUSH CEPncUIDlg2::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 				return (HBRUSH)m_brNCFileInfo;
 			}
 
-			if (pWnd->GetDlgCtrlID() == IDC_STATIC_MILLING_TIME )
+			if (pWnd->GetDlgCtrlID() == IDC_STATIC_MILLING_TIME || pWnd->GetDlgCtrlID() == IDC_STATIC_FINISH_TIME)
 			{
 				pDC->SetBkMode(TRANSPARENT);
 				pDC->SetTextColor(RGB(58, 58, 58));
