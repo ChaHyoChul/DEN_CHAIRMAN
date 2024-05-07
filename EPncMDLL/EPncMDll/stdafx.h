@@ -75,3 +75,21 @@
 
 
 #define _GLCD_SOCKET_
+
+#define SETUP_EXIT          (0)
+#define SETUP_BACK          (1)
+#define SETUP_TEACHING      (2)
+#define SETUP_TOOL          (3)
+
+#define SETUP_OPTION        (5)
+#define SETUP_IO            (6)
+#define SETUP_TERM          (7)
+#define SETUP_LOG           (8)
+#define SETUP_SYSTEM        (9)
+
+#define SETUP_MAINTENANCE   (11)
+#define SETUP_AUTOCAL       (12)
+#define SETUP_AUTOTEACH     (13)
+
+#define WM_LCD_AUTOICAL_START_STOP	(WM_USER+13)	// WPARAM: 0:Stop, 1:Start 
+

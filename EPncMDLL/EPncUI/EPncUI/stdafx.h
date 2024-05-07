@@ -92,6 +92,8 @@
 #define SETUP_AUTOCAL       (12)
 #define SETUP_AUTOTEACH     (13)
 
+#define WM_LCD_AUTOICAL_START_STOP	(WM_USER+13)	// WPARAM: 0:Stop, 1:Start 
+
 #include <crtdbg.h>
 
 #include <vector>

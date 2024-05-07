@@ -82,6 +82,7 @@ private:
 
 	void updateState_MenuButton();
 	void updateScreen();
+	void check_LCD_Event();
     
 	void writeLog( LPCTSTR log_msg );
     
@@ -95,6 +96,8 @@ private:
 	afx_msg void OnBnClickedRadioStep5();
 	afx_msg void OnBnClickedRadioStep6();
     afx_msg void OnBnClickedButtonClose();
+
+	afx_msg LRESULT OnLCDAutoCalStartStop(WPARAM wparam, LPARAM lparam);
     
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 지원입니다.

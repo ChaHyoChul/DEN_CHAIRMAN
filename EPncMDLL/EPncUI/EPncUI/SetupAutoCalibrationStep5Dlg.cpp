@@ -354,52 +354,98 @@ void CSetupAutoCalibrationStep5Dlg::updateCheckBoxState()
 
 void CSetupAutoCalibrationStep5Dlg::OnBnClickedButtonStartStop()
 {
+	static BOOL B_FLAG = FALSE;
+
 	CString strBtn;
 	CString strMsg;
 
-	((CButton*)GetDlgItem(IDC_BUTTON_START_STOP))->GetWindowText( strBtn );
-
-	if( strBtn == CString( _T("START") ) )
+	try 
 	{
-		strMsg.Format( _T("Verify the pin-type calibration cylinder is mount in the holder and both calibration tools are inserted in the collets.\n\nDo you wish to start auto calibration?") );
-		CMsgDlgThread::GetInstance()->Show( CMsgDlg::TYPE_OKCANCEL, CMsgDlg::ICON_QUEST, strMsg );
-		CMsgDlg::EN_RET ret = CMsgDlgThread::GetInstance()->Wait();
+		if (B_FLAG == TRUE) return; 
+		B_FLAG = TRUE;
 
-		if( ret == CMsgDlg::RET_OK ) 
+		((CButton*)GetDlgItem(IDC_BUTTON_START_STOP))->GetWindowText( strBtn );
+
+		if( strBtn == CString( _T("START") ) )
 		{
-			nIsPressStopButton_ = 0;
+			strMsg.Format( _T("Verify the pin-type calibration cylinder is mount in the holder and both calibration tools are inserted in the collets.\n\nDo you wish to start auto calibration?") );
+			CMsgDlgThread::GetInstance()->Show( CMsgDlg::TYPE_OKCANCEL, CMsgDlg::ICON_QUEST, strMsg );
+			CMsgDlg::EN_RET ret = CMsgDlgThread::GetInstance()->Wait();
 
-			// X Axis Center 부터 Z2 Aixs Orgin offset 까지 전체를 한번에 수행
-			((CButton*)GetDlgItem(IDC_CHECK_X_AXIS_CENTER))->SetCheck(0);
-			((CButton*)GetDlgItem(IDC_CHECK_Y1AXIS_CENTER))->SetCheck(0);
-			((CButton*)GetDlgItem(IDC_CHECK_Y2AXIS_CENTER))->SetCheck(0);
-			((CButton*)GetDlgItem(IDC_CHECK_Z1AXIS_ORG_OFFSET))->SetCheck(0);
-			((CButton*)GetDlgItem(IDC_CHECK_Z2AXIS_ORG_OFFSET))->SetCheck(0);
+			if( ret == CMsgDlg::RET_OK ) 
+			{
+// 				nIsPressStopButton_ = 0;
+// 
+// 				// X Axis Center 부터 Z2 Aixs Orgin offset 까지 전체를 한번에 수행
+// 				((CButton*)GetDlgItem(IDC_CHECK_X_AXIS_CENTER))->SetCheck(0);
+// 				((CButton*)GetDlgItem(IDC_CHECK_Y1AXIS_CENTER))->SetCheck(0);
+// 				((CButton*)GetDlgItem(IDC_CHECK_Y2AXIS_CENTER))->SetCheck(0);
+// 				((CButton*)GetDlgItem(IDC_CHECK_Z1AXIS_ORG_OFFSET))->SetCheck(0);
+// 				((CButton*)GetDlgItem(IDC_CHECK_Z2AXIS_ORG_OFFSET))->SetCheck(0);
+// 
+// 				pa::PPAStatus->GetThreadState()->nAutoCal_CheckingItem[0] = 0;
+// 				pa::PPAStatus->GetThreadState()->nAutoCal_CheckingItem[1] = ((CButton*)GetDlgItem(IDC_CHECK_X_AXIS_CENTER))->GetCheck();
+// 				pa::PPAStatus->GetThreadState()->nAutoCal_CheckingItem[2] = ((CButton*)GetDlgItem(IDC_CHECK_Y1AXIS_CENTER))->GetCheck();
+// 				pa::PPAStatus->GetThreadState()->nAutoCal_CheckingItem[3] = ((CButton*)GetDlgItem(IDC_CHECK_Y2AXIS_CENTER))->GetCheck();
+// 				pa::PPAStatus->GetThreadState()->nAutoCal_CheckingItem[4] = ((CButton*)GetDlgItem(IDC_CHECK_Z1AXIS_ORG_OFFSET))->GetCheck();
+// 				pa::PPAStatus->GetThreadState()->nAutoCal_CheckingItem[5] = ((CButton*)GetDlgItem(IDC_CHECK_Z2AXIS_ORG_OFFSET))->GetCheck();
+// 				pa::PPAStatus->GetThreadState()->nAutoCal_CheckingItem[6] = 0;
+// 
+// 				pa::PPAStatus->GetThreadState()->bFullCalibration = TRUE;
+// 				pa::PPAStatus->GetThreadState()->bIsEasyCalibration = TRUE;    // Don't show connect tool msg
+// 				
+// 				PPNC_IPC_CLIENT->Start_AutoCal_CoordinateOffset();
+				StartAutoCal();
+			}
+		}
+		else if( strBtn == CString( _T("STOP") ) )
+		{
+			strMsg.Format( _T("Do you wish to stop Auto Calibration?") );
+			CMsgDlgThread::GetInstance()->Show( CMsgDlg::TYPE_OKCANCEL, CMsgDlg::ICON_QUEST, strMsg );
+			CMsgDlg::EN_RET ret = CMsgDlgThread::GetInstance()->Wait();
 
-			pa::PPAStatus->GetThreadState()->nAutoCal_CheckingItem[0] = 0;
-			pa::PPAStatus->GetThreadState()->nAutoCal_CheckingItem[1] = ((CButton*)GetDlgItem(IDC_CHECK_X_AXIS_CENTER))->GetCheck();
-			pa::PPAStatus->GetThreadState()->nAutoCal_CheckingItem[2] = ((CButton*)GetDlgItem(IDC_CHECK_Y1AXIS_CENTER))->GetCheck();
-			pa::PPAStatus->GetThreadState()->nAutoCal_CheckingItem[3] = ((CButton*)GetDlgItem(IDC_CHECK_Y2AXIS_CENTER))->GetCheck();
-			pa::PPAStatus->GetThreadState()->nAutoCal_CheckingItem[4] = ((CButton*)GetDlgItem(IDC_CHECK_Z1AXIS_ORG_OFFSET))->GetCheck();
-			pa::PPAStatus->GetThreadState()->nAutoCal_CheckingItem[5] = ((CButton*)GetDlgItem(IDC_CHECK_Z2AXIS_ORG_OFFSET))->GetCheck();
-			pa::PPAStatus->GetThreadState()->nAutoCal_CheckingItem[6] = 0;
-
-			pa::PPAStatus->GetThreadState()->bFullCalibration = TRUE;
-			pa::PPAStatus->GetThreadState()->bIsEasyCalibration = TRUE;    // Don't show connect tool msg
-			
-			PPNC_IPC_CLIENT->Start_AutoCal_CoordinateOffset();
+			if( ret == CMsgDlg::RET_OK ) 
+			{
+// 				nIsPressStopButton_ = 1;
+// 				PPNC_IPC_CLIENT->Stop_AutoCal_CoordinateOffset();
+				StopAutoCal();
+			}
 		}
 	}
-	else if( strBtn == CString( _T("STOP") ) )
-	{
-		strMsg.Format( _T("Do you wish to stop Auto Calibration?") );
-		CMsgDlgThread::GetInstance()->Show( CMsgDlg::TYPE_OKCANCEL, CMsgDlg::ICON_QUEST, strMsg );
-		CMsgDlg::EN_RET ret = CMsgDlgThread::GetInstance()->Wait();
-
-		if( ret == CMsgDlg::RET_OK ) 
-		{
-			nIsPressStopButton_ = 1;
-			PPNC_IPC_CLIENT->Stop_AutoCal_CoordinateOffset();
-		}
+	catch (CException& e) {
+		;
 	}
+	B_FLAG = FALSE;
 }
+
+void CSetupAutoCalibrationStep5Dlg::StartAutoCal()
+{
+	nIsPressStopButton_ = 0;
+
+	// X Axis Center 부터 Z2 Aixs Orgin offset 까지 전체를 한번에 수행
+	((CButton*)GetDlgItem(IDC_CHECK_X_AXIS_CENTER))->SetCheck(0);
+	((CButton*)GetDlgItem(IDC_CHECK_Y1AXIS_CENTER))->SetCheck(0);
+	((CButton*)GetDlgItem(IDC_CHECK_Y2AXIS_CENTER))->SetCheck(0);
+	((CButton*)GetDlgItem(IDC_CHECK_Z1AXIS_ORG_OFFSET))->SetCheck(0);
+	((CButton*)GetDlgItem(IDC_CHECK_Z2AXIS_ORG_OFFSET))->SetCheck(0);
+
+	pa::PPAStatus->GetThreadState()->nAutoCal_CheckingItem[0] = 0;
+	pa::PPAStatus->GetThreadState()->nAutoCal_CheckingItem[1] = ((CButton*)GetDlgItem(IDC_CHECK_X_AXIS_CENTER))->GetCheck();
+	pa::PPAStatus->GetThreadState()->nAutoCal_CheckingItem[2] = ((CButton*)GetDlgItem(IDC_CHECK_Y1AXIS_CENTER))->GetCheck();
+	pa::PPAStatus->GetThreadState()->nAutoCal_CheckingItem[3] = ((CButton*)GetDlgItem(IDC_CHECK_Y2AXIS_CENTER))->GetCheck();
+	pa::PPAStatus->GetThreadState()->nAutoCal_CheckingItem[4] = ((CButton*)GetDlgItem(IDC_CHECK_Z1AXIS_ORG_OFFSET))->GetCheck();
+	pa::PPAStatus->GetThreadState()->nAutoCal_CheckingItem[5] = ((CButton*)GetDlgItem(IDC_CHECK_Z2AXIS_ORG_OFFSET))->GetCheck();
+	pa::PPAStatus->GetThreadState()->nAutoCal_CheckingItem[6] = 0;
+
+	pa::PPAStatus->GetThreadState()->bFullCalibration = TRUE;
+	pa::PPAStatus->GetThreadState()->bIsEasyCalibration = TRUE;    // Don't show connect tool msg
+
+	PPNC_IPC_CLIENT->Start_AutoCal_CoordinateOffset();
+}
+
+void CSetupAutoCalibrationStep5Dlg::StopAutoCal()
+{
+	nIsPressStopButton_ = 1;
+	PPNC_IPC_CLIENT->Stop_AutoCal_CoordinateOffset();
+}
+

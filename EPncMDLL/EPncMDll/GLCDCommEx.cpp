@@ -350,6 +350,29 @@ void pa::CGLCDCommEx::Execute()
 				}*/
 			}
 		}
+		// Autocal Start/Stop 
+		else if (strcmp((const char*)szThreadCommand_, (const char*)"GLCD_SAC") == 0)
+		{
+			TRACE(_T("RECV => GLCD_AC_START\n"));
+// 			HWND hWnd = pa::PPAStatus->GetThreadState()->hWndSetupAutoCal;
+// 			if (hWnd != NULL) 
+// 			{
+// 				::PostMessage(hWnd, WM_LCD_AUTOICAL_START_STOP, (WPARAM)1, (LPARAM)0);
+// 			}
+
+			pa::PPAStatus->GetThreadState()->nLCD_Start_Stop_AutoCal = 1;
+		}
+		else if (strcmp((const char*)szThreadCommand_, (const char*)"GLCD_TAC") == 0)
+		{
+			TRACE(_T("RECV => GLCD_AC_STOP\n"));
+// 			HWND hWnd = pa::PPAStatus->GetThreadState()->hWndSetupAutoCal;
+// 			if (hWnd != NULL) 
+// 			{
+// 				::PostMessage(hWnd, WM_LCD_AUTOICAL_START_STOP, (WPARAM)0, (LPARAM)0);
+// 			}
+
+			pa::PPAStatus->GetThreadState()->nLCD_Start_Stop_AutoCal = 2;
+		}
 		
 		// allow other commands only when in idle state //DISABLE ALL IN ERROR STATE or spindle running
 		if(pa::PPAStatus->GetPAStatus()->nRunStatus == pa::PA_RUN_STATUS_IDLE && pa::PPAStatus->GetPAStatus()->nMotorMovingFlag == 0 && pa::PPAStatus->GetPAStatus()->nSpindleRun == 0 && pa::PPAStatus->GetPAStatus()->nSpindle2Run == 0){	

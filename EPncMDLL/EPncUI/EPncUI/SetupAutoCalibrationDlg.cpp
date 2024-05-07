@@ -54,11 +54,13 @@ void CSetupAutoCalibrationDlg::StartPageWork()
 	SetTimer( 1, 500, NULL );
 
 	theApp.hKeyboardMgeReceiveWnd_ = GetSafeHwnd();
+	pa::PPAStatus->GetThreadState()->hWndSetupAutoCal = GetSafeHwnd();
 }
 
 void CSetupAutoCalibrationDlg::StopPageWork()
 {
 	theApp.hKeyboardMgeReceiveWnd_ = NULL;
+	pa::PPAStatus->GetThreadState()->hWndSetupAutoCal = NULL;
 	KillTimer( 1 );
 }
 
@@ -76,6 +78,7 @@ BEGIN_MESSAGE_MAP(CSetupAutoCalibrationDlg, CDialogListPage)
 	ON_BN_CLICKED(IDC_RADIO_STEP4, &CSetupAutoCalibrationDlg::OnBnClickedRadioStep4)
 	ON_BN_CLICKED(IDC_RADIO_STEP5, &CSetupAutoCalibrationDlg::OnBnClickedRadioStep5)
 	ON_BN_CLICKED(IDC_RADIO_STEP6, &CSetupAutoCalibrationDlg::OnBnClickedRadioStep6)
+	ON_MESSAGE(WM_LCD_AUTOICAL_START_STOP, &CSetupAutoCalibrationDlg::OnLCDAutoCalStartStop)
 END_MESSAGE_MAP()
 
 //////////////////////////////////////////////////////////////////////////
@@ -259,6 +262,7 @@ void CSetupAutoCalibrationDlg::OnTimer(UINT_PTR nIDEvent)
 		KillTimer( 1 );
 
 		updateState_MenuButton();
+		check_LCD_Event();
 
 		if( IsWindowVisible() ) {
 			SetTimer( 1, 300, NULL );
@@ -298,6 +302,29 @@ void CSetupAutoCalibrationDlg::updateState_MenuButton()
 		{
 			btnBack_.EnableWindow( TRUE );
 		}
+	}
+}
+
+// lcd에서 Autocal Start/Stop 버튼 클릭 
+void CSetupAutoCalibrationDlg::check_LCD_Event()
+{
+	if (pa::PPAStatus->GetThreadState()->nLCD_Start_Stop_AutoCal == 1)
+	{
+		pa::PPAStatus->GetThreadState()->nLCD_Start_Stop_AutoCal = 0;
+		// Auto cal.을 시작 한다 
+		nCurrSelectedPage_ = SUB_PAGE_STEP5; 
+		updateScreen();
+		// 
+		((CSetupAutoCalibrationStep5Dlg*)pDlgMap_->GetDialog(GetPageID(SUB_PAGE_STEP5)))->StartAutoCal();	//OnBnClickedButtonStartStop();
+	}
+	else if (pa::PPAStatus->GetThreadState()->nLCD_Start_Stop_AutoCal == 2)
+	{
+		pa::PPAStatus->GetThreadState()->nLCD_Start_Stop_AutoCal = 0;
+		// Auto cal.을 멈춘다 
+		nCurrSelectedPage_ = SUB_PAGE_STEP5; 
+		updateScreen();
+		// 
+		((CSetupAutoCalibrationStep5Dlg*)pDlgMap_->GetDialog(GetPageID(SUB_PAGE_STEP5)))->StopAutoCal();	//OnBnClickedButtonStartStop();
 	}
 }
 
@@ -443,3 +470,13 @@ void CSetupAutoCalibrationDlg::OnBnClickedButtonClose()
 	ASSERT( pParentWnd_ );
 	pParentWnd_->PostMessage( WM_SETUP, (WPARAM)SETUP_BACK, (LPARAM)0 );
 }
+
+LRESULT CSetupAutoCalibrationDlg::OnLCDAutoCalStartStop(WPARAM wparam, LPARAM lparam)
+{
+	int nStartStop = (int)wparam;
+
+	TRACE(_T("OnLCDAutoCalStartStop : %d\n"), nStartStop);
+
+	return 0;
+}
+

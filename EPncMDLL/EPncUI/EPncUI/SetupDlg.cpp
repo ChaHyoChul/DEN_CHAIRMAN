@@ -153,50 +153,62 @@ LRESULT CSetupDlg::OnSetup(WPARAM wparam, LPARAM lparam)
 	{
 	case SETUP_EXIT:
 		ShowWindow( SW_HIDE );
+		pa::PPAStatus->GetThreadState()->nSetupMode = SETUP_EXIT;
 		break;
 	case SETUP_BACK:
 		hDlgMap_.HideAll();
 		hDlgMap_.Show( _T("Menu") );
+		pa::PPAStatus->GetThreadState()->nSetupMode = SETUP_BACK;
 		break;
 	case SETUP_TEACHING:
 		hDlgMap_.HideAll();
 		hDlgMap_.Show( _T("Teaching") );
+		pa::PPAStatus->GetThreadState()->nSetupMode = SETUP_TEACHING;
 		break;
 	case SETUP_TOOL:
 		hDlgMap_.HideAll();
 		hDlgMap_.Show( _T("Tool") );
+		pa::PPAStatus->GetThreadState()->nSetupMode = SETUP_TOOL;
 		break;
 	case SETUP_OPTION:
 		hDlgMap_.HideAll();
 		hDlgMap_.Show( _T("Option") );
+		pa::PPAStatus->GetThreadState()->nSetupMode = SETUP_OPTION;
 		break;
 	case SETUP_IO:
 		hDlgMap_.HideAll();
 		hDlgMap_.Show( _T("IO") );
+		pa::PPAStatus->GetThreadState()->nSetupMode = SETUP_IO;
 		break;
 	case SETUP_TERM:
 		hDlgMap_.HideAll();
 		hDlgMap_.Show( _T("Term") );
+		pa::PPAStatus->GetThreadState()->nSetupMode = SETUP_TERM;
 		break;
 	case SETUP_LOG:
 		hDlgMap_.HideAll();
 		hDlgMap_.Show( _T("Log") );
+		pa::PPAStatus->GetThreadState()->nSetupMode = SETUP_LOG;
 		break;
 	case SETUP_SYSTEM:
 		hDlgMap_.HideAll();
 		hDlgMap_.Show( _T("System") );
+		pa::PPAStatus->GetThreadState()->nSetupMode = SETUP_SYSTEM;
 		break;
 	case SETUP_MAINTENANCE:
 		hDlgMap_.HideAll();
 		hDlgMap_.Show( _T("Maintenance") );
+		pa::PPAStatus->GetThreadState()->nSetupMode = SETUP_MAINTENANCE;
 		break;
 	case SETUP_AUTOCAL:
 		hDlgMap_.HideAll();
 		hDlgMap_.Show( _T("AutoCalibration") );
+		pa::PPAStatus->GetThreadState()->nSetupMode = SETUP_AUTOCAL;
 		break;
 	case SETUP_AUTOTEACH:
 		hDlgMap_.HideAll();
 		hDlgMap_.Show( _T("AutoTeaching") );
+		pa::PPAStatus->GetThreadState()->nSetupMode = SETUP_AUTOTEACH;
 		break;
     }
 

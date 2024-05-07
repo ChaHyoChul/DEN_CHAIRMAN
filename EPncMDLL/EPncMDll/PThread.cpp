@@ -530,21 +530,34 @@ void pa::CPThread::updateLCDState()
     {
     case RUNMODE_TORUN:
     case RUNMODE_RUN:
-        // PREV_RATE = -1;
     case RUNMODE_TOSTOP:
     case RUNMODE_PAUSE:
-        nPageNo = 2;
-        nPageNoCtrl = 1;
+		if (nStep_[RUNMODE_RUN]>=50000 && nStep_[RUNMODE_RUN]<51000) {
+			nPageNo = 9; 
+			nPageNoCtrl = 9; 
+		} else {
+	        nPageNo = 2;
+			nPageNoCtrl = 1;
+		}
         break;
     case RUNMODE_STOP:
         if( CHomeDlg::IS_SHOW() ) {	//if home dialog is shown, show page 4 - press homing
             nPageNo = 4;
             nPageNoCtrl = 4;
         } else {
-            nPageNo = 1;
-            nPageNoCtrl = 0;
+			if (pa::PPAStatus->GetThreadState()->nSetupMode == SETUP_AUTOCAL) {
+				if (nStep_[RUNMODE_RUN]>=50000 && nStep_[RUNMODE_RUN]<51000) {
+					nPageNo = 9; 
+					nPageNoCtrl = 9; 
+				} else {
+					nPageNo = 8; 
+					nPageNoCtrl = 8; 
+				}
+			} else {
+				nPageNo = 1;
+				nPageNoCtrl = 0;
+			}
         }
-        
         break;
     case RUNMODE_INIT:		//homing
         nPageNo = 4;
@@ -577,8 +590,9 @@ void pa::CPThread::updateLCDState()
 
 		nPrevPageNo = nPageNo;
 		
-		if(nPageNo == 5) {	//if updating to error screen
-			// Prepare the message for LCD
+		// 에러 모드일 경우, 에러 메시지 표시 
+		if(nPageNo == 5) 
+		{
 			int maxCharPerLine = 35;
 			int errCode = PPAStatus->GetThreadState()->nLCDErrorCode;
 			CString strErrCodeLCD = PPAStatus->GetThreadState()->szLCDErrorCode;
@@ -659,7 +673,6 @@ void pa::CPThread::updateLCDState()
 	if (nPageNoCtrl == 1 || nPageNoCtrl == 0)
 	{
 		static DWORD PREV_RUNNING_TIME = 99999999;
-	//	DWORD		dwRunningTime = pa::PPAStatus->GetThreadState()->dwRunningTime;
 		DWORD		dwRemainTime = pa::PPAStatus->GetThreadState()->dwRunningTimeRemain;
 		CTimeSpan	tms(dwRemainTime);
 
@@ -751,24 +764,27 @@ void pa::CPThread::updateLCDState()
 			strSendMessage.Format(_T("pgMainRunning.txtToolR.txt=\"%d\""), tool2_no);
 			pGLCD->SendCommand(strSendMessage);
 		}
-// 		if (PREV_SPINDLE1_RPM != spindle1_rpm)
-// 		{
-// 			PREV_SPINDLE1_RPM = spindle1_rpm;
-// 			strSendMessage.Format(_T("pgMain.txtRpmL.txt=\"%d\""), spindle1_rpm);
-// 			pGLCD->SendCommand(strSendMessage);
-// 			strSendMessage.Format(_T("pgMainRunning.txtRpmL.txt=\"%d\""), spindle1_rpm);
-// 			pGLCD->SendCommand(strSendMessage);
-// 		}
-// 		if (PREV_SPINDLE2_RPM != spindle2_rpm)
-// 		{
-// 			PREV_SPINDLE2_RPM = spindle2_rpm;
-// 			strSendMessage.Format(_T("pgMain.txtRpmR.txt=\"%d\""), spindle2_rpm);
-// 			pGLCD->SendCommand(strSendMessage);
-// 			strSendMessage.Format(_T("pgMainRunning.txtRpmR.txt=\"%d\""), spindle2_rpm);
-// 			pGLCD->SendCommand(strSendMessage);
-// 		}
 	}
 
+	// Auto Calibration 화면에 touch signal 상태를 표시 한다 
+	if (nPageNoCtrl == 8 || nPageNoCtrl == 9) {
+		static int PREV_STATE = -1;
+		BOOL bSignalLeft = pa::PPAStatus->GetPAStatus()->bInput[pa::IN10003_AutoCalibrationLeft];
+		BOOL bSignalRight = pa::PPAStatus->GetPAStatus()->bInput[pa::IN10004_AutoCalibrationRight];
+		int curr_state = (bSignalLeft == TRUE || bSignalRight == TRUE) ? TRUE : FALSE;
+
+		if (PREV_STATE != curr_state)
+		{
+			PREV_STATE = curr_state;
+			if (nPageNoCtrl == 8) {
+				strSendMessage.Format(_T("pgAutoCal1.txtTouchS1.txt=\"%s\""), (curr_state ? _T("ON") : _T("OFF")));
+			}
+			else if (nPageNoCtrl == 9) {
+				strSendMessage.Format(_T("pgAutoCal2.txtTouchS2.txt=\"%s\""), (curr_state ? _T("ON") : _T("OFF")));
+			}
+			pGLCD->SendCommand(strSendMessage);
+		}
+	}
 }
 
 // 에러 메시지를 찾아서 pThreadState_->szErrorMessage[128] 에 저장한다 
@@ -1656,6 +1672,10 @@ void pa::CPThread::doStop()
 	{
 	case 0: break;
 	case 1:
+		nStep_[RUNMODE_RUN] = 0;
+		nStep_[RUNMODE_TORUN] = 0;
+		nStep_[RUNMODE_TOSTOP] = 0;
+
 		PPAStatus->GetThreadState()->bIsNCFileRun_ = FALSE;
 
 		hBackupExecpt_.hErr = ERR_NONE;

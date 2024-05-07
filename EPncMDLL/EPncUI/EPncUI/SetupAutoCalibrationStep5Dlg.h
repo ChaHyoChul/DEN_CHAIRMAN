@@ -37,6 +37,9 @@ public:
 
 	void SetParentWnd( CWnd* pParent ) { pParent_ = pParent; }
 
+	void StartAutoCal();
+	void StopAutoCal();
+
 // 대화 상자 데이터입니다.
 	enum { IDD = IDD_DIALOG_SETUP_TEACHING_AUTO_TEACHING };
 
