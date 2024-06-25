@@ -172,7 +172,6 @@ void CEPncUIDlg2::PreInitDialog()
 		DEFAULT_QUALITY, 
 		DEFAULT_PITCH, _T("Bahnschrift") );
 
-
 	hFntMainStatus_.CreateFont(
 		// 22, 0, 
 		24, 0, 
