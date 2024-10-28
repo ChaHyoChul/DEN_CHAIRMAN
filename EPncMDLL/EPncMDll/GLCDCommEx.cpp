@@ -426,6 +426,18 @@ void pa::CGLCDCommEx::Execute()
 					pa::PAMotion->SendMDACommand( "M921" );
 				}
 			}
+			else if (strcmp((const char*)szThreadCommand_, (const char*)"GLCD_PUMP") == 0)
+			{
+				TRACE(_T("RECV => GLCD_PUMP\n"));
+				if (pa::PPAStatus->GetPAStatus()->bOutput[pa::OUT20037_WaterVacuumPumpOnSignal])
+				{
+					pa::PAMotion->SendMDACommand("M29");
+				}
+				else 
+				{
+					pa::PAMotion->SendMDACommand("M28");
+				}
+			}
 		}
 	}
 	else
