@@ -16,8 +16,13 @@ BOOL pa::CPTool::Initialize( CString& strErrMsg )
 {
 	//////////////////////////////////////////////////////////////////////////
 	// 파일이 있는지 확인
-	CString strTemp = CString(IPC_FILEPATH) + CString(_T("\\SHM_")) + CString(TOOL_OBJECT_NAME);
-	BOOL bReset = hcutil::IsExistFile( strTemp ) == TRUE ? FALSE : TRUE;
+// 	CString strTemp = CString(IPC_FILEPATH) + CString(_T("\\SHM_")) + CString(TOOL_OBJECT_NAME);
+// 	BOOL bReset = hcutil::IsExistFile( strTemp ) == TRUE ? FALSE : TRUE;
+	CString strObjectName = pa::GET_OBJECT_NAME_WITH_TAG(TOOL_OBJECT_NAME);
+	CString strFilePath;
+
+	strFilePath.Format( _T("%s\\SHM_%s"), IPC_FILEPATH, strObjectName );
+	BOOL bReset = hcutil::IsExistFile( strFilePath ) == TRUE ? FALSE : TRUE;
 	//////////////////////////////////////////////////////////////////////////
 
 	pShMem_ = new hcipc::CSharedMem();
@@ -26,8 +31,9 @@ BOOL pa::CPTool::Initialize( CString& strErrMsg )
 		return FALSE;
 	}
 
-	CString strObjectName = pa::GET_OBJECT_NAME_WITH_TAG(TOOL_OBJECT_NAME);
+//	CString strObjectName = pa::GET_OBJECT_NAME_WITH_TAG(TOOL_OBJECT_NAME);
 // 	pToolData_ = (SToolData*)pShMem_->Create( IPC_FILEPATH, TOOL_OBJECT_NAME, sizeof(SToolData), bReset, 0 );
+
 	pToolData_ = (SToolData*)pShMem_->Create( IPC_FILEPATH, (TCHAR*)(LPCTSTR)strObjectName, sizeof(SToolData), bReset, 0 );
 	if( pToolData_ == NULL ) {
 		strErrMsg.Format( _T("create shared memory error for pa::CPTool::pToolData_ object") );

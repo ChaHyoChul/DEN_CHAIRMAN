@@ -302,7 +302,10 @@ BOOL CEPncUIApp::InitInstance()
 //	P_VERSION = _T("v2.1.0-test");							// 가공 시간표시 수정 (남은 시간 표시. Progressbar도 감소 방향) 
 // 	P_VERSION = _T("v2.1.1-test");							// Error dialog와 Lcd의 에러 메시지를 동일하게 표시 
 // 	P_VERSION = _T("v2.1.2-test");							// Auto Calibration LCD 기능 추가  
-	P_VERSION = _T("v2.2.0-lcd");							// Auto Calibration LCD 기능 추가  
+// 	P_VERSION = _T("v2.2.0-lcd");							// Auto Calibration LCD 기능 추가  
+
+//	P_VERSION = _T("v2.2.1");								// Milling / Remain Time display 버그 수정 
+	P_VERSION = _T("v2.2.2");								// Milling / Remain Time display => 원래대로 복구  
 
 
 	// 

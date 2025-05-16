@@ -2669,6 +2669,7 @@ void CEPncUIDlg2::updateMillingTimeDisp()
 	if (strTemp.Compare(PREV_MILLING_TIME))
 	{
 		((CStatic*)GetDlgItem(IDC_STATIC_FINISH_TIME))->SetWindowText(strTemp);
+// 		((CStatic*)GetDlgItem(IDC_STATIC_MILLING_TIME))->SetWindowText(strTemp);
 		PREV_MILLING_TIME = strTemp;
 	}
 }
@@ -2694,6 +2695,7 @@ void CEPncUIDlg2::updateRemainingMillingTimeDisp()
 		if (strTemp.Compare(PREV_REMAIN_TIME))
 		{
 			((CStatic*)GetDlgItem(IDC_STATIC_MILLING_TIME))->SetWindowText(strTemp);
+// 			((CStatic*)GetDlgItem(IDC_STATIC_FINISH_TIME))->SetWindowText(strTemp);
 			PREV_REMAIN_TIME = strTemp;
 		}
 	}

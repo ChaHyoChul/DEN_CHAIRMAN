@@ -106,6 +106,7 @@ BOOL pa::CPNCFile::Open2( CString& strNcFilePath, CString& strErrMsg )
 	Close();
 
 	// 파일의 크기를 알아 낸다 
+	P_LOG->WriteLog(CLog::TYPE_OPER, 0, strNcFilePath);
 	if( hcutil::GetFileSize( strNcFilePath, &dwFileSize, strErrMsg ) == FALSE ) {
 		strErrMsg += _T("\n\nget file size error. [open2()]");
 		return FALSE;
