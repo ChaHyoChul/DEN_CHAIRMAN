@@ -48,6 +48,7 @@ BOOL pa::CPTool::Initialize( CString& strErrMsg )
 	if( pToolData_->bEnableToolUsageTime != TRUE ) {
 		pToolData_->bEnableToolUsageTime = TRUE;
 		pShMem_->Flush( (void*)&(pToolData_->bEnableToolUsageTime), sizeof(BOOL) );
+		pShMem_->Flush();
 	}
 
 	return TRUE;
