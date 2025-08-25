@@ -310,6 +310,18 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ToolPocketAutoTeachingBase.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ToolPocketAutoTeachingP1.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ToolPocketAutoTeachingP2.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Transform.cpp"
 				>
 			</File>
@@ -445,6 +457,18 @@
 			</File>
 			<File
 				RelativePath=".\TonyJpegEncoder.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ToolPocketAutoTeachingBase.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ToolPocketAutoTeachingP1.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ToolPocketAutoTeachingP2.h"
 				>
 			</File>
 			<File

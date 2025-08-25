@@ -17,8 +17,8 @@ namespace pa
 		hcipc::CSharedMem	*pShMemForAutoCalCoordinateOffsetParam_;
 		SAutoCalCoordinateOffsetParam	*pAutoCalCoordinateOffsetParam_;
 
-		hcipc::CSharedMem			*pShMemForAutoTeachToolPocketParam_;
-		SAutoTeachToolPocketParam	*pAutoTeachToolPocketParam_;
+// 		hcipc::CSharedMem			*pShMemForAutoTeachToolPocketParam_;
+// 		SAutoTeachToolPocketParam	*pAutoTeachToolPocketParam_;
 
 		hcipc::CSharedMem			*pShMemForCoordinateOffsetDataRange_;		// coordinate offset의 데이터 값 범위
 		SCoordinateOffsetDataRange	*pCoordinateOffsetDataRange_;				//
@@ -56,7 +56,7 @@ namespace pa
 		SPAStatus* GetPAStatus() { return pPAStatus_; }
 		SThreadState* GetThreadState() { return pThreadState_; }				//
 		SAutoCalCoordinateOffsetParam* GetAutoCalCoordinateOffsetParam() { return pAutoCalCoordinateOffsetParam_; }
-		SAutoTeachToolPocketParam* GetAutoTeachToolPocketParam() { return pAutoTeachToolPocketParam_; }
+// 		SAutoTeachToolPocketParam* GetAutoTeachToolPocketParam() { return pAutoTeachToolPocketParam_; }
 		SCoordinateOffsetDataRange* GetCoordinateOffsetDataRange() { return pCoordinateOffsetDataRange_; }
 		SMeasureParamEtc* GetMeasureParamEtc() { return pMeasureParamEtc_; }
 		SPowerOnTestConfig* GetPowerOnTestConfig() { return pPowerOnTestConfig_; }

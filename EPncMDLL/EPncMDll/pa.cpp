@@ -25,6 +25,8 @@ CPContinueRunInfo*	PContinueRunInfo= NULL;
 CPTool*				PTool			= NULL;
 CPMaintenance*		PMaintenance	= NULL;
 
+CToolPocketAutoTeachingBase* PToolPocketAutoTeaching = NULL;
+
 BOOL				IS_SUCCESS_FIRST_CONNECT = FALSE;
 
 DWORD				todaySpindleRunTime = 0;
@@ -397,6 +399,21 @@ BOOL pa::PA_INITIALIZE( char* pIpAddr, int nPortNo1, int nPortNo2, int nPortNoFo
 	PPAStatus->GetPAStatus()->bLCDPassiveMode = FALSE;
 	pGLCD = new CGLCDCommEx(1024);
 	pGLCD->Initialize(INI_GLCD_PATH, strErrMsg);
+
+	//
+	PToolPocketAutoTeaching = NULL;
+	switch (pa::MODEL_INFO.GetToolPocketType())
+	{
+	case 0:
+	default:
+		PToolPocketAutoTeaching = (CToolPocketAutoTeachingP1*)(new pa::CToolPocketAutoTeachingP1());
+		PToolPocketAutoTeaching->Initialize(INI_AT_TOOL_POCKET_PARAM_PATH, strErrMsg);
+		break; 
+	case 1:
+		PToolPocketAutoTeaching = (CToolPocketAutoTeachingP2*)(new pa::CToolPocketAutoTeachingP2());
+		PToolPocketAutoTeaching->Initialize(INI_AT_TOOL_POCKET_PARAM_PATH, strErrMsg);
+		break; 
+	}
 	
 	// 7. PThread √ ±‚»≠ 
 	PThread = new CPThread();
@@ -660,6 +677,11 @@ void pa::PA_DESTROY()
 	if( PPAAsyncComm[1] ) {
 		delete PPAAsyncComm[1];
 		PPAAsyncComm[1] = NULL;
+	}
+
+	if (PToolPocketAutoTeaching) {
+		delete PToolPocketAutoTeaching;
+		PToolPocketAutoTeaching = NULL;
 	}
 
 	if( PConfig ) {

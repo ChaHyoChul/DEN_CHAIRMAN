@@ -2279,10 +2279,12 @@ BOOL CSetupTeachingDlg::load_from_file_auto_taching_for_coord_offset( CString& s
 
 BOOL CSetupTeachingDlg::save_to_file_auto_teaching_for_toolpocket( CString& strErrMsg )
 {
-	return pa::PPAStatus->GetAutoTeachToolPocketParam()->Save( INI_AT_TOOL_POCKET_PARAM_PATH, strErrMsg );
+//	return pa::PPAStatus->GetAutoTeachToolPocketParam()->Save( INI_AT_TOOL_POCKET_PARAM_PATH, strErrMsg );
+	return pa::PUIToolPocketAutoTeaching->SaveParamsData();
 }
 
 BOOL CSetupTeachingDlg::load_from_file_auto_teaching_for_toolpocket( CString& strErrMsg )
 {
-	return pa::PPAStatus->GetAutoTeachToolPocketParam()->Load( INI_AT_TOOL_POCKET_PARAM_PATH, strErrMsg );
+//	return pa::PPAStatus->GetAutoTeachToolPocketParam()->Load( INI_AT_TOOL_POCKET_PARAM_PATH, strErrMsg );
+	return pa::PUIToolPocketAutoTeaching->LoadParamsData();
 }

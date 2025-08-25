@@ -22,8 +22,8 @@ private:
 	hcipc::CSharedMem	*pShMemForAutoCalCoordinateOffsetParam_;
 	SAutoCalCoordinateOffsetParam	*pAutoCalCoordinateOffsetParam_;
 
-	hcipc::CSharedMem			*pShMemForAutoTeachToolPocketParam_;
-	SAutoTeachToolPocketParam	*pAutoTeachToolPocketParam_;
+// 	hcipc::CSharedMem			*pShMemForAutoTeachToolPocketParam_;
+// 	SAutoTeachToolPocketParam	*pAutoTeachToolPocketParam_;
 
 	hcipc::CSharedMem			*pShMemForCoordinateOffsetDataRange_;		// coordinate offset의 데이터 값 범위
 	SCoordinateOffsetDataRange	*pCoordinateOffsetDataRange_;				//
@@ -44,7 +44,7 @@ public:
 
 	SAutoCalCoordinateOffsetParam* GetAutoCalCoordinateOffsetParam() { return pAutoCalCoordinateOffsetParam_; }
 
-	SAutoTeachToolPocketParam* GetAutoTeachToolPocketParam() { return pAutoTeachToolPocketParam_; }
+// 	SAutoTeachToolPocketParam* GetAutoTeachToolPocketParam() { return pAutoTeachToolPocketParam_; }
 
 	SCoordinateOffsetDataRange* GetCoordinateOffsetDataRange() { return pCoordinateOffsetDataRange_; }
 

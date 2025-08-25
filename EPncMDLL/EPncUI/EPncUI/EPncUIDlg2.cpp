@@ -1157,6 +1157,8 @@ BOOL CEPncUIDlg2::initialize_pmac_object( CString& strErrMsg )
 	pa::PMaintenance = new pa::CPMaintenance();
 	pa::PMaintenance->Initialize( strErrMsg );
 
+	initialize_ToolPocketObject();
+
 	return TRUE;
 }
 
@@ -1186,6 +1188,8 @@ void CEPncUIDlg2::destroy_pmac_object()
 		delete pa::PTool;
 		pa::PTool = NULL;
 	}
+
+	destroy_ToolPocketObject();
 }
 
 BOOL CEPncUIDlg2::initialize_ErrorDlg()
@@ -1285,6 +1289,36 @@ void CEPncUIDlg2::destroy_StatusIconWnd()
 		}
 	}
 }
+
+BOOL CEPncUIDlg2::initialize_ToolPocketObject()
+{
+	int toolPocketType = pa::MODEL_INFO.GetToolPocketType();
+
+	switch (toolPocketType)
+	{
+	case 0:
+	default:
+		pa::PUIToolPocketAutoTeaching = (pa::CUIToolPocketAutoTeachingP1*)new pa::CUIToolPocketAutoTeachingP1();
+		pa::PUIToolPocketAutoTeaching->Initialize(INI_AT_TOOL_POCKET_PARAM_PATH);
+		break; 
+	case 1:
+		pa::PUIToolPocketAutoTeaching = (pa::CUIToolPocketAutoTeachingP2*)new pa::CUIToolPocketAutoTeachingP2();
+		pa::PUIToolPocketAutoTeaching->Initialize(INI_AT_TOOL_POCKET_PARAM_PATH);
+		break; 
+	}
+
+	return TRUE;
+}
+
+void CEPncUIDlg2::destroy_ToolPocketObject()
+{
+	if (pa::PUIToolPocketAutoTeaching)
+	{
+		delete pa::PUIToolPocketAutoTeaching;
+		pa::PUIToolPocketAutoTeaching = NULL;
+	}
+}
+
 
 
 //////////////////////////////////////////////////////////////////////////

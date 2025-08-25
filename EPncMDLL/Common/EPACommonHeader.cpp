@@ -266,50 +266,11 @@ BOOL SAutoCalCoordinateOffsetParam::Save( TCHAR* pFilePath, CString& strErrMsg )
 	return TRUE;
 }
 
-CString SAutoTeachToolPocketParam::STR_PARAM_NAME[PARAM_NUM] = 
-{
-	CString( _T("Tool_Diameter_Left") ),
-	CString( _T("Tool_Diameter_Right") ),
-	CString( _T("Tool_Number_Left") ),
-	CString( _T("Tool_Number_Right") ),
-	CString( _T("Measure_Count") ),
-	
-	CString(_T("Left_Tool1_X (G54)")),
-	CString(_T("Left_Tool1_Y (G54)")),
-	CString(_T("Left_Tool2_X (G54)")),
-	CString(_T("Left_Tool2_Y (G54)")),
-	CString(_T("Left_Tool3_X (G54)")),
-	CString(_T("Left_Tool3_Y (G54)")),
+//////////////////////////////////////////////////////////////////////////
+//
+//////////////////////////////////////////////////////////////////////////
 
-	CString(_T("Right_Tool4_X (G54)")),
-	CString(_T("Right_Tool4_Y (G54)")),
-	CString(_T("Right_Tool5_X (G54)")),
-	CString(_T("Right_Tool5_Y (G54)")),
-	CString(_T("Right_Tool6_X (G54)")),
-	CString(_T("Right_Tool6_Y (G54)")),
-	
-	CString( _T("Left_JIG_to_T3_X") ),
-	CString( _T("Left_JIG_to_T3_Y") ),
-	CString( _T("Right_JIG_to_T6_X") ),
-	CString( _T("Right_JIG_to_T6_Y") ),
-	
-	CString( _T("CHK_XL_X_UP (G54)") ),
-	CString( _T("CHK_XL_X_DOWN (G54)") ),
-	CString( _T("CHK_XL_Y (G54)") ),
-	CString( _T("CHK_XL_Z (G54)") ),
-	CString( _T("CHK_YL_Y (G54)") ),
-	CString( _T("CHK_YL_Z (G54)") ),
-	
-	CString( _T("CHK_XR_X_UP (G54)") ),
-	CString( _T("CHK_XR_X_DOWN (G54)") ),
-	CString( _T("CHK_XR_Y (G54)") ),
-	CString( _T("CHK_XR_Z (G54)") ),
-	CString( _T("CHK_YR_Y (G54)") ),
-	CString( _T("CHK_YR_Z (G54)") )	
-	
-};
-
-BOOL SAutoTeachToolPocketParam::Load( TCHAR* pFilePath, CString& strErrMsg )
+BOOL SAutoTeachToolPocketParam::Load(TCHAR* pFilePath, int nNumParams, CString strParamsName[], CString& strErrMsg)
 {
 	CCEIniFile	hIniFile;
 	CString		strKeyName;
@@ -326,9 +287,9 @@ BOOL SAutoTeachToolPocketParam::Load( TCHAR* pFilePath, CString& strErrMsg )
 
 	strKeyName.Format( _T("AT_ToolPocket") );
 
-	for( int i = 0; i<(int)PARAM_NUM; i++ ) 
+	for( int i = 0; i<nNumParams; i++ ) 
 	{
-		hIniFile.GetValue( strKeyName, STR_PARAM_NAME[i], (double*)&fParam[i] );
+		hIniFile.GetValue( strKeyName, strParamsName[i], (double*)&fParam[i] );
 	}
 
 	hIniFile.Close();
@@ -336,7 +297,7 @@ BOOL SAutoTeachToolPocketParam::Load( TCHAR* pFilePath, CString& strErrMsg )
 	return TRUE;
 }
 
-BOOL SAutoTeachToolPocketParam::Save( TCHAR* pFilePath, CString& strErrMsg )
+BOOL SAutoTeachToolPocketParam::Save( TCHAR* pFilePath, int nNumParams, CString strParamsName[], CString& strErrMsg )
 {
 	CCEIniFile	hIniFile;
 	CString		strKeyName;
@@ -345,9 +306,9 @@ BOOL SAutoTeachToolPocketParam::Save( TCHAR* pFilePath, CString& strErrMsg )
 
 	strKeyName.Format( _T("AT_ToolPocket") );
 
-	for( int i = 0; i<(int)PARAM_NUM; i++ ) 
+	for( int i = 0; i<nNumParams; i++ ) 
 	{
-		hIniFile.SetValue( strKeyName, STR_PARAM_NAME[i], (double)fParam[i] );
+		hIniFile.SetValue( strKeyName, strParamsName[i], (double)fParam[i] );
 	}
 
 	hIniFile.Close();
@@ -607,6 +568,9 @@ void SModelInfo2::Load()
 	hIniFile.GetValue( strKeyName, _T("m28_type"), (int*)&ntemp ); hM28Type = (EN_M28_TYPE)ntemp;
 	hIniFile.GetValue( strKeyName, _T("pa_ctrl_type"), (int*)&ntemp ); hPaCtrlType = (EN_PA_CTRL_TYPE)ntemp;
 	hIniFile.GetValue( strKeyName, _T("air_pressure_sensor_type"), (int*)&ntemp ); hAirPressureSensorType = (EN_AIR_PRESSURE_SENEOR_TYPE)ntemp;
+	
+	hIniFile.GetValue( strKeyName, _T("toolpocket_type"), (int*)&nToolPocketType); 
+	hIniFile.GetValue( strKeyName, _T("ncfile_machine_name"), (LPTSTR)szNcFileMachineName, 64);
 	//////////////////////////////////////////////////////////////////////////
 
 	hIniFile.Close();

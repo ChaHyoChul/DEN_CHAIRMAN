@@ -305,7 +305,14 @@ BOOL CEPncUIApp::InitInstance()
 // 	P_VERSION = _T("v2.2.0-lcd");							// Auto Calibration LCD 기능 추가  
 
 //	P_VERSION = _T("v2.2.1");								// Milling / Remain Time display 버그 수정 
-	P_VERSION = _T("v2.2.2");								// Milling / Remain Time display => 원래대로 복구  
+// 	P_VERSION = _T("v2.2.2");								// Milling / Remain Time display => 원래대로 복구  
+
+// 	P_VERSION = _T("v2.3.0-debug");							// Tool pocket 종류 구분. Auto tool pocket teaching 기능 추가 (PNC 구조 참조) 
+															// NC 파일의 Machine ID를 ModelInfo.ini 파일에서 설정 
+															
+// 	P_VERSION = _T("v2.3.1-debug");							// Tool pocket에서 Tool 위치 변경 
+// 	P_VERSION = _T("v2.3.2-debug");							// Tool pocket에서 Tool 위치 변경 
+	P_VERSION = _T("v2.3.2");								// 
 
 
 	// 

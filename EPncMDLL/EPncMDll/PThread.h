@@ -83,8 +83,9 @@ private:
 	BOOL doAutoCal_Z1( BOOL bResetStep );						// Z1 Origin Offset 측정
 	BOOL doAutoCal_Z2( BOOL bResetStep );						// Z2 Origin Offset 측정
 
-	void doAutoTeaching_ToolPocket3();							// step : 52000 ~ 54000 (Offset 데이터를 사용해서 계산으로 입력)
-	void doAutoTeaching_ToolPocket4();							// step : 54000 ~ 55000 Use pins to detect more precise position
+// 	void doAutoTeaching_ToolPocket3();							// step : 52000 ~ 54000 (Offset 데이터를 사용해서 계산으로 입력)
+// 	void doAutoTeaching_ToolPocket4();							// step : 54000 ~ 55000 Use pins to detect more precise position
+	void doAutoTeaching_ToolPocket();							// step : 52000 ~ 55000 
 	void doATCTest();											// step : 62000 ~ 62999
 
 	BOOL getCrossPoint( double A1[2], double A2[2], double B1[2], double Ret[2] );

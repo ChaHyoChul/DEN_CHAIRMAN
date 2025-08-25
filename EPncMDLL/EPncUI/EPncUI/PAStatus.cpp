@@ -63,18 +63,18 @@ BOOL pa::CPAStatus::Initialize( CString& strErrMsg )
 
 	//////////////////////////////////////////////////////////////////////////
 	// 4. Auto Teaching Tool Pocket
-	pShMemForAutoTeachToolPocketParam_ = new hcipc::CSharedMem();
-	if( pShMemForAutoTeachToolPocketParam_ == NULL ) {
-		strErrMsg.Format( _T("memory alloc error for pmac::SAutoTeachToolPocketParam") );
-		return FALSE;
-	}
+// 	pShMemForAutoTeachToolPocketParam_ = new hcipc::CSharedMem();
+// 	if( pShMemForAutoTeachToolPocketParam_ == NULL ) {
+// 		strErrMsg.Format( _T("memory alloc error for pmac::SAutoTeachToolPocketParam") );
+// 		return FALSE;
+// 	}
 
-	strObjectName = pa::GET_OBJECT_NAME_WITH_TAG(AUTOTEACH_TOOLPOCKET_PARAM_OBJECT_NAME);
-	pAutoTeachToolPocketParam_ = (SAutoTeachToolPocketParam *)pShMemForAutoTeachToolPocketParam_->Create( NULL, (TCHAR*)(LPCTSTR)strObjectName, sizeof(SAutoTeachToolPocketParam), FALSE, 0 );
-	if( pAutoTeachToolPocketParam_ == NULL ) {
-		strErrMsg.Format( _T("memory alloc error for pmac::SAutoTeachToolPocketParam") );
-		return FALSE;
-	}
+// 	strObjectName = pa::GET_OBJECT_NAME_WITH_TAG(AUTOTEACH_TOOLPOCKET_PARAM_OBJECT_NAME);
+// 	pAutoTeachToolPocketParam_ = (SAutoTeachToolPocketParam *)pShMemForAutoTeachToolPocketParam_->Create( NULL, (TCHAR*)(LPCTSTR)strObjectName, sizeof(SAutoTeachToolPocketParam), FALSE, 0 );
+// 	if( pAutoTeachToolPocketParam_ == NULL ) {
+// 		strErrMsg.Format( _T("memory alloc error for pmac::SAutoTeachToolPocketParam") );
+// 		return FALSE;
+// 	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// 6. Coordinate Offset Data Range 
@@ -153,12 +153,12 @@ void pa::CPAStatus::Destroy()
 		pAutoCalCoordinateOffsetParam_ = NULL;
 	}
 
-	if( pShMemForAutoTeachToolPocketParam_ ) {
-		pShMemForAutoTeachToolPocketParam_->Destroy();
-		delete pShMemForAutoTeachToolPocketParam_;
-		pShMemForAutoTeachToolPocketParam_ = NULL;
-		pAutoTeachToolPocketParam_ = NULL;
-	}
+// 	if( pShMemForAutoTeachToolPocketParam_ ) {
+// 		pShMemForAutoTeachToolPocketParam_->Destroy();
+// 		delete pShMemForAutoTeachToolPocketParam_;
+// 		pShMemForAutoTeachToolPocketParam_ = NULL;
+// 		pAutoTeachToolPocketParam_ = NULL;
+// 	}
 
 	if( pShMemForCoordinateOffsetDataRange_ ) {
 		pShMemForCoordinateOffsetDataRange_->Destroy();

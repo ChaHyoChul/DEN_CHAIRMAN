@@ -189,6 +189,7 @@ class CPContinueRunInfo;
 class CPTool;
 class CPMaintenance;
 class CTransform;
+class CToolPocketAutoTeachingBase;
 
 extern CPAAsyncComm*		PPAAsyncComm[2];
 extern CPAStatus*			PPAStatus;
@@ -204,6 +205,7 @@ extern CPContinueRunInfo*	PContinueRunInfo;
 extern CPTool*				PTool;
 extern CPMaintenance*		PMaintenance;
 
+extern CToolPocketAutoTeachingBase* PToolPocketAutoTeaching;
 
 extern BOOL IS_SUCCESS_FIRST_CONNECT;
 

@@ -208,6 +208,9 @@ private:
 	BOOL initialize_StatusIconWnd();
 	void destroy_StatusIconWnd();
 
+	BOOL initialize_ToolPocketObject();
+	void destroy_ToolPocketObject();
+
 	void updateButtonState();						// 화면중 버튼 상태를 갱신 한다
 
 //	void updateStatus();							// tool info, spindle, feedrate 출력. 아래 4개의 함수로 대체 함 

@@ -534,6 +534,18 @@
 				RelativePath=".\ToolTimeDispWnd.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\UIToolPocketAutoTeachingBase.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\UIToolPocketAutoTeachingP1.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\UIToolPocketAutoTeachingP2.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="헤더 파일"
@@ -882,6 +894,18 @@
 			</File>
 			<File
 				RelativePath=".\ToolTimeDispWnd.h"
+				>
+			</File>
+			<File
+				RelativePath=".\UIToolPocketAutoTeachingBase.h"
+				>
+			</File>
+			<File
+				RelativePath=".\UIToolPocketAutoTeachingP1.h"
+				>
+			</File>
+			<File
+				RelativePath=".\UIToolPocketAutoTeachingP2.h"
 				>
 			</File>
 		</Filter>

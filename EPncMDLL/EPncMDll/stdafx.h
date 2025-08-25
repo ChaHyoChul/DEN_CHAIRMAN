@@ -58,6 +58,9 @@
 #include "PNCFileMgr.h"
 #include "PThread.h"
 #include "PTool.h"
+#include "ToolPocketAutoTeachingBase.h"
+#include "ToolPocketAutoTeachingP1.h"
+#include "ToolPocketAutoTeachingP2.h"
 #include "PMaintenance.h"
 
 #include "EPncMDlg.h"

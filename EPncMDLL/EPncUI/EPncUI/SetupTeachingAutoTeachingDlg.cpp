@@ -136,11 +136,17 @@ BOOL CSetupTeachingAutoTeachingDlg::OnInitDialog()
 	pParamListBox_->SetID( IDC_STATIC_LIST_AREA );
 	pParamListBox_->Create( WS_CHILD|WS_VISIBLE, rcTemp, this, IDC_STATIC_LIST_AREA );
 
-	for( int i = 0; i<(int)pa::SAutoTeachToolPocketParam::PARAM_NUM; i++ ) 
+// 	for( int i = 0; i<(int)pa::SAutoTeachToolPocketParam::PARAM_NUM; i++ ) 
+// 	{
+// 		int index = pParamListBox_->AddString( pa::SAutoTeachToolPocketParam::STR_PARAM_NAME[i] );
+// 		void *p = &(pa::PPAStatus->GetAutoTeachToolPocketParam()->fParam[i]);
+// 		pParamListBox_->SetItemDataPtr( i, p );
+// 	}
+	for (int i = 0; i<pa::PUIToolPocketAutoTeaching->GetParamsNum(); i++)
 	{
-		int index = pParamListBox_->AddString( pa::SAutoTeachToolPocketParam::STR_PARAM_NAME[i] );
-		void *p = &(pa::PPAStatus->GetAutoTeachToolPocketParam()->fParam[i]);
-		pParamListBox_->SetItemDataPtr( i, p );
+		int index = pParamListBox_->AddString(pa::PUIToolPocketAutoTeaching->GetParamName(i));
+		void *p = pa::PUIToolPocketAutoTeaching->GetParamsPtr(i);
+		pParamListBox_->SetItemDataPtr(i, p);
 	}
 	
 	CRect recbutton;
@@ -250,7 +256,8 @@ LRESULT CSetupTeachingAutoTeachingDlg::OnNotifyPointDataListBox(WPARAM wparam, L
 	}
 
 	dlg.SetIsFloatType( TRUE );
-	dlg.SetPrevNumber( pa::PPAStatus->GetAutoTeachToolPocketParam()->fParam[nCurSel] );
+//	dlg.SetPrevNumber( pa::PPAStatus->GetAutoTeachToolPocketParam()->fParam[nCurSel] );
+	dlg.SetPrevNumber(pa::PUIToolPocketAutoTeaching->GetParamDataD(nCurSel));
 	dlg.SetProperty( 0 );
 
 	if( dlg.DoModal() == IDOK ) 
@@ -299,7 +306,8 @@ LRESULT CSetupTeachingAutoTeachingDlg::OnNotifyPointDataListBox(WPARAM wparam, L
 		}
 		//////////////////////////////////////////////////////////////////////////
 		
-		pa::PPAStatus->GetAutoTeachToolPocketParam()->fParam[nCurSel] = fVal;
+//		pa::PPAStatus->GetAutoTeachToolPocketParam()->fParam[nCurSel] = fVal;
+		pa::PUIToolPocketAutoTeaching->SetParamDataD(nCurSel, fVal);
 
 		//////////////////////////////////////////////////////////////////////////
 		// save to file 버튼의 상태를 변경 

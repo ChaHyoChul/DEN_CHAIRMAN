@@ -91,9 +91,13 @@ BOOL pa::CPNCFile::Open2( CString& strNcFilePath, CString& strErrMsg )
 	int		nM14X_FirstLineNo = 0;
 	int		nM14X_SecondLineNo= 0;
 	
-	const CString strChairmanUpp = _T("CHAIRMAN");
-	const CString strChairmanLow = _T("chairman");
-	
+// 	const CString strChairmanUpp = _T("CHAIRMAN");
+// 	const CString strChairmanLow = _T("chairman");
+	CString strChairmanUpp(pa::MODEL_INFO.GetNcFileMachineName());
+	CString strChairmanLow(pa::MODEL_INFO.GetNcFileMachineName());
+	strChairmanUpp.MakeUpper();
+	strChairmanLow.MakeLower();
+
 	BOOL	bModelOK = FALSE;
 	BOOL	bSpindleOffsetOK = FALSE;
 		
@@ -169,7 +173,8 @@ BOOL pa::CPNCFile::Open2( CString& strNcFilePath, CString& strErrMsg )
 							// message + return
 							Close();
 							fclose(pf);
-							strErrMsg.Format( _T("The MACHINE ID in the selected NC-file '%s' does not match MACHINE ID pattern 'CHAIRMAN_###'."), szCurrLine );
+//							strErrMsg.Format( _T("The MACHINE ID in the selected NC-file '%s' does not match MACHINE ID pattern 'CHAIRMAN_###'."), szCurrLine );
+							strErrMsg.Format( _T("The MACHINE ID in the selected NC-file '%s' does not match MACHINE ID pattern '%s_###'."), szCurrLine, strChairmanUpp );
 							return FALSE;
 						}
 					}
@@ -188,8 +193,8 @@ BOOL pa::CPNCFile::Open2( CString& strNcFilePath, CString& strErrMsg )
 							// message + return
 							Close();
 							fclose(pf);
-							strErrMsg.Format( _T("The MACHINE ID in the selected NC-file '%s' (ID=%d) does not match MACHINE ID of this machine 'CHAIRMAN_%03d' (ID=%d)."), 
-                                                szCurrLine, nNCMachineID, pa::MODEL_INFO.GetMachineID(), pa::MODEL_INFO.GetMachineID() );
+							strErrMsg.Format( _T("The MACHINE ID in the selected NC-file '%s' (ID=%d) does not match MACHINE ID of this machine '%s_%03d' (ID=%d)."), 
+                                                szCurrLine, nNCMachineID, pa::MODEL_INFO.GetMachineID(), strChairmanUpp,pa::MODEL_INFO.GetMachineID() );
 							return FALSE;
 						}
 					}
@@ -198,7 +203,7 @@ BOOL pa::CPNCFile::Open2( CString& strNcFilePath, CString& strErrMsg )
 						// message + return
 						Close();
 						fclose(pf);
-						strErrMsg.Format( _T("The MACHINE ID in the selected NC-file '%s' does not match MACHINE ID pattern 'CHAIRMAN_###'."), szCurrLine );
+						strErrMsg.Format( _T("The MACHINE ID in the selected NC-file '%s' does not match MACHINE ID pattern '%s_###'."), szCurrLine, strChairmanUpp );
 						return FALSE;
 					}
 				}

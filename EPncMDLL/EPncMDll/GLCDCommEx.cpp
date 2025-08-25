@@ -174,6 +174,9 @@ BOOL pa::CGLCDCommEx::SendRaw(char* cmd)
 // 
 void pa::CGLCDCommEx::OnRecv(const char* p, int len)
 {
+// 	// 20250715.Å×½ºÆ®  
+// 	return ;
+
 	const int BUFFER_SIZE = 256;
 	char szTempBuffer[256];
 

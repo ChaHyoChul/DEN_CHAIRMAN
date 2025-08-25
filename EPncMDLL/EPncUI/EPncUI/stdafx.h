@@ -125,6 +125,10 @@
 #include "PNCFileMgr.h"
 #include "PSWConfig.h"
 
+#include "UIToolPocketAutoTeachingBase.h"
+#include "UIToolPocketAutoTeachingP1.h"
+#include "UIToolPocketAutoTeachingP2.h"
+
 #include "FileListBox.h"
 #include "NCStatusBarWnd.h"
 
@@ -146,5 +150,7 @@ namespace pa
     extern CPTool*          PTool;
 	extern CPMaintenance*   PMaintenance;
     extern CPSWConfig*      PSWConfig;
+
+	extern CUIToolPocketAutoTeachingBase* PUIToolPocketAutoTeaching;
 }
 

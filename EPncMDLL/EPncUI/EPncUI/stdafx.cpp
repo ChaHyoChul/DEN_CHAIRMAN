@@ -13,4 +13,6 @@ namespace pa
     CPTool*         PTool = NULL;
     CPMaintenance*  PMaintenance = NULL;
     CPSWConfig*     PSWConfig = NULL;
+
+	CUIToolPocketAutoTeachingBase* PUIToolPocketAutoTeaching = NULL;
 }
