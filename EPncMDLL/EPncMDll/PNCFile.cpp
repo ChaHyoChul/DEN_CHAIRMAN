@@ -691,3 +691,41 @@ BOOL pa::CPNCFile::GetBlockLength(double* fBlockLength)
 	return FALSE;
 }
 
+BOOL pa::CPNCFile::GetBlockCheckYPosition(double* fYPos)
+{
+	char szTemp[256];
+	CString strWorkLine;
+
+	for (int i = 0; i<100; i++)
+	{
+		memset((void*)szTemp, 0, sizeof(char)*256);
+		GetLine(i, FALSE, szTemp);
+		strWorkLine = szTemp;
+
+		if (strWorkLine.Find(_T("G01")) >= 0)
+		{
+			CString token;
+			int itoken = 0;
+			while (TRUE)
+			{
+				int value_index = 0;
+				double ftemp = 0.0;
+				token = strWorkLine.Tokenize((const wchar_t*)(" "), itoken);
+				if (token.IsEmpty()) break; 
+				if ((value_index = token.Find('Y')) >= 0)
+				{
+					token = token.Mid(value_index+1);
+					ftemp = _wtof(token);
+					if (ftemp > 17.0 && ftemp < 37.0) { *fYPos = 27.0; }
+					else if (ftemp > -10.0 && ftemp < 10.0) { *fYPos = 0.0; }
+					else if (ftemp > -37.0 & ftemp < -17.0) { *fYPos = -27.0; }
+					else { return FALSE; }
+					return TRUE;
+				}
+			}
+			break; 
+		}
+	}
+
+	return FALSE;
+}

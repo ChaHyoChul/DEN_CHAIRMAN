@@ -312,7 +312,9 @@ BOOL CEPncUIApp::InitInstance()
 															
 // 	P_VERSION = _T("v2.3.1-debug");							// Tool pocket에서 Tool 위치 변경 
 // 	P_VERSION = _T("v2.3.2-debug");							// Tool pocket에서 Tool 위치 변경 
-	P_VERSION = _T("v2.3.2");								// 
+// 	P_VERSION = _T("v2.3.2");								// 
+	P_VERSION = _T("v2.3.3");								// 블럭 감지 위치 변경 (X는 NC 파일의 LENGTH=18.80사용, Y는 NC파일에서 첫번째 G01의 Y 위치 사용) 
+
 
 
 	// 

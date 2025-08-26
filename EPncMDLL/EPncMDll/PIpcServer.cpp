@@ -239,14 +239,15 @@ void pa::CPIpcServer::Execute()
 
 void pa::CPIpcServer::subCommandProc( SIpcCommCommand& cmd )
 {
-	CString strErrMsg;
-	CString strLog;
+	CString strErrMsg(_T(""));
+	CString strLog(_T(""));
 	char	sztemp[32];
 	char	szResponse[128];
-	double	ftemp;
-	DWORD	dwtemp;
-	DWORD	dwTimeout;
-	CString strTemp;
+	double	ftemp = 0.0;
+	DWORD	dwtemp = 0;
+	DWORD	dwTimeout = 0;
+	CString strTemp(_T(""));
+
 	switch( cmd.param.sp.s_cmd )
 	{
 	case IPC_SUBCMD_SEND_COMMAND:	
