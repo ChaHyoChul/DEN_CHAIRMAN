@@ -1,2 +1,12 @@
 Data/
 EPncMDLL/Data/
+
+# Visual Studio generated files
+[Bb]ackup/
+[Dd]ebug/
+[Rr]elease/
+*.ncb
+*.suo
+*.aps
+*.user
+.vs/
