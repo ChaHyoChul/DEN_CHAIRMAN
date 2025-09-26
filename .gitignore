@@ -1,12 +1,15 @@
 Data/
 EPncMDLL/Data/
-
+Lcd/
 # Visual Studio generated files
 [Bb]ackup/
 [Dd]ebug/
 [Rr]elease/
+[Rr]esources/
 *.ncb
 *.suo
 *.aps
 *.user
 .vs/
+*.pptx
+*.ppt

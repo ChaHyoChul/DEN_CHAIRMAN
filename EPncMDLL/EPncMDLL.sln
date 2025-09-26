@@ -1,12 +1,13 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EPncUI", "EPncUI\EPncUI\EPncUI.vcproj", "{2F46EB89-125C-45F6-B46B-EFE4963917DB}"
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EPncUI", "EPncUI\EPncUI\EPncUI.vcxproj", "{2F46EB89-125C-45F6-B46B-EFE4963917DB}"
 	ProjectSection(ProjectDependencies) = postProject
 		{CD7BDA72-9A44-487C-A5BA-5D6042314342} = {CD7BDA72-9A44-487C-A5BA-5D6042314342}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EPncMDll", "EPncMDll\EPncMDll.vcproj", "{CD7BDA72-9A44-487C-A5BA-5D6042314342}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EPncMDll", "EPncMDll\EPncMDll.vcxproj", "{CD7BDA72-9A44-487C-A5BA-5D6042314342}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

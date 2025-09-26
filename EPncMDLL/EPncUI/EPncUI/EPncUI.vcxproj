@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <ProjectGuid>{2F46EB89-125C-45F6-B46B-EFE4963917DB}</ProjectGuid>
+    <RootNamespace>EPncUI</RootNamespace>
+    <Keyword>MFCProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <UseOfMfc>Static</UseOfMfc>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <UseOfMfc>Static</UseOfMfc>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>17.0.36414.14</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0412</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(SolutionDir)$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Command />
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+    </Midl>
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0412</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(SolutionDir)$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Common\CEIniFile.cpp" />
+    <ClCompile Include="..\..\Common\EPACommonHeader.cpp" />
+    <ClCompile Include="..\..\Common\hcutil.cpp" />
+    <ClCompile Include="..\..\Common\IpcLib.cpp" />
+    <ClCompile Include="CalculatorDlg.cpp" />
+    <ClCompile Include="CanvasCE.cpp" />
+    <ClCompile Include="ConnectErrorDlg.cpp" />
+    <ClCompile Include="DlgList.cpp" />
+    <ClCompile Include="EPncUI.cpp" />
+    <ClCompile Include="EPncUIDlg2.cpp" />
+    <ClCompile Include="ErrorDlg.cpp" />
+    <ClCompile Include="FileCopyDlg.cpp" />
+    <ClCompile Include="FileListBox.cpp" />
+    <ClCompile Include="FtpClient.cpp" />
+    <ClCompile Include="IconWnd.cpp" />
+    <ClCompile Include="ImgButtonEx2.cpp" />
+    <ClCompile Include="ImgButtonEx2BlockGrip.cpp" />
+    <ClCompile Include="ImgButtonEx2Run.cpp" />
+    <ClCompile Include="ImgButtonEx2ToolClamp.cpp" />
+    <ClCompile Include="IOListBoxEx.cpp" />
+    <ClCompile Include="JogButton.cpp" />
+    <ClCompile Include="MaxxLinkServiceDlg.cpp" />
+    <ClCompile Include="MsgDlg.cpp" />
+    <ClCompile Include="MsgDlgThread.cpp" />
+    <ClCompile Include="NCStatusBarWnd.cpp" />
+    <ClCompile Include="NotifyButton.cpp" />
+    <ClCompile Include="NotifyButton2.cpp" />
+    <ClCompile Include="NumericInputDlg.cpp" />
+    <ClCompile Include="NumericInputTimeDlg.cpp" />
+    <ClCompile Include="OptionDataListBox.cpp" />
+    <ClCompile Include="PasswordDlg.cpp" />
+    <ClCompile Include="PAStatus.cpp" />
+    <ClCompile Include="PMaintenance.cpp" />
+    <ClCompile Include="PNCFile.cpp" />
+    <ClCompile Include="PNCFileMgr.cpp" />
+    <ClCompile Include="PncIpcClient.cpp" />
+    <ClCompile Include="PointDataListBox.cpp" />
+    <ClCompile Include="PositionWnd.cpp" />
+    <ClCompile Include="PSWConfig.cpp" />
+    <ClCompile Include="PTool.cpp" />
+    <ClCompile Include="ResetOriginDlg.cpp" />
+    <ClCompile Include="RestartDialog.cpp" />
+    <ClCompile Include="RunTimeListBox.cpp" />
+    <ClCompile Include="SelectJogStepDlg.cpp" />
+    <ClCompile Include="SensorStateWnd.cpp" />
+    <ClCompile Include="SetupAutoCalibrationDlg.cpp" />
+    <ClCompile Include="SetupAutoCalibrationStep1Dlg.cpp" />
+    <ClCompile Include="SetupAutoCalibrationStep2Dlg.cpp" />
+    <ClCompile Include="SetupAutoCalibrationStep3Dlg.cpp" />
+    <ClCompile Include="SetupAutoCalibrationStep4Dlg.cpp" />
+    <ClCompile Include="SetupAutoCalibrationStep5Dlg.cpp" />
+    <ClCompile Include="SetupAutoCalibrationStep6Dlg.cpp" />
+    <ClCompile Include="SetupAutoTeachingDlg.cpp" />
+    <ClCompile Include="SetupAutoTeachingStep1Dlg.cpp" />
+    <ClCompile Include="SetupAutoTeachingStep2Dlg.cpp" />
+    <ClCompile Include="SetupAutoTeachingStep3Dlg.cpp" />
+    <ClCompile Include="SetupAutoTeachingStep4Dlg.cpp" />
+    <ClCompile Include="SetupAutoTeachingStep5Dlg.cpp" />
+    <ClCompile Include="SetupAutoTeachingStep6Dlg.cpp" />
+    <ClCompile Include="SetupAutoTeachingStep7Dlg.cpp" />
+    <ClCompile Include="SetupDlg.cpp" />
+    <ClCompile Include="SetupIODlg.cpp" />
+    <ClCompile Include="SetupLogDlg.cpp" />
+    <ClCompile Include="SetupMaintenanceDlg.cpp" />
+    <ClCompile Include="SetupMenuDlg.cpp" />
+    <ClCompile Include="SetupOptionDlg.cpp" />
+    <ClCompile Include="SetupSystemATCTestDlg.cpp" />
+    <ClCompile Include="SetupSystemChangeIPDlg.cpp" />
+    <ClCompile Include="SetupSystemDlg.cpp" />
+    <ClCompile Include="SetupSystemRunTimeInfoDlg.cpp" />
+    <ClCompile Include="SetupSystemSoftLimitDlg.cpp" />
+    <ClCompile Include="SetupSystemToolInfoDlg.cpp" />
+    <ClCompile Include="SetupTeachingAutoCalCoordOffsetDlg.cpp" />
+    <ClCompile Include="SetupTeachingAutoTeachingDlg.cpp" />
+    <ClCompile Include="SetupTeachingCoordOffsetDlg.cpp" />
+    <ClCompile Include="SetupTeachingDlg.cpp" />
+    <ClCompile Include="SetupTeachingOffsetDlg.cpp" />
+    <ClCompile Include="SetupTeachingTeachingPointDlg.cpp" />
+    <ClCompile Include="SetupTerminalDlg.cpp" />
+    <ClCompile Include="SetupToolDlg.cpp" />
+    <ClCompile Include="SetupToolResetDlg.cpp" />
+    <ClCompile Include="SetupToolSetDlg.cpp" />
+    <ClCompile Include="SplashDlg.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="StringCalculator.cpp" />
+    <ClCompile Include="TitleBarWnd.cpp" />
+    <ClCompile Include="ToolTimeDispWnd.cpp" />
+    <ClCompile Include="UIToolPocketAutoTeachingBase.cpp" />
+    <ClCompile Include="UIToolPocketAutoTeachingP1.cpp" />
+    <ClCompile Include="UIToolPocketAutoTeachingP2.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Common\CEIniFile.h" />
+    <ClInclude Include="..\..\Common\EPACommonHeader.h" />
+    <ClInclude Include="..\..\Common\FileTransferCommonHeader.h" />
+    <ClInclude Include="..\..\Common\hcutil.h" />
+    <ClInclude Include="..\..\Common\IpcLib.h" />
+    <ClInclude Include="CalculatorDlg.h" />
+    <ClInclude Include="CanvasCE.h" />
+    <ClInclude Include="ConnectErrorDlg.h" />
+    <ClInclude Include="DlgList.h" />
+    <ClInclude Include="EPncUI.h" />
+    <ClInclude Include="EPncUIDlg2.h" />
+    <ClInclude Include="ErrorDlg.h" />
+    <ClInclude Include="FileCopyDlg.h" />
+    <ClInclude Include="FileListBox.h" />
+    <ClInclude Include="FtpClient.h" />
+    <ClInclude Include="IconWnd.h" />
+    <ClInclude Include="ImgButtonEx2.h" />
+    <ClInclude Include="ImgButtonEx2BlockGrip.h" />
+    <ClInclude Include="ImgButtonEx2Run.h" />
+    <ClInclude Include="ImgButtonEx2ToolClamp.h" />
+    <ClInclude Include="IOListBoxEx.h" />
+    <ClInclude Include="JogButton.h" />
+    <ClInclude Include="MaxxLinkServiceDlg.h" />
+    <ClInclude Include="MsgDlg.h" />
+    <ClInclude Include="MsgDlgThread.h" />
+    <ClInclude Include="NCStatusBarWnd.h" />
+    <ClInclude Include="NotifyButton.h" />
+    <ClInclude Include="NotifyButton2.h" />
+    <ClInclude Include="NumericInputDlg.h" />
+    <ClInclude Include="NumericInputTimeDlg.h" />
+    <ClInclude Include="OptionDataListBox.h" />
+    <ClInclude Include="PasswordDlg.h" />
+    <ClInclude Include="PAStatus.h" />
+    <ClInclude Include="PMaintenance.h" />
+    <ClInclude Include="PNCFile.h" />
+    <ClInclude Include="PNCFileMgr.h" />
+    <ClInclude Include="PncIpcClient.h" />
+    <ClInclude Include="PointDataListBox.h" />
+    <ClInclude Include="PositionWnd.h" />
+    <ClInclude Include="PSWConfig.h" />
+    <ClInclude Include="PTool.h" />
+    <ClInclude Include="RegisterRelToolDlg.h" />
+    <ClInclude Include="ResetOriginDlg.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="RestartDialog.h" />
+    <ClInclude Include="RunTimeListBox.h" />
+    <ClInclude Include="SelectJogStepDlg.h" />
+    <ClInclude Include="SensorStateWnd.h" />
+    <ClInclude Include="SetupAutoCalibrationDlg.h" />
+    <ClInclude Include="SetupAutoCalibrationStep1Dlg.h" />
+    <ClInclude Include="SetupAutoCalibrationStep2Dlg.h" />
+    <ClInclude Include="SetupAutoCalibrationStep3Dlg.h" />
+    <ClInclude Include="SetupAutoCalibrationStep4Dlg.h" />
+    <ClInclude Include="SetupAutoCalibrationStep5Dlg.h" />
+    <ClInclude Include="SetupAutoCalibrationStep6Dlg.h" />
+    <ClInclude Include="SetupAutoTeachingDlg.h" />
+    <ClInclude Include="SetupAutoTeachingStep1Dlg.h" />
+    <ClInclude Include="SetupAutoTeachingStep2Dlg.h" />
+    <ClInclude Include="SetupAutoTeachingStep3Dlg.h" />
+    <ClInclude Include="SetupAutoTeachingStep4Dlg.h" />
+    <ClInclude Include="SetupAutoTeachingStep5Dlg.h" />
+    <ClInclude Include="SetupAutoTeachingStep6Dlg.h" />
+    <ClInclude Include="SetupAutoTeachingStep7Dlg.h" />
+    <ClInclude Include="SetupDlg.h" />
+    <ClInclude Include="SetupIODlg.h" />
+    <ClInclude Include="SetupLogDlg.h" />
+    <ClInclude Include="SetupMaintenanceDlg.h" />
+    <ClInclude Include="SetupMenuDlg.h" />
+    <ClInclude Include="SetupOptionDlg.h" />
+    <ClInclude Include="SetupSystemATCTestDlg.h" />
+    <ClInclude Include="SetupSystemChangeIPDlg.h" />
+    <ClInclude Include="SetupSystemDlg.h" />
+    <ClInclude Include="SetupSystemRunTimeInfoDlg.h" />
+    <ClInclude Include="SetupSystemSoftLimitDlg.h" />
+    <ClInclude Include="SetupSystemToolInfoDlg.h" />
+    <ClInclude Include="SetupTeachingAutoCalCoordOffsetDlg.h" />
+    <ClInclude Include="SetupTeachingAutoTeachingDlg.h" />
+    <ClInclude Include="SetupTeachingCoordOffsetDlg.h" />
+    <ClInclude Include="SetupTeachingDlg.h" />
+    <ClInclude Include="SetupTeachingOffsetDlg.h" />
+    <ClInclude Include="SetupTeachingTeachingPointDlg.h" />
+    <ClInclude Include="SetupTerminalDlg.h" />
+    <ClInclude Include="SetupToolDlg.h" />
+    <ClInclude Include="SetupToolResetDlg.h" />
+    <ClInclude Include="SetupToolSetDlg.h" />
+    <ClInclude Include="SplashDlg.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="StringCalculator.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="TitleBarWnd.h" />
+    <ClInclude Include="ToolTimeDispWnd.h" />
+    <ClInclude Include="UIToolPocketAutoTeachingBase.h" />
+    <ClInclude Include="UIToolPocketAutoTeachingP1.h" />
+    <ClInclude Include="UIToolPocketAutoTeachingP2.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\Resources\AC_calSwitch.bmp" />
+    <Image Include="..\..\..\Resources\AC_conductionOff.bmp" />
+    <Image Include="..\..\..\Resources\AC_conductionOn.bmp" />
+    <Image Include="..\..\..\Resources\AC_equipment.bmp" />
+    <Image Include="..\..\..\Resources\AC_insertingTools1.bmp" />
+    <Image Include="..\..\..\Resources\AC_insertingTools2.bmp" />
+    <Image Include="..\..\..\Resources\AC_insertingTools3.bmp" />
+    <Image Include="..\..\..\Resources\AC_mountedToolsCylinder.bmp" />
+    <Image Include="..\..\..\Resources\AC_Ready.bmp" />
+    <Image Include="..\..\..\Resources\AT_AC\AC_cylinder_mount.bmp" />
+    <Image Include="..\..\..\Resources\AT_AC\AC_equipment_568x250.bmp" />
+    <Image Include="..\..\..\Resources\AT_AC\AC_sigon.bmp" />
+    <Image Include="..\..\..\Resources\AT_AC\AT_ATC_cleaning.bmp" />
+    <Image Include="..\..\..\Resources\AT_AC\AT_ATC_mount.bmp" />
+    <Image Include="..\..\..\Resources\AT_AC\AT_equipment_638x300.bmp" />
+    <Image Include="..\..\..\Resources\AT_cableClamp.bmp" />
+    <Image Include="..\..\..\Resources\AT_conductionOff.bmp" />
+    <Image Include="..\..\..\Resources\AT_conductionOn.bmp" />
+    <Image Include="..\..\..\Resources\AT_mountedToolsATC.bmp" />
+    <Image Include="..\..\..\Resources\AT_ready.bmp" />
+    <Image Include="..\..\..\Resources\bitmap1.bmp" />
+    <Image Include="..\..\..\Resources\bitmap2.bmp" />
+    <Image Include="res\AT_AC\AC_calSwitch.bmp" />
+    <Image Include="res\AT_AC\AC_conductionOff.bmp" />
+    <Image Include="res\AT_AC\AC_conductionOn.bmp" />
+    <Image Include="res\AT_AC\AC_cylinder_mount.bmp" />
+    <Image Include="res\AT_AC\AC_equipment_568x250.bmp" />
+    <Image Include="res\AT_AC\AC_insertingTools1.bmp" />
+    <Image Include="res\AT_AC\AC_insertingTools2.bmp" />
+    <Image Include="res\AT_AC\AC_insertingTools3.bmp" />
+    <Image Include="res\AT_AC\AC_mountedToolsCylinder.bmp" />
+    <Image Include="res\AT_AC\AC_Ready.bmp" />
+    <Image Include="res\AT_AC\AT_ATC_cleaning.bmp" />
+    <Image Include="res\AT_AC\AT_ATC_mount.bmp" />
+    <Image Include="res\AT_AC\AT_cableClamp.bmp" />
+    <Image Include="res\AT_AC\AT_conductionOff.bmp" />
+    <Image Include="res\AT_AC\AT_conductionOn.bmp" />
+    <Image Include="res\AT_AC\AT_equipment_638x300.bmp" />
+    <Image Include="res\AT_AC\AT_mountedToolsATC.bmp" />
+    <Image Include="res\AT_AC\AT_ready.bmp" />
+    <Image Include="res\bitmap1.bmp" />
+    <Image Include="res\EPncUI.ico" />
+    <Image Include="res\icon_error.bmp" />
+    <Image Include="res\icon_info.bmp" />
+    <Image Include="res\icon_quest.bmp" />
+    <Image Include="res\icon_warm.bmp" />
+    <Image Include="res\ServiceImage001.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="EPncUI.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram11.cd" />
+    <None Include="res\EPncUI.rc2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="EPncUI.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

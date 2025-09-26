@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <ProjectGuid>{CD7BDA72-9A44-487C-A5BA-5D6042314342}</ProjectGuid>
+    <RootNamespace>EPncMDll</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <UseOfMfc>Static</UseOfMfc>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <UseOfMfc>Static</UseOfMfc>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>17.0.36414.14</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;EPNCMDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Command />
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;EPNCMDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Common\CEIniFile.cpp" />
+    <ClCompile Include="..\Common\EPACommonHeader.cpp" />
+    <ClCompile Include="..\Common\hcutil.cpp" />
+    <ClCompile Include="..\Common\IpcLib.cpp" />
+    <ClCompile Include="AutoCalDlg.cpp" />
+    <ClCompile Include="Comm232.cpp" />
+    <ClCompile Include="EPncMDlg.cpp" />
+    <ClCompile Include="EPncMDll.cpp" />
+    <ClCompile Include="EPncMDllApp.cpp" />
+    <ClCompile Include="ErrorDlg.cpp" />
+    <ClCompile Include="GCodeHelper.cpp" />
+    <ClCompile Include="GLCDCommEx.cpp" />
+    <ClCompile Include="hc3dutil.cpp" />
+    <ClCompile Include="hcsock.cpp" />
+    <ClCompile Include="HomeDlg.cpp" />
+    <ClCompile Include="IGLCD.cpp" />
+    <ClCompile Include="Log.cpp" />
+    <ClCompile Include="pa.cpp" />
+    <ClCompile Include="PAAsyncComm.cpp" />
+    <ClCompile Include="PAMotion.cpp" />
+    <ClCompile Include="PAStatus.cpp" />
+    <ClCompile Include="PConfig.cpp" />
+    <ClCompile Include="PContinueRunInfo.cpp" />
+    <ClCompile Include="PIpcServer.cpp" />
+    <ClCompile Include="PMaintenance.cpp" />
+    <ClCompile Include="PNCFile.cpp" />
+    <ClCompile Include="PNCFileMgr.cpp" />
+    <ClCompile Include="PThread.cpp" />
+    <ClCompile Include="PTool.cpp" />
+    <ClCompile Include="RemoteServer.cpp" />
+    <ClCompile Include="ScreenCapture.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ThreadMgr.cpp" />
+    <ClCompile Include="TonyJpegEncoder.cpp" />
+    <ClCompile Include="ToolPocketAutoTeachingBase.cpp" />
+    <ClCompile Include="ToolPocketAutoTeachingP1.cpp" />
+    <ClCompile Include="ToolPocketAutoTeachingP2.cpp" />
+    <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="UserConfirmDlg.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Common\CEIniFile.h" />
+    <ClInclude Include="..\Common\EPACommonHeader.h" />
+    <ClInclude Include="..\Common\hcutil.h" />
+    <ClInclude Include="..\Common\IpcLib.h" />
+    <ClInclude Include="AutoCalDlg.h" />
+    <ClInclude Include="Comm232.h" />
+    <ClInclude Include="EPncMDlg.h" />
+    <ClInclude Include="EPncMDll.h" />
+    <ClInclude Include="EPncMDllApp.h" />
+    <ClInclude Include="ErrorDlg.h" />
+    <ClInclude Include="GCodeHelper.h" />
+    <ClInclude Include="GLCDCommEx.h" />
+    <ClInclude Include="hc3dutil.h" />
+    <ClInclude Include="hcsock.h" />
+    <ClInclude Include="HomeDlg.h" />
+    <ClInclude Include="IGLCD.h" />
+    <ClInclude Include="Log.h" />
+    <ClInclude Include="pa.h" />
+    <ClInclude Include="PAAsyncComm.h" />
+    <ClInclude Include="PAMotion.h" />
+    <ClInclude Include="PAStatus.h" />
+    <ClInclude Include="PConfig.h" />
+    <ClInclude Include="PContinueRunInfo.h" />
+    <ClInclude Include="PIpcServer.h" />
+    <ClInclude Include="PMaintenance.h" />
+    <ClInclude Include="PNCFile.h" />
+    <ClInclude Include="PNCFileMgr.h" />
+    <ClInclude Include="PThread.h" />
+    <ClInclude Include="PTool.h" />
+    <ClInclude Include="RemoteServer.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="ScreenCapture.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="ThreadMgr.h" />
+    <ClInclude Include="TonyJpegEncoder.h" />
+    <ClInclude Include="ToolPocketAutoTeachingBase.h" />
+    <ClInclude Include="ToolPocketAutoTeachingP1.h" />
+    <ClInclude Include="ToolPocketAutoTeachingP2.h" />
+    <ClInclude Include="Transform.h" />
+    <ClInclude Include="UserConfirmDlg.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="EPncMDll.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
