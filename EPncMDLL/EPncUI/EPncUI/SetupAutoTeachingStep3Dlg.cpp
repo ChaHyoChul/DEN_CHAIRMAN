@@ -64,16 +64,16 @@ BOOL CSetupAutoTeachingStep3Dlg::OnInitDialog()
 		DEFAULT_QUALITY, 
 		DEFAULT_PITCH, _T("Calibri") );
 
-	((CStatic *)GetDlgItem(IDC_STATIC_IMG1_TITLE))->SetFont( &fntSubstep_, TRUE );
+	//((CStatic *)GetDlgItem(IDC_STATIC_IMG1_TITLE))->SetFont( &fntSubstep_, TRUE );
 	((CStatic *)GetDlgItem(IDC_STATIC_IMG2_TITLE))->SetFont( &fntSubstep_, TRUE );
     
 	CRect recbutton;
 
-    hcutil::reposstatic( (CStatic*)GetDlgItem(IDC_STATIC_IMG1_TITLE), this, &recbutton, &PCUIrectST);
+    //hcutil::reposstatic( (CStatic*)GetDlgItem(IDC_STATIC_IMG1_TITLE), this, &recbutton, &PCUIrectST);
     hcutil::reposstatic( (CStatic*)GetDlgItem(IDC_STATIC_IMG2_TITLE), this, &recbutton, &PCUIrectST);
-    hcutil::reposstatic( (CStatic*)GetDlgItem(IDC_STATIC_IMG1), this, &recbutton, &PCUIrectST);
+    //hcutil::reposstatic( (CStatic*)GetDlgItem(IDC_STATIC_IMG1), this, &recbutton, &PCUIrectST);
     hcutil::reposstatic( (CStatic*)GetDlgItem(IDC_STATIC_IMG2), this, &recbutton, &PCUIrectST);
-    hcutil::reposstatic( (CStatic*)GetDlgItem(IDC_STATIC_G2), this, &recbutton, &PCUIrectST);
+    //hcutil::reposstatic( (CStatic*)GetDlgItem(IDC_STATIC_G2), this, &recbutton, &PCUIrectST);
     hcutil::reposstatic( (CStatic*)GetDlgItem(IDC_STATIC_G3), this, &recbutton, &PCUIrectST);
     
 	return TRUE;  // return TRUE unless you set the focus to a control
@@ -109,7 +109,7 @@ HBRUSH CSetupAutoTeachingStep3Dlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlCol
 		UINT nCtrlID = pWnd->GetDlgCtrlID();
 		switch( nCtrlID )
 		{
-		case IDC_STATIC_IMG1_TITLE:
+		//case IDC_STATIC_IMG1_TITLE:
 		case IDC_STATIC_IMG2_TITLE:
 			hbr = (HBRUSH)brhBkgnd_;
 			break;

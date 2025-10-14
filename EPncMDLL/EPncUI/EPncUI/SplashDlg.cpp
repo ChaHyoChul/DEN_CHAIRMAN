@@ -283,7 +283,8 @@ void CSplashDlg::updateProgress(int stepNo)
 	case 2:
 	case 3:
 	case 50:
-		strMsg.Format(_T("Establishing connection with Chairman 5X..."));
+		//strMsg.Format(_T("Establishing connection with Chairman 5X..."));
+		strMsg.Format(_T("Establishing connection with %s..."), pa::MODEL_INFO.GetMachineName());
 		break;
 	default:
 		strMsg.Format(_T("Initializing..."));

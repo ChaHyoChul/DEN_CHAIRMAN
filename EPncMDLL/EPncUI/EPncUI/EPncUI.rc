@@ -13,13 +13,11 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// 한국어 resources
+// 한국어(대한민국) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_KOR)
-#ifdef _WIN32
 LANGUAGE LANG_KOREAN, SUBLANG_DEFAULT
 #pragma code_page(949)
-#endif //_WIN32
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -66,12 +64,13 @@ END
 // remains consistent on all systems.
 IDR_MAINFRAME           ICON                    "res\\EPncUI.ico"
 
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // Dialog
 //
 
-IDD_DIALOG_FILE_COPY DIALOG  0, 0, 280, 110
+IDD_DIALOG_FILE_COPY DIALOG 0, 0, 280, 110
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION
 CAPTION "File Copy"
 FONT 8, "MS Shell Dlg"
@@ -335,7 +334,7 @@ BEGIN
     GROUPBOX        "",IDC_STATIC,10,6,290,128
 END
 
-IDD_DIALOG_SEL_JOG_STEP DIALOG  0, 0, 50, 211
+IDD_DIALOG_SEL_JOG_STEP DIALOG 0, 0, 50, 211
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_BORDER
 FONT 9, "MS Shell Dlg"
 BEGIN
@@ -349,7 +348,7 @@ BEGIN
     CONTROL         "2.0 mm",IDC_RADIO_20,"Button",BS_AUTORADIOBUTTON | BS_PUSHLIKE,3,182,44,22
 END
 
-IDD_DIALOG_SETUP_TEACHING_COORD_OFFSET DIALOG  0, 0, 370, 290
+IDD_DIALOG_SETUP_TEACHING_COORD_OFFSET DIALOG 0, 0, 370, 290
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
 FONT 9, "MS Shell Dlg"
 BEGIN
@@ -357,7 +356,7 @@ BEGIN
     LTEXT           "Coordinate Offset",IDC_STATIC_TITLE_COORD_OFFSET,0,0,370,30,WS_BORDER
 END
 
-IDD_DIALOG_SETUP_TEACHING_TEACHING_POINT DIALOG  0, 0, 370, 290
+IDD_DIALOG_SETUP_TEACHING_TEACHING_POINT DIALOG 0, 0, 370, 290
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
 FONT 9, "MS Shell Dlg"
 BEGIN
@@ -365,7 +364,7 @@ BEGIN
     LTEXT           "Teaching Point",IDC_STATIC_TITLE_TEACHING_POINT,0,0,370,30,WS_BORDER
 END
 
-IDD_DIALOG_SETUP_TEACHING_OFFSET DIALOG  0, 0, 370, 290
+IDD_DIALOG_SETUP_TEACHING_OFFSET DIALOG 0, 0, 370, 290
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
 FONT 9, "MS Shell Dlg"
 BEGIN
@@ -381,10 +380,10 @@ BEGIN
     PUSHBUTTON      "NO",IDC_BUTTON_NO,143,128,77,28
     PUSHBUTTON      "CANCEL",IDC_BUTTON_CANCEL,227,128,77,28
     LTEXT           "Static",IDC_STATIC_MSG,50,19,245,91,WS_BORDER
-    CONTROL         167,IDC_STATIC_INFO,"Static",SS_BITMAP,20,20,18,18
-    CONTROL         166,IDC_STATIC_ERROR,"Static",SS_BITMAP,20,20,18,18
-    CONTROL         168,IDC_STATIC_QUEST,"Static",SS_BITMAP,20,20,18,18
-    CONTROL         169,IDC_STATIC_WARM,"Static",SS_BITMAP,20,20,18,16
+    CONTROL         IDB_BITMAP_INFO,IDC_STATIC_INFO,"Static",SS_BITMAP,20,20,18,18
+    CONTROL         IDB_BITMAP_ERROR,IDC_STATIC_ERROR,"Static",SS_BITMAP,20,20,18,18
+    CONTROL         IDB_BITMAP_QUEST,IDC_STATIC_QUEST,"Static",SS_BITMAP,20,20,18,18
+    CONTROL         IDB_BITMAP_WARM,IDC_STATIC_WARM,"Static",SS_BITMAP,20,20,18,16
     GROUPBOX        "",IDC_STATIC,10,6,295,113
     PUSHBUTTON      "OK",IDC_BUTTON_OK,143,128,77,28
     PUSHBUTTON      "CLOSE",IDC_BUTTON_CLOSE,227,128,77,28
@@ -670,7 +669,7 @@ BEGIN
     CTEXT           "Right Spindle",IDC_STATIC_LBL_RIGHT_SPINDLE,19,119,54,16,SS_CENTERIMAGE
 END
 
-IDD_DIALOG_RESTART DIALOG  0, 0, 321, 194
+IDD_DIALOG_RESTART DIALOG 0, 0, 321, 194
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_SYSMENU
 FONT 9, "MS Shell Dlg"
 BEGIN
@@ -783,7 +782,7 @@ BEGIN
     CTEXT           "",IDC_STATIC_LIST_AREA,0,32,241,282,WS_BORDER
 END
 
-IDD_DIALOG_MAXXLINK_SERVICE DIALOG  0, 0, 318, 233
+IDD_DIALOG_MAXXLINK_SERVICE DIALOG 0, 0, 318, 233
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_BORDER
 FONT 9, "MS Shell Dlg"
 BEGIN
@@ -803,12 +802,12 @@ BEGIN
     PUSHBUTTON      "",IDC_BUTTON_SERVICE_IP4,259,115,36,22
     LTEXT           "  :  ",IDC_STATIC,144,147,12,8
     PUSHBUTTON      "0",IDC_BUTTON_SERVICE_PORTNO,156,141,54,22
-    CONTROL         175,IDC_STATIC,"Static",SS_BITMAP,18,93,53,77
+    CONTROL         IDB_BITMAP_SERVICE,IDC_STATIC,"Static",SS_BITMAP,18,93,53,77
     GROUPBOX        "CAM PC (Linker) IP-Address and Port Number",IDC_STATIC,10,10,230,78
     GROUPBOX        "Service PC (Server) IP-Address and Port Number",IDC_STATIC,78,97,230,78
 END
 
-IDD_DIALOGIDD_DIALOG_SETUP_SYSTEM_RUN_TIME DIALOG  0, 0, 316, 233
+IDD_DIALOGIDD_DIALOG_SETUP_SYSTEM_RUN_TIME DIALOG 0, 0, 316, 233
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Run Time Information"
 FONT 8, "MS Shell Dlg"
@@ -849,7 +848,7 @@ BEGIN
     PUSHBUTTON      "ㅊ",IDC_BUTTON_CHANGE_PORT_NO,7,164,28,11,BS_MULTILINE | NOT WS_VISIBLE
 END
 
-IDD_DIALOG_SETUP_SYSTEM_ATCTEST DIALOG  0, 0, 367, 250
+IDD_DIALOG_SETUP_SYSTEM_ATCTEST DIALOG 0, 0, 367, 250
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION
 CAPTION "ATC Test"
 FONT 9, "MS Shell Dlg"
@@ -899,7 +898,7 @@ BEGIN
     PUSHBUTTON      "Close",IDC_BUTTON_CLOSE,253,209,94,32
 END
 
-IDD_DIALOG_RESET_ORIGIN DIALOG  0, 0, 242, 114
+IDD_DIALOG_RESET_ORIGIN DIALOG 0, 0, 242, 114
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION
 CAPTION "Reset Origin"
 FONT 9, "MS Shell Dlg"
@@ -1059,7 +1058,7 @@ FONT 12, "Microsoft Sans Serif", 400, 0, 0x0
 BEGIN
     CONTROL         "1. Prepare calibration accessories",IDC_STATIC_IMG1_TITLE,
                     "Static",SS_LEFTNOWORDWRAP | WS_GROUP,76,7,132,11
-    CONTROL         212,IDC_STATIC_IMG1,"Static",SS_BITMAP,71,47,303,120
+    CONTROL         IDB_BITMAP2,IDC_STATIC_IMG1,"Static",SS_BITMAP,71,47,303,120
     CONTROL         "(a) 3 mm hex key\r\n(b) Calibration tools for left and right spindles\r\n(c) Calibration cable ",IDC_STATIC_IMG1_DESC,
                     "Static",SS_LEFTNOWORDWRAP | WS_GROUP,210,7,190,39
 END
@@ -1069,9 +1068,10 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_BORDER
 FONT 9, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     LTEXT           "1. Insert one calibration tool in the left collet\r\n\r\n2. Insert the other calibration tool in the right collet",IDC_STATIC_IMG1_TITLE,143,14,355,81
-    CONTROL         190,IDC_STATIC_IMG1,"Static",SS_BITMAP,157,156,154,154
-    CONTROL         191,IDC_STATIC_IMG2,"Static",SS_BITMAP,320,156,114,154
-    CONTROL         192,IDC_STATIC_IMG3,"Static",SS_BITMAP,444,157,177,154
+    CONTROL         IDD_DIALOG_SETUP_TOOL1,IDC_STATIC_IMG1,"Static",SS_BITMAP,157,156,154,154
+    CONTROL         IDD_DIALOG_SETUP_TEACHING_AUTO_TEACHING1,IDC_STATIC_IMG2,
+                    "Static",SS_BITMAP,320,156,114,154
+    CONTROL         IDD_DIALOG_SETUP_AUTOTEACH_STEP6,IDC_STATIC_IMG3,"Static",SS_BITMAP,444,157,177,154
     CONTROL         "LEFT Collet Open",IDC_CHECK_TOOL_CLAMP_UNCLAMP,"Button",BS_AUTOCHECKBOX | BS_PUSHLIKE | BS_MULTILINE | WS_TABSTOP,499,6,143,30
     CONTROL         "RIGHT Collet Open",IDC_CHECK_TOOL2_CLAMP_UNCLAMP,"Button",BS_AUTOCHECKBOX | BS_PUSHLIKE | BS_MULTILINE | WS_TABSTOP,499,45,142,31
     CONTROL         "(a) Open the collet using the ""LEFT/RIGHT Unclamp"" button\r\n(b) Insert the tool in the opened collet\r\n(c) While holding the tool in the collet, press the ""LEFT/RIGHT Clamp"" button to close the collet.",IDC_STATIC_IMG1_DESCR,
@@ -1082,12 +1082,9 @@ IDD_DIALOG_SETUP_AUTOTEACH_STEP3 DIALOGEX 0, 0, 585, 245
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_BORDER
 FONT 9, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    LTEXT           "1. Mount the ATC.",IDC_STATIC_IMG1_TITLE,35,18,108,24
-    CONTROL         210,IDC_STATIC_IMG1,"Static",SS_BITMAP | SS_REALSIZEIMAGE | SS_SUNKEN,31,48,122,173
-    CONTROL         194,IDC_STATIC_IMG2,"Static",SS_BITMAP | SS_SUNKEN,191,37,361,191
-    LTEXT           "2. Verify the tools and the ATC are mounted as shown in the picture.",IDC_STATIC_IMG2_TITLE,195,16,354,18
-    GROUPBOX        "",IDC_STATIC_G2,14,7,161,232
-    GROUPBOX        "",IDC_STATIC_G3,175,7,394,232
+    CONTROL         IDD_DIALOG_SETUP_AUTOTEACH_STEP3,IDC_STATIC_IMG2,"Static",SS_BITMAP | SS_SUNKEN,113,37,410,246
+    LTEXT           "1. Verify the tools and the ATC are mounted as shown in the picture.",IDC_STATIC_IMG2_TITLE,117,16,354,18
+    GROUPBOX        "",IDC_STATIC_G3,97,7,394,232
 END
 
 IDD_DIALOG_SETUP_AUTOTEACH_STEP4 DIALOGEX 0, 0, 512, 214
@@ -1096,14 +1093,14 @@ FONT 9, "Tahoma", 400, 0, 0x0
 BEGIN
     GROUPBOX        "",IDC_STATIC_G2,8,4,167,203
     LTEXT           "1. Connect the calibration cable to the socket on the side panel",IDC_STATIC_IMG1_TITLE,16,13,152,32
-    CONTROL         189,IDC_STATIC_IMG1,"Static",SS_BITMAP | SS_REALSIZEIMAGE,31,49,137,158
+    CONTROL         IDD_DIALOG_SETUP_AUTOTEACH1,IDC_STATIC_IMG1,"Static",SS_BITMAP | SS_REALSIZEIMAGE,31,49,137,158
     GROUPBOX        "",IDC_STATIC_G3,174,4,166,203
     LTEXT           "2. Perform a conduction test with one magnet end",IDC_STATIC_IMG2_TITLE,183,14,152,32
-    CONTROL         196,IDC_STATIC_IMG2,"Static",SS_BITMAP | SS_REALSIZEIMAGE | WS_DISABLED,195,53,143,131
+    CONTROL         IDB_BITMAP_AT_CONDUCTION_OFF,IDC_STATIC_IMG2,"Static",SS_BITMAP | SS_REALSIZEIMAGE | WS_DISABLED,195,53,143,131
     CHECKBOX        " Touch Signal On/Off",IDC_CHECK_TOUCH_SIGNAL,219,185,101,9
     GROUPBOX        "",IDC_STATIC_G4,340,4,168,203
     LTEXT           "3. Attach both magnet rings to the calibration tools",IDC_STATIC_IMG3_TITLE,349,14,152,32
-    CONTROL         195,IDC_STATIC_IMG3,"Static",SS_BITMAP | SS_REALSIZEIMAGE,367,53,130,137
+    CONTROL         IDD_DIALOG_SETUP_AUTOTEACH_STEP4,IDC_STATIC_IMG3,"Static",SS_BITMAP | SS_REALSIZEIMAGE,367,53,130,137
 END
 
 IDD_DIALOG_SETUP_AUTOTEACH_STEP5 DIALOGEX 0, 0, 585, 246
@@ -1113,7 +1110,7 @@ BEGIN
     CONTROL         " Touch Signal On/Off",IDC_CHECK_LEFT_TOUCH_SIGNAL,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,453,142,82,10
     PUSHBUTTON      "START",IDC_BUTTON_START_STOP,435,157,123,56
-    CONTROL         205,IDC_STATIC_IMG1,"Static",SS_BITMAP | SS_SUNKEN,0,0,530,246
+    CONTROL         IDB_BITMAP_AT_READY,IDC_STATIC_IMG1,"Static",SS_BITMAP | SS_SUNKEN,0,0,530,246
     LTEXT           "1. Start the ATC calibration",IDC_STATIC_IMG1_TITLE,426,29,145,13
     LTEXT           "If the milling room looks as shown in the picture, press the START button and wait until the finish message appears.",IDC_STATIC_IMG1_DESCR,433,53,123,61
 END
@@ -1207,7 +1204,7 @@ FONT 12, "Microsoft Sans Serif", 400, 0, 0x0
 BEGIN
     CONTROL         "1. Prepare calibration accessories",IDC_STATIC_IMG1_TITLE,
                     "Static",SS_LEFTNOWORDWRAP | WS_GROUP,76,7,132,11
-    CONTROL         188,IDC_STATIC_IMG1,"Static",SS_BITMAP,71,47,303,120
+    CONTROL         IDD_DIALOG_SETUP_AUTOTEACH,IDC_STATIC_IMG1,"Static",SS_BITMAP,71,47,303,120
     CONTROL         "(a) 3 mm hex key\r\n(b) Calibration tools for left and right spindles\r\n(c) Calibration cylinder\r\n(d) Calibration cable ",IDC_STATIC_IMG1_DESC,
                     "Static",SS_LEFTNOWORDWRAP | WS_GROUP,210,7,190,39
 END
@@ -1217,9 +1214,10 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_BORDER
 FONT 9, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     LTEXT           "1. Insert one calibration tool in the left collet\r\n\r\n2. Insert the other calibration tool in the right collet",IDC_STATIC_IMG1_TITLE,143,14,355,81
-    CONTROL         190,IDC_STATIC_IMG1,"Static",SS_BITMAP,157,156,154,154
-    CONTROL         191,IDC_STATIC_IMG2,"Static",SS_BITMAP,320,156,114,154
-    CONTROL         192,IDC_STATIC_IMG3,"Static",SS_BITMAP,444,157,177,154
+    CONTROL         IDD_DIALOG_SETUP_TOOL1,IDC_STATIC_IMG1,"Static",SS_BITMAP,157,156,154,154
+    CONTROL         IDD_DIALOG_SETUP_TEACHING_AUTO_TEACHING1,IDC_STATIC_IMG2,
+                    "Static",SS_BITMAP,320,156,114,154
+    CONTROL         IDD_DIALOG_SETUP_AUTOTEACH_STEP6,IDC_STATIC_IMG3,"Static",SS_BITMAP,444,157,177,154
     CONTROL         "LEFT Collet Open",IDC_CHECK_TOOL_CLAMP_UNCLAMP,"Button",BS_AUTOCHECKBOX | BS_PUSHLIKE | BS_MULTILINE | WS_TABSTOP,499,6,143,30
     CONTROL         "RIGHT Collet Open",IDC_CHECK_TOOL2_CLAMP_UNCLAMP,"Button",BS_AUTOCHECKBOX | BS_PUSHLIKE | BS_MULTILINE | WS_TABSTOP,499,45,142,31
     CONTROL         "(a) Open the collet using the ""LEFT/RIGHT Unclamp"" button\r\n(b) Insert the tool in the opened collet\r\n(c) While holding the tool in the collet, press the ""LEFT/RIGHT Clamp"" button to close the collet.",IDC_STATIC_IMG1_DESCR,
@@ -1231,8 +1229,8 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_BORDER
 FONT 9, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     LTEXT           "1. Mount the calibration cylinder using 3 mm hex key.",IDC_STATIC_IMG1_TITLE,24,18,147,29
-    CONTROL         209,IDC_STATIC_IMG1,"Static",SS_BITMAP | SS_REALSIZEIMAGE | SS_SUNKEN,38,65,114,144
-    CONTROL         202,IDC_STATIC_IMG2,"Static",SS_BITMAP | SS_SUNKEN,191,39,361,187
+    CONTROL         IDB_BITMAP_AC_CYLINDER,IDC_STATIC_IMG1,"Static",SS_BITMAP | SS_REALSIZEIMAGE | SS_SUNKEN,38,65,114,144
+    CONTROL         IDD_DIALOG_SETUP_AUTOTEACH2,IDC_STATIC_IMG2,"Static",SS_BITMAP | SS_SUNKEN,191,39,361,187
     LTEXT           "2. Verify the tools and the cylinder are mounted as shown in the picture.",IDC_STATIC_IMG2_TITLE,195,16,354,18
     GROUPBOX        "",IDC_STATIC_G2,14,7,161,228
     GROUPBOX        "",IDC_STATIC_G3,175,7,394,228
@@ -1244,14 +1242,14 @@ FONT 9, "Tahoma", 400, 0, 0x0
 BEGIN
     GROUPBOX        "",IDC_STATIC_G2,8,4,167,203
     LTEXT           "1. Connect the calibration cable to the socket on the side panel",IDC_STATIC_IMG1_TITLE,16,13,152,32
-    CONTROL         189,IDC_STATIC_IMG1,"Static",SS_BITMAP,31,49,137,158
+    CONTROL         IDD_DIALOG_SETUP_AUTOTEACH1,IDC_STATIC_IMG1,"Static",SS_BITMAP,31,49,137,158
     GROUPBOX        "",IDC_STATIC_G3,174,4,166,203
     LTEXT           "2. Perform a conduction test with one magnet end",IDC_STATIC_IMG2_TITLE,183,14,152,32
-    CONTROL         203,IDC_STATIC_IMG2,"Static",SS_BITMAP | SS_REALSIZEIMAGE | WS_DISABLED,210,53,112,130
+    CONTROL         IDB_BITMAP_AC_CONDUCTION_OFF,IDC_STATIC_IMG2,"Static",SS_BITMAP | SS_REALSIZEIMAGE | WS_DISABLED,210,53,112,130
     CHECKBOX        " Touch Signal On/Off",IDC_CHECK_TOUCH_SIGNAL,219,185,101,9
     GROUPBOX        "",IDC_STATIC_G4,340,4,168,203
     LTEXT           "3. Attach both magnet rings to the calibration tools",IDC_STATIC_IMG3_TITLE,349,14,152,32
-    CONTROL         195,IDC_STATIC_IMG3,"Static",SS_BITMAP | SS_REALSIZEIMAGE,367,53,130,137
+    CONTROL         IDD_DIALOG_SETUP_AUTOTEACH_STEP4,IDC_STATIC_IMG3,"Static",SS_BITMAP | SS_REALSIZEIMAGE,367,53,130,137
 END
 
 IDD_DIALOG_SETUP_AUTOCAL_STEP5 DIALOGEX 0, 0, 585, 255
@@ -1269,7 +1267,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,468,136,92,9
     CONTROL         " ZR-axis origin offset",IDC_CHECK_Z2AXIS_ORG_OFFSET,
                     "Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,468,148,92,9
-    CONTROL         199,IDC_STATIC_IMG1,"Static",SS_BITMAP | SS_REALSIZEIMAGE | SS_SUNKEN,0,0,439,255
+    CONTROL         IDD_DIALOG_SETUP_AUTOCAL_STEP4,IDC_STATIC_IMG1,"Static",SS_BITMAP | SS_REALSIZEIMAGE | SS_SUNKEN,0,0,439,255
     LTEXT           "1. Start the calibration",IDC_STATIC_IMG1_TITLE,450,10,125,12
     LTEXT           "If the milling room looks as shown in the picture, press the START button and wait until the finish message appears.",IDC_STATIC_IMG1_DESCR,451,26,123,51
 END
@@ -1339,7 +1337,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_DIALOG_FILE_COPY, DIALOG
     BEGIN
@@ -1605,6 +1603,18 @@ BEGIN
         BOTTOMMARGIN, 91
     END
 
+    IDD_DIALOG_SETUP_AUTOTEACH_STEP1, DIALOG
+    BEGIN
+    END
+
+    IDD_DIALOG_SETUP_AUTOTEACH_STEP2, DIALOG
+    BEGIN
+    END
+
+    IDD_DIALOG_SETUP_AUTOTEACH_STEP3, DIALOG
+    BEGIN
+    END
+
     IDD_DIALOG_SETUP_AUTOTEACH_STEP7, DIALOG
     BEGIN
         LEFTMARGIN, 10
@@ -1647,29 +1657,63 @@ END
 //
 
 IDB_BITMAP_ERROR        BITMAP                  "res\\icon_error.bmp"
+
 IDB_BITMAP_INFO         BITMAP                  "res\\icon_info.bmp"
+
 IDB_BITMAP_QUEST        BITMAP                  "res\\icon_quest.bmp"
+
 IDB_BITMAP_WARM         BITMAP                  "res\\icon_warm.bmp"
+
 IDB_BITMAP_SERVICE      BITMAP                  "res\\ServiceImage001.bmp"
+
 IDB_BITMAP_AC_EQUIPMENT BITMAP                  "res\\AT_AC\\AC_equipment_568x250.bmp"
+
 IDB_BITMAP_AC_SWITCH    BITMAP                  "res\\AT_AC\\AC_calSwitch.bmp"
+
 IDB_BITMAP_AC_TOOLS1    BITMAP                  "res\\AT_AC\\AC_insertingTools1.bmp"
+
 IDB_BITMAP_AC_TOOLS2    BITMAP                  "res\\AT_AC\\AC_insertingTools2.bmp"
+
 IDB_BITMAP_AC_TOOLS3    BITMAP                  "res\\AT_AC\\AC_insertingTools3.bmp"
+
 IDB_BITMAP_AT_MOUNTED   BITMAP                  "res\\AT_AC\\AT_mountedToolsATC.bmp"
+
 IDB_BITMAP_AT_CABLE_CLAMP BITMAP                  "res\\AT_AC\\AT_cableClamp.bmp"
+
 IDB_BITMAP_AT_CONDUCTION_OFF BITMAP                  "res\\AT_AC\\AT_conductionOff.bmp"
+
 IDB_BITMAP_AT_CONDUCTION_ON BITMAP                  "res\\AT_AC\\AT_conductionOn.bmp"
+
 IDB_BITMAP_AC_READY     BITMAP                  "res\\AT_AC\\AC_Ready.bmp"
+
 IDB_BITMAP_AC_MOUNTED   BITMAP                  "res\\AT_AC\\AC_mountedToolsCylinder.bmp"
+
 IDB_BITMAP_AC_CONDUCTION_OFF BITMAP                  "res\\AT_AC\\AC_conductionOff.bmp"
+
 IDB_BITMAP_AC_CONDUCTION_ON BITMAP                  "res\\AT_AC\\AC_conductionOn.bmp"
+
 IDB_BITMAP_AT_READY     BITMAP                  "res\\AT_AC\\AT_ready.bmp"
+
 IDB_BITMAP_AC_CYLINDER  BITMAP                  "res\\AT_AC\\AC_cylinder_mount.bmp"
+
 IDB_BITMAP_AT_ATC       BITMAP                  "res\\AT_AC\\AT_ATC_mount.bmp"
+
 IDB_BITMAP_AT_ATC_CLEAN BITMAP                  "res\\AT_AC\\AT_ATC_cleaning.bmp"
+
 IDB_BITMAP_AT_EQUIPMENT BITMAP                  "res\\AT_AC\\AT_equipment_638x300.bmp"
-#endif    // 한국어 resources
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_DIALOG_SETUP_AUTOTEACH_STEP3 AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+#endif    // 한국어(대한민국) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

@@ -8,19 +8,19 @@ class CEPncUIDlg2 : public CDialog
 {
 	DECLARE_DYNAMIC(CEPncUIDlg2)
 	//const static CString msgStatus[];
-	static const CString GetStatusMsg(int index) {
-		static const CString a[] = {
-			_T("Replace the coolant!"),
-			_T("Rinse the filter!"),
-			_T("Replace the filter!"),
-			_T("Clean the nozzles!"),
-			_T("Clean the collets!"),
-			_T("Close the safety door!"),
-			_T("Connect Chairman 5X!"),
-			_T("Replace tool:")
-		};
-		return a[index];
-	}
+	//static const CString GetStatusMsg(int index) {
+	//	static const CString a[] = {
+	//		_T("Replace the coolant!"),
+	//		_T("Rinse the filter!"),
+	//		_T("Replace the filter!"),
+	//		_T("Clean the nozzles!"),
+	//		_T("Clean the collets!"),
+	//		_T("Close the safety door!"),
+	//		_T("Connect Chairman 5X!"),
+	//		_T("Replace tool:")
+	//	};
+	//	return a[index];
+	//}
 
 	static CRect RC_TOOL_AREA;
 
