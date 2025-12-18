@@ -242,7 +242,8 @@ BOOL CEPncUIApp::InitInstance()
 
 	//P_VERSION = _T("v2.4.1");				// Release 버전 
 	//P_VERSION = _T("v2.5.0-debug");				//  model_info에 num_block 파라메타 추가 
-	P_VERSION = _T("v2.5.0");				//  model_info에 num_block 파라메타 추가 
+	//P_VERSION = _T("v2.5.0");				//  model_info에 num_block 파라메타 추가 
+	P_VERSION = _T("v2.5.1");				//  block 감지할 때 X축 위치 옵셋값 조정 (1.25->1.5) 
 
 
 	// 
