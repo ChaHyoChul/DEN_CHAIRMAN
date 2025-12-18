@@ -240,7 +240,9 @@ BOOL CEPncUIApp::InitInstance()
 	//P_VERSION = _T("v2.4.1-test");			// 바텍 버전 대응 (Chairman을 Perfit OVIS 로 변경) : ModelInfo의 MachineName을 출력 
 											// Auto Cal. / Teaching 화면 개선 
 
-	P_VERSION = _T("v2.4.1");				// Release 버전 
+	//P_VERSION = _T("v2.4.1");				// Release 버전 
+	//P_VERSION = _T("v2.5.0-debug");				//  model_info에 num_block 파라메타 추가 
+	P_VERSION = _T("v2.5.0");				//  model_info에 num_block 파라메타 추가 
 
 
 	// 

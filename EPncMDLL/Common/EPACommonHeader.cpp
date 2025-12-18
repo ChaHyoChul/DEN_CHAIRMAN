@@ -571,6 +571,9 @@ void SModelInfo2::Load()
 	
 	hIniFile.GetValue( strKeyName, _T("toolpocket_type"), (int*)&nToolPocketType); 
 	hIniFile.GetValue( strKeyName, _T("ncfile_machine_name"), (LPTSTR)szNcFileMachineName, 64);
+
+	hIniFile.GetValue(strKeyName, _T("num_blocks"), (int*)&nNumBlocks);
+
 	//////////////////////////////////////////////////////////////////////////
 
 	hIniFile.Close();

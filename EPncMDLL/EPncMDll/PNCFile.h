@@ -53,7 +53,7 @@ public:
 	double GetFirstX( );
 
 	BOOL GetBlockLength(double* fBlockLength);		// (LENGTH=) 값을 리턴한다. 찾으면 True, 없으면 False를 리턴한다 
-	BOOL GetBlockCheckYPosition(double* fYPos);		// 첫번째 (G01)의 Y 값을 찾아, 17<Y0<37=27, -37<Y0<-17=-27, 나머지=0
+	BOOL GetBlockCheckYPosition(int nNumBlocks, double* fYPos, CString& msg);		// 첫번째 (G01)의 Y 값을 찾아, 17<Y0<37=27, -37<Y0<-17=-27, 나머지=0
 
 public:
 	CPNCFile(void);

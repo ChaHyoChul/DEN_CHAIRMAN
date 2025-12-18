@@ -691,40 +691,58 @@ BOOL pa::CPNCFile::GetBlockLength(double* fBlockLength)
 	return FALSE;
 }
 
-BOOL pa::CPNCFile::GetBlockCheckYPosition(double* fYPos)
+BOOL pa::CPNCFile::GetBlockCheckYPosition(int nNumBlocks, double* fYPos, CString& msg)
 {
 	char szTemp[256];
 	CString strWorkLine;
 
-	for (int i = 0; i<100; i++)
+	if (nNumBlocks == 1)
 	{
-		memset((void*)szTemp, 0, sizeof(char)*256);
-		GetLine(i, FALSE, szTemp);
-		strWorkLine = szTemp;
-
-		if (strWorkLine.Find(_T("G01")) >= 0)
+		*fYPos = 0.0;
+		return TRUE;
+	}
+	else if (nNumBlocks == 3)
+	{
+		for (int i = 0; i < 100; i++)
 		{
-			CString token;
-			int itoken = 0;
-			while (TRUE)
+			memset((void*)szTemp, 0, sizeof(char) * 256);
+			GetLine(i, FALSE, szTemp);
+			strWorkLine = szTemp;
+
+			if (strWorkLine.Find(_T("G01")) >= 0)
 			{
-				int value_index = 0;
-				double ftemp = 0.0;
-				token = strWorkLine.Tokenize((const wchar_t*)(" "), itoken);
-				if (token.IsEmpty()) break; 
-				if ((value_index = token.Find('Y')) >= 0)
+				CString token;
+				int itoken = 0;
+				while (TRUE)
 				{
-					token = token.Mid(value_index+1);
-					ftemp = _wtof(token);
-					if (ftemp > 17.0 && ftemp < 37.0) { *fYPos = 27.0; }
-					else if (ftemp > -10.0 && ftemp < 10.0) { *fYPos = 0.0; }
-					else if (ftemp > -37.0 & ftemp < -17.0) { *fYPos = -27.0; }
-					else { return FALSE; }
-					return TRUE;
+					int value_index = 0;
+					double ftemp = 0.0;
+					token = strWorkLine.Tokenize((const wchar_t*)(" "), itoken);
+					if (token.IsEmpty()) break;
+					if ((value_index = token.Find('Y')) >= 0)
+					{
+						token = token.Mid(value_index + 1);
+						ftemp = _wtof(token);
+						if (ftemp > 17.0 && ftemp < 37.0) { *fYPos = 27.0; }
+						else if (ftemp > -10.0 && ftemp < 10.0) { *fYPos = 0.0; }
+						else if (ftemp > -37.0 & ftemp < -17.0) { *fYPos = -27.0; }
+						else 
+						{ 
+							msg.Format(_T("Not found block checking y position infomation form nc-file"));
+							return FALSE; 
+						}
+						return TRUE;
+					}
 				}
+				break;
 			}
-			break; 
 		}
+	}
+	else
+	{
+		*fYPos = 0.0;
+		msg.Format(_T("The value of NumBlocks in ModelInfo.ini is not 1 or 3"));
+		return FALSE;
 	}
 
 	return FALSE;
