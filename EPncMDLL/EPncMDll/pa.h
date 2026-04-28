@@ -12,35 +12,35 @@ enum EN_ERR
 {
 	ERR_NONE = 0, 
 
-	ERR_NOTCONNECT,	// ¿¬°á ²÷±è 
+	ERR_NOTCONNECT,	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 	
-	ERR_TIMEOUT,	// Socket Åë½Å timeout ¿¡·¯. error code·Î timeoutµÈ ¸í·ÉÀÇ index¸¦ ÀúÀåÇÑ´Ù   
+	ERR_TIMEOUT,	// Socket ï¿½ï¿½ï¿½ timeout ï¿½ï¿½ï¿½ï¿½. error codeï¿½ï¿½ timeoutï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ indexï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½   
 
-	ERR_SOCKET,		// Socket ÇÔ¼ö¿¡¼­ ¹ß»ýÇÏ´Â ¿¡·¯ 
+	ERR_SOCKET,		// Socket ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 
-	ERR_RND_CMD,	// RND ¸í·É¿¡ ´ëÇÑ ÀÀ´ä ¿¡·¯. rnd ¸í·É¿¡ ´ëÇÑ ÀÀ´ä(E000À¸·Î ¿À´Â ¿¡·¯)  
+	ERR_RND_CMD,	// RND ï¿½ï¿½ï¿½É¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½. rnd ï¿½ï¿½ï¿½É¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(E000ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)  
 
-	ERR_PA_STREAM,	// PAÀÇ Stream ¸ðµå¿¡¼­ µ¥ÀÌÅÍ Àü¼Û Áß ¿¡·¯ 
+	ERR_PA_STREAM,	// PAï¿½ï¿½ Stream ï¿½ï¿½å¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 
-	ERR_PNC,		// PNC ÇÁ·Î±×·¥¿¡¼­ ¹ß»ýÇÏ´Â ¿¡·¯. ¿¡·¯ ÄÚµå·Î EN_PNC_ERR »ó¼ö¸¦ ÀúÀåÇÑ´Ù. Stream ±â´É ¿¡·¯ Æ÷ÇÔ  
+	ERR_PNC,		// PNC ï¿½ï¿½ï¿½Î±×·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½ï¿½ EN_PNC_ERR ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½. Stream ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½  
 
 	ERR_NUM
 };
 
-// PNC ¿¡·¯ ÄÚµå Á¤ÀÇ
+// PNC ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½ ï¿½ï¿½ï¿½ï¿½
 enum EN_PNC_ERR
 {
 	PNC_ERR_NONE								= 0,
 
-	PNC_ERR_Tool01								= 11,	// 1¹ø Åø »ç¿ë½Ã°£ Áö³² 
-	PNC_ERR_Tool02								= 12,	// 2¹ø Åø »ç¿ë½Ã°£ Áö³² 
-	PNC_ERR_Tool03								= 13,	// 3¹ø Åø »ç¿ë½Ã°£ Áö³² 
-	PNC_ERR_Tool04								= 14,	// 4¹ø Åø »ç¿ë½Ã°£ Áö³² 
-	PNC_ERR_Tool05								= 15,	// 5¹ø Åø »ç¿ë½Ã°£ Áö³² 
-	PNC_ERR_Tool06								= 16,	// 6¹ø Åø »ç¿ë½Ã°£ Áö³² 
-	PNC_ERR_Tool07								= 17,	// 7¹ø Åø »ç¿ë½Ã°£ Áö³² 
-	PNC_ERR_Tool08								= 18,	// 8¹ø Åø »ç¿ë½Ã°£ Áö³² 
-	PNC_ERR_ToolUK								= 19,	// N¹ø Åø »ç¿ë½Ã°£ Áö³² 
+	PNC_ERR_Tool01								= 11,	// 1ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½ 
+	PNC_ERR_Tool02								= 12,	// 2ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½ 
+	PNC_ERR_Tool03								= 13,	// 3ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½ 
+	PNC_ERR_Tool04								= 14,	// 4ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½ 
+	PNC_ERR_Tool05								= 15,	// 5ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½ 
+	PNC_ERR_Tool06								= 16,	// 6ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½ 
+	PNC_ERR_Tool07								= 17,	// 7ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½ 
+	PNC_ERR_Tool08								= 18,	// 8ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½ 
+	PNC_ERR_ToolUK								= 19,	// Nï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 
 	PNC_ERR_AutoLoaderEmpty						= 21,
 	PNC_ERR_AutoLoaderInit_RET_ARM				= 22,
@@ -54,23 +54,23 @@ enum EN_PNC_ERR
 	PNC_ERR_AutoLoader_Interlock_GripBlock		= 31,
 	PNC_ERR_AutoLoader_Interlock_ExtArm			= 32, 
 	PNC_ERR_AutoLoader_Interlock_RotPNC			= 33,
-	PNC_ERR_AutoLoader_Interlock_PNC_ExistBlock	= 34,	// ºí·ÏÀÌ °¨Áö µÊ 
+	PNC_ERR_AutoLoader_Interlock_PNC_ExistBlock	= 34,	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ 
 
-	PNC_ERR_FILE_OPEN							= 41,	// ÆÄÀÏÀ» OpenÇÒ ¼ö ¾øÀ½ 
-	PNC_ERR_INVALID_RUNMODE						= 42,	// ¸í·ÉÀ» Ã³¸®ÇÒ ¼ö ¾ø´Â ¸ðµåÀÓ(Stop ¸ðµå°¡ ¾Æ´Ñ »óÅÂ¿¡¼­ Init ½ÇÇà µî)
-	PNC_ERR_NO_BLOCK_FOR_CONTINU_RUN			= 43,	// ÀÌ¾î¼­ ½ÇÇàÇÒ ºí·ÏÀÌ ¾øÀ½ 
-	PNC_ERR_INVALID_NCCODE						= 44,	// Àß¸øµÈ NC Code °¡ ÀÔ·ÂµÇ¾úÀ½ 
+	PNC_ERR_FILE_OPEN							= 41,	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Openï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
+	PNC_ERR_INVALID_RUNMODE						= 42,	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½(Stop ï¿½ï¿½å°¡ ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½Â¿ï¿½ï¿½ï¿½ Init ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½)
+	PNC_ERR_NO_BLOCK_FOR_CONTINU_RUN			= 43,	// ï¿½Ì¾î¼­ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
+	PNC_ERR_INVALID_NCCODE						= 44,	// ï¿½ß¸ï¿½ï¿½ï¿½ NC Code ï¿½ï¿½ ï¿½Ô·ÂµÇ¾ï¿½ï¿½ï¿½ 
 	PNC_ERR_NOT_OPENED_NCFIEL_FOR_CONTINUE		= 45,	// 
 
-	PNC_ERR_PRESS_SW_EMO_BUTTON					= 51,	// ÇÁ·Î±×·¥ÀÇ EMO ¹öÆ° Å¬¸¯ 
-	PNC_ERR_REMOTE_CLIENT_EMO					= 52,	// ¸®¸ðÆ® ÇÁ·Î±×·¥¿¡¼­ ºñ»óÁ¤Áö 
-	PNC_ERR_AIR_LIMIT							= 53,	// °ø¾Ð ¿¡·¯ 
-	PNC_ERR_BLOCK_NOT_DETECT					= 54,	// ºí·° °¨Áö ¿¡·¯ 
-	PNC_ERR_OPEN_DOOR							= 55,	// µµ¾î ¿­¸² 
+	PNC_ERR_PRESS_SW_EMO_BUTTON					= 51,	// ï¿½ï¿½ï¿½Î±×·ï¿½ï¿½ï¿½ EMO ï¿½ï¿½Æ° Å¬ï¿½ï¿½ 
+	PNC_ERR_REMOTE_CLIENT_EMO					= 52,	// ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½Î±×·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
+	PNC_ERR_AIR_LIMIT							= 53,	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
+	PNC_ERR_BLOCK_NOT_DETECT					= 54,	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
+	PNC_ERR_OPEN_DOOR							= 55,	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 	PNC_ERR_ATC_PUSH_LIMIT_SENSOR				= 56,
 	PNC_ERR_IOBOARD_NOT_CONNECT					= 57,
 	PNC_ERR_SPINDLEBOARD_NOT_CONNECT			= 58,
-	PNC_ERR_LIMIT_SENSOR_XP						= 61,	// limit sensor °¨Áö 
+	PNC_ERR_LIMIT_SENSOR_XP						= 61,	// limit sensor ï¿½ï¿½ï¿½ï¿½ 
 	PNC_ERR_LIMIT_SENSOR_XM						= 62,
 	PNC_ERR_LIMIT_SENSOR_Y1P					= 63,
 	PNC_ERR_LIMIT_SENSOR_Y1M					= 64,
@@ -79,20 +79,20 @@ enum EN_PNC_ERR
 
 	PNC_ERR_WATER_FLOW_SENSOR					= 67,
 
-	PNC_ERR_MEASURE_RETURN_SAME_DATA			= 68,	// do_measure ÇÔ¼ö°¡ °°Àº °á°ú¸¦ ¸®ÅÏÇÔ 
+	PNC_ERR_MEASURE_RETURN_SAME_DATA			= 68,	// do_measure ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
 
 	PNC_ERR_LIMIT_SENSOR_Y2P					= 70,
 	PNC_ERR_LIMIT_SENSOR_Y2M					= 71,
 	PNC_ERR_LIMIT_SENSOR_Z2P					= 72,
 	PNC_ERR_LIMIT_SENSOR_Z2M					= 73,
 
-	PNC_ERR_STREAM_SOCKET_CONNECT_FAIL			= 90,	// Stream socket ¿¬°á ½ÇÆó 
-	PNC_ERR_STREAM_SOCKET_DISCONNECT			= 91,	// Stream socket ¿¬°á ²÷±è (°¡°ø ÄÚµå ÇÇµù Áß ÀÀ´ä ¿¡·¯) 
-	PNC_ERR_STREAM_SOCKET_TIMEOUT				= 92,	// Stream socket ÀÀ´ä ¾øÀ½ 
+	PNC_ERR_STREAM_SOCKET_CONNECT_FAIL			= 90,	// Stream socket ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
+	PNC_ERR_STREAM_SOCKET_DISCONNECT			= 91,	// Stream socket ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½ ï¿½Çµï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½) 
+	PNC_ERR_STREAM_SOCKET_TIMEOUT				= 92,	// Stream socket ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 
-	PNC_ERR_AUTOCAL_RESULT_OUTOFRANGE			= 95,	// Auto Cal. XÃà ÃøÁ¤ ¿¡·¯ 
+	PNC_ERR_AUTOCAL_RESULT_OUTOFRANGE			= 95,	// Auto Cal. Xï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 
-	PNC_ERR_AUTOCAL_MEASURE_FAIL				= 97,	// Auto Cal. ÃøÁ¤ ºÒ°¡. (10È¸ Retry)
+	PNC_ERR_AUTOCAL_MEASURE_FAIL				= 97,	// Auto Cal. ï¿½ï¿½ï¿½ï¿½ ï¿½Ò°ï¿½. (10È¸ Retry)
 
 	PNC_ERR_ABNORMAL_STOP						= 100,
 
@@ -124,29 +124,29 @@ private:
 		strComment.Format( _T("") );
 	}
 
-	friend class CPThread;		// thread °´Ã¼¿¡¼­ ±âº» »ý¼ºÀÚ¸¦ »ç¿ëÇÒ ¼ö ÀÖµµ·Ï, friend ¼±¾ðÇÑ´Ù 
+	friend class CPThread;		// thread ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ ï¿½âº» ï¿½ï¿½ï¿½ï¿½ï¿½Ú¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Öµï¿½ï¿½ï¿½, friend ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½ 
 };
 
 //////////////////////////////////////////////////////////////////////////
-// Àü¿ª ÇÔ¼ö
+// ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
 /**
- * Socket ÃÊ±âÈ­ ¹× Á¦°Å 
+ * Socket ï¿½Ê±ï¿½È­ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
  */
 BOOL STARTUP_SOCKET_COMM( CString& strErrMsg );
 void CLEANUP_SOCKER_COMM();
 
 /** 
- * System ¿¡·¯ ÄÚµå¸¦ ¸Þ½ÃÁö·Î º¯È¯ 
+ * System ï¿½ï¿½ï¿½ï¿½ ï¿½Úµå¸¦ ï¿½Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ 
  */
 void GET_SYSTEM_ERROR_MESSAGE( DWORD dwErrorCode, CString& strErrorMessage );
 
 /** 
- * Socket ¿¡·¯ ÄÚµå¸¦ ¸Þ½ÃÁö·Î º¯È¯ 
+ * Socket ï¿½ï¿½ï¿½ï¿½ ï¿½Úµå¸¦ ï¿½Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ 
  */
 void GET_SOCKET_ERROR_MESSAGE( DWORD dwErrorCode, CString& strErrorMessage );
 
 /** 
- * PA Á¦¾î±â ¿¡·¯ ¸Þ½ÃÁö¸¦ ¸®ÅÏ ÇÑ´Ù 
+ * PA ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½ 
  */
 void GET_PA_ERROR_MESSAGE( int nErrorType, int nErrorCode, CString& strErrorType, int& nErrorTypeIsAlarm, CString& strErrorCode, CString& strErrorMessage );
 //////////////////////////////////////////////////////////////////////////
@@ -156,6 +156,8 @@ BOOL PA_INITIALIZE( char* pIpAddr, int nPortNo1, int nPortNo2, int nPortNoForStr
 
 void PA_DESTROY();
 
+void RUN_REST_API_SERVER();
+
 void INIT_TOTAL_LEFT_SPINDLE_RUN_TIME();
 void INIT_TOTAL_RIGHT_SPINDLE_RUN_TIME();
 void SAVE_TOTAL_LEFT_SPINDLE_RUN_TIME();
@@ -163,7 +165,7 @@ void SAVE_TOTAL_RIGHT_SPINDLE_RUN_TIME();
 
 void READ_TODAY_SPINDLE_RUN_TIME();
 void WRITE_TODAY_SPINDLE_RUN_TIME(SYSTEMTIME stm);
-void DELETE_TODAY_SPINDLE_RUN_TIME(int nKeepingDays);		// keeping day ÀÌÀü ÆÄÀÏÀ» »èÁ¦ ÇÑ´Ù 
+void DELETE_TODAY_SPINDLE_RUN_TIME(int nKeepingDays);		// keeping day ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½ 
 
 void CREATE_NECESSARY_DIRECTORIES();						//
 
@@ -209,8 +211,8 @@ extern CToolPocketAutoTeachingBase* PToolPocketAutoTeaching;
 
 extern BOOL IS_SUCCESS_FIRST_CONNECT;
 
-extern DWORD todaySpindleRunTime;			// ¿À´Ã ½ºÇÎµéÀÌ µ¿ÀÛÇÑ ½Ã°£À» ÀúÀå 
-extern SYSTEMTIME currentReadWriteTime;		// ½ºÇÉµé ·±Å¸ÀÓ µ¥ÀÌÅÍ¸¦ ±â·ÏÇÑ ³¯ÀÚ 
+extern DWORD todaySpindleRunTime;			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
+extern SYSTEMTIME currentReadWriteTime;		// ï¿½ï¿½ï¿½Éµï¿½ ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 extern int nMaxxLinkRemoteServer_PortNo;
 
 }
