@@ -4,7 +4,7 @@
 #include "ErrorDlg.h"
 
 //////////////////////////////////////////////////////////////////////////
-// Àü¿ª º¯¼ö 
+// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 //////////////////////////////////////////////////////////////////////////
 namespace pa 
 {
@@ -33,14 +33,15 @@ DWORD				todaySpindleRunTime = 0;
 SYSTEMTIME			currentReadWriteTime;
 int					nMaxxLinkRemoteServer_PortNo = 0;
 int					nRemotePNC_PortNo = 0;
+HANDLE				hJobRestApi = NULL;
 }
 
 //////////////////////////////////////////////////////////////////////////
-// Àü¿ª ÇÔ¼ö  
+// ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½  
 //////////////////////////////////////////////////////////////////////////
 
 /** 
- * Socket ÃÊ±âÈ­ ¹× Á¦°Å 
+ * Socket ï¿½Ê±ï¿½È­ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
  */
 BOOL pa::STARTUP_SOCKET_COMM( CString& strErrMsg )
 {
@@ -66,7 +67,7 @@ void pa::CLEANUP_SOCKER_COMM()
 }
 
 /** 
- * Socket ¿¡·¯ ÄÚµå¸¦ ¸Þ½ÃÁö·Î º¯È¯ 
+ * Socket ï¿½ï¿½ï¿½ï¿½ ï¿½Úµå¸¦ ï¿½Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ 
  */
 void pa::GET_SOCKET_ERROR_MESSAGE( DWORD dwErrorCode, CString& strErrorCode )
 {
@@ -80,7 +81,7 @@ void pa::GET_SOCKET_ERROR_MESSAGE( DWORD dwErrorCode, CString& strErrorCode )
 }
 
 /** 
- * PA Á¦¾î±â ¿¡·¯ ¸Þ½ÃÁö¸¦ ¸®ÅÏ ÇÑ´Ù 
+ * PA ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½ 
  */
 void pa::GET_PA_ERROR_MESSAGE( int nErrorType, int nErrorCode, CString& strErrorType, int& nErrorTypeIsAlarm, CString& strErrorCode, CString& strErrorMessage )
 {
@@ -158,19 +159,19 @@ BOOL pa::PA_INITIALIZE( char* pIpAddr, int nPortNo1, int nPortNo2, int nPortNoFo
 	char	sztemp[128];
 
 #ifdef _DEBUG
-	Sleep( 1*1000 );	// Á¦¾î±â ºÎÆÃ±îÁö 1ÃÊ°£ ´ë±â 
+	Sleep( 1*1000 );	// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½ 1ï¿½Ê°ï¿½ ï¿½ï¿½ï¿½ 
 #else
-	Sleep( 1*1000 );	// Á¦¾î±â ºÎÆÃ±îÁö 30ÃÊ°£ ´ë±â 
+	Sleep( 1*1000 );	// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½ 30ï¿½Ê°ï¿½ ï¿½ï¿½ï¿½ 
 #endif 
 
 	strConfigFilePath = CString( INI_PA_CONFIG_PATH );
 	strReplaceNCCodeConfigFilePath = CString( INI_REPLACE_NC_CODE_CONFIG_PATH );
 	strCheckNcCodeConfigFilePath = CString( INI_NC_FILE_CHECKER_CONFIG_PATH );
 
-	// 0. ÇÊ¿äÇÑ µð·ºÅä¸®°¡ ¾øÀ» °æ¿ì, ¹Ì¸® ¸¸µç´Ù 
+	// 0. ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ä¸®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½, ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ 
 	CREATE_NECESSARY_DIRECTORIES();
 
-	// 1. PAComm ÃÊ±âÈ­ ¹× ¿¬°á 
+	// 1. PAComm ï¿½Ê±ï¿½È­ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 	PPAAsyncComm[0] = new CPAAsyncComm(2048);
 	if( PPAAsyncComm[0] == NULL ) {
 		strErrMsg.Format( _T("memory alloc error for pa::PAAsyncComm[0] object") );
@@ -196,7 +197,7 @@ BOOL pa::PA_INITIALIZE( char* pIpAddr, int nPortNo1, int nPortNo2, int nPortNoFo
 			return FALSE;
 		}
 
-		// ¿¬°á µÉ¶§±îÁö ´ë±â
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½É¶ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		if(conn_status0 == hcsock::ISocket::CONNECTED && conn_status1 == hcsock::ISocket::CONNECTED){
 			break;
 		} else {
@@ -211,14 +212,14 @@ BOOL pa::PA_INITIALIZE( char* pIpAddr, int nPortNo1, int nPortNo2, int nPortNoFo
 	}
 #endif
 
-	// 2. PMotion ÃÊ±âÈ­ 
+	// 2. PMotion ï¿½Ê±ï¿½È­ 
 	PAMotion = new CPAMotion();
 	if( PAMotion == NULL ) {
 		strErrMsg.Format( _T("memory alloc error for pmac::PMotion object") );
 		return FALSE;
 	}
 
-	// 3. PConfig ÃÊ±âÈ­
+	// 3. PConfig ï¿½Ê±ï¿½È­
 	PConfig = new CPConfig();
 	if( PConfig == NULL ) {
 		strErrMsg.Format( _T("memory alloc error for pmac::PConfig object") );
@@ -234,7 +235,7 @@ BOOL pa::PA_INITIALIZE( char* pIpAddr, int nPortNo1, int nPortNo2, int nPortNoFo
 		return FALSE;
 	}
 
-	// 4. log °´Ã¼ ÃÊ±âÈ­ 
+	// 4. log ï¿½ï¿½Ã¼ ï¿½Ê±ï¿½È­ 
 	P_LOG = new CLog( 
 		PConfig->pConfig_->nEnableOperationLog, PConfig->pConfig_->nEnableIpcCommLog,
 		PConfig->pConfig_->nEnableThreadModeLog, PConfig->pConfig_->nEnableOpPenalLog, 
@@ -252,22 +253,22 @@ BOOL pa::PA_INITIALIZE( char* pIpAddr, int nPortNo1, int nPortNo2, int nPortNoFo
 	P_LOG->EnableExtLog( PConfig->pConfig_->nEnableExtLog );
 	P_LOG->EnableErrLog( PConfig->pConfig_->nEnableErrLog );
 
-	//	> ÀÏÀÏ ½ºÇÉµé »ç¿ë½Ã°£ ÆÄÀÏÀ» »èÁ¦ ÇÑ´Ù 
+	//	> ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Éµï¿½ ï¿½ï¿½ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½ 
 	DELETE_TODAY_SPINDLE_RUN_TIME(100);
 
-	// 5. ReplaceNCCode ÃÊ±âÈ­ 
+	// 5. ReplaceNCCode ï¿½Ê±ï¿½È­ 
 	bRet = CGCodeHelper::LoadReplaceCommand( strReplaceNCCodeConfigFilePath, strErrMsg );
 	if( bRet == FALSE ) {
 		return FALSE;
 	}
 
-	// 6. NcFileChecker ÃÊ±âÈ­ 
+	// 6. NcFileChecker ï¿½Ê±ï¿½È­ 
 	bRet = CGCodeHelper::LoadCheckCommand( strCheckNcCodeConfigFilePath, strErrMsg );
 	if( bRet = FALSE ) {
 		return FALSE;
 	}
 
-	// 7. PTool ÃÊ±âÈ­ 
+	// 7. PTool ï¿½Ê±ï¿½È­ 
 	PTool = new CPTool();
 	if( PTool == NULL ) {
 		strErrMsg.Format( _T("memory alloc error for pmac::PTool object") );
@@ -308,17 +309,17 @@ BOOL pa::PA_INITIALIZE( char* pIpAddr, int nPortNo1, int nPortNo2, int nPortNoFo
 	PPAAsyncComm[1]->SetRefThreadState( PPAStatus->GetThreadState() );
 #endif 
 
-	// µ¥ÀÌÅÍ¸¦ Á¦¾î±â¿¡ ÀúÀåÇÒ °æ¿ì, Á¦¾î±â¿¡¼­ ÀÐ¾î ¿Â´Ù 
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½â¿¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½â¿¡ï¿½ï¿½ ï¿½Ð¾ï¿½ ï¿½Â´ï¿½ 
 	try {
 #ifdef _USE_PA_
-		// SMCT ¸í·É Àü¼Û (2017.05.01)
-		//	- 2017.05.19 ¹öÀü¿¡´Â Àû¿ëÇÏÁö ¾Ê´Â´Ù 
+		// SMCT ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (2017.05.01)
+		//	- 2017.05.19 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½ 
 		DWORD	dwErr = 0;
 		DWORD	dwSysErr = 0;
 		int		nRespErrCode = 0;
 		int		nRespSysErrCode = 0;
 
-		pa::PPAStatus->GetThreadState()->nIsConnectedIOBoard = 1;		// IO Board Connection flag 1·Î ÃÊ±âÈ­
+		pa::PPAStatus->GetThreadState()->nIsConnectedIOBoard = 1;		// IO Board Connection flag 1ï¿½ï¿½ ï¿½Ê±ï¿½È­
 
 		try {
 			PPAAsyncComm[0]->SendCommand( CPAAsyncComm::CMD_SMCT );
@@ -341,7 +342,7 @@ BOOL pa::PA_INITIALIZE( char* pIpAddr, int nPortNo1, int nPortNo2, int nPortNoFo
 		BOOL	coord_offset = TRUE;
 		BOOL	teaching_point = TRUE;
 
-		// coordinate offset µ¥ÀÌÅÍ¸¦ ÀÐ°í...
+		// coordinate offset ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½Ð°ï¿½...
 		for( int i = 0; i<pa::COORD_NUM; i++ ) 
 		{
 			pa::PAMotion->RCFG( (pa::EN_COORDINATE)i );
@@ -349,7 +350,7 @@ BOOL pa::PA_INITIALIZE( char* pIpAddr, int nPortNo1, int nPortNo2, int nPortNoFo
 		}
 		Sleep(100);
         
-		// z-origin offset µ¥ÀÌÅÍ¸¦ ÀÐ°í...
+		// z-origin offset ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½Ð°ï¿½...
 		pa::PAMotion->RTOO(1);
 		Sleep(10);
 		pa::PAMotion->RTOO(2);
@@ -365,7 +366,7 @@ BOOL pa::PA_INITIALIZE( char* pIpAddr, int nPortNo1, int nPortNo2, int nPortNoFo
 		pa::PAMotion->RTPPO();
 		Sleep(10);
         
-		// teaching point µ¥ÀÌÅÍ¸¦ ÀÐ°í...
+		// teaching point ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½Ð°ï¿½...
 		for( int i = 0; i<pa::TEACHING_POINT_NUM; i++ ) 
 		{
 			pa::PAMotion->RTCP( (pa::EN_TEACHING_POINT)i );
@@ -373,21 +374,21 @@ BOOL pa::PA_INITIALIZE( char* pIpAddr, int nPortNo1, int nPortNo2, int nPortNoFo
 		}
 		Sleep(100);
         
-		// PAStatus::Initialize() ÇÔ¼ö¿¡¼­ ÀÐ¾úÀ½ 
-		// - coordinate offset data rangeµµ ÀÐ¾úÀ½
-		// - tool pocket range ÆÄ¶ó¸ÞÅ¸µµ ÀÐ¾úÀ½ (poweron_test_config.ini)
+		// PAStatus::Initialize() ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ð¾ï¿½ï¿½ï¿½ 
+		// - coordinate offset data rangeï¿½ï¿½ ï¿½Ð¾ï¿½ï¿½ï¿½
+		// - tool pocket range ï¿½Ä¶ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾ï¿½ï¿½ï¿½ (poweron_test_config.ini)
         
-		// coordinate offset µ¥ÀÌÅÍ ¹üÀ§ ¿¡·¯ È®ÀÎ 
+		// coordinate offset ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ 
 		coord_offset = CHECK_COORD_OFFSET_RANGE();
         
-		// teaching point µ¥ÀÌÅÍ ¹üÀ§ ¿¡·¯ È®ÀÎ 
+		// teaching point ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ 
 		teaching_point = CHECK_TEACH_POINT_RANGE();
         
-		// ÀÀ´ä¿¡ ¿¡·¯°¡ ÀÖ´ÂÁö È®ÀÎ 
-		// ¿¡·¯°¡ ÀÖ´Ù¸é, ¿¡·¯ Á¤º¸¸¦ Ç¥½ÃÇØ ÁÖ°í °è¼Ó ÁøÇà ¿©ºÎ¸¦ È®ÀÎ ÇÑ´Ù 
+		// ï¿½ï¿½ï¿½ä¿¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ È®ï¿½ï¿½ 
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Ù¸ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½ï¿½ï¿½ ï¿½Ö°ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î¸ï¿½ È®ï¿½ï¿½ ï¿½Ñ´ï¿½ 
 		if( ShowPowerOnTestFailDialog( dwErr, dwSysErr, nRespErrCode, nRespSysErrCode, coord_offset, teaching_point ) == IDCANCEL )
 		{
-			// Turn off power ¸Þ½ÃÁö Ãâ·Â 
+			// Turn off power ï¿½Þ½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 
 			return FALSE;
 		}
 #endif 
@@ -415,7 +416,7 @@ BOOL pa::PA_INITIALIZE( char* pIpAddr, int nPortNo1, int nPortNo2, int nPortNoFo
 		break; 
 	}
 	
-	// 7. PThread ÃÊ±âÈ­ 
+	// 7. PThread ï¿½Ê±ï¿½È­ 
 	PThread = new CPThread();
 	if( PThread == NULL ) {
 		strErrMsg.Format( _T("memory alloc error for pmac::PThread object") );
@@ -439,17 +440,17 @@ BOOL pa::PA_INITIALIZE( char* pIpAddr, int nPortNo1, int nPortNo2, int nPortNoFo
 		PPAAsyncComm[0]->Wait( CPAAsyncComm::CMD_VER );
         
 		// 2017.01.13
-		// Á¦¾î±âÀÇ IPÁÖ¼Ò¸¦ ÀÐ´Â´Ù 
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ IPï¿½Ö¼Ò¸ï¿½ ï¿½Ð´Â´ï¿½ 
 		PPAAsyncComm[0]->SendCommand( CPAAsyncComm::CMD_RADR );
 		PPAAsyncComm[0]->Wait( CPAAsyncComm::CMD_RADR );
 		PPAAsyncComm[0]->SendCommand( CPAAsyncComm::CMD_RRIOADR );
 		PPAAsyncComm[0]->Wait( CPAAsyncComm::CMD_RRIOADR );
         
 		// 2017.03.24 
-		// Select M28/M29 Á¤º¸¸¦ ÀÐ´Â´Ù 
+		// Select M28/M29 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ð´Â´ï¿½ 
 		PPAAsyncComm[0]->SendCommand( CPAAsyncComm::CMD_GWVF );
 		PPAAsyncComm[0]->Wait( CPAAsyncComm::CMD_GWVF );
-		// TOOL Á¤º¸ Àü¼Û 
+		// TOOL ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 		int		tool_no = 0;
 		double	tool_length = 0;
 		int		tool_lenght_update_flag = 0;
@@ -458,25 +459,25 @@ BOOL pa::PA_INITIALIZE( char* pIpAddr, int nPortNo1, int nPortNo2, int nPortNoFo
 		pa::CPThread::READ_TOOL_INF0( 1, &tool_no, &tool_length, &tool_lenght_update_flag );
 		PAMotion->RND_STIN( tool_no, tool_length, tool_lenght_update_flag );
 
-		// 2018.02.27 UsingAirLimitSensor, nAirLimitInterval º¯¼ö µ¥ÀÌÅÍ¸¦ Á¦¾î±â·Î Àü¼ÛÇÑ´Ù 
+		// 2018.02.27 UsingAirLimitSensor, nAirLimitInterval ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½ 
 		int nUsingAirLimitSensor = PConfig->pConfig_->bUsingAirLimitSensor == FALSE ? 0 : 1;
 		int nAirLimitInterval = PConfig->pConfig_->nAirLimitInterval;
 		int nSensorType = (int)pa::MODEL_INFO.GetAirPressureSensorType();
 		PAMotion->RND_SALF( TRUE, nUsingAirLimitSensor, nAirLimitInterval, nSensorType );
 
-		// 2018.05.16 ¿öÅÍ ÇÃ·Î¿ì ¼¾¼­ ÆÄ¸®¸ÞÅ¸¸¦ Á¦¾î±â·Î Àü´Þ ÇÑ´Ù 
+		// 2018.05.16 ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ä¸ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½ 
 		int nUsingWaterFlowSensor = PConfig->pConfig_->bUsingFlowSensor == FALSE ? 0 : 1;
 		int startTimeout = PConfig->pConfig_->nFlowSensorStartTimeout;
 		int sensingTimeout = PConfig->pConfig_->nFlowSensorTimeout;
 		int nUsingWaterLevelSensor = PConfig->pConfig_->bUsingWaterLevelSensor == FALSE ? 0 : 1;
 		PAMotion->RND_SFSF( TRUE, nUsingWaterFlowSensor, startTimeout, sensingTimeout, nUsingWaterLevelSensor);
         
-		// 2020.03.19 Purge air hold time ÆÄ¶ó¸ÞÅ¸¸¦ Á¦¾î±â·Î Àü´ÞÇÑ´Ù 
+		// 2020.03.19 Purge air hold time ï¿½Ä¶ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½ 
 		BOOL bUsingSpindleAirPurge = PConfig->pConfig_->bUsingSpindleAirPurge;
 		int nPurgeAirHoldTime = (bUsingSpindleAirPurge == TRUE) ? PConfig->pConfig_->nPurgeAirHoldTime : 0;
 		PAMotion->RND_WPAR( TRUE, nPurgeAirHoldTime );
 
-		// 2020.05.01 JoSpeed ¼³Á¤ 
+		// 2020.05.01 JoSpeed ï¿½ï¿½ï¿½ï¿½ 
 		PAMotion->WJSS(100);
 
 #endif
@@ -485,12 +486,12 @@ BOOL pa::PA_INITIALIZE( char* pIpAddr, int nPortNo1, int nPortNo2, int nPortNoFo
 	{
 	}
 
-	// 2020.03.19. Á¦¾î±â ½Ã°£ ºÒ·¯¿Í¼­ PC½Ã°£À¸·Î ¼³Á¤
+	// 2020.03.19. ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ ï¿½Ò·ï¿½ï¿½Í¼ï¿½ PCï¿½Ã°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	DWORD	dwErr = 0;
 	int		nRespErrCode = 0;
 	try {
 #ifdef _USE_PA_
-		PPAAsyncComm[0]->SendCommand( CPAAsyncComm::CMD_RDT );		// Command Àü¼Û
+		PPAAsyncComm[0]->SendCommand( CPAAsyncComm::CMD_RDT );		// Command ï¿½ï¿½ï¿½ï¿½
 		PPAAsyncComm[0]->Wait( CPAAsyncComm::CMD_RDT, 10000 );
 		dwErr = CPAAsyncComm::DW_RESPONSE_RDT_CMD;
 		nRespErrCode = CPAAsyncComm::N_ERRORCODE_RDT_CMD;
@@ -500,7 +501,7 @@ BOOL pa::PA_INITIALIZE( char* pIpAddr, int nPortNo1, int nPortNo2, int nPortNoFo
 		dwErr = 0;
 	}
     
-	// 3. PNcFile ÃÊ±âÈ­ 
+	// 3. PNcFile ï¿½Ê±ï¿½È­ 
 	PNCFile = new CPNCFile();
 	if( PNCFile == NULL ) {
 		strErrMsg.Format( _T("memory alloc error for pmac::PNcFile object") );
@@ -518,7 +519,7 @@ BOOL pa::PA_INITIALIZE( char* pIpAddr, int nPortNo1, int nPortNo2, int nPortNoFo
 		return FALSE;
 	}
 
-	// 9. PIpcServer ÃÊ±âÈ­ 
+	// 9. PIpcServer ï¿½Ê±ï¿½È­ 
 	PIpcServer = new CPIpcServer;
 	if( PIpcServer == NULL ) {
 		strErrMsg.Format( _T("memory alloc error for pmac::PIpcServer objct") );
@@ -530,7 +531,7 @@ BOOL pa::PA_INITIALIZE( char* pIpAddr, int nPortNo1, int nPortNo2, int nPortNoFo
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// Maxxlink ±â´É Ãß°¡ 
+	// Maxxlink ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ 
 	P_REMOTE_SERVER = new CRemoteServer();
 	if (P_REMOTE_SERVER == NULL) {
 		strErrMsg.Format( _T("memory alloc error for P_REMOTE_SERVER object") );
@@ -606,14 +607,16 @@ BOOL pa::PA_INITIALIZE( char* pIpAddr, int nPortNo1, int nPortNo2, int nPortNoFo
 	// 12. Start main thread 
 	PThread->Start();
 
-	// ¾Æ·¡ ±â´ÉÀ» ¼öÁ¤ -> ÆÄÀÏÀ» ¸ðµÎ deselect ÇÏ°í, ÃÖ±Ù »ç¿ëÇÑ ÆÄÀÏµµ ¿­Áö ¾Ê´Â´Ù 
+	// ï¿½Æ·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ -> ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ deselect ï¿½Ï°ï¿½, ï¿½Ö±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ïµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½ 
 	pa::PThread->CloseNCFile();
 	pa::PNCFileMgr->DeselectAllNCFiles( FALSE );
 
-	PPAStatus->GetThreadState()->bCompleteResetOrigin_  = TRUE;		// ÃÊ±â °ªÀº true, µ¿ÀÛÁßÀÏ °æ¿ì false
+	PPAStatus->GetThreadState()->bCompleteResetOrigin_  = TRUE;		// Ê±  true,   false
+
+	RUN_REST_API_SERVER();
 
 	return TRUE;
-}
+	}
 
 void pa::PA_DESTROY()
 {
@@ -711,6 +714,41 @@ void pa::PA_DESTROY()
 	{
 		((CGLCDCommEx*)pGLCD)->Destroy();
 		delete ((CGLCDCommEx*)pGLCD);
+	}
+
+	if (hJobRestApi != NULL) {
+		CloseHandle(hJobRestApi);
+		hJobRestApi = NULL;
+	}
+}
+
+void pa::RUN_REST_API_SERVER()
+{
+	if (hJobRestApi != NULL) return; // Already running
+
+	hJobRestApi = CreateJobObject(NULL, NULL);
+	if (hJobRestApi == NULL) return;
+
+	JOBOBJECT_EXTENDED_LIMIT_INFORMATION jeli = { 0 };
+	jeli.BasicLimitInformation.LimitFlags = JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE;
+	if (!SetInformationJobObject(hJobRestApi, JobObjectExtendedLimitInformation, &jeli, sizeof(jeli))) {
+		CloseHandle(hJobRestApi);
+		hJobRestApi = NULL;
+		return;
+	}
+
+	STARTUPINFO si = { sizeof(si) };
+	PROCESS_INFORMATION pi = { 0 };
+	TCHAR szCmdLine[] = _T("c:/pnc/restapi/smrsvr.exe");
+
+	if (CreateProcess(NULL, szCmdLine, NULL, NULL, FALSE, CREATE_BREAKAWAY_FROM_JOB | CREATE_NO_WINDOW, NULL, NULL, &si, &pi)) {
+		AssignProcessToJobObject(hJobRestApi, pi.hProcess);
+		CloseHandle(pi.hThread);
+		CloseHandle(pi.hProcess);
+	}
+	else {
+		CloseHandle(hJobRestApi);
+		hJobRestApi = NULL;
 	}
 }
 
@@ -829,7 +867,7 @@ void pa::WRITE_TODAY_SPINDLE_RUN_TIME(SYSTEMTIME stm)
 	pf = NULL;
 }
 
-// keeping day ÀÌÀü ÆÄÀÏÀ» »èÁ¦ ÇÑ´Ù 
+// keeping day ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½ 
 void pa::DELETE_TODAY_SPINDLE_RUN_TIME(int nKeepingDays)
 {
 	pa::DELETE_OLD_FILE( nKeepingDays, _T("log"), LOG_SPINDLE_PATH );
@@ -920,7 +958,7 @@ int pa::ShowPowerOnTestFailDialog( DWORD dwErrCode, DWORD dwSysErrCode, int nRes
 	{
 		if( dwErrCode == 99999 ) 
 		{
-			// ¸í·É ÀÀ´ä¿¡ ¿¡·¯ E-nnn. nRespErrCode°¡ ¿¡·¯ ÄÚµå
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ä¿¡ ï¿½ï¿½ï¿½ï¿½ E-nnn. nRespErrCodeï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½
 			strTitle.Format( _T("SMCT ERROR [%d]\n"), nRespErrCode );
 			strErrMsg += strTitle;
 			nShowDlg = 1;
@@ -950,7 +988,7 @@ int pa::ShowPowerOnTestFailDialog( DWORD dwErrCode, DWORD dwSysErrCode, int nRes
 	{
 		if( dwSysErrCode == 99999 )
 		{
-			// ¸í·É ÀÀ´äÀÌ E-nnn. nRespErrCode°¡ ¿¡·¯ ÄÚµå
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ E-nnn. nRespErrCodeï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½
 			strTemp.Format( _T("RISM ERROR [%d]\n"), nRespSysErrCode );
 			P_LOG->WriteLog( CLog::TYPE_OPER, 0, strTemp );
 			strErrMsg += strTemp;
@@ -1015,7 +1053,7 @@ void pa::ShowPowerOffDialog()
 	dlg.DoModal();
 }
 
-// Coordinate Offset °ªÀÇ ¹üÀ§¸¦ ºñ±³ ÇÑ´Ù
+// Coordinate Offset ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ñ´ï¿½
 BOOL pa::CHECK_COORD_OFFSET_RANGE()
 {
 	double	fx_min = pa::PPAStatus->GetCoordinateOffsetDataRange()->fMin[pa::AXIS_X];
@@ -1026,8 +1064,8 @@ BOOL pa::CHECK_COORD_OFFSET_RANGE()
 	double	fz_max = pa::PPAStatus->GetCoordinateOffsetDataRange()->fMax[pa::AXIS_Z];
 	double	z_org_offset = 0.0; 
 
-	// X, YÃà ºñ±³. 
-	// ºñ±³´Â G54ºÎÅÍ 
+	// X, Yï¿½ï¿½ ï¿½ï¿½. 
+	// ï¿½ñ±³´ï¿½ G54ï¿½ï¿½ï¿½ï¿½ 
 	for( int i = (int)COORD_G54; i<(int)COORD_NUM; i++ )
 	{
 		double fx = pa::PConfig->pConfig_->fCoordOffset[i][pa::AXIS_X];
@@ -1062,7 +1100,7 @@ BOOL pa:: CHECK_TEACH_POINT_RANGE()
 		return FALSE;
 	}
 
-	// Tool Pocket À§Ä¡°¡ ¹üÀ§ ¾È¿¡ µé¾îÀÖ´ÂÁö È®ÀÎÇÑ´Ù 
+	// Tool Pocket ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½È¿ï¿½ ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ñ´ï¿½ 
 	for( int i = 0; i<TEACHING_POINT_NUM; i++ )
 	{
 		double fx = pa::PConfig->pConfig_->fTeachingPoint[nCheckPoint[i]][pa::AXIS_X];
