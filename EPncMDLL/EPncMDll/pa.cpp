@@ -724,6 +724,19 @@ void pa::PA_DESTROY()
 
 void pa::RUN_REST_API_SERVER()
 {
+	// SmartFactory.ini 파일에서 RestAPI 사용여부를 확인 한다 
+	int isUsing = 0;
+	CString exeFilePath(_T(""));
+	CCEIniFile iniFile;
+	iniFile.Open(INI_SMART_FACTORY_PATH);
+
+	iniFile.GetValue(_T("RestAPI"), _T("Using"), (int*)&isUsing);
+	iniFile.GetValue(_T("RestAPI"), _T("Exe"), (CString*)&exeFilePath);
+
+	//
+	if (isUsing == 0) { return; }
+	if (exeFilePath.IsEmpty()) { return; }
+	// 
 	if (hJobRestApi != NULL) return; // Already running
 
 	hJobRestApi = CreateJobObject(NULL, NULL);
@@ -739,7 +752,10 @@ void pa::RUN_REST_API_SERVER()
 
 	STARTUPINFO si = { sizeof(si) };
 	PROCESS_INFORMATION pi = { 0 };
-	TCHAR szCmdLine[] = _T("c:/pnc/restapi/smrsvr.exe");
+	//TCHAR szCmdLine[] = _T("c:/pnc/restapi/smrsvr.exe");
+	//TCHAR szCmdLine[] = _T("../RestAPI/CMSvr.exe");
+	TCHAR szCmdLine[512];
+	_stprintf_s(szCmdLine, 512, _T("\"\%s\""), (LPCTSTR)exeFilePath);
 
 	if (CreateProcess(NULL, szCmdLine, NULL, NULL, FALSE, CREATE_BREAKAWAY_FROM_JOB | CREATE_NO_WINDOW, NULL, NULL, &si, &pi)) {
 		AssignProcessToJobObject(hJobRestApi, pi.hProcess);
