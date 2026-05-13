@@ -2,7 +2,7 @@
 
 #include "IconWnd.h"
 
-// CEPncUIDlg2 ´ëÈ­ »óÀÚÀÔ´Ï´Ù.
+// CEPncUIDlg2 ï¿½ï¿½È­ ï¿½ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½.
 
 class CEPncUIDlg2 : public CDialog
 {
@@ -166,13 +166,13 @@ private:
 
 	BOOL	bConnectedUsbMemory_;
 
-	BOOL	bToolButtonPressed_;						// Åø ¹öÆ°ÀÌ ´­·ÈÀ» °æ¿ì, TRUE
+	BOOL	bToolButtonPressed_;						// ï¿½ï¿½ ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½, TRUE
 
 	CIconWnd*	pIconWnd_[STATUS_ICON_NUM];
-	CRect		rcStatusArea_[STATUS_NUM];				// »óÅÂ Ãâ·Â ¿µ¿ª 
-	CRect		rcStatusIconArea_[STATUS_ICON_NUM];		// »óÅÂ Ãâ·Â ¿µ¿ª 
+	CRect		rcStatusArea_[STATUS_NUM];				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
+	CRect		rcStatusIconArea_[STATUS_ICON_NUM];		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 
-	int			nPREV_MILLING_TIME_;					// °¡°ø ³²Àº ½Ã°£
+	int			nPREV_MILLING_TIME_;					// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½
 
 	int			millingStartLine;
 	BOOL		isUSBConnected_;
@@ -211,24 +211,25 @@ private:
 	BOOL initialize_ToolPocketObject();
 	void destroy_ToolPocketObject();
 
-	void updateButtonState();						// È­¸éÁß ¹öÆ° »óÅÂ¸¦ °»½Å ÇÑ´Ù
+	void updateButtonState();						// È­ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ° ï¿½ï¿½ï¿½Â¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½
 
-//	void updateStatus();							// tool info, spindle, feedrate Ãâ·Â. ¾Æ·¡ 4°³ÀÇ ÇÔ¼ö·Î ´ëÃ¼ ÇÔ 
+//	void updateStatus();							// tool info, spindle, feedrate ï¿½ï¿½ï¿½. ï¿½Æ·ï¿½ 4ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ 
 
-	void updateToolInfoDisp();						// ÇöÀç Àâ°íÀÖ´Â Åø Á¤º¸¸¦ È­¸é¿¡ Ç¥½Ã
-	void updateSpindleInfoDisp();					// ½ºÇÉµé Á¤º¸¸¦ È­¸é¿¡ Ç¥½Ã 
-	void updateFeedRateInfoDisp();					// FeedRate Á¤º¸¸¦ È­¸é¿¡ Ç¥½Ã 
-	void updateMillingTimeDisp();					// °¡°ø ½Ã°£ Á¤º¸¸¦ È­¸é¿¡ Ç¥½Ã 
-	void updateNumSelectNcFileDisp();				// ¼±ÅÃµÈ NC ÆÄÀÏ °³¼ö¸¦ È­¸é¿¡ Ç¥½Ã 
-	void updateRemainingMillingTimeDisp();			// ³²Àº °¡°ø½Ã°£À» È­¸é¿¡ Ç¥½Ã 
+	void updateToolInfoDisp();						// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È­ï¿½é¿¡ Ç¥ï¿½ï¿½
+	void updateSpindleInfoDisp();					// ï¿½ï¿½ï¿½Éµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È­ï¿½é¿¡ Ç¥ï¿½ï¿½ 
+	void updateFeedRateInfoDisp();					// FeedRate ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È­ï¿½é¿¡ Ç¥ï¿½ï¿½ 
+	void updateMillingTimeDisp();					// ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È­ï¿½é¿¡ Ç¥ï¿½ï¿½ 
+	void updateNumSelectNcFileDisp();				// ï¿½ï¿½ï¿½Ãµï¿½ NC ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È­ï¿½é¿¡ Ç¥ï¿½ï¿½ 
+	void updateRemainingMillingTimeDisp();			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ã°ï¿½ï¿½ï¿½ È­ï¿½é¿¡ Ç¥ï¿½ï¿½ 
 
-	void updateRemoteModeDisp();					// remote mode Ç¥½Ã Ãâ·Â 
-	void updateUsbMemConnectDisp();					// usb memory Ç¥½Ã Ãâ·Â
-	void updateBlockExistDisp();					// ºí·Ï À¯/¹« Ç¥½Ã Ãâ·Â 
-	void updateProgressBarStatus();					// ÀÛ¾÷ ÁøÇà»óÅÂ Ç¥½Ã Ãâ·Â  
+	void updateRemoteModeDisp();					// remote mode Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ 
+	void updateUsbMemConnectDisp();					// usb memory Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½
+	void updateBlockExistDisp();					// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½/ï¿½ï¿½ Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ 
+	void updateProgressBarStatus();					// ï¿½Û¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½  
 	void updateToolHealthStatus();
 
 	void updateNCFile();
+	void updateNCFile2();
 
 	void updateSystemStatus();
 	void updateDeviceStatus();
@@ -252,7 +253,7 @@ private:
 
 	void writeLog( LPCTSTR log_msg );
 
-	void updateDemoModeDisp();						// demo mode Ç¥½Ã Ãâ·Â 
+	void updateDemoModeDisp();						// demo mode Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ 
 
 	bool WaitForFileToOpen(DWORD dwTimeout) ;
 	void CEPncUIDlg2::displayMaterialInformation(BOOL b);
@@ -261,24 +262,24 @@ private:
 
 	void AddCommaToData(CString data, CString &commaData);
 
-	BOOL getToolError();	// 6°³Áß ÇÑ°³¶óµµ, ¿¡·¯»óÅÂ¸é TRUE ¸®ÅÏ 
-	int  getToolAlarm();	// 6°³Áß ÇÑ°³¶óµµ, 90% ÀÌ»óÀÌ¸é 1, 100% ÀÌ¸é 2, ¾Æ´Ï¸é 0 ¸®ÅÏ 
+	BOOL getToolError();	// 6ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ°ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¸ï¿½ TRUE ï¿½ï¿½ï¿½ï¿½ 
+	int  getToolAlarm();	// 6ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ°ï¿½ï¿½ï¿½, 90% ï¿½Ì»ï¿½ï¿½Ì¸ï¿½ 1, 100% ï¿½Ì¸ï¿½ 2, ï¿½Æ´Ï¸ï¿½ 0 ï¿½ï¿½ï¿½ï¿½ 
 
 public:
-	BOOL Splash_Call_Init(int stepNo);	// Splash ´ÙÀÌ¾ó·Î±×¿¡¼­, ÇÁ·Î±×·¥À» ÃÊ±âÈ­ ÇÏ±â À§ÇØ È£Ãâ (step => 0 ~ 20)
+	BOOL Splash_Call_Init(int stepNo);	// Splash ï¿½ï¿½ï¿½Ì¾ï¿½Î±×¿ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½Î±×·ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­ ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ È£ï¿½ï¿½ (step => 0 ~ 20)
 	void Quit();
 
 public:
-	CEPncUIDlg2(CWnd* pParent = NULL);   // Ç¥ÁØ »ý¼ºÀÚÀÔ´Ï´Ù.
+	CEPncUIDlg2(CWnd* pParent = NULL);   // Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½.
 	virtual ~CEPncUIDlg2();
 
-// ´ëÈ­ »óÀÚ µ¥ÀÌÅÍÀÔ´Ï´Ù.
+// ï¿½ï¿½È­ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½.
 	enum { IDD = IDD_EPNCUI_DIALOG2 };
 
 protected:
     HICON m_hIcon;
     
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV Áö¿øÀÔ´Ï´Ù.
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV ï¿½ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½.
 
 	DECLARE_MESSAGE_MAP()
 	virtual void PreInitDialog();

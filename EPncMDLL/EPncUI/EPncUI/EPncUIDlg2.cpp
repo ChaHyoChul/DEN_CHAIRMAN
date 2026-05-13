@@ -1,4 +1,4 @@
-// EPncUIDlg2.cpp : ±¸Çö ÆÄÀÏÀÔ´Ï´Ù.
+// EPncUIDlg2.cpp : ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½.
 //
 
 #include "stdafx.h"
@@ -22,7 +22,7 @@ CRect CEPncUIDlg2::RC_TOOL_AREA = CRect(560, 350, 960, 610);
 
 
 //////////////////////////////////////////////////////////////////////////
-// CEPncUIDlg2 ´ëÈ­ »óÀÚÀÔ´Ï´Ù.
+// CEPncUIDlg2 ï¿½ï¿½È­ ï¿½ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½.
 
 IMPLEMENT_DYNAMIC(CEPncUIDlg2, CDialog)
 
@@ -79,7 +79,7 @@ BEGIN_MESSAGE_MAP(CEPncUIDlg2, CDialog)
 END_MESSAGE_MAP()
 
 //////////////////////////////////////////////////////////////////////////
-// CEPncUIDlg2 ¸Þ½ÃÁö Ã³¸®±âÀÔ´Ï´Ù.
+// CEPncUIDlg2 ï¿½Þ½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½.
 //////////////////////////////////////////////////////////////////////////
 
 void CEPncUIDlg2::PreInitDialog()
@@ -89,7 +89,7 @@ void CEPncUIDlg2::PreInitDialog()
 	CRect	rcWnd;
 	GetClientRect( &CUICRect_m );
 
-	//ÇÁ·Î±×·¥ Ã¢ Å©±â¸¦ 1024 X 768 º¯°æ (embedded pc¿Í pc ¿¡¼­ »çÀÌÁî/ºñÀ²ÀÌ ´Ù¸£°Ô ³ª¿Í¼­ º¯°æÇÔ) 
+	//ï¿½ï¿½ï¿½Î±×·ï¿½ Ã¢ Å©ï¿½â¸¦ 1024 X 768 ï¿½ï¿½ï¿½ï¿½ (embedded pcï¿½ï¿½ pc ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Í¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½) 
 	MoveWindow(100,100, 1024,768);
 	GetClientRect( &rcWnd );
 	GetWindowRect( &rcWnd );
@@ -422,12 +422,12 @@ BOOL CEPncUIDlg2::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
-    // ÀÌ ´ëÈ­ »óÀÚÀÇ ¾ÆÀÌÄÜÀ» ¼³Á¤ÇÕ´Ï´Ù. ÀÀ¿ë ÇÁ·Î±×·¥ÀÇ ÁÖ Ã¢ÀÌ ´ëÈ­ »óÀÚ°¡ ¾Æ´Ò °æ¿ì¿¡´Â
-	//  ÇÁ·¹ÀÓ¿öÅ©°¡ ÀÌ ÀÛ¾÷À» ÀÚµ¿À¸·Î ¼öÇàÇÕ´Ï´Ù.
-	SetIcon(m_hIcon, TRUE);			// Å« ¾ÆÀÌÄÜÀ» ¼³Á¤ÇÕ´Ï´Ù.
-	SetIcon(m_hIcon, FALSE);		// ÀÛÀº ¾ÆÀÌÄÜÀ» ¼³Á¤ÇÕ´Ï´Ù.
+    // ï¿½ï¿½ ï¿½ï¿½È­ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î±×·ï¿½ï¿½ï¿½ ï¿½ï¿½ Ã¢ï¿½ï¿½ ï¿½ï¿½È­ ï¿½ï¿½ï¿½Ú°ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ì¿¡ï¿½ï¿½
+	//  ï¿½ï¿½ï¿½ï¿½ï¿½Ó¿ï¿½Å©ï¿½ï¿½ ï¿½ï¿½ ï¿½Û¾ï¿½ï¿½ï¿½ ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
+	SetIcon(m_hIcon, TRUE);			// Å« ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
+	SetIcon(m_hIcon, FALSE);		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
 
-	// Font »ý¼º 
+	// Font ï¿½ï¿½ï¿½ï¿½ 
 	((CStatic*)GetDlgItem(IDC_STATIC_NC_FILE))->SetFont(&hFntNcFile_, TRUE);
     
 	NewPos = new CPoint();
@@ -441,13 +441,13 @@ BOOL CEPncUIDlg2::OnInitDialog()
 	return TRUE;
 
 	//////////////////////////////////////////////////////////////////////////
-	// µû·Î µ¿±âÈ­ ÇÏÁö ¾Ê¾Æµµ, ¾Æ·¡ ÇÔ¼ö°¡ ³¡³ª¾ß ¸®ÅÏµÈ´Ù 
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½È­ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Æµï¿½, ï¿½Æ·ï¿½ ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ÏµÈ´ï¿½ 
 #ifdef __USE_EPNCM_DLL__
 	TRACE(_T("<1>\n"));
 	int nRet = INITIALIZE_EPNCM_DLL();
 	if (nRet == 0)
 	{
-		// Á¾·á 
+		// ï¿½ï¿½ï¿½ï¿½ 
 		CDialog::OnCancel();
 		return FALSE;
 	}
@@ -484,7 +484,7 @@ BOOL CEPncUIDlg2::OnInitDialog()
 	draw_font();
 
 	//////////////////////////////////////////////////////////////////////////
-	// Version ±â·Ï
+	// Version ï¿½ï¿½ï¿½
 	memset((void*)pa::PPAStatus->GetThreadState()->szUIProgVersion, 0, sizeof(TCHAR)*128);
 	_stprintf_s( pa::PPAStatus->GetThreadState()->szUIProgVersion, 
 		128,
@@ -500,12 +500,12 @@ BOOL CEPncUIDlg2::OnInitDialog()
 	SetTimer( 1, 1000, NULL );		// Button Blicking Timer 
 	SetTimer( 2, 1000, NULL );		// Screen State Timer 
 	SetTimer( 3, 1000, NULL );		// NcFile Update for Remote Control
-	SetTimer( 4, 2000, NULL );		// USB ¸Þ¸ð¸® ¿¬°á ¿©ºÎ È®ÀÎ  
+	SetTimer( 4, 2000, NULL );		// USB ï¿½Þ¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½  
 	SetTimer( 5, 200, NULL );
 	//////////////////////////////////////////////////////////////////////////
 
 	return TRUE;  // return TRUE unless you set the focus to a control
-	// ¿¹¿Ü: OCX ¼Ó¼º ÆäÀÌÁö´Â FALSE¸¦ ¹ÝÈ¯ÇØ¾ß ÇÕ´Ï´Ù.
+	// ï¿½ï¿½ï¿½ï¿½: OCX ï¿½Ó¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ FALSEï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ø¾ï¿½ ï¿½Õ´Ï´ï¿½.
 }
 
 BOOL CEPncUIDlg2::Splash_Call_Init(int stepNo)
@@ -582,7 +582,7 @@ BOOL CEPncUIDlg2::Splash_Call_Init(int stepNo)
 
 	case 14:
 		//////////////////////////////////////////////////////////////////////////
-		// Version ±â·Ï
+		// Version ï¿½ï¿½ï¿½
 		memset((void*)pa::PPAStatus->GetThreadState()->szUIProgVersion, 0, sizeof(TCHAR)*128);
 		_stprintf_s( pa::PPAStatus->GetThreadState()->szUIProgVersion, 
 			128,
@@ -600,10 +600,10 @@ BOOL CEPncUIDlg2::Splash_Call_Init(int stepNo)
 		SetTimer( 1, 1000, NULL );		// Button Blicking Timer 
 		SetTimer( 2, 1000, NULL );		// Screen State Timer 
 		SetTimer( 3, 1000, NULL );		// NcFile Update for Remote Control
-		SetTimer( 4, 2000, NULL );		// USB ¸Þ¸ð¸® ¿¬°á ¿©ºÎ È®ÀÎ  
+		SetTimer( 4, 2000, NULL );		// USB ï¿½Þ¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½  
 		SetTimer( 5, 200, NULL );
 
-		// NC ÆÄÀÏ ÁøÇà»óÈ² ¾ÆÀÌÄÜ ¼û±è
+		// NC ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½È² ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		pOperButtonsEx_[OPER_BTN_NC_LOADED]->ShowWindow(SW_HIDE);
 		pOperButtonsEx_[OPER_BTN_NC_RUNNING]->ShowWindow(SW_HIDE);
 		pOperButtonsEx_[OPER_BTN_NC_FINISHED]->ShowWindow(SW_HIDE);
@@ -718,7 +718,7 @@ void CEPncUIDlg2::OnDestroy()
 	CDialog::OnDestroy();
 
 	//////////////////////////////////////////////////////////////////////////
-	// µû·Î µ¿±âÈ­ ÇÏÁö ¾Ê¾Æµµ, ¾Æ·¡ ÇÔ¼ö°¡ ³¡³ª¾ß ¸®ÅÏµÈ´Ù 
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½È­ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Æµï¿½, ï¿½Æ·ï¿½ ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ÏµÈ´ï¿½ 
 #ifdef __USE_EPNCM_DLL__
 	TRACE(_T("<3>\n"));
 	DESTORY_EPNCM_DLL();
@@ -739,7 +739,7 @@ void CEPncUIDlg2::OnPaint()
 	{
 		SendMessage(WM_ICONERASEBKGND, reinterpret_cast<WPARAM>(dc.GetSafeHdc()), 0);
 
-		// Å¬¶óÀÌ¾ðÆ® »ç°¢Çü¿¡¼­ ¾ÆÀÌÄÜÀ» °¡¿îµ¥¿¡ ¸ÂÃä´Ï´Ù.
+		// Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ® ï¿½ç°¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½îµ¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
 		int cxIcon = GetSystemMetrics(SM_CXICON);
 		int cyIcon = GetSystemMetrics(SM_CYICON);
 		CRect rect;
@@ -747,13 +747,13 @@ void CEPncUIDlg2::OnPaint()
 		int x = (rect.Width() - cxIcon + 1) / 2;
 		int y = (rect.Height() - cyIcon + 1) / 2;
 
-		// ¾ÆÀÌÄÜÀ» ±×¸³´Ï´Ù.
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×¸ï¿½ï¿½Ï´ï¿½.
 		dc.DrawIcon(x, y, m_hIcon);
 	}
 }
 
-// »ç¿ëÀÚ°¡ ÃÖ¼ÒÈ­µÈ Ã¢À» ²ô´Â µ¿¾È¿¡ Ä¿¼­°¡ Ç¥½ÃµÇµµ·Ï ½Ã½ºÅÛ¿¡¼­
-//  ÀÌ ÇÔ¼ö¸¦ È£ÃâÇÕ´Ï´Ù.
+// ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ ï¿½Ö¼ï¿½È­ï¿½ï¿½ Ã¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½È¿ï¿½ Ä¿ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ÃµÇµï¿½ï¿½ï¿½ ï¿½Ã½ï¿½ï¿½Û¿ï¿½ï¿½ï¿½
+//  ï¿½ï¿½ ï¿½Ô¼ï¿½ï¿½ï¿½ È£ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
 HCURSOR CEPncUIDlg2::OnQueryDragIcon()
 {
 	return static_cast<HCURSOR>(m_hIcon);
@@ -1066,7 +1066,7 @@ void CEPncUIDlg2::initialize_OperButtons()
 		ScreenToClient( &rcButtons[i] );
 		pBtn->DestroyWindow();	
 
-		// À§Ä¡ Àç ÁöÁ¤ 
+		// ï¿½ï¿½Ä¡ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 		switch (i)
 		{
 		case OPER_BTN_START:
@@ -1265,8 +1265,8 @@ BOOL CEPncUIDlg2::initialize_StatusIconWnd()
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// DS200 Àº ºí·°À» »ç¿ëÇÏÁö ¾Ê±â ¶§¹®¿¡ À©µµ¿ì¸¦ ¸¸µéÁö ¾Ê´Â´Ù 
-	// DS200-5P°¡ ºí·°À» »ç¿ëÇÏ±â ¶§¹®¿¡ À©µµ¿ì¸¦ ¸¸µç´Ù 
+	// DS200 ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ì¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½ 
+	// DS200-5Pï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ì¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½ 
 	for( int i = 0; i<(int)(STATUS_ICON_NUM); i++ )
 	{
 		pIconWnd_[i] = new CIconWnd();
@@ -1331,7 +1331,7 @@ void CEPncUIDlg2::OnTimer(UINT_PTR nIDEvent)
 	if( nIDEvent == 1 ) 
 	{
 		//////////////////////////////////////////////////////////////////////////
-		// Button »óÅÂ º¯°æ 
+		// Button ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 		//////////////////////////////////////////////////////////////////////////
 		// Stop Timer 
 		KillTimer( 1 );
@@ -1351,16 +1351,16 @@ void CEPncUIDlg2::OnTimer(UINT_PTR nIDEvent)
 		// Stop Timer 
 		KillTimer( 2 );
 
-		// ¹öÆ° »óÅÂ 
+		// ï¿½ï¿½Æ° ï¿½ï¿½ï¿½ï¿½ 
+		// Æ°  
 		updateButtonState();
 
-		updateNCFile();
+		updateNCFile2();
 
 		updateSystemStatus();
-
 		updateDeviceStatus();
 
-		// 2017.07.21. bIsPauseAirLimit_==TRUE ÀÏ ¶§, ¸Þ½ÃÁö ¹Ú½º¸¦ ¶ç¿î´Ù 
+		// 2017.07.21. bIsPauseAirLimit_==TRUE ï¿½ï¿½ ï¿½ï¿½, ï¿½Þ½ï¿½ï¿½ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 		static int PREV_IS_PAUSE_AIR_LIMIT = -1;
 		int curr_is_puase_air_limit = ( pa::PPAStatus->GetThreadState()->bIsPauseAirLimit_ == TRUE ) ? 1 :0;
 		if( PREV_IS_PAUSE_AIR_LIMIT != curr_is_puase_air_limit )
@@ -1368,26 +1368,26 @@ void CEPncUIDlg2::OnTimer(UINT_PTR nIDEvent)
 			PREV_IS_PAUSE_AIR_LIMIT = curr_is_puase_air_limit;
 			if( PREV_IS_PAUSE_AIR_LIMIT == 1 )
 			{
-				// ¾Ë¸² ¸Þ½ÃÁö¸¦ º¸¿©ÁØ´Ù  
+				// ï¿½Ë¸ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½  
 				CString strMsg;
 				strMsg.Format( _T("Please wait until the air is charged.") );
 				CMsgDlgThread::GetInstance()->Show( CMsgDlg::TYPE_WAIT, CMsgDlg::ICON_WARM, strMsg );
 			}
 			else 
 			{
-				// ¾Ë¸² ¸Þ½ÃÁö¸¦ ¼û±ä´Ù 
+				// ï¿½Ë¸ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ 
 				CMsgDlgThread::GetInstance()->Hide();
 			}
 		}
 
-		// ¿¡·¯ ¸ðµåÀÏ °æ¿ì, ¿¡·¯ ´ÙÀÌ¾ó·Î±× ¹Ú½º¸¦ ¶ç¿î´Ù 
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¾ï¿½Î±ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 		int curr_error_mode = ( pa::PPAStatus->GetRunMode() == pa::RUNMODE_ERROR ) ? 1 : 0;
 		if( PREV_ERROR_MODE != curr_error_mode ) {
 			PREV_ERROR_MODE = curr_error_mode;
 			if( PREV_ERROR_MODE != 0 ) {
 				//////////////////////////////////////////////////////////////////////////
 				// 2017.07.21 
-				// is_pause_ait_limit ¸Þ½ÃÁö°¡ º¸¿©Áö°í ÀÖÀ» °æ¿ì, ¼û±ä´Ù	
+				// is_pause_ait_limit ï¿½Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½	
 				if( PREV_IS_PAUSE_AIR_LIMIT == 1 )
 				{
 					PREV_IS_PAUSE_AIR_LIMIT = 0;
@@ -1398,21 +1398,21 @@ void CEPncUIDlg2::OnTimer(UINT_PTR nIDEvent)
 			}
 		}
 
-		// Pause By Door Open È®ÀÎ 
+		// Pause By Door Open È®ï¿½ï¿½ 
 		if( pa::PPAStatus->GetThreadState()->nPauseByDoorOpen == 1 )
 		{
 			//////////////////////////////////////////////////////////////////////////
 			// 2017.07.21 
-			// is_pause_ait_limit ¸Þ½ÃÁö°¡ º¸¿©Áö°í ÀÖÀ» °æ¿ì, ¼û±ä´Ù	
+			// is_pause_ait_limit ï¿½Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½	
 			if( PREV_IS_PAUSE_AIR_LIMIT == 1 )
 			{
 				PREV_IS_PAUSE_AIR_LIMIT = 0;
 				CMsgDlgThread::GetInstance()->Hide();
 			}
 			//////////////////////////////////////////////////////////////////////////
-			// º¯¼ö ¸®¼Â 
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 			pa::PPAStatus->GetThreadState()->nPauseByDoorOpen = 0;
-			// ¾Ë¸² ¸Þ½ÃÁö 
+			// ï¿½Ë¸ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ 
 			CString strMsg;
 			strMsg.Format( _T("stop by front door open") );
 			CMsgDlgThread::GetInstance()->Show( CMsgDlg::TYPE_CLOSE, CMsgDlg::ICON_INFO, strMsg );
@@ -1462,8 +1462,8 @@ void CEPncUIDlg2::OnTimer(UINT_PTR nIDEvent)
 		//////////////////////////////////////////////////////////////////////////
 		// updateStatus();
 		//
-		updateMillingTimeDisp();			// ÀÛ¾÷ ½Ã°£ Á¤º¸ 
-		updateRemainingMillingTimeDisp();	// ³²Àº ½Ã°£ Á¤º¸ 
+		updateMillingTimeDisp();			// ï¿½Û¾ï¿½ ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½ 
+		updateRemainingMillingTimeDisp();	// ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 		//
 		updateProgressBarStatus();
 		//
@@ -1502,7 +1502,7 @@ LRESULT CEPncUIDlg2::OnImgButtonExClicked(WPARAM wparam, LPARAM lparam)
 {
 	int nID = (int)wparam;
 
-	// Remote Lock ±â´É Ãß°¡ 
+	// Remote Lock ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ 
 	if( pa::PPAStatus->GetThreadState()->bRemoteLock_ == FALSE &&
 		pa::PPAStatus->GetThreadState()->bIsShowUserConfirmDlg == FALSE )
 	{
@@ -1581,7 +1581,7 @@ void CEPncUIDlg2::doButtonConnect()
 	PERROR_DLG->RESET_SHOW_ERROR_DLG();	
 
 	//////////////////////////////////////////////////////////////////////////
-	// servoÀÇ power ¼Ó¼ºÀÌ 0ÀÌ¸é, 1ÀÌµÉ ¶§ ±îÁö Wait Dialog¸¦ ¶ç¿î´Ù 
+	// servoï¿½ï¿½ power ï¿½Ó¼ï¿½ï¿½ï¿½ 0ï¿½Ì¸ï¿½, 1ï¿½Ìµï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Wait Dialogï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 	if( pa::PPAStatus->GetPAStatus()->nServoPower == 0 || pa::PPAStatus->GetPAStatus()->nGPLErrorCode != 0 ||
 		pa::PPAStatus->GetThreadState()->nIsConnectedPAController == 0 ) 
 	{
@@ -1661,7 +1661,7 @@ void CEPncUIDlg2::doButtonEMO()
 		PERROR_DLG->RESET_SHOW_ERROR_DLG();	
 
 		//////////////////////////////////////////////////////////////////////////
-		// servoÀÇ power ¼Ó¼ºÀÌ 0ÀÌ¸é, 1ÀÌµÉ ¶§ ±îÁö Wait Dialog¸¦ ¶ç¿î´Ù 
+		// servoï¿½ï¿½ power ï¿½Ó¼ï¿½ï¿½ï¿½ 0ï¿½Ì¸ï¿½, 1ï¿½Ìµï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Wait Dialogï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 		if( pa::PPAStatus->GetPAStatus()->nServoPower == 0 || pa::PPAStatus->GetPAStatus()->nGPLErrorCode != 0 ||
 			pa::PPAStatus->GetThreadState()->nIsConnectedPAController == 0 ) 
 		{
@@ -1845,7 +1845,7 @@ void CEPncUIDlg2::doButtonRunPause()
 	}
 	
 	//////////////////////////////////////////////////////////////////////////
-	//Door°¡ ¿­¸² ¼¾¼­¸¦ »ç¿ëÇÏ°í, ¿­¸° »óÅÂ·Î °¡°øÀ» ½ÃÀÛÇÒ °æ¿ì, ¸ØÃá´Ù.
+	//Doorï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï°ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½.
 	BOOL isUsingOpSensor = pa::PSWConfig->GetConfigData()->bUsingOpPanel;
 	BOOL isFrontDoorClosed = !(pa::PPAStatus->GetPAStatus()->bInput[pa::IN20012_DoorSensor]);
 	if (isUsingOpSensor && !isFrontDoorClosed)
@@ -1863,14 +1863,14 @@ void CEPncUIDlg2::doButtonRunPause()
 
 	if( run_mode == pa::RUNMODE_STOP ) 
 	{
-		// ¿­·Á ÀÖ´Â ÆÄÀÏÀÌ ¾øÀ¸¸é, Checking µÈ ÆÄÀÏÀ» Ã£´Â´Ù 
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, Checking ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½Â´ï¿½ 
 		if( pa::PPAStatus->GetThreadState()->bIsOpenNCFile == FALSE )
 		{
 			int nNCFileIndex = pa::PNCFileMgr->FindFirstCheckingNCFileIndex( TRUE );	//PNCFileMgr->FindFirstCheckingNCFileIndex();
 			
 			if( nNCFileIndex == -1 ) 
 			{
-				// ¿­¼ö ÀÖ´Â ÆÄÀÏÀÌ ¾øÀ½ 
+				// ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 				//////////////////////////////////////////////////////////////////////////
 				// log 
 				writeLog( _T("file does not exist") );
@@ -1882,19 +1882,19 @@ void CEPncUIDlg2::doButtonRunPause()
 				//////////////////////////////////////////////////////////////////////////
 				// log 
 				CString strLog;
-				strLog.Format( _T("file open (%d)"), nNCFileIndex );				// index ¹øÂ° ÆÄÀÏ open 
+				strLog.Format( _T("file open (%d)"), nNCFileIndex );				// index ï¿½ï¿½Â° ï¿½ï¿½ï¿½ï¿½ open 
 				writeLog( strLog );
 				//////////////////////////////////////////////////////////////////////////
 
 				dwTimeout = pa::PNCFileMgr->EstimateLoadingTime(nNCFileIndex);
 
-				// ÆÄÀÏÀ» ¿¬´Ù 
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 				PPNC_IPC_CLIENT->Open( nNCFileIndex );								
 				Sleep( 500 );
 			}
 		}
 
-		// ÆÄÀÏÀÌ ¿­·Á ÀÖ´ÂÁö È®ÀÎ 
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ È®ï¿½ï¿½ 
 		if( !WaitForFileToOpen(dwTimeout) )
 		{
 			return ;
@@ -1902,7 +1902,7 @@ void CEPncUIDlg2::doButtonRunPause()
 
 		millingStartLine = 0;
 
-		// ÀÌ¾î¼­ ½ÇÇà¿©ºÎ È®ÀÎ 
+		// ï¿½Ì¾î¼­ ï¿½ï¿½ï¿½à¿©ï¿½ï¿½ È®ï¿½ï¿½ 
 		DWORD dwtemp = pa::PPAStatus->GetThreadState()->hNCFileInfo.machining_lines;
 		if( pa::PPAStatus->GetThreadState()->hNCFileInfo.machining_lines != 0 )
 		{			
@@ -1918,7 +1918,7 @@ void CEPncUIDlg2::doButtonRunPause()
 				//
 				nStartLine = dlg.GetStartLine();
 				millingStartLine = nStartLine;
-				// 2017.08.09. ÀÌ¾î¼­ ½ÇÇàÇÒ ¶óÀÎ ¹üÀ§ È®ÀÎ 
+				// 2017.08.09. ï¿½Ì¾î¼­ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ 
 				int totalLine = pa::PPAStatus->GetThreadState()->hNCFileInfo.total_lines-1;
 				if( nStartLine >= totalLine )
 				{
@@ -1929,7 +1929,7 @@ void CEPncUIDlg2::doButtonRunPause()
 					return ;
 				}
 				//////////////////////////////////////////////////////////////////////////
-				// ¿ø·¡ ¶óÀÎ°ú Àç½ÃÀÛ ¶óÀÎÀÌ ´Ù¸¦ ¼ö ÀÖÀ¸¹Ç·Î, µÑ´Ù Ãâ·Â ÇÑ´Ù 
+				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½, ï¿½Ñ´ï¿½ ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½ 
 				CString strLog;
 				strLog.Format( _T("restart : %d [<-%d]"), nStartLine, prev_start_line );
 				writeLog( strLog );
@@ -1940,7 +1940,7 @@ void CEPncUIDlg2::doButtonRunPause()
 				// log
 				writeLog( _T("job cancel") );
 				//////////////////////////////////////////////////////////////////////////
-				// ÀÛ¾÷ Ãë¼Ò 
+				// ï¿½Û¾ï¿½ ï¿½ï¿½ï¿½ 
 				return ;
 			}
 
@@ -1955,11 +1955,11 @@ void CEPncUIDlg2::doButtonRunPause()
 		PPNC_IPC_CLIENT->Run(nStartLine);
 
 		//////////////////////////////////////////////////////////////////////////
-		// run ÀÌ¸é milling_time º¯¼ö ÃÊ±âÈ­ 
+		// run ï¿½Ì¸ï¿½ milling_time ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­ 
 		nPREV_MILLING_TIME_ = 999999999;
 
 #ifdef _SAVE_RUNTIME_UI_
-		SAVE_RUNNING_TIME(TRUE, pa::PPAStatus->GetThreadState()->hNCFileInfo.file_name, 0, 0, 0, 0 );		// ÃÊ±âÈ­ 
+		SAVE_RUNNING_TIME(TRUE, pa::PPAStatus->GetThreadState()->hNCFileInfo.file_name, 0, 0, 0, 0 );		// ï¿½Ê±ï¿½È­ 
 #endif		//////////////////////////////////////////////////////////////////////////
 	}
 }
@@ -1982,7 +1982,7 @@ void CEPncUIDlg2::doButtonOpen()
 
 	if( pa::PNCFileMgr->GetCurrentWorkNCFileIndex() == -1 )
 	{
-		// 1. ¸®½ºÆ® ¹Ú½º¿¡ ÀÖ´Â NC ÆÄÀÏ ÀüÃ¼ Ã¼Å©
+		// 1. ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ NC ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ Ã¼Å©
 		int nNum = pa::PNCFileMgr->GetNumNCFile();
 
 		for( int i = 0; i<nNum; i++ )
@@ -1990,29 +1990,29 @@ void CEPncUIDlg2::doButtonOpen()
 			pa::PNCFileMgr->SetNCFileSelect( i, 1, TRUE );
 		}
 
-		// 2. Ã¼Å©ÇÑ ÆÄÀÏ »èÁ¦
+		// 2. Ã¼Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		CString strTemp;
 		
         // TODO: DELETE LEFTOVER FILES
         DeleteLeftOverNCFiles();
 
 		//////////////////////////////////////////////////////////////////////////
-		// Registered Nc ÆÄÀÏ ¸®½ºÆ®¸¦ Àü¼Û ÇÑ´Ù 
+		// Registered Nc ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½ 
 		if( pa::PPAStatus->GetThreadState()->bSendRegistered_NCFileList_ == FALSE ) {
 			pa::PPAStatus->GetThreadState()->bSendRegistered_NCFileList_ = TRUE;
 		}
 		//////////////////////////////////////////////////////////////////////////
-		// SD ¸Þ¸ð¸®ÀÇ NC ÆÄÀÏ ¸®½ºÆ®¸¦ Àü¼Û ÇÑ´Ù 
+		// SD ï¿½Þ¸ï¿½ï¿½ï¿½ NC ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½ 
 		if( pa::PPAStatus->GetThreadState()->bSendSDMemory_NCFileList_ == FALSE ) {
 			pa::PPAStatus->GetThreadState()->bSendSDMemory_NCFileList_ = TRUE;
 		}
 		//////////////////////////////////////////////////////////////////////////
 
-		// 3. Å½»ö±â¿¡¼­ NCÆÄÀÏÀ» °¡Á®¿Â´Ù (1°³¸¸)
+		// 3. Å½ï¿½ï¿½ï¿½â¿¡ï¿½ï¿½ NCï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Â´ï¿½ (1ï¿½ï¿½ï¿½ï¿½)
 		CFileDialog hOpenDlg( TRUE, NULL, NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, _T("NC Files (*.nc)|*.nc|") );
 
 		//////////////////////////////////////////////////////////////////////////
-		// NC FileÀÇ ÀÌ¸§À» ÀÔ·Â¹Þ´Â´Ù
+		// NC Fileï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½Ô·Â¹Þ´Â´ï¿½
 		//////////////////////////////////////////////////////////////////////////
 		
 		if (isUSBConnected_)
@@ -2052,13 +2052,13 @@ void CEPncUIDlg2::doButtonOpen()
 			CString strID;
 			strID.Format( _T("%d_%03d"), strDateTime, ++i );
 
-			// ÀÛ¾÷ µ¥ÀÌÅÍ¿¡ Ãß°¡ ÇÑ´Ù 
+			// ï¿½Û¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¿ï¿½ ï¿½ß°ï¿½ ï¿½Ñ´ï¿½ 
 			CString strTemp = ncFileName;
 			DWORD dwFileSize = 0;
 			// int FileNameLen = ncFileName.GetLength();
 			int maxCharPerLine = 35;
 
-            strNCFileName = ncFileName; // ÇöÀç NCÆÄÀÏ ÀÌ¸§ Ãâ·Â
+            strNCFileName = ncFileName; // ï¿½ï¿½ï¿½ï¿½ NCï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½
             
 			pa::GET_NCFILE_FULL_PATH( strTemp );
 			hcutil::GetFileSize( strTemp, &dwFileSize, strTemp );
@@ -2066,10 +2066,10 @@ void CEPncUIDlg2::doButtonOpen()
 			pa::PNCFileMgr->AddWorkNCFileInfo( (TCHAR*)(LPCTSTR)strID, (TCHAR*)(LPCTSTR)ncFileName, dwFileSize, TRUE );
 		}
 
-		// 4.Å½»ö±â¿¡¼­ °¡Á®¿Â NC ÆÄÀÏ Ã¼Å©
+		// 4.Å½ï¿½ï¿½ï¿½â¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ NC ï¿½ï¿½ï¿½ï¿½ Ã¼Å©
 		pa::PNCFileMgr->SetNCFileSelect( 0, 1, TRUE );
 
-		// 5. NCÆÄÀÏÀ» ¿¬´Ù
+		// 5. NCï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		int nNumNCFiles = pa::PNCFileMgr->GetNumNCFile();
 
 		pa::PPAStatus->GetThreadState()->nNcFileLoadingRate = 0;
@@ -2077,7 +2077,7 @@ void CEPncUIDlg2::doButtonOpen()
 
 		int PREV_LOADING_RATE = -1;
 
-		// ÆÄÀÏÀ» Open ÇÑ´Ù
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Open ï¿½Ñ´ï¿½
 		if( PPNC_IPC_CLIENT ) 
 		{
 			pa::PPAStatus->GetThreadState()->bIsFileOpening = TRUE;
@@ -2088,19 +2088,19 @@ void CEPncUIDlg2::doButtonOpen()
 
 			WaitForFileToOpen( pa::PNCFileMgr->EstimateLoadingTime(0) );
 
-			// Material/Block Á¤º¸ Ãâ·Â 
+			// Material/Block ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 
 			displayMaterialInformation(TRUE);
 		}
 	}
 	else 
 	{
 		displayMaterialInformation(FALSE);
-		// ¿­·Á ÀÖ´Â ÆÄÀÏÀÌ ÀÖÀ¸¸é, ÆÄÀÏÀ» ´Ý°í is_select¸¦ 0À¸·Î ¸®¼ÂÇÑ´Ù
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ý°ï¿½ is_selectï¿½ï¿½ 0ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½
 		writeLog( _T("file close button click") );
 
-		// FileÀ» ´ÝÀ» ¶§ is_select¸¦ 0À¸·Î ¸®¼ÂÇÑ´Ù
+		// Fileï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ is_selectï¿½ï¿½ 0ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½
 		pa::PNCFileMgr->SetNCFileSelect( 0, 0, TRUE );
-		// FileÀ» ´Ý´Â´Ù 
+		// Fileï¿½ï¿½ ï¿½Ý´Â´ï¿½ 
 
 		DWORD dwTime = GetTickCount();
 		pa::PPAStatus->SetIpcCommandComplete( FALSE );
@@ -2108,7 +2108,7 @@ void CEPncUIDlg2::doButtonOpen()
 		Sleep( 500 );
 		while( pa::PPAStatus->GetThreadState()->bIpcCmdComplete_ == FALSE ) {
 			if( (GetTickCount() - dwTime) > 50000 ) {
-				// ¿¡·¯. °Á ³Ñ¾î°£´Ù  
+				// ï¿½ï¿½ï¿½ï¿½. ï¿½ï¿½ ï¿½Ñ¾î°£ï¿½ï¿½  
 				break;
 			}
 			Sleep( 100 );
@@ -2120,7 +2120,7 @@ void CEPncUIDlg2::doButtonOpen()
 
 bool CEPncUIDlg2::WaitForFileToOpen(DWORD dwTimeout) 
 {
-	// ÆÄÀÏÀÌ ¿­·Á ÀÖ´ÂÁö È®ÀÎ 
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ È®ï¿½ï¿½ 
 	DWORD dwTime = GetTickCount();
 	int PREV_LOADING_RATE = -1;
 	CString strMsg;
@@ -2135,7 +2135,7 @@ bool CEPncUIDlg2::WaitForFileToOpen(DWORD dwTimeout)
 			return TRUE;
 		}
 
-		// ÁøÇàÀ²ÀÌ º¯ÇÏ¸é Ãâ·Â ÇÑ´Ù 
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½ 
 		int curr_loading_rate = pa::PPAStatus->GetThreadState()->nNcFileLoadingRate;
 		if( PREV_LOADING_RATE !=  curr_loading_rate ) {
 			PREV_LOADING_RATE = curr_loading_rate;
@@ -2145,8 +2145,8 @@ bool CEPncUIDlg2::WaitForFileToOpen(DWORD dwTimeout)
 			dwTime = GetTickCount();
 		}
 
-		// ÁøÇàÀ²ÀÌ 60/100 ÃÊ ÀÌ»ó º¯ÇÏÁö ¾ÊÀ¸¸é, ¿¡·¯ ¸Þ½ÃÁö Ãâ·Â 
-		// WinCE6.0¿¡¼­ 30ÃÊ·Î º¯°æ 
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 60/100 ï¿½ï¿½ ï¿½Ì»ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 
+		// WinCE6.0ï¿½ï¿½ï¿½ï¿½ 30ï¿½Ê·ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 		if( (GetTickCount() - dwTime) > dwTimeout || pa::PPAStatus->GetThreadState()->bIsFileOpening == FALSE ) {
 			CMsgDlgThread::GetInstance()->Hide();
             
@@ -2196,8 +2196,8 @@ void CEPncUIDlg2::doButtonReadyPos()
 	PPNC_IPC_CLIENT->MoveReadyPosition();
 }
 
-// Tools È­¸éÀ¸·Î ÀüÈ¯ µÇ¾úÀ» ¶§, 
-// ¾î´À À§Ä¡¿¡¼­ ÀüÈ¯µÇ¾ú´ÂÁö ÀúÀåÇØ¾ß ÇÑ´Ù. BACK ¹öÆ° ´­·ÈÀ» ¶§ 
+// Tools È­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ ï¿½Ç¾ï¿½ï¿½ï¿½ ï¿½ï¿½, 
+// ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ ï¿½Ñ´ï¿½. BACK ï¿½ï¿½Æ° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ 
 void CEPncUIDlg2::doButtonTools()
 {
 	//////////////////////////////////////////////////////////////////////////
@@ -2277,14 +2277,14 @@ void CEPncUIDlg2::updateButtonState()
 //#ifdef _HAS_MACHINE_
 
 		//////////////////////////////////////////////////////////////////////////
-		// EMO ¹öÆ°
+		// EMO ï¿½ï¿½Æ°
 		btn_ena[OPER_BTN_EMO] = 1;
 		btn_blk[OPER_BTN_EMO] = ( hRunMode == pa::RUNMODE_ERROR ) ? 1 : 0; 
 		btn_sel[OPER_BTN_EMO] = 0;
 		nIndex++;
 
 		//////////////////////////////////////////////////////////////////////////
-		// setup ¹öÆ° 
+		// setup ï¿½ï¿½Æ° 
 		btn_ena[OPER_BTN_SETUP] = ( hRunMode == pa::RUNMODE_STOP || hRunMode == pa::RUNMODE_ERROR ) ? 1 : 0;
 		btn_blk[OPER_BTN_SETUP] = 0;
 		btn_sel[OPER_BTN_SETUP] = 0;
@@ -2292,7 +2292,7 @@ void CEPncUIDlg2::updateButtonState()
 
 		
 		//////////////////////////////////////////////////////////////////////////
-		// stop ¹öÆ° 
+		// stop ï¿½ï¿½Æ° 
 		btn_ena[OPER_BTN_STOP] = ( bOriginComplete && ( hRunMode == pa::RUNMODE_TORUN || hRunMode == pa::RUNMODE_RUN || hRunMode == pa::RUNMODE_PAUSE ) ) ? 1 : 0;
 		if ( bOriginComplete && ( hRunMode == pa::RUNMODE_TORUN || hRunMode == pa::RUNMODE_RUN || hRunMode == pa::RUNMODE_PAUSE ))
 		{
@@ -2309,7 +2309,7 @@ void CEPncUIDlg2::updateButtonState()
 		nIndex++;
 
 		//////////////////////////////////////////////////////////////////////////
-		// open ¹öÆ° 
+		// open ï¿½ï¿½Æ° 
 		#ifdef _USE_PA_
 		btn_ena[OPER_BTN_OPEN] = ( bOriginComplete && hRunMode == pa::RUNMODE_STOP ) ? 1 : 0;
 		#else
@@ -2329,14 +2329,14 @@ void CEPncUIDlg2::updateButtonState()
 		}
 
 		//////////////////////////////////////////////////////////////////////////
-		// ready-pos ¹öÆ° 
+		// ready-pos ï¿½ï¿½Æ° 
 		btn_ena[OPER_BTN_READY_POS] = ( bOriginComplete && bIsReady && ( hRunMode == pa::RUNMODE_STOP ) );
 		btn_blk[OPER_BTN_READY_POS] = 0;
 		btn_sel[OPER_BTN_READY_POS] = 0;
 		nIndex++;
 
 		//////////////////////////////////////////////////////////////////////////
-		// tools ¹öÆ° 
+		// tools ï¿½ï¿½Æ° 
 		btn_ena[OPER_BTN_TOOLS] = 1;//(!bOriginComplete || hRunMode == pa::RUNMODE_RUN || hRunMode == pa::RUNMODE_TORUN || hRunMode == pa::RUNMODE_TOSTOP || hRunMode == pa::RUNMODE_ERROR || hRunMode == pa::RUNMODE_INIT) ? 0 : 1;
 		btn_blk[OPER_BTN_TOOLS] = 0;
 		btn_sel[OPER_BTN_TOOLS] = 0;
@@ -2412,7 +2412,7 @@ void CEPncUIDlg2::updateButtonState()
 // 		nIndex++;
 		
 		//////////////////////////////////////////////////////////////////////////
-		// start ¹öÆ°:  origin * ready * nc file selected * runmode
+		// start ï¿½ï¿½Æ°:  origin * ready * nc file selected * runmode
 		#ifndef _USE_PA_
 		btn_ena[OPER_BTN_START] = 1;
 		#else
@@ -2422,7 +2422,7 @@ void CEPncUIDlg2::updateButtonState()
 		btn_sel[OPER_BTN_START] = 0;
 		nIndex++; 
 
-		// Spindle RPM ¹öÆ° 
+		// Spindle RPM ï¿½ï¿½Æ° 
 		if(bIsSpindleRun && !PREV_SHOWN_SPINDLE1)
 		{
 			pOperButtonsEx_[OPER_BTN_SPINDLE_RPM]->ShowWindow(SW_SHOW);
@@ -2436,7 +2436,7 @@ void CEPncUIDlg2::updateButtonState()
 		nIndex++;
 
 		//////////////////////////////////////////////////////////////////////////
-		// Spindle RPM2 ¹öÆ° 
+		// Spindle RPM2 ï¿½ï¿½Æ° 
 		if(bIsSpindleRun2 && !PREV_SHOWN_SPINDLE2)
 		{
 			pOperButtonsEx_[OPER_BTN_SPINDLE_RPM2]->ShowWindow(SW_SHOW);
@@ -2521,9 +2521,9 @@ void CEPncUIDlg2::updateToolInfoDisp()
 
 		if( curr_tool_no != 0 )
 		{
-			// ÅøÀ» Àâ°í ÀÖÀ½
-			// Åø ¹øÈ£ 
-			// 2017.8.22. Åø ±æÀÌ º¸Á¤ÀÌ ¾ÈµÇ¾úÀ» °æ¿ì, Åø ¹øÈ£¸¦ ºÓÀº»öÀ¸·Î Ç¥½Ã ÇÑ´Ù 
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+			// ï¿½ï¿½ ï¿½ï¿½È£ 
+			// 2017.8.22. ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ÈµÇ¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½, ï¿½ï¿½ ï¿½ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½ ï¿½Ñ´ï¿½ 
 			if( PREV_TOOL_NO != curr_tool_no ||
 				PREV_TOOL_LENGHT_UPDATE_FLAG != curr_tool_lenght_update_flag ) {
 				PREV_TOOL_NO = curr_tool_no;
@@ -2542,7 +2542,7 @@ void CEPncUIDlg2::updateToolInfoDisp()
 
 				pLayer->SetTextColor( CLR_TEXT );
 			}
-			// »ç¿ë ½Ã°£ 
+			// ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ 
 			DWORD dwUsingTime = pa::PTool->GetToolData( PREV_TOOL_NO )->dwUsingTime;
 			CTimeSpan tms( dwUsingTime );
 			int ttm[3] = { tms.GetHours(), tms.GetMinutes(), tms.GetSeconds() };
@@ -2560,7 +2560,7 @@ void CEPncUIDlg2::updateToolInfoDisp()
 				}
 			}
 
-			// »ç¿ëÀ² 
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ 
 			double fUsingRate = pa::PTool->GetToolData( PREV_TOOL_NO )->fUsingRate;
 			
 			if( fabs(PREV_USING_RATE - fUsingRate) > 0.1 ) {
@@ -2575,10 +2575,10 @@ void CEPncUIDlg2::updateToolInfoDisp()
 		{
 			if( PREV_TOOL_NO != -1 ) {
 				PREV_TOOL_NO = -1;
-				// ÅøÀ» Àâ°íÀÖÁö ¾ÊÀ½ 
+				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 				PREV_TOOL_TIME[0] = PREV_TOOL_TIME[1] = PREV_TOOL_TIME[2] = -1;
 				PREV_USING_RATE = -1.0;
-				pLayer->FillSolidRect( &rcStatusArea_[STATUS_TOOL_INFO1], CLR_BACKGROUND );		// Åø ¹øÈ£ 
+				pLayer->FillSolidRect( &rcStatusArea_[STATUS_TOOL_INFO1], CLR_BACKGROUND );		// ï¿½ï¿½ ï¿½ï¿½È£ 
 				pLayer->FillSolidRect( &rcStatusArea_[STATUS_TOOL_INFO2_1], CLR_BACKGROUND );	// H
 				pLayer->FillSolidRect( &rcStatusArea_[STATUS_TOOL_INFO2_2], CLR_BACKGROUND );	// M
 				pLayer->FillSolidRect( &rcStatusArea_[STATUS_TOOL_INFO2_3], CLR_BACKGROUND );	// S
@@ -2595,10 +2595,10 @@ void CEPncUIDlg2::updateToolInfoDisp()
 	{
 		if( PREV_TOOL_NO != -1 ) {
 			PREV_TOOL_NO = -1;
-			// ÅøÀ» Àâ°íÀÖÁö ¾ÊÀ½ 
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 			PREV_TOOL_TIME[0] = PREV_TOOL_TIME[1] = PREV_TOOL_TIME[2] = -1;
 			PREV_USING_RATE = -1.0;
-			pLayer->FillSolidRect( &rcStatusArea_[STATUS_TOOL_INFO1], CLR_BACKGROUND );		// Åø ¹øÈ£ 
+			pLayer->FillSolidRect( &rcStatusArea_[STATUS_TOOL_INFO1], CLR_BACKGROUND );		// ï¿½ï¿½ ï¿½ï¿½È£ 
 			pLayer->FillSolidRect( &rcStatusArea_[STATUS_TOOL_INFO2_1], CLR_BACKGROUND );	// H
 			pLayer->FillSolidRect( &rcStatusArea_[STATUS_TOOL_INFO2_2], CLR_BACKGROUND );	// M
 			pLayer->FillSolidRect( &rcStatusArea_[STATUS_TOOL_INFO2_3], CLR_BACKGROUND );	// S
@@ -2616,7 +2616,7 @@ void CEPncUIDlg2::updateToolInfoDisp()
 	pLayer->SelectObject( pOldFont );
 }
 
-// ½ºÇÉµé Á¤º¸¸¦ È­¸é¿¡ Ç¥½Ã 
+// ï¿½ï¿½ï¿½Éµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È­ï¿½é¿¡ Ç¥ï¿½ï¿½ 
 void CEPncUIDlg2::updateSpindleInfoDisp()
 {
 	static COLORREF		CLR_BACKGROUND = RGB(235, 234, 239);
@@ -2645,7 +2645,7 @@ void CEPncUIDlg2::updateSpindleInfoDisp()
 	pLayer->SelectObject( pOldFont );
 }
 
-// FeedRate Á¤º¸¸¦ È­¸é¿¡ Ç¥½Ã 
+// FeedRate ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È­ï¿½é¿¡ Ç¥ï¿½ï¿½ 
 void CEPncUIDlg2::updateFeedRateInfoDisp()
 {
 	static COLORREF		CLR_BACKGROUND = RGB(235, 234, 239);
@@ -2674,8 +2674,8 @@ void CEPncUIDlg2::updateFeedRateInfoDisp()
 	pLayer->SelectObject( pOldFont );
 }
 
-// °¡°ø ½Ã°£ Á¤º¸¸¦ È­¸é¿¡ Ç¥½Ã 
-// 2024.04.17 milling timeºÎºÐ¿¡ Remain timeÀ» Ãâ·Â ÇÏ°í, Milling timeÀº finish time ºÎºÐ¿¡ Ãâ·Â ÇÑ´Ù 
+// ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È­ï¿½é¿¡ Ç¥ï¿½ï¿½ 
+// 2024.04.17 milling timeï¿½ÎºÐ¿ï¿½ Remain timeï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ï°ï¿½, Milling timeï¿½ï¿½ finish time ï¿½ÎºÐ¿ï¿½ ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½ 
 void CEPncUIDlg2::updateMillingTimeDisp()
 {
 // 	static CString PREV_MILLING_TIME = _T("");
@@ -2708,20 +2708,20 @@ void CEPncUIDlg2::updateMillingTimeDisp()
 	}
 }
 
-// °¡°ø ³²Àº ½Ã°£ Á¤º¸¸¦ È­¸é¿¡ Ç¥½Ã 
+// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È­ï¿½é¿¡ Ç¥ï¿½ï¿½ 
 void CEPncUIDlg2::updateRemainingMillingTimeDisp()
 {
 	static DWORD PREV_DW_REMAIN_TIME = 0;
 	static CString PREV_REMAIN_TIME = _T("");
 	CString strTemp;
-	DWORD dwRemainTime = pa::PPAStatus->GetThreadState()->dwRunningTimeRemain;	// dwRunningTimeReaminÀº sec ´ÜÀ§ (line per sec) 
+	DWORD dwRemainTime = pa::PPAStatus->GetThreadState()->dwRunningTimeRemain;	// dwRunningTimeReaminï¿½ï¿½ sec ï¿½ï¿½ï¿½ï¿½ (line per sec) 
 	CTimeSpan tms(dwRemainTime);
 
 	int milling_time[2] = {tms.GetTotalMinutes(), tms.GetSeconds()};
-	milling_time[1] = (int)((milling_time[1] / 10) * 10);	// 10ÃÊ ´ÜÀ§·Î Ãâ·Â ÇÑ´Ù 
+	milling_time[1] = (int)((milling_time[1] / 10) * 10);	// 10ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½ 
 	strTemp.Format(_T("%02d:%02d"), milling_time[0], milling_time[1]);
 
-	// ³²Àº ½Ã°£Àº ÃÊ ´ÜÀ§°¡ 10ÃÊ ´ÜÀ§·Î º¯ÇÒ¶§ ¸¸ ¾÷µ¥ÀÌÆ® ÇÑ´Ù 
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 10ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ò¶ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ñ´ï¿½ 
 //	if (abs((int)(PREV_DW_REMAIN_TIME - dwRemainTime)) < 10)
 	{
 		PREV_DW_REMAIN_TIME = dwRemainTime;
@@ -2735,7 +2735,7 @@ void CEPncUIDlg2::updateRemainingMillingTimeDisp()
 	}
 }
 
-// Remote ¿©ºÎ Ç¥½Ã 
+// Remote ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½ 
 void CEPncUIDlg2::updateRemoteModeDisp()
 {
 	static int PREV_MODE = -1;
@@ -2760,7 +2760,7 @@ void CEPncUIDlg2::updateRemoteModeDisp()
 	}
 }
 
-// USB ¸Þ¸ð¸® ¿¬°á¿©ºÎ 
+// USB ï¿½Þ¸ï¿½ ï¿½ï¿½ï¿½á¿©ï¿½ï¿½ 
 void CEPncUIDlg2::updateUsbMemConnectDisp()
 {
 	static int PREV_STATE = -1;
@@ -2778,7 +2778,7 @@ void CEPncUIDlg2::updateUsbMemConnectDisp()
 	} 
 }
 
-// ºí·Ï À¯/¹« Ç¥½Ã Ãâ·Â 
+// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½/ï¿½ï¿½ Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ 
 void CEPncUIDlg2::updateBlockExistDisp()
 {
 	static int PREV_STATE = -1;
@@ -2908,7 +2908,7 @@ void CEPncUIDlg2::updateNCStatus()
 }
 
 
-// ÀÛ¾÷ ÁøÇà»óÅÂ Ç¥½Ã Ãâ·Â  
+// ï¿½Û¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½  
 void CEPncUIDlg2::updateProgressBarStatus()
 {
 	static int				PREV_NCFILE_LOADING = -1;
@@ -2952,7 +2952,7 @@ void CEPncUIDlg2::updateProgressBarStatus()
 		break;
 
 	case pa::NCFILE_STATE_RUNNING:
-		// ÁøÇàÀ²À» °è»êÇÑ´Ù, set rate based on total lines and current step
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½, set rate based on total lines and current step
 		fTotalLines	= (double)(pa::PPAStatus->GetThreadState()->hNCFileInfo.total_lines);
 		fCurrStep	= (double)(pa::PPAStatus->GetThreadState()->hNCFileInfo.machining_lines);
 		
@@ -2966,8 +2966,8 @@ void CEPncUIDlg2::updateProgressBarStatus()
 		else 
 		{
 			fCurrProgress = ( fCurrStep / fTotalLines ) * 100.0;
-			fCurrProgress = fCurrProgress > 99.0 ? 99.0 : fCurrProgress;	// ÁøÇàÀ²ÀÌ 100.0¸¦ ³ÑÁö ¾Êµµ·Ï ÇÑ´Ù //rather 99% until its finished 
-			// Progress¸¦ °¨¼ÒÇÏµµ·Ï ¹ÝÀü ½ÃÅ²´Ù 
+			fCurrProgress = fCurrProgress > 99.0 ? 99.0 : fCurrProgress;	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 100.0ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Êµï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½ //rather 99% until its finished 
+			// Progressï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å²ï¿½ï¿½ 
 			fCurrProgress = 100.0 - fCurrProgress;
 		}
 				
@@ -3012,7 +3012,7 @@ void CEPncUIDlg2::updateProgressBarStatus()
         
 		F_CURRENT_RUN_RATE = fCurrProgress;
         
-		// ÁøÇàÀ² Ç¥½Ã - ±×¸² 
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½ - ï¿½×¸ï¿½ 
 		CRect rcTemp = rcPROG_AREA;
 	
 		rcTemp.right = rcTemp.left + (int)( rcPROG_AREA.Width() * ( PREV_PROGRESS / 100.0 ) + 0.5 );
@@ -3023,7 +3023,7 @@ void CEPncUIDlg2::updateProgressBarStatus()
 		// Change dart position
 		pOperButtonsEx_[OPER_BTN_DART]->SetWindowPos( NULL,rcTemp.right-5,465,9,8, SWP_SHOWWINDOW );
 		
-		// ÁøÇàÀ² Ç¥½Ã - ¹®ÀÚ
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½
 		CString strRate;
 		strRate.Format(_T("%.0f%%"), PREV_PROGRESS);
 		((CStatic*)GetDlgItem(IDC_STATIC_PROG_RATE))->SetWindowPos( NULL,rcTemp.right-25,473,50,20, SWP_SHOWWINDOW );
@@ -3325,7 +3325,7 @@ void CEPncUIDlg2::updateToolTime()
 	PREV_TOOL2_NO = nTool2No_;
 }
 
-// Demo ¸ðµå ¿©ºÎ Ç¥½Ã. º¸·ù 
+// Demo ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½. ï¿½ï¿½ï¿½ï¿½ 
 void CEPncUIDlg2::updateDemoModeDisp()
 {
 	static int PREV_MODE = -1;
@@ -3412,6 +3412,22 @@ void CEPncUIDlg2::updateNCFile()
     }
 }
 
+void CEPncUIDlg2::updateNCFile2()
+{
+	// Get currently opened file name from Shared Memory (SThreadState)
+	if (pa::PPAStatus->GetThreadState()->bIsOpenNCFile)
+	{
+		strNCFileName = pa::PPAStatus->GetThreadState()->hNCFileInfo.file_name;
+	}
+	else
+	{
+		strNCFileName = _T("");
+	}
+
+	// Call original update logic to refresh UI
+	updateNCFile();
+}
+
 void CEPncUIDlg2::updateSystemStatus()
 {
 }
@@ -3472,7 +3488,7 @@ void CEPncUIDlg2::updateDeviceStatus()
 		PREV_TOOL_NO2 = curr_tool_no2;
 	}
 
-	// RPM °ü·Ã
+	// RPM ï¿½ï¿½ï¿½ï¿½
 	curr_spindle_rpm.Format(_T("@%d RPM"), pa::PPAStatus->GetPAStatus()->nSpindleSpeed);
 }
 
@@ -3481,7 +3497,7 @@ void CEPncUIDlg2::writeLog( LPCTSTR log_msg )
 	WriteLog( CLog::TYPE_OPER, 1, log_msg );
 }
 
-// USB ¸Þ¸ð¸® ¿¬°á ¿©ºÎ ¾Ë¸² 
+// USB ï¿½Þ¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ë¸ï¿½ 
 LRESULT CEPncUIDlg2::OnUsbMemory(WPARAM wparam, LPARAM lparam)
 {
 	BOOL	bIsConnect = (int)(wparam) == 0 ? FALSE : TRUE;
@@ -3497,7 +3513,7 @@ void CEPncUIDlg2::SAVE_RUNNING_TIME(BOOL b, TCHAR* pFilePath, int nLineNo, int n
 {
 	if( b )
 	{
-		DBG_SAVE_RUNNING_TIME = 0;	// ÃÊ±âÈ­ 
+		DBG_SAVE_RUNNING_TIME = 0;	// ï¿½Ê±ï¿½È­ 
 
 		FILE *pf = _tfopen( TXT_RUNNING_TIME_UI_PATH, _T("at") );
 
@@ -3516,7 +3532,7 @@ void CEPncUIDlg2::SAVE_RUNNING_TIME(BOOL b, TCHAR* pFilePath, int nLineNo, int n
 
 		if( DBG_SAVE_RUNNING_TIME < nLineNo )
 		{
-			// ÆÄÀÏ¿¡ ÀúÀå
+			// ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½
 			FILE *pf = _tfopen( TXT_RUNNING_TIME_UI_PATH, _T("at") );
 
 			if( pf != NULL )
@@ -3528,7 +3544,7 @@ void CEPncUIDlg2::SAVE_RUNNING_TIME(BOOL b, TCHAR* pFilePath, int nLineNo, int n
 				pf = NULL;
 			}
 
-			DBG_SAVE_RUNNING_TIME += 1000;	// 1000 ¶óÀÎ ´ÜÀ§·Î ÀúÀå  
+			DBG_SAVE_RUNNING_TIME += 1000;	// 1000 ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½  
 		}
 	}
 }
@@ -3574,7 +3590,7 @@ LRESULT CEPncUIDlg2::OnNcHitTest(CPoint point)
 	return hit;
 }
 
-//ÇÁ·Î±×·¥ Ã¢À» ¿òÁ÷ÀÏ¶§ Ã¢ÀÇ À§Ä¡ Á¤º¸¿¡ ´ëÇÑ ¸Þ¼¼Áö¸¦ º¸³½´Ù (PSETUP_DLG °¡ ÀÌ¹ÌÁö°¡ °ãÄ¡´Â ¹®Á¦·Î child dlg °¡ ¾Æ´Ñ pop up dlg ·Î µÇ¾îÀÖ±â¶§¹®¿¡)
+//ï¿½ï¿½ï¿½Î±×·ï¿½ Ã¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½ Ã¢ï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (PSETUP_DLG ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ child dlg ï¿½ï¿½ ï¿½Æ´ï¿½ pop up dlg ï¿½ï¿½ ï¿½Ç¾ï¿½ï¿½Ö±â¶§ï¿½ï¿½ï¿½ï¿½)
 void CEPncUIDlg2::OnMove(int x, int y)
 {
 	if ( PSETUP_DLG ) {
@@ -3609,9 +3625,9 @@ void CEPncUIDlg2::DeleteLeftOverNCFiles() {
         strFile.Format( _T("%s\\%s"), NCFILE_PATH, strFileNames[i] );
         strFileOPT.Format( _T("%s\\OPT_%s"), NCFILE_PATH, strFileNames[i] );
         
-        // ÆÄÀÏ »èÁ¦ 
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
         if( hcutil::DeleteFile( strFile, strErrMsg ) == FALSE || hcutil::DeleteFile( strFileOPT, strErrMsg ) == FALSE ) {
-            // ÆÄÀÏ »èÁ¦ Áß ¿¡·¯ 
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
             //	AfxMessageBox( strErrMsg, MB_OK|MB_ICONERROR );
         }
 	}
@@ -3806,10 +3822,10 @@ void CEPncUIDlg2::Quit()
 
 LRESULT CEPncUIDlg2::OnEPncUIDlgQuit(WPARAM wparam, LPARAM lparam)
 {
-	// Splash ´ÙÀÌ¾ó·Î±×¸¦ »èÁ¦ÇÏ°í
+	// Splash ï¿½ï¿½ï¿½Ì¾ï¿½Î±×¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½
 	CSplashDlg::DELETE_DLG();
 
-	// Connect Fail ´ÙÀÌ¾ó·Î±×¸¦ ¶ç¿î´Ù
+	// Connect Fail ï¿½ï¿½ï¿½Ì¾ï¿½Î±×¸ï¿½ ï¿½ï¿½ï¿½ï¿½
 	CConnectErrorDlg dlg;
 	CString strTitle, strErrMsg, strTemp;
 
@@ -3828,7 +3844,7 @@ LRESULT CEPncUIDlg2::OnEPncUIDlgQuit(WPARAM wparam, LPARAM lparam)
 	dlg.SetButtonStatus( FALSE );
 	dlg.DoModal();
 
-	// ÇÁ·Î±×·¥À» Á¾·á ÇÑ´Ù 
+	// ï¿½ï¿½ï¿½Î±×·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½ 
 	((CEPncUIDlg2*)AfxGetMainWnd())->Quit();
 
 	CDialog::OnCancel();
@@ -3836,8 +3852,8 @@ LRESULT CEPncUIDlg2::OnEPncUIDlgQuit(WPARAM wparam, LPARAM lparam)
 	return 0;
 }
 
-// 6°³Áß ÇÑ°³¶óµµ, ¿¡·¯»óÅÂ¸é TRUE ¸®ÅÏ 
-// ÇÑ°³¶óµµ 100% ¸é, TRUE ¸®ÅÏ 
+// 6ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ°ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¸ï¿½ TRUE ï¿½ï¿½ï¿½ï¿½ 
+// ï¿½Ñ°ï¿½ï¿½ï¿½ 100% ï¿½ï¿½, TRUE ï¿½ï¿½ï¿½ï¿½ 
 BOOL CEPncUIDlg2::getToolError()
 {
 	BOOL bRet = FALSE;
@@ -3852,7 +3868,7 @@ BOOL CEPncUIDlg2::getToolError()
 	return bRet;
 }
 
-// 6°³Áß ÇÑ°³¶óµµ, 90% ÀÌ»óÀÌ¸é 1, 100% ÀÌ¸é 2, ¾Æ´Ï¸é 0 ¸®ÅÏ 
+// 6ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ°ï¿½ï¿½ï¿½, 90% ï¿½Ì»ï¿½ï¿½Ì¸ï¿½ 1, 100% ï¿½Ì¸ï¿½ 2, ï¿½Æ´Ï¸ï¿½ 0 ï¿½ï¿½ï¿½ï¿½ 
 int  CEPncUIDlg2::getToolAlarm()
 {
 	int nRet = 0;
@@ -3889,7 +3905,7 @@ void CEPncUIDlg2::OnLButtonUp(UINT nFlags, CPoint point)
 {
 	if (CEPncUIDlg2::RC_TOOL_AREA.PtInRect(point))
 	{
-		// Tool È­¸éÀ¸·Î ÀüÈ¯ 
+		// Tool È­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ 
 		//////////////////////////////////////////////////////////////////////////
 		// log 
 		writeLog( _T("tools area click") );
