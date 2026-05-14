@@ -238,12 +238,13 @@ BOOL CEPncUIApp::InitInstance()
 	//P_VERSION = _T("v2.3.3");								// 블럭 감지 위치 변경 (X는 NC 파일의 LENGTH=18.80사용, Y는 NC파일에서 첫번째 G01의 Y 위치 사용) 
 	//P_VERSION = _T("v2.4.0");								// 바텍 버전 대응 (Chairman을 Perfit OVIS 로 변경) : ModelInfo의 MachineName을 출력 
 	//P_VERSION = _T("v2.4.1-test");			// 바텍 버전 대응 (Chairman을 Perfit OVIS 로 변경) : ModelInfo의 MachineName을 출력 
-											// Auto Cal. / Teaching 화면 개선 
+												// Auto Cal. / Teaching 화면 개선 
 
-	//P_VERSION = _T("v2.4.1");				// Release 버전 
+	//P_VERSION = _T("v2.4.1");						// Release 버전 
 	//P_VERSION = _T("v2.5.0-debug");				//  model_info에 num_block 파라메타 추가 
-	//P_VERSION = _T("v2.5.0");				//  model_info에 num_block 파라메타 추가 
-	P_VERSION = _T("v2.5.1");				//  block 감지할 때 X축 위치 옵셋값 조정 (1.25->1.5) 
+	//P_VERSION = _T("v2.5.0");						//  model_info에 num_block 파라메타 추가 
+	//P_VERSION = _T("v2.5.1");						//  block 감지할 때 X축 위치 옵셋값 조정 (1.25->1.5) 
+	P_VERSION = _T("v2.5.1-restapi");				//  restapi 기능 추가  
 
 
 	// 
